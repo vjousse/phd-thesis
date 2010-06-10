@@ -43,7 +43,12 @@ Prenons l'exemple d'un enregistrement dans lequel les locuteurs parlent français
 L'apprentissage automatique (qui est un sous-domaine de l'Intelligence Artificielle) a pour but de permettre à une machine, un programme, de s'adapter et d'évoluer grâce aux données qui lui sont fournies, de manière à remplir des tâches complexes qu'il serait difficile, voir impossible, de remplir avec des méthodes plus traditionnelles. Un des défis de l'apprentissage automatique est d'extraire les données pertinentes présentes dans les corpus d'apprentissage afin d'en tirer des généralités applicables à d'autres données. L'aprentissage automatique repose sur la notion de classification. La classification va viser à étiqueter chaque donnée en l'associant à une classe. Ces classes peuvent être connues à l'avance ou déterminées automatiquement par le système. C'est ce qui va différencier l'apprentissage supervisé de l'apprentissage non supervisé. 
 
 \subsubsection{Apprentissage supervisé}
+
+L'apprentissage supervisé va permettre d'apprendre des règles à partir de données d'apprentissages servant d'exemple. Ces données sont généralement validées et étiquetées par des êtres humains. C'est à partir de ces exemples déjà classés que le système va apprendre des règles essayant de reproduire la classification à partir des données. Par exemple, les arbres de décision sont des outils utilisant un apprentissage supervisé, puisqu'ils vont permettrent de ranger des données de test dans des classes prédéfinies. Ils auront été au préalablement appris grâce à des données d'apprentissage étiquetées au préalable avec les bonnes classes.
+
 \subsubsection{Apprentissage non supervisé}
+
+L'apprentissage non supervisé (aussi appelé classification automatique) consiste à trier un groupe hétérogène de données en regroupant les données homogènes au sein d'une même classe, et les données hétérogènes au sein d'autres classes. À la différence de l'apprentissage supervisé, il n'y a pas de \og sortie attendue \fg{}. C'est à dire que c'est au système d'établir ses propres classes, au lieu de devoir classer les données dans des classes prédéfinies comme pour l'apprentissage supervisé. En reconnaissance automatique de la parole, et plus précisément dans le domaine de la reconnaissance du locuteur, les modèles à mélange de gaussiennes sont un bon exemple de système d'apprentissage non supervisé.
 
 \subsection{Reconnaissance automatique du locuteur}
 \subsubsection{Identification automatique du locuteur}
