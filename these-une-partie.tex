@@ -27,22 +27,21 @@
 
 
 \newpage
-\section{Suivi de locuteur et reconnaissance automatique de la parole}
+\section{Systèmes automatiques : fondements}
 
-\subsection{Le suivi du locuteur : une méthode purement acoustique}
-\label{sub:suivi_locuteur}
+Depuis les débuts de l'informatique, l'Homme a toujours essayé de l'utiliser pour automatiser des tâches humaines. Que ce soit de la simple calculatrice à la reconnaissance de la parole, l'informatique est de nos jours utilisée dans tous les domaines. Mais pour pouvoir réaliser des tâches, les programmes informatiques doivent avoir une certaine connaissance de la tâche à réaliser. 
 
-L'identification nommée du locuteur a d'abord été réalisée avec des méthodes purement acoustiques \cite{??}. Ces méthodes sont des méthodes dites de \og suivi du locuteur \fg. En effet, on apprend un modèle acoustique à partir des échantillons de voix d'une personne, et c'est ce modèle qui sera ensuite utilisé pour identifier (ou plutôt suivre) la personne dans un autre enregistrement. Plus la quantité de données disponibles pour apprendre le modèle sera grande, plus l'identification du locuteur sera performante.
-Même si ces modèles sont performants \cite{??}, ils souffrent de plusieurs inconvénients. Tout d'abord, il est absolument nécessaire de connaître les personnes que l'on cherche à identifier. En effet, puisqu'il faut commencer par apprendre un modèle acoustique et l'associer au nom du locuteur concerné, il n'est pas possible d'identifier des personnes que l'on ne connaît pas au préalable. De plus, lorsque l'on peut apprendre ce modèle acoustique, il faut posséder une quantité de données suffisante pour pouvoir l'apprendre : plusieurs minutes sont un minimum. Pour finir, il faut que les conditions acoustiques des données que l'on possède soient similaires à celles sur lesquelles il va falloir travailler : des données trop éloignées dans le temps (et donc avec une voix qui peut avoir changée) ou dans des conditions d'enregistrement différentes (studio ou téléphone par exemple) dégraderont les performances d'identification.
+\subsection{Apprentissage automatique}
+\subsubsection{Généralités}
+\subsubsection{Apprentissage supervisé}
+\subsubsection{Apprentissage non supervisé}
 
-Ces méthodes entièrement basées sur l'acoustique imposent donc de disposer de modèles acoustiques pour chaque locuteur d'un enregistrement que l'on cherche à nommer : ces connaissances a priori sont souvent compliquées à obtenir et le principe même de ces méthodes empêche toute identification d'un locuteur non connu à l'avance. Ce sont ces limitations qui ont motivé les travaux consistant à utiliser la transcription du signal audio pour identifier les locuteurs d'un enregistrement. Dans les journaux d'information, les locuteurs ont pour habitude de s'annoncer, Canseco-Rodriguez \cite{CansecoRodriguez2005,CansecoRodriguez2006} a donc eu l'idée d'utiliser ces annonces pour essayer de nommer les locuteurs d'un enregistrement à partir du contenu de la transcription. Ces transcriptions peuvent être réalisées par un humain ou par des systèmes entièrement automatiques. Elles sont au coeur des méthodes d'identification nommées présentées dans ce papier.
+\subsection{Reconnaissance automatique du locuteur}
+\subsubsection{Identification automatique du locuteur}
+\subsubsection{Vérification automatique du locuteur}
+\subsubsection{Suivi de locuteur}
+\subsubsection{Segmentation en locuteur}
 
-\subsection{La transcription enrichie}
-\label{sub:transcription_enrichie}
-
-Transcrire un signal audio consiste d'une part à retranscrire les mots qui ont été prononcés mais aussi à enrichir cette transcription avec différentes informations éventuellement disponibles comme le début et la fin de chaque intervention, le nom des différents locuteurs ou encore leur genre. Ces transcriptions peuvent être réalisées par un humain (elles seront appelées transcriptions manuelles) ou de manière entièrement automatique (elles seront appelés transcriptions automatiques) : en fonction de cela, les informations disponibles dans la transcription peuvent varier, c'est notamment le cas du nom des locuteurs. En effet, un humain pourra essayer, en fonction du contexte, de nommer les locuteurs de l'enregistrement à l'inverse d'un système automatique qui utilisera des étiquettes anonymes en guise de nom de locuteur (comme locu1, locu2, ...). C'est précisément à cet aspect de la transcription enrichie (à savoir le nommage des locuteurs) que les travaux sur l'identification nommée du locuteur s'intéressent. Il convient tout d'abord d'expliquer plus précisément les différents aspects d'une transcription enrichie.
-
-\subsubsection{Découpage et regroupement en locuteurs}
 \label{ssub:decoupage_regroupement}
 
 Sauf cas particuliers, les enregistrements sonores sont généralement composés de plusieurs intervenants (ou locuteurs). Chaque prise de parole d'un locuteur est appelée \og tour de parole \fg. Ces tours de paroles commencent quand un locuteur prend la parole et s'arrêtent lorsqu'un autre locuteur prend la parole (ou lorsqu'un jingle ou une publicité coupe l'intervention). Ces locuteurs peuvent n'intervenir qu'une fois dans le fichier, auquel cas ils n'auront qu'un tour de parole. Mais, comme les journalistes ou les présentateurs, beaucoup de locuteurs sont présents tout au long du fichier et prennent la parole à plusieurs endroits dans l'enregistrement. Ces différents tours de paroles appartiennent au même locuteur, on dit qu'ils sont regroupés au sein de la même \og classe de locuteur \fg{}. La figure \ref{fig:decoupage_tours_classes} donne un exemple de découpage en tours de parole et de regroupement en classes de locuteurs.
@@ -61,41 +60,9 @@ Sauf cas particuliers, les enregistrements sonores sont généralement composés de
 
 On peut noter sur cette figure, qu'en plus de regrouper les tours de parole par classe de locuteur (classe du Locuteur 1, classe du Locuteur 2), le genre du locuteur est aussi mentionné. Cette information vient enrichir la transcription et pourra être utile par la suite. Les classes de locuteur sont pour l'instant anonymes. En effet, la transcription ne nous permet pas de dire que c'est \og Monsieur untel \fg{} qui parle, elle permet juste de dire que c'est le même locuteur qui parle à deux endroits différents. La solution idéale serait de pouvoir nommer les classes de locuteurs par le prénom et le patronyme du locuteur concerné (couple que nous appellerons par la suite nom complet), c'est ce que les techniques d'identification nommée du locuteur cherchent à réaliser.
 
-\subsubsection{Transcription et étiquetage des entités nommées}
+\subsection{Transcription automatique de la parole}
 
-  La transcription du signal audio consiste tout simplement à écrire les mots qui ont été prononcés par les locuteurs. Que cette transcription soit réalisée par un humain ou par un système automatique de reconnaissance de la parole (RAP), elle consiste à remplir les différents tours de parole avec les mots correspondants. QUand les transcriptions sont réalisées par des systèmes de RAP, elles sont beaucoup moins riches que celles produites par un humain. En effet, en plus des erreurs de transcription, elles ne contiennent généralement pas de ponctuation. Ce manque peut être comblé par des post-traitements qui essaient de remettre la ponctuation dans la transcription. 
-
-Un autre type de post-traitement utile pour l'identification nommée du locuteur est la détection des entités nommées. En effet, pour pouvoir attribuer un nom complet à un locuteur à partir de la transcription, il va d'abord falloir être capable de détecter ce nom complet dans la transcription. Pour ce faire, il existe des systèmes de détection des entités nommées qui vont être capable de détecter, en plus des noms complets, différentes entités nommées comme les lieux, les organisations ou encore les radios. La figure \ref{fig:etapes_transcription_enrichie} montre toutes les étapes pour obtenir une transcription enrichie en entités nommées.
-
-\begin{figure}
-
-\begin{center}
-\includegraphics[width=0.9\columnwidth]{img/segmentation-classification}
-
-\caption{Les étapes de réalisation d'une transcription enrichie}
-\label{fig:etapes_transcription_enrichie}
-\end{center}
-
-\end{figure}
-
-
-\subsection{Les systèmes automatiques : reconnaissance de la parole et détection des entités nommées}
-
-À l'heure où l'informatique et Internet sont partout, les quantités de données numériques ne cessent de croître. Ces grandes collections de données sont difficilement indexables manuellement, il faut donc, pour faciliter la recherche et l'accès à l'information, qu'elles soient traitées de manière automatique. Les enregistrements audio sont traités à l'aide de systèmes de reconnaissance automatique de la parole (SRAP), ces systèmes sont constitués de plusieurs composantes comment le montre la figure \ref{fig:principes_srap}.
-
-\begin{figure}
-
-\begin{center}
-\includegraphics[width=0.9\columnwidth]{img/sys_rap}
-
-\caption{Principes généraux d'un système de Reconnaissance Automatique de la Parole (SRAP)}
-\label{fig:principes_srap}
-\end{center}
-
-\end{figure}
-
-\subsubsection{Principes généraux} % (fold)
-\label{ssub:principes_generaux}
+\subsubsection{Principes}
 
 Le signal de parole que traitent les SRAP est un signal complexe à étudier. En effet, ce signal possède de nombreux paramètres qui peuvent énormément varier. Ce signal est évidemment différent d'un locuteur à l'autre mais peut aussi l'être pour le même locuteur en fonction des conditions d'enregistrement ou de l'état de santé de la personne. Quoiqu'il en soit, une même personne prononcera rarement le même mot de la même façon : cela rend les traitements automatiques compliqués. En effet, pour pouvoir traiter automatiquement ces données il faut être capable d'en extraire des informations pertinentes pour les systèmes automatiques, la difficulté réside à pouvoir extraire ces informations quelques soient les conditions d'enregistrement, l'émotivité, l'accent ou encore l'âge du locuteur. En plus de ces difficultés d'extraction des caractéristiques acoustiques, s'ajoutent la difficulté de segmentation du signal en mot. En effet pour un SRAP, la parole est un flux continu qu'il ne peut interpréter tel quel comme une suite de mots. La transcription que le SRAP produit est une transcription \emph{verbatim} du document sonore, une unité de cette transcription est appelée mot. Pour résoudre ces problèmes, la majorité des SRAP actuels utilisent une approche probabiliste.
 
@@ -116,46 +83,100 @@ Comme la séquence d'observations acoustiques $X$ est fixée, $P(X)$ peut être con
 Deux types de modèles probabilistes sont utilisés pour la recherche de la séquence de mots la plus probable : des modèles acoustiques qui fournissent la valeur de $P(X 
 |W)$, et un modèle de langage qui fournit la valeur de $P(W)$. $P(X|W)$ peut se concevoir comme la probabilité d'observer $X$ lorsque $W$ est prononcée, alors que $P(W)$ se réfère à la probabilité que $W$ soit prononcée dans un langage donné. La difficulté pour obtenir un système de RAP performant est de définir les modèles les plus pertinents possibles pour le calcul de $P(W)$ et $P(X|W)$ (voir figure \ref{fig:principes_srap}).
 
+\subsubsection{Transcription enrichie}
+\label{sub:transcription_enrichie}
+
+Transcrire un signal audio consiste d'une part à retranscrire les mots qui ont été prononcés mais aussi à enrichir cette transcription avec différentes informations éventuellement disponibles comme le début et la fin de chaque intervention, le nom des différents locuteurs ou encore leur genre. Ces transcriptions peuvent être réalisées par un humain (elles seront appelées transcriptions manuelles) ou de manière entièrement automatique (elles seront appelés transcriptions automatiques) : en fonction de cela, les informations disponibles dans la transcription peuvent varier, c'est notamment le cas du nom des locuteurs. En effet, un humain pourra essayer, en fonction du contexte, de nommer les locuteurs de l'enregistrement à l'inverse d'un système automatique qui utilisera des étiquettes anonymes en guise de nom de locuteur (comme locu1, locu2, ...). C'est précisément à cet aspect de la transcription enrichie (à savoir le nommage des locuteurs) que les travaux sur l'identification nommée du locuteur s'intéressent. Il convient tout d'abord d'expliquer plus précisément les différents aspects d'une transcription enrichie.
+
+
+
+% \subsubsection{Transcription et étiquetage des entités nommées}
+% 
+%   La transcription du signal audio consiste tout simplement à écrire les mots qui ont été prononcés par les locuteurs. Que cette transcription soit réalisée par un humain ou par un système automatique de reconnaissance de la parole (RAP), elle consiste à remplir les différents tours de parole avec les mots correspondants. QUand les transcriptions sont réalisées par des systèmes de RAP, elles sont beaucoup moins riches que celles produites par un humain. En effet, en plus des erreurs de transcription, elles ne contiennent généralement pas de ponctuation. Ce manque peut être comblé par des post-traitements qui essaient de remettre la ponctuation dans la transcription. 
+% 
+% Un autre type de post-traitement utile pour l'identification nommée du locuteur est la détection des entités nommées. En effet, pour pouvoir attribuer un nom complet à un locuteur à partir de la transcription, il va d'abord falloir être capable de détecter ce nom complet dans la transcription. Pour ce faire, il existe des systèmes de détection des entités nommées qui vont être capable de détecter, en plus des noms complets, différentes entités nommées comme les lieux, les organisations ou encore les radios. La figure \ref{fig:etapes_transcription_enrichie} montre toutes les étapes pour obtenir une transcription enrichie en entités nommées.
+
+\begin{figure}
+
+\begin{center}
+\includegraphics[width=0.9\columnwidth]{img/segmentation-classification}
+
+\caption{Les étapes de réalisation d'une transcription enrichie}
+\label{fig:etapes_transcription_enrichie}
+\end{center}
+
+\end{figure}
+
+
+% \subsection{Les systèmes automatiques : reconnaissance de la parole et détection des entités nommées}
+% 
+% À l'heure où l'informatique et Internet sont partout, les quantités de données numériques ne cessent de croître. Ces grandes collections de données sont difficilement indexables manuellement, il faut donc, pour faciliter la recherche et l'accès à l'information, qu'elles soient traitées de manière automatique. Les enregistrements audio sont traités à l'aide de systèmes de reconnaissance automatique de la parole (SRAP), ces systèmes sont constitués de plusieurs composantes comment le montre la figure \ref{fig:principes_srap}.
+% 
+% \begin{figure}
+% 
+% \begin{center}
+% \includegraphics[width=0.9\columnwidth]{img/sys_rap}
+% 
+% \caption{Principes généraux d'un système de Reconnaissance Automatique de la Parole (SRAP)}
+% \label{fig:principes_srap}
+% \end{center}
+% 
+% \end{figure}
+% 
+% \subsubsection{Principes généraux} % (fold)
+% \label{ssub:principes_generaux}
+
+
 
 % subsubsection principes_généraux (end)
 
-\subsubsection{Segmentation et classification} % (fold)
-\label{ssub:les_systemes_de_segmentation_et_de_classification_en_locuteurs}
-
-Afin de traiter de manière efficace un signal complexe comme le signal audio, les SRAP ont besoin de segmenter le signal en parties homogènes appelées segments. Ces segments se doivent d'être cohérents, un même segment doit avoir les mêmes conditions d'enregistrement, doit être prononcé par le même locuteur, ... Ces segments sont caractérisés par des conditions acoustiques spécifiques comme la présence de parole, la nature de la parole (téléphonique ou enregistrement studio), la présence de musique, le genre du locuteur ou encore son identité ou une étiquette anonyme. Comme décrit dans \ref{ssub:decoupage_regroupement}, l'identification nommée utilise les tours de parole. Un tour de parole n'est en fait qu'une suite de segments dont l'identité ou l'étiquette sont identiques.
-
-
-Toutes ces informations sont utilisées par le système de reconnaissance de la parole de manière à choisir la manière la plus adéquat de traiter chaque type de segment. Le défi réside dans l'apprentissage de modèles acoustiques robustes vis-à-vis des différentes situations acoustiques auxquelles il sera confronté. Pour réaliser cette segmentation, le système va découper le signal en trames (environ 25 ms chacune) puis va étiqueter ces trames en fonction des différentes informations qu'il est capable d'extraire. Le principe général va ensuite consister à calculer des distances entre ces trames de manière à savoir si elles doivent être regroupées au sein du même segment ou pas. Ce principe de calcul de distance sera réutilisé pour regrouper tous les segments d'un enregistrement au sein de la même classe de locuteur.
-
-
-Les méthodes qui donnent les meilleurs résultats sur les journaux radiophoniques utilisent un regroupement BIC suivi d'un regroupement de type CLR [1, 2]. C'est ce type de système \ref{article sylvain} qui sera utilisé pour les travaux du présent papier.
-
-Ces méthodes sont évaluées selon une métrique nommée DER (Diarization Error Rate). TODO : expliquer et donner la formule
+% \subsubsection{Segmentation et classification} % (fold)
+% \label{ssub:les_systemes_de_segmentation_et_de_classification_en_locuteurs}
+% 
+% Afin de traiter de manière efficace un signal complexe comme le signal audio, les SRAP ont besoin de segmenter le signal en parties homogènes appelées segments. Ces segments se doivent d'être cohérents, un même segment doit avoir les mêmes conditions d'enregistrement, doit être prononcé par le même locuteur, ... Ces segments sont caractérisés par des conditions acoustiques spécifiques comme la présence de parole, la nature de la parole (téléphonique ou enregistrement studio), la présence de musique, le genre du locuteur ou encore son identité ou une étiquette anonyme. Comme décrit dans \ref{ssub:decoupage_regroupement}, l'identification nommée utilise les tours de parole. Un tour de parole n'est en fait qu'une suite de segments dont l'identité ou l'étiquette sont identiques.
+% 
+% 
+% Toutes ces informations sont utilisées par le système de reconnaissance de la parole de manière à choisir la manière la plus adéquat de traiter chaque type de segment. Le défi réside dans l'apprentissage de modèles acoustiques robustes vis-à-vis des différentes situations acoustiques auxquelles il sera confronté. Pour réaliser cette segmentation, le système va découper le signal en trames (environ 25 ms chacune) puis va étiqueter ces trames en fonction des différentes informations qu'il est capable d'extraire. Le principe général va ensuite consister à calculer des distances entre ces trames de manière à savoir si elles doivent être regroupées au sein du même segment ou pas. Ce principe de calcul de distance sera réutilisé pour regrouper tous les segments d'un enregistrement au sein de la même classe de locuteur.
+% 
+% 
+% Les méthodes qui donnent les meilleurs résultats sur les journaux radiophoniques utilisent un regroupement BIC suivi d'un regroupement de type CLR [1, 2]. C'est ce type de système \ref{article sylvain} qui sera utilisé pour les travaux du présent papier.
+% 
+% Ces méthodes sont évaluées selon une métrique nommée DER (Diarization Error Rate). TODO : expliquer et donner la formule
 
 % subsubsection les_systèmes_de_segmentation_et_de_classification_en_locuteurs (end)
 
-\subsubsection{Transcription automatique de la parole} % (fold)
-\label{ssub:transcription_automatique_de_la_parole}
-
-Les systèmes de transcription automatique de la parole sont évalués selon une métrique nommée WER (Word Error Rate). TODO : expliquer et donner la formule
+% \subsubsection{Transcription automatique de la parole} % (fold)
+% \label{ssub:transcription_automatique_de_la_parole}
+% 
+% Les systèmes de transcription automatique de la parole sont évalués selon une métrique nommée WER (Word Error Rate). TODO : expliquer et donner la formule
 
 % subsubsection transcription_automatique_de_la_parole (end)
 
 
-\subsubsection{Détection des entités nommées} % (fold)
-\label{ssub:detection_des_entites_nommees}
+% \subsubsection{Détection des entités nommées} % (fold)
+% \label{ssub:detection_des_entites_nommees}
 
 % subsubsection détection_des_entités_nommées (end)
+
+\subsection{Détection des entités nommées}
 
 \newpage
 \section{L'identification nommée du locuteur}
 
-L'identification nommée du locuteur consiste à attribuer un prénom et un patronyme (appelé \og nom complet \fg{}) à chaque locuteur d'un document audio. Contrairement à la reconnaissance de la parole, l'identification nommées de locuteurs dans de larges corpus audio est un domaine de recherche relativement récent. Jusqu'en 2005, l'identification de locuteurs servait à suivre des locuteurs anonymes à différents endroits des enregistrements, comme décrit dans la section \ref{sub:suivi_locuteur}. Ce sont les travaux du LIMSI et plus particulièrement de Leonardo Canseco-Rodriguez \cite{CansecoRodriguez2005}, qui ont été les premiers à s'intéresser à l'identification nommée du locuteur utilisant la transcription (réalisée manuellement) du signal audio.
+L'identification nommée du locuteur consiste à attribuer un prénom et un patronyme (appelé \og nom complet \fg{}) à chaque locuteur d'un document audio. Contrairement à la reconnaissance de la parole, l'identification nommées de locuteurs dans de larges corpus audio est un domaine de recherche relativement récent. Jusqu'en 2005, l'identification de locuteurs servait à suivre des locuteurs anonymes à différents endroits des enregistrements. Ce sont les travaux du LIMSI et plus particulièrement de Leonardo Canseco-Rodriguez \cite{CansecoRodriguez2005}, qui ont été les premiers à s'intéresser à l'identification nommée du locuteur utilisant la transcription (réalisée manuellement) du signal audio.
+
+\subsection{Méthode purement acoustique}
+\label{sub:suivi_locuteur}
+
+L'identification nommée du locuteur a d'abord été réalisée avec des méthodes purement acoustiques \cite{??}. Ces méthodes sont des méthodes dites de \og suivi du locuteur \fg. En effet, on apprend un modèle acoustique à partir des échantillons de voix d'une personne, et c'est ce modèle qui sera ensuite utilisé pour identifier (ou plutôt suivre) la personne dans un autre enregistrement. Plus la quantité de données disponibles pour apprendre le modèle sera grande, plus l'identification du locuteur sera performante.
+Même si ces modèles sont performants \cite{??}, ils souffrent de plusieurs inconvénients. Tout d'abord, il est absolument nécessaire de connaître les personnes que l'on cherche à identifier. En effet, puisqu'il faut commencer par apprendre un modèle acoustique et l'associer au nom du locuteur concerné, il n'est pas possible d'identifier des personnes que l'on ne connaît pas au préalable. De plus, lorsque l'on peut apprendre ce modèle acoustique, il faut posséder une quantité de données suffisante pour pouvoir l'apprendre : plusieurs minutes sont un minimum. Pour finir, il faut que les conditions acoustiques des données que l'on possède soient similaires à celles sur lesquelles il va falloir travailler : des données trop éloignées dans le temps (et donc avec une voix qui peut avoir changée) ou dans des conditions d'enregistrement différentes (studio ou téléphone par exemple) dégraderont les performances d'identification.
+
+Ces méthodes entièrement basées sur l'acoustique imposent donc de disposer de modèles acoustiques pour chaque locuteur d'un enregistrement que l'on cherche à nommer : ces connaissances a priori sont souvent compliquées à obtenir et le principe même de ces méthodes empêche toute identification d'un locuteur non connu à l'avance. Ce sont ces limitations qui ont motivé les travaux consistant à utiliser la transcription du signal audio pour identifier les locuteurs d'un enregistrement. Dans les journaux d'information, les locuteurs ont pour habitude de s'annoncer, Canseco-Rodriguez \cite{CansecoRodriguez2005,CansecoRodriguez2006} a donc eu l'idée d'utiliser ces annonces pour essayer de nommer les locuteurs d'un enregistrement à partir du contenu de la transcription. Ces transcriptions peuvent être réalisées par un humain ou par des systèmes entièrement automatiques. Elles sont au coeur des méthodes d'identification nommées présentées dans ce papier.
 
 
 \subsection{Concepts}
 
-L'idée directrice de ces travaux est que le nom complet d'un locuteur d'un enregistrement est présent dans la transcription de cet enregistrement. C'est généralement le cas dans les journaux radiophoniques où la majorité des locuteurs s'annoncent : il est donc possible d'utiliser ces informations pour nommer les locuteurs du document. C'est d'ailleurs pour cette raison que tous les travaux du domaine concernent uniquement des enregistrements de journaux radiophoniques. Pour pouvoir exploiter les noms de locuteurs cités dans la transcription il va tout d'abord falloir les détecter puis être capable de les attribuer aux bons tours de parole.
+L'idée directrice des travaux reposant sur la transcription d'un enregistrement est que le nom complet d'un locuteur d'un enregistrement est présent dans la transcription de cet enregistrement. C'est généralement le cas dans les journaux radiophoniques où la majorité des locuteurs s'annoncent : il est donc possible d'utiliser ces informations pour nommer les locuteurs du document. C'est d'ailleurs pour cette raison que tous les travaux du domaine concernent uniquement des enregistrements de journaux radiophoniques. Pour pouvoir exploiter les noms de locuteurs cités dans la transcription il va tout d'abord falloir les détecter puis être capable de les attribuer aux bons tours de parole.
 
 Les méthodes d'identification nommée du locuteur à partir de la transcription sont multiples mais partagent toutes un principe commun. Du pré-traitement de la transcription, en passant par des décisions locales puis globales, les outils utilisés divergent mais le principe reste le même.
 
