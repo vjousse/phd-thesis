@@ -29,7 +29,13 @@
 \newpage
 \section{Systèmes automatiques : fondements}
 
-Depuis les débuts de l'informatique, l'Homme a toujours essayé de l'utiliser pour automatiser des tâches humaines. Que ce soit de la simple calculatrice à la reconnaissance de la parole, l'informatique est de nos jours utilisée dans tous les domaines. Mais pour pouvoir réaliser des tâches, les programmes informatiques doivent avoir une certaine connaissance de la tâche à réaliser. 
+Depuis les débuts de l'informatique, l'Homme a toujours essayé de l'utiliser pour automatiser des tâches humaines. Que ce soit de la simple calculatrice à la reconnaissance de la parole, l'informatique est de nos jours utilisée dans tous les domaines. Mais pour pouvoir réaliser ces tâches, les programmes informatiques doivent avoir une certaine connaissance des actions à effectuer pour pouvoir les réaliser.
+
+Il existe deux principales façons d'insufler ces connaissances à un programme. La première est de tout simplement lui donner les règles qui vont lui permettre de réaliser les tâches qu'il a à accomplir. Dans l'exemple de la calculatrice, il suffit de lui fournir les différentes formules arithmétiques pour qu'elle puisse fonctionner. Ce type de procédé marche bien lorsqu'il existe des règles formelles pour réaliser une tâche. Mais ces règles ne sont pas toujours disponibles ou peuvent varier fortement en fonction du contexte, c'est par exemple le cas en reconnaissance de la parole.
+
+La reconnaissance de la parole fait intervenir plusieurs domaines complexes à gérer pour un système automatique. Il faut tout d'abord transformer le signal audio en paramètres exploitables par un programme informatique. Il faut ensuite transformer ce signal audio en phonèmes, puis les phonèmes en mots et les mots en phrases. Ces étapes dépendent de beaucoup de paramètres comme les conditions d'enregistrement, la langue utilisée dans le document, l'accent des personnes qui parlent ou leur façon d'utiliser la langue (néologismes, mauvaises constructions grammaticales). En plus de variabilité de ces paramètres, il est impossible de définir des règles formelles pour encadrer chacun d'eux.
+
+Prenons l'exemple d'un enregistrement dans lequel les locuteurs parlent français. Même s'il existe une grammaire et un orthographe bien définis pour la langue française écrite, ce n'est pas le cas à l'oral. En effet les contractions (cheval sera prononcé ch'val), les faux départs et les répétitions sont légions. En plus de ces différences entre le français écrit et le français parlé, les locuteurs peuvent très bien faire des fautes de grammaire ou employer des mots qui ne font pas parti du dictionnaire courant. Toutes ces variations dans l'utilisation de la langue française rendent difficile l'utilisation de règles formelles pour reconnaître les mots prononcés. C'est pour pallier à ces problèmes que les systèmes de reconnaissance automatique de la parole utilisent un apprentissage automatique qui va permettre au système d'apprendre automatiquement de nouvelles connaissances en fonction des données qui lui seront fournies.
 
 \subsection{Apprentissage automatique}
 \subsubsection{Généralités}
@@ -741,6 +747,7 @@ très dépendant du corpus pour l'automatique (car on mesure en durée), un ou deux
 
 \newpage
 \bibliography{biblio}
-\bibliographystyle{frcomplet}
+%\bibliographystyle{frcomplet}
+\bibliographystyle{alpha}
 
 \end{document}
