@@ -29,6 +29,7 @@
 
 \newpage
 \section{Systèmes automatiques}
+\label{sec:sys_auto}
 
 Depuis les débuts de l'informatique, l'Homme a toujours essayé de l'utiliser pour automatiser des tâches humaines. Que ce soit de la simple calculatrice à la reconnaissance de la parole, l'informatique est de nos jours utilisée dans tous les domaines. Mais pour pouvoir réaliser ces tâches, les programmes informatiques doivent avoir une certaine connaissance des actions à effectuer pour pouvoir les réaliser.
 
@@ -52,7 +53,7 @@ L'apprentissage supervisé va permettre d'apprendre des règles à partir de donnée
 L'apprentissage non supervisé (aussi appelé classification automatique) consiste à trier un groupe hétérogène de données en regroupant les données homogènes au sein d'une même classe, et les données hétérogènes au sein d'autres classes. À la différence de l'apprentissage supervisé, il n'y a pas de \og sortie attendue \fg{}. C'est à dire que c'est au système d'établir ses propres classes, au lieu de devoir classer les données dans des classes prédéfinies comme pour l'apprentissage supervisé. En reconnaissance automatique de la parole, et plus précisément dans le domaine de la reconnaissance du locuteur, les modèles à mélange de gaussiennes sont un bon exemple de système d'apprentissage non supervisé.
 
 \subsection{Reconnaissance automatique du locuteur}
-
+\label{ssec:ral}
 La Reconnaissance Automatique du Locuteur (RAL) consiste à reconnaître un locuteur grâce à des échantillons de sa voix. Une des premières applications à laquelle on pense en parlant de RAL est la biométrie. En effet, même si la RAL n'est pas la méthode la plus fiable pour de la biométrie (les empreintes digitales le sont beaucoup plus par exemple), elle a l'avantage d'être peu intrusive (il est plus facile de parler dans un micro que de donner ses empreintes digitales) et d'être facile à déployer.
 
 En plus de la difficulté à différencier deux locuteurs différente, la RAL est aussi confrontée à des problèmes intra-locuteurs. En effet, la voix d'un locuteur peut fortement varier d'un enregistrement à l'autre. Le niveau de fatigue, l'émotion, le contexte d'enregistrement ou encore l'âge d'un locuteur sont autant de variations qui peuvent venir perturber la RAL. Mais la biométrie n'est pas la seule application possible, de par ses caractéristiques, la RAL est utilisée dans bien d'autres domaines.
@@ -77,6 +78,11 @@ En fonction de l'application, deux types de décisions sont possibles. Si l'appli
 \end{figure}
 
 \subsubsection{Vérification automatique du locuteur}
+
+La vérification automatique du locuteur (VAL) découle naturellement de la tâche d'identification automatique du locuteur. Le principe est assez simple, à partir d'un échantillon de voix de référence, et d'un échantillon de voix de test, le système va devoir dire si oui ou non les deux locuteurs correspondent \cite{Atal96}.
+
+Mais cette tâche a comme principal problème d'être très dépendante des différentes variations qui peuvent apparaître dans la voix d'un locuteur (comme précisé dans \ref{ssec:ral}). En effet, les systèmes de VAL sont très dépendants des variations entre les échantillons de de voix référence et les échantillons de tests. 
+
 \subsubsection{Suivi de locuteur}
 \subsubsection{Segmentation en locuteur}
 
