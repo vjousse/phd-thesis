@@ -28,7 +28,7 @@
 
 
 \newpage
-\section{Systèmes automatiques : fondements}
+\section{Systèmes automatiques}
 
 Depuis les débuts de l'informatique, l'Homme a toujours essayé de l'utiliser pour automatiser des tâches humaines. Que ce soit de la simple calculatrice à la reconnaissance de la parole, l'informatique est de nos jours utilisée dans tous les domaines. Mais pour pouvoir réaliser ces tâches, les programmes informatiques doivent avoir une certaine connaissance des actions à effectuer pour pouvoir les réaliser.
 
@@ -59,7 +59,11 @@ En plus de la difficulté à différencier deux locuteurs différente, la RAL est au
 
 \subsubsection{Identification automatique du locuteur}
 
-L'identification automatique du locuteur (IAL) est, avec la vérification automatique du locuteur, une des premières applications de la RAL \cite{todo}. En IAL, une liste de locuteur à identifier est fournie. Le système doit pouvoir décider, à partir d'un échantillon de voix, si cet échantillon correspond à un des locuteurs. La figure \ref{fig:principe_ial} décrit le principe général de l'IAL.
+L'identification automatique du locuteur (IAL) est, avec la vérification automatique du locuteur, une des premières applications de la RAL \cite{Atal96}. En IAL, une liste de locuteur à identifier est fournie. Le système doit pouvoir décider, à partir d'un échantillon de voix, si cet échantillon correspond à un des locuteurs. La figure \ref{fig:principe_ial} décrit le principe général de l'IAL.
+
+L'identification automatique du locuteur se découpe en deux phases : une phase d'apprentissage et une phase de test. Lors de la phase d'apprentissage le système va devoir récupérer des échantillons de voix de tous les locuteurs possibles afin de pouvoir apprendre un modèle pour chaque voix. Lors de la phase de test, le système confrontera l'échantillon de voix qu'il recevra aux différents modèles qu'il aura déjà appris afin de déterminer si le locuteur est déjà connu.
+
+En fonction de l'application, deux types de décisions sont possibles. Si l'application présuppose que l'ensemble des locuteurs possible est fermé, et connu du système, le système de IAL devra choisir un des locuteurs possibles. En revanche, dans une application utilisant un ensemble ouvert de locuteurs possibles (le système de IAL ne connait pas tous les locuteurs possibles), il donnera des mesures de similarité entre le locuteur à identifier et les locuteurs de sa base. En fonction de cette similarité, il devra alors décider d'accepter ou de rejeter le locuteur, ce qui correspond à la tâche de vérification automatique du locuteur.
 
 \begin{figure}[h]
 
