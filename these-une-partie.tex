@@ -1,3 +1,4 @@
+%!TEX encoding = IsoLatin
 \documentclass[12pt]{article}
 \usepackage[french]{babel}
 \usepackage[latin1]{inputenc}
@@ -31,7 +32,7 @@
 
 Depuis les débuts de l'informatique, l'Homme a toujours essayé de l'utiliser pour automatiser des tâches humaines. Que ce soit de la simple calculatrice à la reconnaissance de la parole, l'informatique est de nos jours utilisée dans tous les domaines. Mais pour pouvoir réaliser ces tâches, les programmes informatiques doivent avoir une certaine connaissance des actions à effectuer pour pouvoir les réaliser.
 
-Il existe deux principales façons d'insufler ces connaissances à un programme. La première est de tout simplement lui donner les règles qui vont lui permettre de réaliser les tâches qu'il a à accomplir. Dans l'exemple de la calculatrice, il suffit de lui fournir les différentes formules arithmétiques pour qu'elle puisse fonctionner. Ce type de procédé marche bien lorsqu'il existe des règles formelles pour réaliser une tâche. Mais ces règles ne sont pas toujours disponibles ou peuvent varier fortement en fonction du contexte, c'est par exemple le cas en reconnaissance de la parole.
+Il existe deux principales façons d'insuffler ces connaissances à un programme. La première est de tout simplement lui donner les règles qui vont lui permettre de réaliser les tâches qu'il a à accomplir. Dans l'exemple de la calculatrice, il suffit de lui fournir les différentes formules arithmétiques pour qu'elle puisse fonctionner. Ce type de procédé marche bien lorsqu'il existe des règles formelles pour réaliser une tâche. Mais ces règles ne sont pas toujours disponibles ou peuvent varier fortement en fonction du contexte, c'est par exemple le cas en reconnaissance de la parole.
 
 La reconnaissance de la parole fait intervenir plusieurs domaines complexes à gérer pour un système automatique. Il faut tout d'abord transformer le signal audio en paramètres exploitables par un programme informatique. Il faut ensuite transformer ce signal audio en phonèmes, puis les phonèmes en mots et les mots en phrases. Ces étapes dépendent de beaucoup de paramètres comme les conditions d'enregistrement, la langue utilisée dans le document, l'accent des personnes qui parlent ou leur façon d'utiliser la langue (néologismes, mauvaises constructions grammaticales). En plus de variabilité de ces paramètres, il est impossible de définir des règles formelles pour encadrer chacun d'eux.
 
@@ -40,18 +41,37 @@ Prenons l'exemple d'un enregistrement dans lequel les locuteurs parlent français
 \subsection{Apprentissage automatique}
 \subsubsection{Généralités}
 
-L'apprentissage automatique (qui est un sous-domaine de l'Intelligence Artificielle) a pour but de permettre à une machine, un programme, de s'adapter et d'évoluer grâce aux données qui lui sont fournies, de manière à remplir des tâches complexes qu'il serait difficile, voir impossible, de remplir avec des méthodes plus traditionnelles. Un des défis de l'apprentissage automatique est d'extraire les données pertinentes présentes dans les corpus d'apprentissage afin d'en tirer des généralités applicables à d'autres données. L'aprentissage automatique repose sur la notion de classification. La classification va viser à étiqueter chaque donnée en l'associant à une classe. Ces classes peuvent être connues à l'avance ou déterminées automatiquement par le système. C'est ce qui va différencier l'apprentissage supervisé de l'apprentissage non supervisé. 
+L'apprentissage automatique (qui est un sous-domaine de l'Intelligence Artificielle) a pour but de permettre à une machine, un programme, de s'adapter et d'évoluer grâce aux données qui lui sont fournies, de manière à remplir des tâches complexes qu'il serait difficile, voir impossible, de remplir avec des méthodes plus traditionnelles. Un des défis de l'apprentissage automatique est d'extraire les données pertinentes présentes dans les corpus d'apprentissage afin d'en tirer des généralités applicables à d'autres données. L'apprentissage automatique repose sur la notion de classification. La classification va viser à étiqueter chaque donnée en l'associant à une classe. Ces classes peuvent être connues à l'avance ou déterminées automatiquement par le système. C'est ce qui va différencier l'apprentissage supervisé de l'apprentissage non supervisé. 
 
 \subsubsection{Apprentissage supervisé}
 
-L'apprentissage supervisé va permettre d'apprendre des règles à partir de données d'apprentissages servant d'exemple. Ces données sont généralement validées et étiquetées par des êtres humains. C'est à partir de ces exemples déjà classés que le système va apprendre des règles essayant de reproduire la classification à partir des données. Par exemple, les arbres de décision sont des outils utilisant un apprentissage supervisé, puisqu'ils vont permettrent de ranger des données de test dans des classes prédéfinies. Ils auront été au préalablement appris grâce à des données d'apprentissage étiquetées au préalable avec les bonnes classes.
+L'apprentissage supervisé va permettre d'apprendre des règles à partir de données d'apprentissage servant d'exemple. Ces données sont généralement validées et étiquetées par des êtres humains. C'est à partir de ces exemples déjà classés que le système va apprendre des règles essayant de reproduire la classification à partir des données. Par exemple, les arbres de décision sont des outils utilisant un apprentissage supervisé, puisqu'ils vont permettent de ranger des données de test dans des classes prédéfinies. Ils auront été appris grâce à des données d'apprentissage étiquetées au préalable avec les bonnes classes.
 
 \subsubsection{Apprentissage non supervisé}
 
 L'apprentissage non supervisé (aussi appelé classification automatique) consiste à trier un groupe hétérogène de données en regroupant les données homogènes au sein d'une même classe, et les données hétérogènes au sein d'autres classes. À la différence de l'apprentissage supervisé, il n'y a pas de \og sortie attendue \fg{}. C'est à dire que c'est au système d'établir ses propres classes, au lieu de devoir classer les données dans des classes prédéfinies comme pour l'apprentissage supervisé. En reconnaissance automatique de la parole, et plus précisément dans le domaine de la reconnaissance du locuteur, les modèles à mélange de gaussiennes sont un bon exemple de système d'apprentissage non supervisé.
 
 \subsection{Reconnaissance automatique du locuteur}
+
+La Reconnaissance Automatique du Locuteur (RAL) consiste à reconnaître un locuteur grâce à des échantillons de sa voix. Une des premières applications à laquelle on pense en parlant de RAL est la biométrie. En effet, même si la RAL n'est pas la méthode la plus fiable pour de la biométrie (les empreintes digitales le sont beaucoup plus par exemple), elle a l'avantage d'être peu intrusive (il est plus facile de parler dans un micro que de donner ses empreintes digitales) et d'être facile à déployer.
+
+En plus de la difficulté à différencier deux locuteurs différente, la RAL est aussi confrontée à des problèmes intra-locuteurs. En effet, la voix d'un locuteur peut fortement varier d'un enregistrement à l'autre. Le niveau de fatigue, l'émotion, le contexte d'enregistrement ou encore l'âge d'un locuteur sont autant de variations qui peuvent venir perturber la RAL. Mais la biométrie n'est pas la seule application possible, de par ses caractéristiques, la RAL est utilisée dans bien d'autres domaines.
+
 \subsubsection{Identification automatique du locuteur}
+
+L'identification automatique du locuteur (IAL) est, avec la vérification automatique du locuteur, une des premières applications de la RAL \cite{todo}. En IAL, une liste de locuteur à identifier est fournie. Le système doit pouvoir décider, à partir d'un échantillon de voix, si cet échantillon correspond à un des locuteurs. La figure \ref{fig:principe_ial} décrit le principe général de l'IAL.
+
+\begin{figure}[h]
+
+\begin{center}
+\includegraphics[width=1.0\columnwidth]{img/ial}
+
+\caption{Principe de l'identification automatique du locuteur}
+\label{fig:principe_ial}
+\end{center}
+
+\end{figure}
+
 \subsubsection{Vérification automatique du locuteur}
 \subsubsection{Suivi de locuteur}
 \subsubsection{Segmentation en locuteur}
