@@ -45,7 +45,7 @@ Prenons l'exemple d'un enregistrement dans lequel les locuteurs parlent français
 L'apprentissage automatique (qui est un sous-domaine de l'Intelligence Artificielle) a pour but de permettre à une machine, un programme, de s'adapter et d'évoluer grâce aux données qui lui sont fournies, de manière à remplir des tâches complexes qu'il serait difficile, voir impossible, de remplir avec des méthodes plus traditionnelles. Un des défis de l'apprentissage automatique est d'extraire les données pertinentes présentes dans les corpus d'apprentissage afin d'en tirer des généralités applicables à d'autres données. L'apprentissage automatique repose sur la notion de classification. La classification va viser à étiqueter chaque donnée en l'associant à une classe. Ces classes peuvent être connues à l'avance ou déterminées automatiquement par le système. C'est ce qui va différencier l'apprentissage supervisé de l'apprentissage non supervisé. 
 
 \subsubsection{Apprentissage supervisé}
-
+\label{sssec:apprentissage_supervise}
 L'apprentissage supervisé va permettre d'apprendre des règles à partir de données d'apprentissage servant d'exemple. Ces données sont généralement validées et étiquetées par des êtres humains. C'est à partir de ces exemples déjà classés que le système va apprendre des règles essayant de reproduire la classification à partir des données. Par exemple, les arbres de décision décrits dans \ref{sec:sct} sont des outils utilisant un apprentissage supervisé, puisqu'ils vont permettent de ranger des données de test dans des classes prédéfinies. Ils auront été appris grâce à des données d'apprentissage étiquetées au préalable avec les bonnes classes.
 
 \subsubsection{Apprentissage non supervisé}
@@ -241,7 +241,7 @@ Transcrire un signal audio consiste d'une part à retranscrire les mots qui ont é
 
 \subsection{Détection des entités nommées}
 
-Avec l'avènement d'Internet, la quantité de données textuelles à disposition augmente de jour en jour de façon exponentielle. Comme c'est le cas pour les données audio, ces données sont, à cause de leur quantité, impossible à indexer efficacement par un humain. L'extraction d'informations et le traitement de ces données est pourtant capitale pour bon nombre de scientifiques et d'industriels. Le Traitement Automatique des Langues Naturelles (TALN) est un domaine de recherche qui s'intéresse au traitement de ces corpus de texte. Son domaine de recherche est vaste mais on peut notamment citer plusieurs domaines d'application dans lequel le RALN intervient : 
+Avec l'avènement d'Internet, la quantité de données textuelles à disposition augmente de jour en jour de façon exponentielle. Comme c'est le cas pour les données audio, ces données sont, à cause de leur quantité, impossible à indexer efficacement par un humain. L'extraction d'informations et le traitement de ces données est pourtant capitale pour bon nombre de scientifiques et d'industriels. Le Traitement Automatique des Langues Naturelles (TALN) est un domaine de recherche qui s'intéresse au traitement de ces corpus de texte. Son domaine de recherche est vaste mais on peut notamment citer plusieurs domaines d'application dans lequel le TALN intervient : 
 \begin{itemize}
   \item aide à la rédaction (corrections, résumés, génération automatique de textes),
   \item traduction,
@@ -250,7 +250,45 @@ Avec l'avènement d'Internet, la quantité de données textuelles à disposition aug
   \item traitement de la parole.
 \end{itemize}
 
-La détection des entités nommées (EN) 
+\subsubsection{Catégorisation}
+
+Par la richesse des informations qu'elles contiennent, les entités nommées (EN) sont des éléments très importants pour ces systèmes d'extraction d'information. Bien qu'il n'existe pas de définition précise de ce qu'est une EN, elle est souvent apparentée aux \og noms propres \fg{}, mais pas seulement. Dans les années 1980, les campagnes d'évaluation MUC ont permis de définir ce qu'était une tâche de reconnaissance de entités nommées. Pour MUC-6 \cite{??}, les EN sont les noms propres, les acronymes et éventuellement d'autres mots qui rentrent dans les catégories suivantes :
+
+\begin{itemize}
+  \item \emph{Organisation} : regroupe les entreprises, les institutions gouvernementales et les autres organisations ;
+  \item \emph{Person} : regroupe les noms de personnes ou de familles ;
+  \item \emph{Location} : regroupe les noms de lieux politiquement ou géographiquement définis (villes, pays, régions, etc.).
+\end{itemize}
+
+Il existe des typologies des EN beaucoup plus complètes que celle des campagnes MUC comme celle de Paik et coll. \cite{??} ou de Coates-Stephens. Par exemple, celle de Coates-Stephens \cite{??} définit 8 catégories d'EN :
+\begin{itemize}
+  \item les noms de personnes ;
+  \item les noms de lieux ;
+  \item les noms d'organisations ;
+  \item les noms d'origines (noms d'habitants de pays, de villes, de régions, etc.) ;
+  \item les noms de législations (\emph{loi Évin}), d'indices boursiers (\emph{Nikkei, CAC 40, Dow Jones}) ;
+  \item les noms d'événements (guerres, révolutions, catastrophes, salons, JO, etc.) ;
+  \item les noms d'objets.
+  
+\end{itemize}
+
+\subsubsection{Les différents types de systèmes}
+
+Selon Poibeau \cite{??} et Sekine et Eriguchi \cite{??}, les systèmes de détection des EN peuvent êtres classés selon trois grands types :\\
+
+\textbf{Les systèmes fondés sur des règles écrites \og à la main \fg{}}\\
+Dans ces systèmes, le concepteur doit élaborer un ensemble de règles qui seront ensuite utilisées pour détecter les entités nommées. Historiquement, cette technique fût la première utilisée dans le domaine. Bien que depuis la campagne d'évaluation MUC-6, l'apprentissage automatique ait fait son apparition dans ce domaine, les systèmes à base de règles écrites \og à la main \fg{} restent encore très utilisés aujourd'hui.\\
+
+\textbf{Les systèmes à base d'apprentissage automatique}\\
+Ces systèmes utilisent des techniques d'apprentissage automatique (cf. \ref{sssec:apprentissage_supervise}) pour apprendre un modèle capable d'étiqueter des entités nommées à partir d'un corpus d'apprentissage. Ces travaux sont largement inspirés des techniques utilisées en reconnaissance automatique de la parole, et utilisent diverses techniques d'apprentissage : modèles de Markov cachés, modèle d'entropie maximum, arbres de décision, etc. Le système (LIA\_NE) développé par Béchet \cite{} au LIA fait partie de type de système. \\ 
+
+\textbf{Les systèmes mixtes}\\
+Ces systèmes utilisent généralement des lexiques initiaux. Parmi ces systèmes, Poibeau \cite{??} distingue deux approches. La première consiste à apprendre automatiquement des règles, puis à utiliser un expert pour les réviser. Dans la seconde, un ensemble de règles de base est constitué par le concepteur, puis étendu (semi-)automatiquement par inférence, afin d'obtenir une meilleur couverture. C'est le cas de Nemesis, le système développé par Fourour \cite{??} au LINA\\
+
+
+\subsubsection{Entités nommées et identification nommée du locuteur}
+Problématique de délimitation de l'EN
+
 
 \newpage
 \section{L'identification nommée du locuteur}
