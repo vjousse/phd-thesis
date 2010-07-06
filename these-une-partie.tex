@@ -54,7 +54,11 @@ L'apprentissage non supervisé (aussi appelé classification automatique) consiste
 
 \subsection{Reconnaissance automatique du locuteur}
 \label{ssec:ral}
-La Reconnaissance Automatique du Locuteur (RAL) consiste à reconnaître un locuteur grâce à des échantillons de sa voix. Une des premières applications à laquelle on pense en parlant de RAL est la biométrie. En effet, même si la RAL n'est pas la méthode la plus fiable pour de la biométrie (les empreintes digitales le sont beaucoup plus par exemple), elle a l'avantage d'être peu intrusive (il est plus facile de parler dans un micro que de donner ses empreintes digitales) et d'être facile à déployer.
+
+La Reconnaissance Automatique du Locuteur (RAL) regroupe un ensemble de méthodes capables d'extraire les caractéristiques vocales propres à chaque individu à partir d'un document audio. Ces caractéristiques sont utilisées pour constituer la signature vocale d'un locuteur. C'est cette signature qui permettra d'authentifier la voix d'un locuteur dans un enregistrement.
+
+  
+  consiste à reconnaître un locuteur grâce à l'analyse de sa voix. Une des premières applications à laquelle on pense en parlant de RAL est la biométrie. En effet, même si la RAL n'est pas la méthode la plus fiable pour de la biométrie (les empreintes digitales le sont beaucoup plus par exemple), elle a l'avantage d'être peu intrusive (il est plus facile de parler dans un micro que de donner ses empreintes digitales) et d'être facile à déployer.
 
 En plus de la difficulté à différencier deux locuteurs différente, la RAL est aussi confrontée à des problèmes intra-locuteurs. En effet, la voix d'un locuteur peut fortement varier d'un enregistrement à l'autre. Le niveau de fatigue, l'émotion, le contexte d'enregistrement ou encore l'âge d'un locuteur sont autant de variations qui peuvent venir perturber la RAL. Mais la biométrie n'est pas la seule application possible, de par ses caractéristiques, la RAL est utilisée dans bien d'autres domaines.
 
@@ -643,6 +647,90 @@ Les noms complets des locuteurs sont présents dans la transcription, et ils est 
 
 \newpage
 \section{LIUM\_NI : Un nouveau système de décision (titre à trouver ?)}
+
+\subsection{Corpus et données}
+
+\begin{table}[h]
+  \begin{center}
+    \begin{tabular}{|c|c|c|c|c|}
+      \hline
+      Corpus & Courant & Suivant & Précédent & Autre \\
+      \hline
+      Train & 3,9 & 16,6 & 19,2 & 32,5 \\
+      Dev & 8,3 & 17,6 & 9,3 & 45,2 \\
+      Test & 26,7 & 17,1 & 12.3 & 39,3 \\      
+      \hline
+    \end{tabular}
+  \end{center}
+
+  \caption{Taux d'erreur des étiquettes courantes / suivantes / précédentes des locuteurs faisant partie de la liste de locuteur fermée ESTER1}
+  \label{table:etiquettes_sct}
+\end{table}
+
+\begin{table}[h]
+  \begin{center}
+    \begin{tabular}{|c|c|c|c|c|}
+      \hline
+      Corpus & Courant & Suivant & Précédent & Autre \\
+      \hline
+      Train & 17,3 & 46,3 & 51,9 & 6,8 \\
+      Dev & 42,1 & 46 & 40 & 13,2 \\
+      Test & 52,1 & 42,4 & 42 & 10,7 \\      
+      \hline
+    \end{tabular}
+  \end{center}
+
+  \caption{Taux d'erreur des étiquettes courantes / suivantes / précédentes des locuteurs en liste ouverte}
+  \label{table:etiquettes_sct}
+\end{table}
+
+% Résultats sans filtrage de liste de locuteurs & LIA_NE
+%
+% Train ESTER 1 (Train spkid)
+% Next : 934/2019 = 46.2605250123824 %
+% Previous : 188/362 = 51.9337016574586 %
+% Current : 36/208 = 17.3076923076923 %
+% Other : 666/9766 = 6.81957812819988 %
+
+% Test ESTER 1 (Dev spkid)
+%
+% Next : 139/302 = 46.0264900662252 %
+% Previous : 26/65 = 40 %
+% Current : 8/19 = 42.1052631578947 %
+% Other : 168/1274 = 13.1868131868132 %
+
+% Test ESTER 2 sans africa (Test spkid)
+%
+% Next : 132/311 = 42.443729903537 %
+% Previous : 37/88 = 42.0454545454545 %
+% Current : 12/23 = 52.1739130434783 %
+% Other : 132/1238 = 10.6623586429725 %
+
+
+
+% Résultats avec filtrage via liste de locuteurs & LIA_NE
+%
+% Train ESTER 1 (Train spkid)
+%
+% Next : 211/1273 = 16.5750196386489 %
+% Previous : 41/213 = 19.2488262910798 %
+% Current : 7/179 = 3.91061452513966 %
+% Other : 647/1988 = 32.5452716297787 %
+
+
+% TEST ESTER 1 (Dev spkid)
+%
+% Next : 34/193 = 17.6165803108808 %
+% Previous : 4/43 = 9.30232558139535 %
+% Current : 1/12 = 8.33333333333333 %
+% Other : 161/356 = 45.2247191011236 % 
+
+% Test ESTER 2 sans africa (Test spkid)
+%
+% Next : 36/211 = 17.0616113744076 %
+% Previous : 7/57 = 12.280701754386 %
+% Current : 4/15 = 26.6666666666667 %
+% Other : 126/321 = 39.2523364485981 %
 
 \subsection{Analyse des erreurs}
 
