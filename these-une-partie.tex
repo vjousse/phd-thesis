@@ -638,6 +638,81 @@ En revanche, le système de décision est relativement sommaire : seule l'étiquett
 
 \subsection{Expériences et résultats}
 
+\subsubsection{Résultats avec liste de locuteurs}
+
+Le tableau \ref{tab:results_liumni} présente les résultats du système sur les corpus de développement et de test, en utilisant des transcriptions totalement manuelles ou totalement automatiques. Le système de détection d'entités nommées utilisé est LIA\_NE, la liste de locuteurs d'ESTER 1 est utilisée pour filtrer les décisions. Le genre des locuteurs est pris en compte via la liste des locuteurs (le genre des locuteurs étant extrait des transcriptions de référence).
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|}
+\cline{3-6}
+\multicolumn{2}{c|}{} & \multicolumn{3}{|c|}{En durée}  & En nb de Locuteur \\ \hline
+\textbf{Trans.} & \textbf{Seg/Class.} & \textbf{R} & \textbf{P} & \textbf{ErrDur} & \textbf{ErrLoc} \\ \hline
+\hline
+\multicolumn{6}{|c|}{Corpus de Développement} \\
+\hline
+\textbf{M} & \textbf{M} & 87,36\% & 95,69\% & 11,67\% & 14,11\% \\ \hline
+\textbf{A} & \textbf{A} & 29,31\% & 59,98\% & 64,49\% & -\% \\
+\hline
+\hline
+\multicolumn{6}{|c|}{Corpus de Test} \\
+\hline
+\textbf{M} & \textbf{M} & 85,99\% & 95,72\% & 12,88\% & 18,26\% \\ \hline
+\textbf{A} & \textbf{A} & 29,48\% & 69,42\% & 64,46\% & -\% \\
+\hline
+\end{tabular}
+\end{center}
+\caption{Système proposé avec une transcription enrichie manuelle ou automatique en utilisant une liste de locuteurs\newline
+------------\newline
+{\textit{\textbf{Trans.}: Transcription \textbf{M}anuelle ou \textbf{A}utomatique.\newline
+\textbf{Seg/Class.}: segmentation/classification manuelles ou automatiques.\newline
+\textbf{R, P}: rappel et précision calculés en en durée.\newline
+\textbf{ErrDur}: Taux d'erreur en durée.\newline
+\textbf{ErrLoc} : Taux d'erreur en nombre de locuteurs.\newline
+}}
+}
+\label{tab:results_liumni}
+\end{table}
+
+
+\subsubsection{Impact de la prise en compte du genre}
+
+Le tableau \ref{tab:results_liumni_sansgenre} présente les mêmes résultats que le tableau \ref{tab:results_liumni} sans utiliser l'information sur le genre des locuteurs. La liste des locuteurs d'ESTER 1 (tous corpus confondus) est utilisée, mais sans prendre en compte le genre du locuteur.
+
+Lorsque le genre n'est pas utilisé pour affiner les décisions, les performances du système se dégradent, que ce soit sur les transcriptions automatiques ou manuelles. Sur les transcriptions manuelles, le taux d'erreur augmente d'environ 3\% en absolu. Sur les transcriptions automatiques, le taux d'erreur augmente très peu sur les corpus de développement, mais augmente de 4\% sur le corpus de test. Le genre des locuteurs étant détecté automatiquement, il est donc soumis à des erreurs \cite{??} (donner le taux d'erreur). Mais même si cette détection comporte des erreurs, l'utiliser améliore quand même les performances.
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|}
+\cline{3-6}
+\multicolumn{2}{c|}{} & \multicolumn{3}{|c|}{En durée}  & En nb de Locuteur \\ \hline
+\textbf{Trans.} & \textbf{Seg/Class.} & \textbf{R} & \textbf{P} & \textbf{ErrDur} & \textbf{ErrLoc} \\ \hline
+\hline
+\multicolumn{6}{|c|}{Corpus de Développement} \\
+\hline
+\textbf{M} & \textbf{M} & 84,30\% & 90,60\% & 14,55\% & 17,84\% \\ \hline
+\textbf{A} & \textbf{A} & 28,56\% & 54,08\% & 65,65\% & - \\
+\hline
+\hline
+\multicolumn{6}{|c|}{Corpus de Test} \\
+\hline
+\textbf{M} & \textbf{M} & 84,12\% & 93.40\% & 14,68\% & 20,33\% \\ \hline
+\textbf{A} & \textbf{A} & 24,61\% & 58,82\% & 68,78\% & - \\
+\hline
+\end{tabular}
+\end{center}
+\caption{Système proposé avec une transcription enrichie manuelle ou automatique en utilisant une liste de locuteurs, sans prise en compte du genre\newline
+------------\newline
+{\textit{\textbf{Trans.}: Transcription \textbf{M}anuelle ou \textbf{A}utomatique.\newline
+\textbf{Seg/Class.}: segmentation/classification manuelles ou automatiques.\newline
+\textbf{R, P}: rappel et précision calculés en en durée.\newline
+\textbf{ErrDur}: Taux d'erreur en durée.\newline
+\textbf{ErrLoc} : Taux d'erreur en nombre de locuteurs.\newline
+}}
+}
+\label{tab:results_liumni_sansgenre}
+\end{table}
+
 \subsection{Positionnement et hypothèses}
       Les travaux ont beaucoup porté sur la manière d'étiqueter les suivant/précédent/courant/autre => Un papier montre que les SCT > N-grammes. Aller plus loin : améliorer le processus de décision qui vient après ces décisions locales
       Utiliser une analyse conjointe du signal sonore et du texte pour améliorer les décisions "aveugles" (renforcer les décisions avec le genre des locuteurs)
@@ -648,89 +723,6 @@ Les noms complets des locuteurs sont présents dans la transcription, et ils est 
 \newpage
 \section{LIUM\_NI : Un nouveau système de décision (titre à trouver ?)}
 
-\subsection{Corpus et données}
-
-\begin{table}[h]
-  \begin{center}
-    \begin{tabular}{|c|c|c|c|c|}
-      \hline
-      Corpus & Courant & Suivant & Précédent & Autre \\
-      \hline
-      Train & 3,9 & 16,6 & 19,2 & 32,5 \\
-      Dev & 8,3 & 17,6 & 9,3 & 45,2 \\
-      Test & 26,7 & 17,1 & 12.3 & 39,3 \\      
-      \hline
-    \end{tabular}
-  \end{center}
-
-  \caption{Taux d'erreur des étiquettes courantes / suivantes / précédentes des locuteurs faisant partie de la liste de locuteur fermée ESTER1}
-  \label{table:etiquettes_sct}
-\end{table}
-
-\begin{table}[h]
-  \begin{center}
-    \begin{tabular}{|c|c|c|c|c|}
-      \hline
-      Corpus & Courant & Suivant & Précédent & Autre \\
-      \hline
-      Train & 17,3 & 46,3 & 51,9 & 6,8 \\
-      Dev & 42,1 & 46 & 40 & 13,2 \\
-      Test & 52,1 & 42,4 & 42 & 10,7 \\      
-      \hline
-    \end{tabular}
-  \end{center}
-
-  \caption{Taux d'erreur des étiquettes courantes / suivantes / précédentes des locuteurs en liste ouverte}
-  \label{table:etiquettes_sct}
-\end{table}
-
-% Résultats sans filtrage de liste de locuteurs & LIA_NE
-%
-% Train ESTER 1 (Train spkid)
-% Next : 934/2019 = 46.2605250123824 %
-% Previous : 188/362 = 51.9337016574586 %
-% Current : 36/208 = 17.3076923076923 %
-% Other : 666/9766 = 6.81957812819988 %
-
-% Test ESTER 1 (Dev spkid)
-%
-% Next : 139/302 = 46.0264900662252 %
-% Previous : 26/65 = 40 %
-% Current : 8/19 = 42.1052631578947 %
-% Other : 168/1274 = 13.1868131868132 %
-
-% Test ESTER 2 sans africa (Test spkid)
-%
-% Next : 132/311 = 42.443729903537 %
-% Previous : 37/88 = 42.0454545454545 %
-% Current : 12/23 = 52.1739130434783 %
-% Other : 132/1238 = 10.6623586429725 %
-
-
-
-% Résultats avec filtrage via liste de locuteurs & LIA_NE
-%
-% Train ESTER 1 (Train spkid)
-%
-% Next : 211/1273 = 16.5750196386489 %
-% Previous : 41/213 = 19.2488262910798 %
-% Current : 7/179 = 3.91061452513966 %
-% Other : 647/1988 = 32.5452716297787 %
-
-
-% TEST ESTER 1 (Dev spkid)
-%
-% Next : 34/193 = 17.6165803108808 %
-% Previous : 4/43 = 9.30232558139535 %
-% Current : 1/12 = 8.33333333333333 %
-% Other : 161/356 = 45.2247191011236 % 
-
-% Test ESTER 2 sans africa (Test spkid)
-%
-% Next : 36/211 = 17.0616113744076 %
-% Previous : 7/57 = 12.280701754386 %
-% Current : 4/15 = 26.6666666666667 %
-% Other : 126/321 = 39.2523364485981 %
 
 \subsection{Analyse des erreurs}
 
@@ -967,10 +959,172 @@ Pour finir, comme c'est déjà le cas pour certains modèles de langage en reconnai
 \subsection{Applications et connaissances a priori}
 liste de locuteurs, genre des locuteurs
 
+
+\subsection{Expériences et résultats}
+
+\subsubsection{Corpus et données}
+
+\begin{table}[h]
+  \begin{center}
+    \begin{tabular}{|c|c|c|c|c|}
+      \hline
+      Corpus & Courant & Suivant & Précédent & Autre \\
+      \hline
+      Train & 3,9 & 16,6 & 19,2 & 32,5 \\
+      Dev & 8,3 & 17,6 & 9,3 & 45,2 \\
+      Test & 26,7 & 17,1 & 12.3 & 39,3 \\      
+      \hline
+    \end{tabular}
+  \end{center}
+
+  \caption{Taux d'erreur des étiquettes courantes / suivantes / précédentes des locuteurs faisant partie de la liste de locuteur fermée ESTER1}
+  \label{table:etiquettes_sct}
+\end{table}
+
+\begin{table}[h]
+  \begin{center}
+    \begin{tabular}{|c|c|c|c|c|}
+      \hline
+      Corpus & Courant & Suivant & Précédent & Autre \\
+      \hline
+      Train & 17,3 & 46,3 & 51,9 & 6,8 \\
+      Dev & 42,1 & 46 & 40 & 13,2 \\
+      Test & 52,1 & 42,4 & 42 & 10,7 \\      
+      \hline
+    \end{tabular}
+  \end{center}
+
+  \caption{Taux d'erreur des étiquettes courantes / suivantes / précédentes des locuteurs en liste ouverte}
+  \label{table:etiquettes_sct}
+\end{table}
+
+% Résultats sans filtrage de liste de locuteurs sur du manuel (même pas sur le genre) & LIA_NE
+%
+% Train ESTER 1 (Train spkid)
+% Next : 934/2019 = 46.2605250123824 %
+% Previous : 188/362 = 51.9337016574586 %
+% Current : 36/208 = 17.3076923076923 %
+% Other : 666/9766 = 6.81957812819988 %
+
+% Test ESTER 1 (Dev spkid)
+%
+% Next : 139/302 = 46.0264900662252 %
+% Previous : 26/65 = 40 %
+% Current : 8/19 = 42.1052631578947 %
+% Other : 168/1274 = 13.1868131868132 %
+
+% Test ESTER 2 sans africa (Test spkid)
+%
+% Next : 132/311 = 42.443729903537 %
+% Previous : 37/88 = 42.0454545454545 %
+% Current : 12/23 = 52.1739130434783 %
+% Other : 132/1238 = 10.6623586429725 %
+
+
+
+% Résultats avec filtrage via liste de locuteurs sur du manuel (mais pas avec la prise en compte du genre) & LIA_NE
+%
+% Train ESTER 1 (Train spkid)
+%
+% Next : 211/1273 = 16.5750196386489 %
+% Previous : 41/213 = 19.2488262910798 %
+% Current : 7/179 = 3.91061452513966 %
+% Other : 647/1988 = 32.5452716297787 %
+
+
+% TEST ESTER 1 (Dev spkid)
+%
+% Next : 34/193 = 17.6165803108808 %
+% Previous : 4/43 = 9.30232558139535 %
+% Current : 1/12 = 8.33333333333333 %
+% Other : 161/356 = 45.2247191011236 % 
+
+% Test ESTER 2 sans africa (Test spkid)
+%
+% Next : 36/211 = 17.0616113744076 %
+% Previous : 7/57 = 12.280701754386 %
+% Current : 4/15 = 26.6666666666667 %
+% Other : 126/321 = 39.2523364485981 %
+
+\subsection{Expériences et résultats}
+
+\subsubsection{Utilisation d'une liste de locuteurs et de leur genre}
+
+Le tableau \ref{tab:results_fctcroyance} présente les résultats du système utilisant les fonctions de croyances. Les expériences sont menées sur les corpus de développement et de test, en utilisant des transcriptions totalement manuelles ou totalement automatiques. Le système de détection d'entités nommées utilisé est LIA\_NE, la liste de locuteurs d'ESTER 1 est utilisée pour filtrer les décisions. Le genre des locuteurs est pris en compte via la liste des locuteurs (le genre des locuteurs étant extrait des transcriptions de référence).
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|}
+\cline{3-6}
+\multicolumn{2}{c|}{} & \multicolumn{3}{|c|}{En durée}  & En nb de Locuteur \\ \hline
+\textbf{Trans.} & \textbf{Seg/Class.} & \textbf{R} & \textbf{P} & \textbf{ErrDur} & \textbf{ErrLoc} \\ \hline
+\hline
+\multicolumn{6}{|c|}{Corpus de Développement} \\
+\hline
+\textbf{M} & \textbf{M} & 86,16\% & 94,38\% & 12,75\% & 15,35\% \\ \hline
+\textbf{A} & \textbf{A} & 21,45\% & 49,96\% & 71,59\% & - \\
+\hline
+\hline
+\multicolumn{6}{|c|}{Corpus de Test} \\
+\hline
+\textbf{M} & \textbf{M} & 85,49\% & 95,01\% & 13,34\% & 18,67\% \\ \hline
+\textbf{A} & \textbf{A} & 25,63\% & 61,20\% & 67,95\% & - \\
+\hline
+\end{tabular}
+\end{center}
+\caption{Système utilisant les fonctions de croyance avec une transcription enrichie manuelle ou automatique en utilisant une liste de locuteurs\newline
+------------\newline
+{\textit{\textbf{Trans.}: Transcription \textbf{M}anuelle ou \textbf{A}utomatique.\newline
+\textbf{Seg/Class.}: segmentation/classification manuelles ou automatiques.\newline
+\textbf{R, P}: rappel et précision calculés en en durée.\newline
+\textbf{ErrDur}: Taux d'erreur en durée.\newline
+\textbf{ErrLoc} : Taux d'erreur en nombre de locuteurs.\newline
+}}
+}
+\label{tab:results_fctcroyance}
+\end{table}
+
+\subsubsection{Système ouvert sans de locuteurs et de leur genre}
+
+\ref{tab:results_fctcroyance_sansliste}
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|}
+\cline{3-6}
+\multicolumn{2}{c|}{} & \multicolumn{3}{|c|}{En durée}  & En nb de Locuteur \\ \hline
+\textbf{Trans.} & \textbf{Seg/Class.} & \textbf{R} & \textbf{P} & \textbf{ErrDur} & \textbf{ErrLoc} \\ \hline
+\hline
+\multicolumn{6}{|c|}{Corpus de Développement} \\
+\hline
+\textbf{M} & \textbf{M} & 65,74\% & 91,96\% & 31,63\% & 29,46\% \\ \hline
+\textbf{A} & \textbf{A} & 19,53\% & 70,52\% & 73,39\% & - \\
+\hline
+\hline
+\multicolumn{6}{|c|}{Corpus de Test} \\
+\hline
+\textbf{M} & \textbf{M} & 69,85\% & 94,10\% & 27,79\% & 28,22\% \\ \hline
+\textbf{A} & \textbf{A} & 20,59\% & 61,42\% & 72,31\% & - \\
+\hline
+\end{tabular}
+\end{center}
+\caption{Système utilisant les fonctions de croyance avec une transcription enrichie manuelle ou automatique sans liste de locuteurs et sans genre\newline
+------------\newline
+{\textit{\textbf{Trans.}: Transcription \textbf{M}anuelle ou \textbf{A}utomatique.\newline
+\textbf{Seg/Class.}: segmentation/classification manuelles ou automatiques.\newline
+\textbf{R, P}: rappel et précision calculés en en durée.\newline
+\textbf{ErrDur}: Taux d'erreur en durée.\newline
+\textbf{ErrLoc} : Taux d'erreur en nombre de locuteurs.\newline
+}}
+}
+\label{tab:results_fctcroyance_sansliste}
+\end{table}
+
 \subsection{Limites de l'approche}
 très dépendant du corpus pour l'automatique (car on mesure en durée), un ou deux locuteurs détectés en plus ou en moins peuvent beaucoup faire varier les résultats alors que ça ne représente qu'une infime partie du nombre des locuteurs à détecter
 
 \newpage
+
 \section{Conclusion}
 
 \newpage
