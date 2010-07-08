@@ -713,6 +713,42 @@ Lorsque le genre n'est pas utilisé pour affiner les décisions, les performances 
 \label{tab:results_liumni_sansgenre}
 \end{table}
 
+\subsubsection{Système ouvert sans de locuteurs et de leur genre}
+
+\ref{tab:results_liumni_sansliste}
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|}
+\cline{3-6}
+\multicolumn{2}{c|}{} & \multicolumn{3}{|c|}{En durée}  & En nb de Locuteur \\ \hline
+\textbf{Trans.} & \textbf{Seg/Class.} & \textbf{R} & \textbf{P} & \textbf{ErrDur} & \textbf{ErrLoc} \\ \hline
+\hline
+\multicolumn{6}{|c|}{Corpus de Développement} \\
+\hline
+\textbf{M} & \textbf{M} & 67,23\% & 93,12\% & 30,04\% & 28,63\% \\ \hline
+\textbf{A} & \textbf{A} & 20,26\% & 76,84\% & 72,73\% & - \\
+\hline
+\hline
+\multicolumn{6}{|c|}{Corpus de Test} \\
+\hline
+\textbf{M} & \textbf{M} & 71,46\% & 95,03\% & 26,11\% & 27,80\% \\ \hline
+\textbf{A} & \textbf{A} & 20,60\% & 64,03\% & 72,32\% & - \\
+\hline
+\end{tabular}
+\end{center}
+\caption{Système de base avec une transcription enrichie manuelle ou automatique sans liste de locuteurs et sans genre\newline
+------------\newline
+{\textit{\textbf{Trans.}: Transcription \textbf{M}anuelle ou \textbf{A}utomatique.\newline
+\textbf{Seg/Class.}: segmentation/classification manuelles ou automatiques.\newline
+\textbf{R, P}: rappel et précision calculés en en durée.\newline
+\textbf{ErrDur}: Taux d'erreur en durée.\newline
+\textbf{ErrLoc} : Taux d'erreur en nombre de locuteurs.\newline
+}}
+}
+\label{tab:results_liumni_sansliste}
+\end{table}
+
 \subsection{Positionnement et hypothèses}
       Les travaux ont beaucoup porté sur la manière d'étiqueter les suivant/précédent/courant/autre => Un papier montre que les SCT > N-grammes. Aller plus loin : améliorer le processus de décision qui vient après ces décisions locales
       Utiliser une analyse conjointe du signal sonore et du texte pour améliorer les décisions "aveugles" (renforcer les décisions avec le genre des locuteurs)
