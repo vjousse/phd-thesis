@@ -27,6 +27,34 @@
 \section{Introduction}
 
 
+\section{Reconnaissance automatique la parole}
+
+
+\subsection{Applications}
+
+La reconnaissance automatique de la parole (RAP) a pour but de transcrire sous forme textuelle un signal audio. Ses applications, multiples, vont de la simple commande vocale (reconnaissance de mots isolés) à la transcription complète d'une émission de radio.
+
+Les systèmes à commandes vocales sont des systèmes que l'on trouve abondamment dans les systèmes embarqués. Ils vont permettre une interaction entre l'utilisateur et la machine grâce à des commandes vocales. Ces commandes doivent être de simples mots isolés. Les cas d'utilisation sont nombreux, et il serait impossible de tous les citer, en voici un bref aperçu :
+
+\begin{itemize}
+  \item Jeux vidéo : la console portable DS de Nintendo embarque un micro pour permettre l'interaction homme/machine grâce à de simples mots
+  \item Téléphone portables : beaucoup de téléphones permettent de naviguer dans l'interface grâce à la voix
+  \item Aide aux handicapés : de tels systèmes peuvent pallier à un organe défaillant ou peuvent être utilisés dans des systèmes destinés à la rééducation d'enfants sourds
+\end{itemize}
+
+\label{lexique}
+
+Comme tous les systèmes de RAP, ces systèmes se basent sur un vocabulaire (aussi appelé lexique) préalablement constitué. Ce lexique va définir la liste des mots que le système va être capable de reconnaître. Aucun autre mot que ceux contenus dans le lexique ne pourra être reconnu par le système.
+Bien qu'il soit souvent techniquement possible d'avoir un vocabulaire assez important, il est généralement limité à une centaine de mots. En effet, les personnes se servant de ces systèmes ne sont de toute façon pas capable de mémoriser aisément une centaine de commandes.
+
+
+\subsection{Un problème complexe}
+
+\subsection{Solutions actuelles}
+
+
+Bien que d'autres méthodes aient été employées, comme la comparaison de références par programmation dynamique \cite{Tubach}, les systèmes utilisant des méthodes statistiques sont majoritairement utilisés depuis les années 1980 \cite{rabiner}. Certains de ces système utilisent des réseaux neuronaux, mais la plus part ont comme base les modèles de Markov cachés \cite{Gagnoulet89}. 
+
 \newpage
 \section{Systèmes automatiques}
 \label{sec:sys_auto}
@@ -1296,6 +1324,7 @@ très dépendant du corpus pour l'automatique (car on mesure en durée), un ou deux
 
 \section{Conclusion}
 
+\newpage
 \newpage
 \bibliography{biblio}
 %\bibliographystyle{frcomplet}
