@@ -638,7 +638,7 @@ En revanche, le système de décision est relativement sommaire : seule l'étiquett
 
 \subsection{Expériences et résultats}
 
-\subsubsection{Résultats avec liste de locuteurs}
+\subsubsection{Résultats avec liste de locuteurs globale}
 
 Le tableau \ref{tab:results_liumni} présente les résultats du système sur les corpus de développement et de test, en utilisant des transcriptions totalement manuelles ou totalement automatiques. Le système de détection d'entités nommées utilisé est LIA\_NE, la liste de locuteurs d'ESTER 1 est utilisée pour filtrer les décisions. Le genre des locuteurs est pris en compte via la liste des locuteurs (le genre des locuteurs étant extrait des transcriptions de référence).
 
@@ -672,6 +672,40 @@ Le tableau \ref{tab:results_liumni} présente les résultats du système sur les co
 }}
 }
 \label{tab:results_liumni}
+\end{table}
+
+\subsubsection{Résultats avec liste de locuteurs par show}
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|}
+\cline{3-6}
+\multicolumn{2}{c|}{} & \multicolumn{3}{|c|}{En durée}  & En nb de Locuteur \\ \hline
+\textbf{Trans.} & \textbf{Seg/Class.} & \textbf{R} & \textbf{P} & \textbf{ErrDur} & \textbf{ErrLoc} \\ \hline
+\hline
+\multicolumn{6}{|c|}{Corpus de Développement} \\
+\hline
+\textbf{M} & \textbf{M} & 88,67\% & 97,31\% & 10,45\% & 12,45\% \\ \hline
+\textbf{A} & \textbf{A} & 28,80\% & 69,65\% & 64,91\% & -\% \\
+\hline
+\hline
+\multicolumn{6}{|c|}{Corpus de Test} \\
+\hline
+\textbf{M} & \textbf{M} & 86,85\% & 96,56\% & 12,10\% & 17,01\% \\ \hline
+\textbf{A} & \textbf{A} & 28,83\% & 73,77\% & 64,84\% & -\% \\
+\hline
+\end{tabular}
+\end{center}
+\caption{Système proposé avec une transcription enrichie manuelle ou automatique en utilisant une liste de locuteurs du show\newline
+------------\newline
+{\textit{\textbf{Trans.}: Transcription \textbf{M}anuelle ou \textbf{A}utomatique.\newline
+\textbf{Seg/Class.}: segmentation/classification manuelles ou automatiques.\newline
+\textbf{R, P}: rappel et précision calculés en en durée.\newline
+\textbf{ErrDur}: Taux d'erreur en durée.\newline
+\textbf{ErrLoc} : Taux d'erreur en nombre de locuteurs.\newline
+}}
+}
+\label{tab:results_liumni_liste_show}
 \end{table}
 
 
@@ -1115,9 +1149,7 @@ liste de locuteurs, genre des locuteurs
 % Current : 4/15 = 26.6666666666667 %
 % Other : 126/321 = 39.2523364485981 %
 
-\subsection{Expériences et résultats}
-
-\subsubsection{Utilisation d'une liste de locuteurs et de leur genre}
+\subsubsection{Utilisation d'une liste de locuteurs globale et de leur genre}
 
 Le tableau \ref{tab:results_fctcroyance} présente les résultats du système utilisant les fonctions de croyances. Les expériences sont menées sur les corpus de développement et de test, en utilisant des transcriptions totalement manuelles ou totalement automatiques. Le système de détection d'entités nommées utilisé est LIA\_NE, la liste de locuteurs d'ESTER 1 est utilisée pour filtrer les décisions. Le genre des locuteurs est pris en compte via la liste des locuteurs (le genre des locuteurs étant extrait des transcriptions de référence).
 
@@ -1142,6 +1174,40 @@ Le tableau \ref{tab:results_fctcroyance} présente les résultats du système utili
 \end{tabular}
 \end{center}
 \caption{Système utilisant les fonctions de croyance avec une transcription enrichie manuelle ou automatique en utilisant une liste de locuteurs et la détection du genre\newline
+------------\newline
+{\textit{\textbf{Trans.}: Transcription \textbf{M}anuelle ou \textbf{A}utomatique.\newline
+\textbf{Seg/Class.}: segmentation/classification manuelles ou automatiques.\newline
+\textbf{R, P}: rappel et précision calculés en en durée.\newline
+\textbf{ErrDur}: Taux d'erreur en durée.\newline
+\textbf{ErrLoc} : Taux d'erreur en nombre de locuteurs.\newline
+}}
+}
+\label{tab:results_fctcroyance}
+\end{table}
+
+\subsubsection{Utilisation d'une liste de locuteurs par show et de leur genre}
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|}
+\cline{3-6}
+\multicolumn{2}{c|}{} & \multicolumn{3}{|c|}{En durée}  & En nb de Locuteur \\ \hline
+\textbf{Trans.} & \textbf{Seg/Class.} & \textbf{R} & \textbf{P} & \textbf{ErrDur} & \textbf{ErrLoc} \\ \hline
+\hline
+\multicolumn{6}{|c|}{Corpus de Développement} \\
+\hline
+\textbf{M} & \textbf{M} & 87,01\% & 95,75\% & 11,95\% & 14,11\% \\ \hline
+\textbf{A} & \textbf{A} & 20,95\% & 61,53\% & 72,01\% & - \\
+\hline
+\hline
+\multicolumn{6}{|c|}{Corpus de Test} \\
+\hline
+\textbf{M} & \textbf{M} & 86,35\% & 96,10\% & 12,56\% & 17,43\% \\ \hline
+\textbf{A} & \textbf{A} & 24,97\% & 64,90\% & 68,33\% & - \\
+\hline
+\end{tabular}
+\end{center}
+\caption{Système utilisant les fonctions de croyance avec une transcription enrichie manuelle ou automatique en utilisant une liste de locuteurs spécifique au show et la détection du genre\newline
 ------------\newline
 {\textit{\textbf{Trans.}: Transcription \textbf{M}anuelle ou \textbf{A}utomatique.\newline
 \textbf{Seg/Class.}: segmentation/classification manuelles ou automatiques.\newline
