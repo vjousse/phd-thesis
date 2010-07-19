@@ -24,43 +24,58 @@
 \chapter{Reconnaissance automatique la parole}
 \minitoc
 
+\todo{Rédiger une petite intro sur comment on classes les différents systèmes : parole continue ou pas, grands vocabulaires ...}
+
 \section{Applications}
 
 La reconnaissance automatique de la parole (RAP) a pour but de transcrire sous forme textuelle un signal audio. Ses applications, multiples, vont de la simple commande vocale (reconnaissance de mots isolés) à la transcription complète d'une émission de radio.
 
 \subsection{Commandes vocales}
 
-Les systèmes à commandes vocales sont des systèmes que l'on trouve abondamment dans les systèmes embarqués. Ils vont permettre une interaction entre l'utilisateur et la machine grâce à des commandes vocales. Ces commandes doivent être de simples mots isolés. Les cas d'utilisation sont nombreux, et il serait impossible de tous les citer, en voici un bref aperçu :
+Les systèmes à commandes vocales sont des systèmes que l'on trouve abondamment dans les systèmes embarqués. Ils vont permettre une interaction entre l'utilisateur et la machine grâce à des commandes vocales. Ces commandes sont de simples mots isolés que l'utilisateur doit prononcer pour interagir avec le système. Les cas d'utilisation sont nombreux, et il serait impossible de tous les citer, en voici un bref aperçu :
 
 \begin{itemize}
-  \item Jeux vidéo : la console portable DS de Nintendo embarque un micro pour permettre l'interaction homme/machine grâce à de simples mots
-  \item Téléphone portables : beaucoup de téléphones permettent de naviguer dans l'interface grâce à la voix
-  \item Aide aux handicapés : de tels systèmes peuvent pallier à un organe défaillant ou peuvent être utilisés dans des systèmes destinés à la ré\-éducation d'enfants sourds
+  \item Jeux vidéo : la console portable DS de Nintendo embarque un micro pour permettre l'interaction homme/machine grâce à de simples mots.
+  \item Téléphones portables : beaucoup de téléphones récents permettent de naviguer dans l'interface grâce à la voix.
+  \item Aide aux handicapés : de tels systèmes peuvent pallier à un organe défaillant ou peuvent être utilisés dans des systèmes destinés à la ré\-éducation d'enfants sourds.
 \end{itemize}
 
 \label{lexique}
 
 Comme tous les systèmes de RAP, ces systèmes se basent sur un vocabulaire (aussi appelé lexique) préalablement constitué. Ce lexique va définir la liste des mots que le système va être capable de reconnaître. Aucun autre mot que ceux contenus dans le lexique ne pourra être reconnu par le système.
-Bien qu'il soit techniquement possible d'avoir un vocabulaire assez important, il est généralement limité à une centaine de mots. En effet, les personnes se servant de ces systèmes ne sont de toute façon pas capable de mémoriser aisément une centaine de commandes. De plus, ces mots doivent être contrastés au niveau phonétique, de manière à réduire les risques d'ambiguïté lors de la reconnaissance.
+Bien qu'il soit techniquement possible d'avoir un vocabulaire assez important, il est généralement limité à une centaine de mots. En effet, les personnes se servant de ces systèmes ne sont de toute façon pas capable de mémoriser plus d'une centaine de commandes. À noter que ces mots doivent être contrastés au niveau phonétique, de manière à réduire les risques d'ambiguïté lors de la reconnaissance.
+
+Bien que d'autres méthodes aient été employées, comme la comparaison de références par programmation dynamique \cite{Tubach}, les systèmes utilisant des méthodes statistiques sont majoritairement utilisés depuis les années 1980 \cite{Rabiner89}. Certains de ces système utilisent des réseaux neuronaux, mais la plus part ont comme base les modèles de Markov cachés \cite{Gagnoulet89}. 
 
 \subsection{Systèmes de compréhension}
 
-Les systèmes de compréhension vont permettre un dialogue contraint avec une machine. L'utilisateur va devoir prononcer une suite de mots clefs que le système est capable de reconnaître. En plus du système de reconnaissance vocale, un autre dispositif de compréhension des phrases doit être adjoint afin de pouvoir effectuer les actions adéquat. Le vocabulaire est restreint à quelques centaines de mots (comme dans les systèmes à commandes vocales) et la syntaxe est aussi restreinte à celle que le système est capable d'interpréter. 
+Les systèmes de compréhension vont permettre un dialogue contraint avec une machine. L'utilisateur va devoir prononcer une suite de mots clefs que le système est capable de reconnaître. En plus du système de reconnaissance vocale, un dispositif de compréhension des phrases doit être utilisé afin d'interpréter les phrases et de réagir en conséquence. Le vocabulaire est restreint à quelques centaines de mots, comme dans les systèmes à commandes vocales. Afin de faciliter la gestion du dialogue par le système, les phrases acceptables se limitent à des schémas grammaticaux simplifiés. 
 
 Bien que peu naturelles, ces restrictions syntaxiques et sémantiques sont acceptables si l'application est bien ciblée sur un domaine particulier. Les applications choisies pour ce type de systèmes le sont d'ailleurs en conséquence. Elles se limitent généralement à l'interrogation d'une base de données, de standards téléphoniques automatisés pour des renseignements météo ou des réservations de places.
 
 Ces systèmes ont connu un important essor à la fin des années 1970 avec le lancement du projet DARPA aux États-Unis en 1977. Plusieurs laboratoires participent au projet DARPA comment CMU, MIT, BBN, SRI ou encore Belle Labs. Par exemple, le système SPHINX développé au CMU utilise un vocabulaire d'environ mille mots (issus du corpus \og Ressource Management Data Base \fg{}); ce système a notamment le mérite de permettre aux locuteurs une parole continue et ne nécessite pas d'apprentissage préalable du locuteur à reconnaître. Le taux de reconnaissance sur les mots est excellent, il est de l'ordre de 96\% \cite{Lee1990}.
 
+En France, la recherche s'est orientée vers des systèmes capables de gommer les erreurs de reconnaissance. En effet, même avec des erreurs de décodage du signal sonore, il est souvent possible de comprendre le sens d'une phrase. Ces erreurs de \og bas niveau \fg{} pourraient être récupérées grâce à des systèmes de plus haut niveau. C'est dans cette optique qu'ont été conçus les systèmes KEAL au CNET, Esole au LIMSI \cite{Tubach}, Myrtille au CRIN \cite{Pierrel82} et Arial au CERFIA \cite{Perennou82}.
+
 \subsection{Systèmes de dictée automatique}
 
-Les systèmes de dictée automatique ont pour but de transcrire un texte dicté par un locuteur de la façon la plus fidèle possible. Comme pourrait le faire une secrétaire, le texte transcrit doit respecter les règles orthographiques et grammaticales propres à la langue concernée. La compréhension du texte à transcrire n'est pas requise, et c'est d'ailleurs ce qui amène les erreurs les plus perturbantes pour l'utilisateur.
+Les systèmes de dictée automatique ont pour but de transcrire un texte dicté par un locuteur de la façon la plus fidèle possible. Comme pourrait le faire une secrétaire, le texte transcrit doit respecter les règles orthographiques et grammaticales propres à la langue concernée. La compréhension du texte à transcrire n'est pas requise, et c'est d'ailleurs ce qui amène les erreurs les plus perturbantes pour l'utilisateur. Les systèmes de dictée automatique ne sont pas capable de discriminer les différents sens d'un même mot.
+
+Ce type de système se trouve à la charnière entre l'oral et l'écrit. En effet, même si l'interaction avec le système se fait grâce à la voix, le registre de langue utilisé sera plus proche du registre écrit. Ces systèmes sont souvent utilisés pour transcrire des rapports, des comptes rendus ou rédiger des lettres. Quoiqu'il en soit, la personne est consciente qu'elle s'adresse à un ordinateur et adaptera donc sa locution en conséquence. De plus, les tournures agrammaticales ou les hésitations seront beaucoup moins nombreuses que dans un dialogue spontané entre deux personnes. Dans une conversation, les hésitations, les faux départs, les répétitions ou les tournures incorrectes sont légions. La complexité est donc moindre que si il fallait retranscrire un dialogue tel quel.
+
+En revanche, l'exercice même de la dictée sous-entend l'utilisation de plusieurs dizaines voire plusieurs centaines de milliers de formes fléchies. Les mots sont pris en contexte, et régis par une syntaxe aussi libre que la grammaire de la langue naturelle le permet. Le vocabulaire doit lui aussi être conséquent et est constitué de plusieurs milliers de mots (de 5~000 à plus de 6~0000 mots). Avec ce type de système, une séance de dictée ressemblera plus à un médecin qui dicte un compte-rendu d'opération à sa secrétaire qu'à une maîtresse d'école qui fait faire un exercice de français à ses élèves. L'utilisateur n'est donc pas comme l'enseignant, même si il a bien en tête ce qu'il doit dire à la machine, il improvise quand même un minimum. Il doit donc pouvoir se tromper, corriger des mots ou remanier une tournure.
+
+Pour obtenir de bonnes performances en temps réel, ces systèmes à grand vocabulaire sont fortement dépendants du locuteurs. Une phase d'apprentissage est requise afin de permettre au logiciel d'apprendre des modèles spécifiques à votre voix. Plus cette phase d'apprentissage est importante moins le système commet d'erreurs.
+
+Historiquement, c'est l'équipe de recherche IBM dirigée par F. Jelinek qui est la première à avoir développé un système grand vocabulaire (\emph{Tangora} 5~000 mots en 1985, 20~000 en 1987) pour la dictée vocale. Par la suite, l'ensemble des grands systèmes développés se sont inspirés du système \emph{Tangora}. Avec un taux de réussite supérieur à 95\% pour un vocabulaire de 20 000 mots, \emph{Tangora} est un système multi-lingue existant pour l'anglais [11], l'italien [12,13], le français [14] ou encore l'allemand [15].
+
+
+\subsection{Systèmes de transcription}
+\todo{trouver un autre titre ?}
 
 \section{Un problème complexe}
 
 \section{Solutions actuelles}
-
-
-Bien que d'autres méthodes aient été employées, comme la comparaison de références par programmation dynamique \cite{Tubach}, les systèmes utilisant des méthodes statistiques sont majoritairement utilisés depuis les années 1980 \cite{Rabiner89}. Certains de ces système utilisent des réseaux neuronaux, mais la plus part ont comme base les modèles de Markov cachés \cite{Gagnoulet89}. 
 
 
 \chapter{Systèmes automatiques}
