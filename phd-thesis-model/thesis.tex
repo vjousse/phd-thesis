@@ -26,9 +26,24 @@
 
 \todo{Rédiger une petite intro sur comment on classes les différents systèmes : parole continue ou pas, grands vocabulaires ...}
 
+La reconnaissance automatique de la parole (RAP) a pour but de transcrire sous forme textuelle un signal audio. La RAP est un problème complexe, c'est pourquoi seuls des sous problèmes ont été résolus à ce jour. Des contraintes sont imposées afin de réduire la complexité du problème en ciblant des applications bien particulières. Un système idéal serait capable de transcrire n'importe quel locuteur (qu'il le connaisse ou nom), dans n'importe quel environnement sonore (studio, téléphone, dans la rue, etc) en utilisant un registre de langage et une location spontanés. Malheureusement, un tel système n'existe pas et des contraintes sont encore nécessaires. Ces contraintes peuvent être la mise à contribution du locuteur pour apprendre sa voix afin de mieux la reconnaître, ou encore la réduction des phrases que le système va être capable de reconnaître.
+
+Les systèmes de RAP peuvent êtres classés selon plusieurs critères.
+
+\begin{itemize}
+  \item \textbf{Le mode d'élocution} : cela peut être des syllabes ou des mots isolés, des mots connectés entre eux mais avec des pauses artificielles ou alors une parole quasi naturelle, appelée parole continue. 
+    
+    À noter que pour la parole continue, la distinction est faite entre la parole dite \og préparée \fg{} et la parole dite \og spontanée \fg{} \cite{Bazillon08}. La parole \og préparée \fg{} s'apparente à l'élocution qu'aura un journaliste lorsqu'il présente les informations : les répétitions, les faux départs et autres hésitations du langage parlé y sont peu présentes. La parole \og spontanée \fg{} concerne quant à elle le type de parole utilisée lors des conversations entre plusieurs personnes : les répétitions, hésitations et autres irrégularités du langage parlé y sont très présentes.
+
+  \item \textbf{La taille du vocabulaire} : il peut aller d'un vocabulaire inférieur à 1000 mots pour les systèmes à petit vocabulaire comme les serveurs vocaux jusqu'à un vocabulaire supérieur à 60000 mots pour les sytèmes de dictée vocale ou de transcription de journaux d'information 
+  \item \textbf{La dépendance (ou non) vis-à-vis des locuteurs} : les serveurs vocaux doivent par exemple être indépendants de la personne qui va l'utiliser, tandis que les systèmes de dictée vocale peuvent se permettrent d'être dépendant du locuteur
+  \item \textbf{L'environnement} protégé ou non : les serveurs vocaux vont devoir être capable de fonctionner dans un environnement bruité (on ne peut connaître à l'avance quel sera l'environnement sonore du locuteur qui interrogera le serveur), en revanche les systèmes de dictée vocale fonctionneront en environnement plus protégé 
+\end{itemize}
+
+Les applications de la RAP sont multiples et peuvent aller de la simple commande vocale (reconnaissance de mots isolés) à la transcription complète d'une émission de radio. Nous donnons par la suite un aperçu des quatre grands types de systèmes qui existent en reconnaissance de la parole.
+
 \section{Applications}
 
-La reconnaissance automatique de la parole (RAP) a pour but de transcrire sous forme textuelle un signal audio. Ses applications, multiples, vont de la simple commande vocale (reconnaissance de mots isolés) à la transcription complète d'une émission de radio.
 
 \subsection{Commandes vocales}
 
