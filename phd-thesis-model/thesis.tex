@@ -24,8 +24,6 @@
 \chapter{Reconnaissance automatique la parole}
 \minitoc
 
-\todo{Rédiger une petite intro sur comment on classes les différents systèmes : parole continue ou pas, grands vocabulaires ...}
-
 La reconnaissance automatique de la parole (RAP) a pour but de transcrire sous forme textuelle un signal audio. La RAP est un problème complexe, c'est pourquoi seuls des sous problèmes ont été résolus à ce jour. Des contraintes sont imposées afin de réduire la complexité du problème en ciblant des applications bien particulières. Un système idéal serait capable de transcrire n'importe quel locuteur (qu'il le connaisse ou nom), dans n'importe quel environnement sonore (studio, téléphone, dans la rue, etc) en utilisant un registre de langage et une location spontanés. Malheureusement, un tel système n'existe pas et des contraintes sont encore nécessaires. Ces contraintes peuvent être la mise à contribution du locuteur pour apprendre sa voix afin de mieux la reconnaître, ou encore la réduction des phrases que le système va être capable de reconnaître.
 
 Les systèmes de RAP peuvent êtres classés selon plusieurs critères.
@@ -78,19 +76,99 @@ Les systèmes de dictée automatique ont pour but de transcrire un texte dicté par
 
 Ce type de système se trouve à la charnière entre l'oral et l'écrit. En effet, même si l'interaction avec le système se fait grâce à la voix, le registre de langue utilisé sera plus proche du registre écrit. Ces systèmes sont souvent utilisés pour transcrire des rapports, des comptes rendus ou rédiger des lettres. Quoiqu'il en soit, la personne est consciente qu'elle s'adresse à un ordinateur et adaptera donc sa locution en conséquence. De plus, les tournures agrammaticales ou les hésitations seront beaucoup moins nombreuses que dans un dialogue spontané entre deux personnes. Dans une conversation, les hésitations, les faux départs, les répétitions ou les tournures incorrectes sont légions. La complexité est donc moindre que si il fallait retranscrire un dialogue tel quel.
 
-En revanche, l'exercice même de la dictée sous-entend l'utilisation de plusieurs dizaines voire plusieurs centaines de milliers de formes fléchies. Les mots sont pris en contexte, et régis par une syntaxe aussi libre que la grammaire de la langue naturelle le permet. Le vocabulaire doit lui aussi être conséquent et est constitué de plusieurs milliers de mots (de 5~000 à plus de 6~0000 mots). Avec ce type de système, une séance de dictée ressemblera plus à un médecin qui dicte un compte-rendu d'opération à sa secrétaire qu'à une maîtresse d'école qui fait faire un exercice de français à ses élèves. L'utilisateur n'est donc pas comme l'enseignant, même si il a bien en tête ce qu'il doit dire à la machine, il improvise quand même un minimum. Il doit donc pouvoir se tromper, corriger des mots ou remanier une tournure.
+En revanche, l'exercice même de la dictée sous-entend l'utilisation de plusieurs dizaines voire plusieurs centaines de milliers de formes fléchies. Les mots sont pris en contexte, et régis par une syntaxe aussi libre que la grammaire de la langue naturelle le permet. Le vocabulaire doit lui aussi être conséquent et est constitué de plusieurs milliers de mots (de 5~000 à plus de 60~000 mots). Avec ce type de système, une séance de dictée ressemblera plus à un médecin qui dicte un compte-rendu d'opération à sa secrétaire qu'à une maîtresse d'école qui fait faire un exercice de français à ses élèves. L'utilisateur n'est donc pas comme l'enseignant, même si il a bien en tête ce qu'il doit dire à la machine, il improvise quand même un minimum. Il doit donc pouvoir se tromper, corriger des mots ou remanier une tournure.
 
 Pour obtenir de bonnes performances en temps réel, ces systèmes à grand vocabulaire sont fortement dépendants du locuteurs. Une phase d'apprentissage est requise afin de permettre au logiciel d'apprendre des modèles spécifiques à votre voix. Plus cette phase d'apprentissage est importante moins le système commet d'erreurs.
 
 Historiquement, c'est l'équipe de recherche IBM dirigée par F. Jelinek qui est la première à avoir développé un système grand vocabulaire (\emph{Tangora} 5~000 mots en 1985, 20~000 en 1987) pour la dictée vocale. Par la suite, l'ensemble des grands systèmes développés se sont inspirés du système \emph{Tangora}. Avec un taux de réussite supérieur à 95\% pour un vocabulaire de 20 000 mots, \emph{Tangora} est un système multi-lingue existant notamment pour l'anglais \cite{Averbuch87}, l'italien \cite{Alto87}, le français \cite{CerfDanon90} ou encore l'allemand \cite{Wothke89}.
 
 
-\subsection{Systèmes de transcription}
+\subsection{Systèmes de transcription de journaux d'informations}
 \todo{trouver un autre titre ?}
 
-\section{Un problème complexe}
+Au milieu des années 90 sont apparues des campagnes d'évaluation ayant pour but de tester les performances des systèmes sur des corpus lus. Par exemple, les données disponibles pour la campagne américaine Hub-3 \cite{Pallet96} sont des extraits de journaux comme le \emph{Wall Street Journal} ou le \emph{New York Times}. Ces extraits sont lus et enregistrés dans différentes conditions de manière à constituer des corpus audio. Ce type de campagne évalue les performances de systèmes s'apparentant à la dictée vocale. Les performances deviennent rapidement excellentes, le système d'IBM affiche des taux d'erreur de l'ordre de 7\% \cite{Bahl95}. En France, la première campagne lancée par l'AUPELF-UREF consistait à transcrire des textes lus du journal \emph{Le Monde} en utilisant le corpus BREF \cite{Lamel91}. Comme pour la campagne Hub-3, les résultats sont très bons puisque le système du LIMSI affiche des taux d'erreurs de l'ordre de 11\% \cite{Gauvain94speaker-independentcontinuous}.
 
-\section{Solutions actuelles}
+Les campagnes d'évaluations ont alors décidé de compliquer la tâche en fabriquant des corpus constitués d'enregistrements de journaux d'informations radiophoniques. Même si ces corpus contiennent beaucoup de parole qui a été préparée et écrite à l'avance par les journalistes, elle est néanmoins convertie à l'oral. À la différence des corpus précédents qui n'étaient constitués que de corpus écrits qui étaient ensuite lus tel quel. De plus ces corpus contiennent aussi de la parole plus spontanée, puisque beaucoup d'émissions font intervenir des invités ou interrogent des personnes dans la rue. 
+
+\section{Architecture}
+
+\subsection{Reconnaissance automatique du locuteur}
+\label{ssec:ral}
+
+La Reconnaissance Automatique du Locuteur (RAL) regroupe un ensemble de méthodes capables d'extraire les caractéristiques vocales propres à chaque individu à partir d'un document audio. Ces caractéristiques sont utilisées pour constituer la signature vocale d'un locuteur. C'est cette signature qui permettra d'authentifier la voix d'un locuteur dans un enregistrement.
+
+  
+  consiste à reconnaître un locuteur grâce à l'analyse de sa voix. Une des premières applications à laquelle on pense en parlant de RAL est la biométrie. En effet, même si la RAL n'est pas la méthode la plus fiable pour de la biométrie (les empreintes digitales le sont beaucoup plus par exemple), elle a l'avantage d'être peu intrusive (il est plus facile de parler dans un micro que de donner ses empreintes digitales) et d'être facile à déployer.
+
+En plus de la difficulté à différencier deux locuteurs différente, la RAL est aussi confrontée à des problèmes intra-locuteurs. En effet, la voix d'un locuteur peut fortement varier d'un enregistrement à l'autre. Le niveau de fatigue, l'émotion, le contexte d'enregistrement ou encore l'âge d'un locuteur sont autant de variations qui peuvent venir perturber la RAL. Mais la biométrie n'est pas la seule application possible, de par ses caractéristiques, la RAL est utilisée dans bien d'autres domaines.
+
+\subsubsection{Identification automatique du locuteur}
+
+L'identification automatique du locuteur (IAL) est, avec la vérification automatique du locuteur, une des premières applications de la RAL \cite{Atal96}. En IAL, une liste de locuteur à identifier est fournie. Le système doit pouvoir décider, à partir d'un échantillon de voix, si cet échantillon correspond à un des locuteurs. La figure \ref{fig:principe_ial} décrit le principe général de l'IAL.
+
+L'identification automatique du locuteur se découpe en deux phases : une phase d'apprentissage et une phase de test. Lors de la phase d'apprentissage le système va devoir récupérer des échantillons de voix de tous les locuteurs possibles afin de pouvoir apprendre un modèle pour chaque voix. Lors de la phase de test, le système confrontera l'échantillon de voix qu'il recevra aux différents modèles qu'il aura déjà appris afin de déterminer si le locuteur est déjà connu.
+
+En fonction de l'application, deux types de décisions sont possibles. Si l'application présuppose que l'ensemble des locuteurs possible est fermé, et connu du système, le système de IAL devra choisir un des locuteurs possibles. En revanche, dans une application utilisant un ensemble ouvert de locuteurs possibles (le système de IAL ne connait pas tous les locuteurs possibles), il donnera des mesures de similarité entre le locuteur à identifier et les locuteurs de sa base. En fonction de cette similarité, il devra alors décider d'accepter ou de rejeter le locuteur, ce qui correspond à la tâche de vérification automatique du locuteur.
+
+\begin{figure}[h]
+
+\begin{center}
+\includegraphics[width=1.0\columnwidth]{img/ial}
+
+\caption{Principe de l'identification automatique du locuteur}
+\label{fig:principe_ial}
+\end{center}
+
+\end{figure}
+
+\subsubsection{Vérification automatique du locuteur}
+
+La vérification automatique du locuteur (VAL) découle naturellement de la tâche d'identification automatique du locuteur. Le principe est assez simple, à partir d'un échantillon de voix de référence, et d'un échantillon de voix de test, le système va devoir dire si oui ou non les deux locuteurs correspondent \cite{Atal96}.
+
+Mais cette tâche a comme principal problème d'être très dépendante des différentes variations qui peuvent apparaître dans la voix d'un locuteur (comme précisé dans \ref{ssec:ral}). En effet, les systèmes de VAL sont très dépendants des différences entre les échantillons de de voix référence et les échantillons de tests. Accepter un locuteur qui devrait être rejeté peut avoir de lourdes conséquences, ne serait-ce que pour la biométrie par exemple. 
+
+\subsubsection{Suivi de locuteur}
+
+Le suivi de locuteur se base sur la tâche d'identification du locuteur. À partir d'un enregistrement de référence d'un locuteur, le système va devoir déterminer si le locuteur intervient dans le document. Si c'est le cas, il devra être capable de préciser où et quand ce locuteur intervient dans le fichier audio. La figure \ref{fig:suivi_locu} illustre le principe du suivi de locuteur.
+
+\begin{figure}[h]
+
+\begin{center}
+\includegraphics[width=0.9\columnwidth]{img/suivi_locu}
+
+\caption{Principe du suivi de locuteur}
+\label{fig:suivi_locu}
+\end{center}
+
+\end{figure}
+
+\subsubsection{Segmentation et classification en locuteur}
+
+\label{ssub:decoupage_regroupement}
+
+La tâche de segmentation et de classification en locuteur consiste à délimiter l'intervention de chaque locuteur dans le document audio. À la différence du suivi de locuteur, peu ou pas d'informations \emph{a priori} sont disponibles pour cette tâche. Plus précisément, aucune information sur le nombre de locuteurs n'est disponible, ni leur identité, ni des échantillons de voix qui auraient pu être appris au préalable. Cette tâche est indispensable aux systèmes de reconnaissance automatique de la parole (SRAP) pour produire une transcription. La transcription étant au coeur des systèmes de reconnaissance automatique de la parole, il convient d'expliquer le processus de segmentation et de classification en locuteur un peu plus en détail.
+
+Afin de traiter de manière efficace un signal complexe comme le signal audio, les SRAP ont donc besoin de segmenter le signal en parties homogènes appelées segments. Ces segments se doivent d'être cohérents, un même segment doit avoir les mêmes conditions d'enregistrement, doit être prononcé par le même locuteur, ... Ces segments sont caractérisés par des conditions acoustiques spécifiques comme la présence de parole, la nature de la parole (téléphonique ou enregistrement studio), la présence de musique, le genre du locuteur ou encore son identité ou une étiquette anonyme. Ces segments sont ensuite regroupés au sein de classes par un algorithme d'apprentissage non supervisé. Ces classes vont définir par la suite les différents locuteurs que le système aura détecté dans l'enregistrement. Une suite de segments contigus dont la classe est identique est appelée tour de parole. La figure \ref{fig:decoupage_tours_classes} donne un exemple de découpage en tours de parole et de regroupement en classes de locuteurs.
+
+\begin{figure}[h]
+
+\begin{center}
+\includegraphics[width=0.9\columnwidth]{img/decoupage_tours_classes}
+
+\caption{Découpage en tour de parole et en classes de locuteurs}
+\label{fig:decoupage_tours_classes}
+\end{center}
+
+\end{figure}
+
+Toutes ces informations sont utilisées par le système de reconnaissance de la parole de manière à choisir la manière la plus adéquat de traiter chaque type de segment. Le défi réside dans l'apprentissage de modèles acoustiques robustes vis-à-vis des différentes situations acoustiques auxquelles il sera confronté. Pour réaliser cette segmentation, le système va découper le signal en trames (environ 25 ms chacune) puis va étiqueter ces trames en fonction des différentes informations qu'il est capable d'extraire. Le principe général va ensuite consister à calculer des distances entre ces trames de manière à savoir si elles doivent être regroupées au sein du même segment ou pas. Ce principe de calcul de distance sera réutilisé pour regrouper tous les segments d'un enregistrement au sein de la même classe de locuteur.
+
+%Dans un enregistrement audio, chaque prise de parole d'un locuteur est appelée \og tour de parole \fg. Ces tours de paroles commencent quand un locuteur prend la parole et s'arrêtent lorsqu'un autre locuteur prend la parole (ou lorsqu'un jingle ou une publicité coupe l'intervention). Ces locuteurs peuvent n'intervenir qu'une fois dans le fichier, auquel cas ils n'auront qu'un tour de parole. Mais, comme les journalistes ou les présentateurs, beaucoup de locuteurs sont présents tout au long du fichier et prennent la parole à plusieurs endroits dans l'enregistrement. Ces différents tours de paroles appartiennent au même locuteur, ils sont alors regroupés au sein de la même \og classe de locuteur \fg{}. La figure \ref{fig:decoupage_tours_classes} donne un exemple de découpage en tours de parole et de regroupement en classes de locuteurs.
+
+
+
+On peut noter sur la figure \ref{fig:decoupage_tours_classes}, qu'en plus de regrouper les tours de parole par classe de locuteur (classe du Locuteur 1, classe du Locuteur 2), le genre du locuteur est aussi mentionné. Cette information vient enrichir la transcription et pourra être utile par la suite. Les classes de locuteur sont pour l'instant anonymes. En effet, la transcription ne nous permet pas de dire que c'est \og Monsieur untel \fg{} qui parle, elle permet juste de dire que c'est le même locuteur qui parle à deux endroits différents. La solution idéale serait de pouvoir nommer les classes de locuteurs par le prénom et le patronyme du locuteur concerné (couple que nous appellerons par la suite nom complet), c'est ce que les techniques d'identification nommée du locuteur cherchent à réaliser.
+
 
 
 \chapter{Systèmes automatiques}
@@ -118,83 +196,6 @@ L'apprentissage supervisé va permettre d'apprendre des règles à partir de donnée
 \subsection{Apprentissage non supervisé}
 
 L'apprentissage non supervisé (aussi appelé classification automatique) consiste à trier un groupe hétérogène de données en regroupant les données homogènes au sein d'une même classe, et les données hétérogènes au sein d'autres classes. À la différence de l'apprentissage supervisé, il n'y a pas de \og sortie attendue \fg{}. C'est à dire que c'est au système d'établir ses propres classes, au lieu de devoir classer les données dans des classes prédéfinies comme pour l'apprentissage supervisé. En reconnaissance automatique de la parole, et plus précisément dans le domaine de la reconnaissance du locuteur, les modèles à mélange de gaussiennes (aussi appelés GMM) sont un bon exemple de système d'apprentissage non supervisé. Ils permettent de représenter une distribution multidimensionnelle quelconque par une somme pondérée de distributions gaussiennes. Chaque distribution gaussienne étant caractérisée par un vecteur moyen et une matrice de covariance.
-
-\section{Reconnaissance automatique du locuteur}
-\label{ssec:ral}
-
-La Reconnaissance Automatique du Locuteur (RAL) regroupe un ensemble de méthodes capables d'extraire les caractéristiques vocales propres à chaque individu à partir d'un document audio. Ces caractéristiques sont utilisées pour constituer la signature vocale d'un locuteur. C'est cette signature qui permettra d'authentifier la voix d'un locuteur dans un enregistrement.
-
-  
-  consiste à reconnaître un locuteur grâce à l'analyse de sa voix. Une des premières applications à laquelle on pense en parlant de RAL est la biométrie. En effet, même si la RAL n'est pas la méthode la plus fiable pour de la biométrie (les empreintes digitales le sont beaucoup plus par exemple), elle a l'avantage d'être peu intrusive (il est plus facile de parler dans un micro que de donner ses empreintes digitales) et d'être facile à déployer.
-
-En plus de la difficulté à différencier deux locuteurs différente, la RAL est aussi confrontée à des problèmes intra-locuteurs. En effet, la voix d'un locuteur peut fortement varier d'un enregistrement à l'autre. Le niveau de fatigue, l'émotion, le contexte d'enregistrement ou encore l'âge d'un locuteur sont autant de variations qui peuvent venir perturber la RAL. Mais la biométrie n'est pas la seule application possible, de par ses caractéristiques, la RAL est utilisée dans bien d'autres domaines.
-
-\subsection{Identification automatique du locuteur}
-
-L'identification automatique du locuteur (IAL) est, avec la vérification automatique du locuteur, une des premières applications de la RAL \cite{Atal96}. En IAL, une liste de locuteur à identifier est fournie. Le système doit pouvoir décider, à partir d'un échantillon de voix, si cet échantillon correspond à un des locuteurs. La figure \ref{fig:principe_ial} décrit le principe général de l'IAL.
-
-L'identification automatique du locuteur se découpe en deux phases : une phase d'apprentissage et une phase de test. Lors de la phase d'apprentissage le système va devoir récupérer des échantillons de voix de tous les locuteurs possibles afin de pouvoir apprendre un modèle pour chaque voix. Lors de la phase de test, le système confrontera l'échantillon de voix qu'il recevra aux différents modèles qu'il aura déjà appris afin de déterminer si le locuteur est déjà connu.
-
-En fonction de l'application, deux types de décisions sont possibles. Si l'application présuppose que l'ensemble des locuteurs possible est fermé, et connu du système, le système de IAL devra choisir un des locuteurs possibles. En revanche, dans une application utilisant un ensemble ouvert de locuteurs possibles (le système de IAL ne connait pas tous les locuteurs possibles), il donnera des mesures de similarité entre le locuteur à identifier et les locuteurs de sa base. En fonction de cette similarité, il devra alors décider d'accepter ou de rejeter le locuteur, ce qui correspond à la tâche de vérification automatique du locuteur.
-
-\begin{figure}[h]
-
-\begin{center}
-\includegraphics[width=1.0\columnwidth]{img/ial}
-
-\caption{Principe de l'identification automatique du locuteur}
-\label{fig:principe_ial}
-\end{center}
-
-\end{figure}
-
-\subsection{Vérification automatique du locuteur}
-
-La vérification automatique du locuteur (VAL) découle naturellement de la tâche d'identification automatique du locuteur. Le principe est assez simple, à partir d'un échantillon de voix de référence, et d'un échantillon de voix de test, le système va devoir dire si oui ou non les deux locuteurs correspondent \cite{Atal96}.
-
-Mais cette tâche a comme principal problème d'être très dépendante des différentes variations qui peuvent apparaître dans la voix d'un locuteur (comme précisé dans \ref{ssec:ral}). En effet, les systèmes de VAL sont très dépendants des différences entre les échantillons de de voix référence et les échantillons de tests. Accepter un locuteur qui devrait être rejeté peut avoir de lourdes conséquences, ne serait-ce que pour la biométrie par exemple. 
-
-\subsection{Suivi de locuteur}
-
-Le suivi de locuteur se base sur la tâche d'identification du locuteur. À partir d'un enregistrement de référence d'un locuteur, le système va devoir déterminer si le locuteur intervient dans le document. Si c'est le cas, il devra être capable de préciser où et quand ce locuteur intervient dans le fichier audio. La figure \ref{fig:suivi_locu} illustre le principe du suivi de locuteur.
-
-\begin{figure}[h]
-
-\begin{center}
-\includegraphics[width=0.9\columnwidth]{img/suivi_locu}
-
-\caption{Principe du suivi de locuteur}
-\label{fig:suivi_locu}
-\end{center}
-
-\end{figure}
-
-\subsection{Segmentation et classification en locuteur}
-
-\label{ssub:decoupage_regroupement}
-
-La tâche de segmentation et de classification en locuteur consiste à délimiter l'intervention de chaque locuteur dans le document audio. À la différence du suivi de locuteur, peu ou pas d'informations \emph{a priori} sont disponibles pour cette tâche. Plus précisément, aucune information sur le nombre de locuteurs n'est disponible, ni leur identité, ni des échantillons de voix qui auraient pu être appris au préalable. Cette tâche est indispensable aux systèmes de reconnaissance automatique de la parole (SRAP) pour produire une transcription. La transcription étant au coeur des systèmes de reconnaissance automatique de la parole, il convient d'expliquer le processus de segmentation et de classification en locuteur un peu plus en détail.
-
-Afin de traiter de manière efficace un signal complexe comme le signal audio, les SRAP ont donc besoin de segmenter le signal en parties homogènes appelées segments. Ces segments se doivent d'être cohérents, un même segment doit avoir les mêmes conditions d'enregistrement, doit être prononcé par le même locuteur, ... Ces segments sont caractérisés par des conditions acoustiques spécifiques comme la présence de parole, la nature de la parole (téléphonique ou enregistrement studio), la présence de musique, le genre du locuteur ou encore son identité ou une étiquette anonyme. Ces segments sont ensuite regroupés au sein de classes par un algorithme d'apprentissage non supervisé. Ces classes vont définir par la suite les différents locuteurs que le système aura détecté dans l'enregistrement. Une suite de segments contigus dont la classe est identique est appelée tour de parole. La figure \ref{fig:decoupage_tours_classes} donne un exemple de découpage en tours de parole et de regroupement en classes de locuteurs.
-
-\begin{figure}[h]
-
-\begin{center}
-\includegraphics[width=0.9\columnwidth]{img/decoupage_tours_classes}
-
-\caption{Découpage en tour de parole et en classes de locuteurs}
-\label{fig:decoupage_tours_classes}
-\end{center}
-
-\end{figure}
-
-Toutes ces informations sont utilisées par le système de reconnaissance de la parole de manière à choisir la manière la plus adéquat de traiter chaque type de segment. Le défi réside dans l'apprentissage de modèles acoustiques robustes vis-à-vis des différentes situations acoustiques auxquelles il sera confronté. Pour réaliser cette segmentation, le système va découper le signal en trames (environ 25 ms chacune) puis va étiqueter ces trames en fonction des différentes informations qu'il est capable d'extraire. Le principe général va ensuite consister à calculer des distances entre ces trames de manière à savoir si elles doivent être regroupées au sein du même segment ou pas. Ce principe de calcul de distance sera réutilisé pour regrouper tous les segments d'un enregistrement au sein de la même classe de locuteur.
-
-%Dans un enregistrement audio, chaque prise de parole d'un locuteur est appelée \og tour de parole \fg. Ces tours de paroles commencent quand un locuteur prend la parole et s'arrêtent lorsqu'un autre locuteur prend la parole (ou lorsqu'un jingle ou une publicité coupe l'intervention). Ces locuteurs peuvent n'intervenir qu'une fois dans le fichier, auquel cas ils n'auront qu'un tour de parole. Mais, comme les journalistes ou les présentateurs, beaucoup de locuteurs sont présents tout au long du fichier et prennent la parole à plusieurs endroits dans l'enregistrement. Ces différents tours de paroles appartiennent au même locuteur, ils sont alors regroupés au sein de la même \og classe de locuteur \fg{}. La figure \ref{fig:decoupage_tours_classes} donne un exemple de découpage en tours de parole et de regroupement en classes de locuteurs.
-
-
-
-On peut noter sur la figure \ref{fig:decoupage_tours_classes}, qu'en plus de regrouper les tours de parole par classe de locuteur (classe du Locuteur 1, classe du Locuteur 2), le genre du locuteur est aussi mentionné. Cette information vient enrichir la transcription et pourra être utile par la suite. Les classes de locuteur sont pour l'instant anonymes. En effet, la transcription ne nous permet pas de dire que c'est \og Monsieur untel \fg{} qui parle, elle permet juste de dire que c'est le même locuteur qui parle à deux endroits différents. La solution idéale serait de pouvoir nommer les classes de locuteurs par le prénom et le patronyme du locuteur concerné (couple que nous appellerons par la suite nom complet), c'est ce que les techniques d'identification nommée du locuteur cherchent à réaliser.
 
 \section{Transcription automatique de la parole}
 
