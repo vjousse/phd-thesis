@@ -105,6 +105,35 @@ Lors de la première campagne ESTER, le meilleur système (celui du LIMSI) atteign
 
 Avec ces nouvelles campagnes est apparue la notion de transcription enrichie. En effet, les corpus étant constitués d'enregistrements de journaux radiophoniques, d'autres informations que la simple transcription en mots peuvent être extraites des corpus. Par rapport aux corpus de dictée vocale, les documents sont multi-locuteurs. Au sein d'un même enregistrement, des dizaines de locuteurs différents peuvent parler tout au long du fichier. De plus, ces locuteurs peuvent parler depuis un téléphone ou en studio. Toutes ces informations permettent d'étayer, d'enrichir la transcription. Les campagnes d'évaluations ont donc ajouté des tâches permettant d'enrichir la transcription, comme la reconnaissance du locuteur ou encore la détection des entités nommées.
 
+La figure \ref{fig:etapes_transcription_enrichie} décrit les différentes composantes des transcriptions réalisées pour les campagnes de type ESTER. Il est possible de distinguer deux grandes phases. 
+
+\subsection{Segmentation et classification}
+La première phase consiste à découper le fichier de manière à obtenir des portions homogènes, c'est à dire concernant le même locuteur et les mêmes conditions d'enregistrement. Ce premier niveau de découpage est communément appelé découpage en segments. Contrairement à ce que l'on pourrait penser, les segments ne représentent généralement pas des phrases, mais généralement des groupes de souffle : ils commencent et s'arrêtent lorsqu'un silence significatif est détecté. En effet, cette segmentation se fait au niveau purement acoustique, une découpe en phrases est donc impossible à ce stade. Ce premier découpage est effectué pour des raisons techniques, et notamment pour faciliter la tâche des systèmes de transcription automatique \tocite{Paragraphe sur le système de reco}, qui doivent décoder segment par segment pour éviter des problèmes d'explosion combinatoire.
+
+Tous les segments contigus appartenant au même locuteur définissent un tour de parole de ce locuteur. Un même locuteur qui parle à plusieurs endroits d'un enregistrement aura donc plusieurs tours de parole au sein de cet enregistrement. La technique utilisée pour regrouper les segments (et donc les tours de parole) par locuteur est une technique de classification automatique (cf \tocite{Paragraphe sur la seg/classif}. On dit alors que les segments (et donc les tours de parole) d'un même locuteur sont regroupés au sein d'une même classe de locuteur. Dans les systèmes automatiques, ces classes de locuteurs sont dites anonymes. En effet, le nom de la classe n'est pas le vrai nom du locuteur, mais un nom unique choisi arbitrairement.
+
+Au niveau purement acoustique, il est aussi possible de détecter le genre du locuteur qui s'exprime \tocite{Référence sylvain détection genre}. Cette information peut être rajoutée à la transcription enrichie, comme c'est le cas dans la figure \ref{fig:etapes_transcription_enrichie}.
+
+À noter que pour apprendre et évaluer les systèmes de segmentation et de classification automatiques, des données de références doivent être disponibles. Ces données sont réalisées manuellement par un humain écoutant les enregistrements audios. Il découpe alors le fichier en segments et tours de paroles, puis renseigne le nom des différents locuteurs au sein du fichier. 
+\begin{figure}[h]
+
+\begin{center}
+\includegraphics[width=0.9\columnwidth]{img/segmentation-classification}
+
+\caption{Les étapes de réalisation d'une transcription enrichie}
+\label{fig:etapes_transcription_enrichie}
+\end{center}
+
+\end{figure}
+
+
+\subsection{Transcription et entités nommées}
+
+La deuxième phase consiste tout simplement à retranscrire les paroles prononcées par les différents locuteurs afin d'obtenir la transcription en mots du signal. Lorsque cette transcription est réalisée automatiquement, la ponctuation ainsi que les majuscules ne sont pas requises. En revanche, des post-traitements existent pour rajouter la ponctuation et les majuscules aux transcriptions et donc de se rapprocher, tant que faire se peut, d'une transcription réalisée manuellement \tocite{Ref biblio ponctuation}.
+
+Les transcriptions, qui plus est les transcriptions de journaux radiophoniques, contiennent un grand nombre d'entités nommées (noms de personnes, lieux, radios, etc). Ces entités nommées peuvent être détectées grâce à des systèmes adéquat \tocite{§ EN}. Ce sont des informations supplémentaires qui vont pouvoir être utilisées en recherche d'informations, ou plus précisément pour identifier les les locuteurs d'un document.
+
+
 \section{Architecture}
 
 \subsection{Reconnaissance automatique du locuteur}
@@ -113,7 +142,7 @@ Avec ces nouvelles campagnes est apparue la notion de transcription enrichie. En
 La Reconnaissance Automatique du Locuteur (RAL) regroupe un ensemble de méthodes capables d'extraire les caractéristiques vocales propres à chaque individu à partir d'un document audio. Ces caractéristiques sont utilisées pour constituer la signature vocale d'un locuteur. C'est cette signature qui permettra d'authentifier la voix d'un locuteur dans un enregistrement.
 
   
-  consiste à reconnaître un locuteur grâce à l'analyse de sa voix. Une des premières applications à laquelle on pense en parlant de RAL est la biométrie. En effet, même si la RAL n'est pas la méthode la plus fiable pour de la biométrie (les empreintes digitales le sont beaucoup plus par exemple), elle a l'avantage d'être peu intrusive (il est plus facile de parler dans un micro que de donner ses empreintes digitales) et d'être facile à déployer.
+Une des premières applications à laquelle on pense en parlant de RAL est la biométrie. En effet, même si la RAL n'est pas la méthode la plus fiable pour de la biométrie (les empreintes digitales le sont beaucoup plus par exemple), elle a l'avantage d'être peu intrusive (il est plus facile de parler dans un micro que de donner ses empreintes digitales) et d'être facile à déployer.
 
 En plus de la difficulté à différencier deux locuteurs différente, la RAL est aussi confrontée à des problèmes intra-locuteurs. En effet, la voix d'un locuteur peut fortement varier d'un enregistrement à l'autre. Le niveau de fatigue, l'émotion, le contexte d'enregistrement ou encore l'âge d'un locuteur sont autant de variations qui peuvent venir perturber la RAL. Mais la biométrie n'est pas la seule application possible, de par ses caractéristiques, la RAL est utilisée dans bien d'autres domaines.
 
@@ -263,17 +292,6 @@ Transcrire un signal audio consiste d'une part à retranscrire les mots qui ont é
 %   La transcription du signal audio consiste tout simplement à écrire les mots qui ont été prononcés par les locuteurs. Que cette transcription soit réalisée par un humain ou par un système automatique de reconnaissance de la parole (RAP), elle consiste à remplir les différents tours de parole avec les mots correspondants. QUand les transcriptions sont réalisées par des systèmes de RAP, elles sont beaucoup moins riches que celles produites par un humain. En effet, en plus des erreurs de transcription, elles ne contiennent généralement pas de ponctuation. Ce manque peut être comblé par des post-traitements qui essaient de remettre la ponctuation dans la transcription. 
 % 
 % Un autre type de post-traitement utile pour l'identification nommée du locuteur est la détection des entités nommées. En effet, pour pouvoir attribuer un nom complet à un locuteur à partir de la transcription, il va d'abord falloir être capable de détecter ce nom complet dans la transcription. Pour ce faire, il existe des systèmes de détection des entités nommées qui vont être capable de détecter, en plus des noms complets, différentes entités nommées comme les lieux, les organisations ou encore les radios. La figure \ref{fig:etapes_transcription_enrichie} montre toutes les étapes pour obtenir une transcription enrichie en entités nommées.
-
-\begin{figure}
-
-\begin{center}
-\includegraphics[width=0.9\columnwidth]{img/segmentation-classification}
-
-\caption{Les étapes de réalisation d'une transcription enrichie}
-\label{fig:etapes_transcription_enrichie}
-\end{center}
-
-\end{figure}
 
 
 % \subsection{Les systèmes automatiques : reconnaissance de la parole et détection des entités nommées}
