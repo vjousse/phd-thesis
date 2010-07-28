@@ -129,12 +129,12 @@ Au niveau purement acoustique, il est aussi possible de détecter le genre du loc
 
 \subsection{Transcription et entités nommées}
 
-La deuxième phase consiste tout simplement à retranscrire les paroles prononcées par les différents locuteurs afin d'obtenir la transcription en mots du signal. Lorsque cette transcription est réalisée automatiquement, la ponctuation ainsi que les majuscules ne sont pas requises. En revanche, des post-traitements existent pour rajouter la ponctuation et les majuscules aux transcriptions et donc de se rapprocher, tant que faire se peut, d'une transcription réalisée manuellement \tocite{Ref biblio ponctuation}.
+La deuxième phase consiste tout simplement à écrire les paroles prononcées par les différents locuteurs afin d'obtenir la transcription en mots du signal. Lorsque cette transcription est réalisée automatiquement, la ponctuation ainsi que les majuscules ne sont pas requises. En revanche, des post-traitements existent pour rajouter la ponctuation et les majuscules aux transcriptions afin de se rapprocher, tant que faire se peut, d'une transcription réalisée manuellement \tocite{Ref biblio ponctuation}.
 
-Les transcriptions, qui plus est les transcriptions de journaux radiophoniques, contiennent un grand nombre d'entités nommées (noms de personnes, lieux, radios, etc). Ces entités nommées peuvent être détectées grâce à des systèmes adéquat \tocite{§ EN}. Ce sont des informations supplémentaires qui vont pouvoir être utilisées en recherche d'informations, ou plus précisément pour identifier les les locuteurs d'un document.
+Les transcriptions, qui plus est les transcriptions de journaux radiophoniques, contiennent un grand nombre d'entités nommées (noms de personnes, lieux, radios, etc). Des systèmes de détection des entités nommées permettent de les repérer dans les transcriptions \tocite{§ EN}. Ce sont des informations supplémentaires qui vont pouvoir être utilisées en recherche d'informations, ou plus précisément dans le cadre des présents travaux, pour identifier les les locuteurs d'un document.
 
 
-\section{Architecture}
+\section{Architecture détaillée}
 
 \subsection{Reconnaissance automatique du locuteur}
 \label{ssec:ral}
@@ -214,36 +214,9 @@ Toutes ces informations sont utilisées par le système de reconnaissance de la pa
 On peut noter sur la figure \ref{fig:decoupage_tours_classes}, qu'en plus de regrouper les tours de parole par classe de locuteur (classe du Locuteur 1, classe du Locuteur 2), le genre du locuteur est aussi mentionné. Cette information vient enrichir la transcription et pourra être utile par la suite. Les classes de locuteur sont pour l'instant anonymes. En effet, la transcription ne nous permet pas de dire que c'est \og Monsieur untel \fg{} qui parle, elle permet juste de dire que c'est le même locuteur qui parle à deux endroits différents. La solution idéale serait de pouvoir nommer les classes de locuteurs par le prénom et le patronyme du locuteur concerné (couple que nous appellerons par la suite nom complet), c'est ce que les techniques d'identification nommée du locuteur cherchent à réaliser.
 
 
+\subsection{Transcription automatique de la parole}
 
-\chapter{Systèmes automatiques}
-\minitoc
-
-\label{sec:sys_auto}
-
-Depuis les débuts de l'informatique, l'Homme a toujours essayé de l'utiliser pour automatiser des tâches humaines. Que ce soit de la simple calculatrice à la reconnaissance de la parole, l'informatique est de nos jours utilisée dans tous les domaines. Mais pour pouvoir réaliser ces tâches, les programmes informatiques doivent avoir une certaine connaissance des actions à effectuer pour pouvoir les réaliser.
-
-Il existe deux principales façons d'insuffler ces connaissances à un programme. La première est de tout simplement lui donner les règles qui vont lui permettre de réaliser les tâches qu'il a à accomplir. Dans l'exemple de la calculatrice, il suffit de lui fournir les différentes formules arithmétiques pour qu'elle puisse fonctionner. Ce type de procédé marche bien lorsqu'il existe des règles formelles pour réaliser une tâche. Mais ces règles ne sont pas toujours disponibles ou peuvent varier fortement en fonction du contexte, c'est par exemple le cas en reconnaissance de la parole.
-
-La reconnaissance de la parole fait intervenir plusieurs domaines complexes à gérer pour un système automatique. Il faut tout d'abord transformer le signal audio en paramètres exploitables par un programme informatique. Il faut ensuite transformer ce signal audio en phonèmes, puis les phonèmes en mots et les mots en phrases. Ces étapes dépendent de beaucoup de paramètres comme les conditions d'enregistrement, la langue utilisée dans le document, l'accent des personnes qui parlent ou leur façon d'utiliser la langue (néologismes, mauvaises constructions grammaticales). En plus de variabilité de ces paramètres, il est impossible de définir des règles formelles pour encadrer chacun d'eux.
-
-Prenons l'exemple d'un enregistrement dans lequel les locuteurs parlent français. Même s'il existe une grammaire et un orthographe bien définis pour la langue française écrite, ce n'est pas le cas à l'oral. En effet les contractions (cheval sera prononcé ch'val), les faux départs et les répétitions sont légions. En plus de ces différences entre le français écrit et le français parlé, les locuteurs peuvent très bien faire des fautes de grammaire ou employer des mots qui ne font pas parti du dictionnaire courant. Toutes ces variations dans l'utilisation de la langue française rendent difficile l'utilisation de règles formelles pour reconnaître les mots prononcés. C'est pour pallier à ces problèmes que les systèmes de reconnaissance automatique de la parole utilisent des techniques d'apprentissage automatique qui vont permettre au système d'apprendre automatiquement de nouvelles connaissances en fonction des données qui lui seront fournies.
-
-\section{Apprentissage automatique}
-\subsection{Généralités}
-
-L'apprentissage automatique (qui est un sous-domaine de l'Intelligence Artificielle) a pour but de permettre à une machine, un programme, de s'adapter et d'évoluer grâce aux données qui lui sont fournies, de manière à remplir des tâches complexes qu'il serait difficile, voir impossible, de remplir avec des méthodes plus traditionnelles. Un des défis de l'apprentissage automatique est d'extraire les données pertinentes présentes dans les corpus d'apprentissage afin d'en tirer des généralités applicables à d'autres données. L'apprentissage automatique repose sur la notion de classification. La classification va viser à étiqueter chaque donnée en l'associant à une classe. Ces classes peuvent être connues à l'avance ou déterminées automatiquement par le système. C'est ce qui va différencier l'apprentissage supervisé de l'apprentissage non supervisé. 
-
-\subsection{Apprentissage supervisé}
-\label{sssec:apprentissage_supervise}
-L'apprentissage supervisé va permettre d'apprendre des règles à partir de données d'apprentissage servant d'exemple. Ces données sont généralement validées et étiquetées par des êtres humains. C'est à partir de ces exemples déjà classés que le système va apprendre des règles essayant de reproduire la classification à partir des données. Par exemple, les arbres de décision décrits dans \ref{sec:sct} sont des outils utilisant un apprentissage supervisé, puisqu'ils vont permettent de ranger des données de test dans des classes prédéfinies. Ils auront été appris grâce à des données d'apprentissage étiquetées au préalable avec les bonnes classes.
-
-\subsection{Apprentissage non supervisé}
-
-L'apprentissage non supervisé (aussi appelé classification automatique) consiste à trier un groupe hétérogène de données en regroupant les données homogènes au sein d'une même classe, et les données hétérogènes au sein d'autres classes. À la différence de l'apprentissage supervisé, il n'y a pas de \og sortie attendue \fg{}. C'est à dire que c'est au système d'établir ses propres classes, au lieu de devoir classer les données dans des classes prédéfinies comme pour l'apprentissage supervisé. En reconnaissance automatique de la parole, et plus précisément dans le domaine de la reconnaissance du locuteur, les modèles à mélange de gaussiennes (aussi appelés GMM) sont un bon exemple de système d'apprentissage non supervisé. Ils permettent de représenter une distribution multidimensionnelle quelconque par une somme pondérée de distributions gaussiennes. Chaque distribution gaussienne étant caractérisée par un vecteur moyen et une matrice de covariance.
-
-\section{Transcription automatique de la parole}
-
-\subsection{Principes}
+\subsubsection{Principes}
 
 À l'heure où l'informatique et Internet sont partout, les quantités de données numériques ne cessent de croître. Ces grandes collections de données sont difficilement indexables manuellement, il faut donc, pour faciliter la recherche et l'accès à l'information, qu'elles soient traitées de manière automatique. Les enregistrements audio sont traités à l'aide de systèmes de reconnaissance automatique de la parole (SRAP), ces systèmes sont constitués de plusieurs composantes comment le montre la figure \ref{fig:principes_srap}.
  
@@ -258,7 +231,7 @@ L'apprentissage non supervisé (aussi appelé classification automatique) consiste
 
 \end{figure}
 
-\subsection{Principes généraux} % (fold)
+\subsubsection{Principes généraux} % (fold)
 \label{ssub:principes_generaux}
 
 Le signal de parole que traitent les SRAP est un signal complexe à étudier. En effet, ce signal possède de nombreux paramètres qui peuvent énormément varier. Ce signal est évidemment différent d'un locuteur à l'autre mais peut aussi l'être pour le même locuteur en fonction des conditions d'enregistrement ou de l'état de santé de la personne. Quoiqu'il en soit, une même personne prononcera rarement le même mot de la même façon : cela rend les traitements automatiques compliqués. En effet, pour pouvoir traiter automatiquement ces données il faut être capable d'en extraire des informations pertinentes pour les systèmes automatiques, la difficulté réside à pouvoir extraire ces informations quelques soient les conditions d'enregistrement, l'émotivité, l'accent ou encore l'âge du locuteur. En plus de ces difficultés d'extraction des caractéristiques acoustiques, s'ajoutent la difficulté de segmentation du signal en mot. En effet pour un SRAP, la parole est un flux continu qu'il ne peut interpréter tel quel comme une suite de mots. La transcription que le SRAP produit est une transcription \emph{verbatim} du document sonore, une unité de cette transcription est appelée mot. Pour résoudre ces problèmes, la majorité des SRAP actuels utilisent une approche probabiliste.
@@ -280,10 +253,85 @@ Comme la séquence d'observations acoustiques $X$ est fixée, $P(X)$ peut être con
 Deux types de modèles probabilistes sont utilisés pour la recherche de la séquence de mots la plus probable : des modèles acoustiques qui fournissent la valeur de $P(X 
 |W)$, et un modèle de langage qui fournit la valeur de $P(W)$. $P(X|W)$ peut se concevoir comme la probabilité d'observer $X$ lorsque $W$ est prononcée, alors que $P(W)$ se réfère à la probabilité que $W$ soit prononcée dans un langage donné. La difficulté pour obtenir un système de RAP performant est de définir les modèles les plus pertinents possibles pour le calcul de $P(W)$ et $P(X|W)$ (voir figure \ref{fig:principes_srap}).
 
-\subsection{Transcription enrichie}
-\label{sub:transcription_enrichie}
 
-Transcrire un signal audio consiste d'une part à retranscrire les mots qui ont été prononcés mais aussi à enrichir cette transcription avec différentes informations éventuellement disponibles comme le début et la fin de chaque intervention, le nom des différents locuteurs ou encore leur genre. Ces transcriptions peuvent être réalisées par un humain (elles seront appelées transcriptions manuelles) ou de manière entièrement automatique (elles seront appelés transcriptions automatiques) : en fonction de cela, les informations disponibles dans la transcription peuvent varier, c'est notamment le cas du nom des locuteurs. En effet, un humain pourra essayer, en fonction du contexte, de nommer les locuteurs de l'enregistrement à l'inverse d'un système automatique qui utilisera des étiquettes anonymes en guise de nom de locuteur (comme locu1, locu2, ...). C'est précisément à cet aspect de la transcription enrichie (à savoir le nommage des locuteurs) que les travaux sur l'identification nommée du locuteur s'intéressent. Il convient tout d'abord d'expliquer plus précisément les différents aspects d'une transcription enrichie.
+
+\subsection{Détection des entités nommées}
+
+Avec l'avènement d'Internet, la quantité de données textuelles à disposition augmente de jour en jour de façon exponentielle. Comme c'est le cas pour les données audio, ces données sont, à cause de leur quantité, impossible à indexer efficacement par un humain. L'extraction d'informations et le traitement de ces données est pourtant capitale pour bon nombre de scientifiques et d'industriels. Le Traitement Automatique des Langues Naturelles (TALN) est un domaine de recherche qui s'intéresse au traitement de ces corpus de texte. Son domaine de recherche est vaste mais on peut notamment citer plusieurs domaines d'application dans lequel le TALN intervient : 
+\begin{itemize}
+  \item aide à la rédaction (corrections, résumés, génération automatique de textes),
+  \item traduction,
+  \item recherche documentaire (questions/réponses, extraction d'informations),
+  \item dialogue homme-machine,
+  \item traitement de la parole.
+\end{itemize}
+
+\subsubsection{Catégorisation}
+
+Par la richesse des informations qu'elles contiennent, les entités nommées (EN) sont des éléments très importants pour ces systèmes d'extraction d'information. Bien qu'il n'existe pas de définition précise de ce qu'est une EN, elle est souvent apparentée aux \og noms propres \fg{}, mais pas seulement. Dans les années 1980, les campagnes d'évaluation MUC ont permis de définir ce qu'était une tâche de reconnaissance de entités nommées. Pour MUC-6 \tocite{ref MUC-6}, les EN sont les noms propres, les acronymes et éventuellement d'autres mots qui rentrent dans les catégories suivantes :
+
+\begin{itemize}
+  \item \emph{Organisation} : regroupe les entreprises, les institutions gouvernementales et les autres organisations ;
+  \item \emph{Person} : regroupe les noms de personnes ou de familles ;
+  \item \emph{Location} : regroupe les noms de lieux politiquement ou géographiquement définis (villes, pays, régions, etc.).
+\end{itemize}
+
+Il existe des typologies des EN beaucoup plus complètes que celle des campagnes MUC comme celle de Paik et coll. \tocite{Paik et coll.} ou de Coates-Stephens \tocite{coates stephens}. Par exemple, celle de Coates-Stephens définit 8 catégories d'EN :
+\begin{itemize}
+  \item les noms de personnes ;
+  \item les noms de lieux ;
+  \item les noms d'organisations ;
+  \item les noms d'origines (noms d'habitants de pays, de villes, de régions, etc.) ;
+  \item les noms de législations (\emph{loi Évin}), d'indices boursiers (\emph{Nikkei, CAC 40, Dow Jones}) ;
+  \item les noms d'événements (guerres, révolutions, catastrophes, salons, JO, etc.) ;
+  \item les noms d'objets.
+  
+\end{itemize}
+
+\subsubsection{Les différents types de systèmes}
+
+Selon Poibeau \tocite{poibeau} et Sekine et Eriguchi \tocite{sekine et eriguchi}, les systèmes de détection des EN peuvent êtres classés selon trois grands types :\\
+
+\textbf{Les systèmes fondés sur des règles écrites \og à la main \fg{}}\\
+Dans ces systèmes, le concepteur doit élaborer un ensemble de règles qui seront ensuite utilisées pour détecter les entités nommées. Historiquement, cette technique fût la première utilisée dans le domaine. Bien que depuis la campagne d'évaluation MUC-6, l'apprentissage automatique ait fait son apparition dans ce domaine, les systèmes à base de règles écrites \og à la main \fg{} restent encore très utilisés aujourd'hui.\\
+
+\textbf{Les systèmes à base d'apprentissage automatique}\\
+Ces systèmes utilisent des techniques d'apprentissage automatique (cf. \ref{sssec:apprentissage_supervise}) pour apprendre un modèle capable d'étiqueter des entités nommées à partir d'un corpus d'apprentissage. Ces travaux sont largement inspirés des techniques utilisées en reconnaissance automatique de la parole, et utilisent diverses techniques d'apprentissage : modèles de Markov cachés, modèle d'entropie maximum, arbres de décision, etc. Le système (LIA\_NE) développé par Béchet \tocite{Ref LIA\_NE Béchet} au LIA fait partie de type de système. \\ 
+
+\textbf{Les systèmes mixtes}\\
+Ces systèmes utilisent généralement des lexiques initiaux. Parmi ces systèmes, Poibeau \tocite{poibeau} distingue deux approches. La première consiste à apprendre automatiquement des règles, puis à utiliser un expert pour les réviser. Dans la seconde, un ensemble de règles de base est constitué par le concepteur, puis étendu (semi-)automatiquement par inférence, afin d'obtenir une meilleur couverture. C'est le cas de Nemesis, le système développé par Fourour \tocite{these N Fourour} au LINA\\
+
+
+%\chapter{Systèmes automatiques}
+%\minitoc
+%
+%\label{sec:sys_auto}
+%
+%Depuis les débuts de l'informatique, l'Homme a toujours essayé de l'utiliser pour automatiser des tâches humaines. Que ce soit de la simple calculatrice à la reconnaissance de la parole, l'informatique est de nos jours utilisée dans tous les domaines. Mais pour pouvoir réaliser ces tâches, les programmes informatiques doivent avoir une certaine connaissance des actions à effectuer pour pouvoir les réaliser.
+%
+%Il existe deux principales façons d'insuffler ces connaissances à un programme. La première est de tout simplement lui donner les règles qui vont lui permettre de réaliser les tâches qu'il a à accomplir. Dans l'exemple de la calculatrice, il suffit de lui fournir les différentes formules arithmétiques pour qu'elle puisse fonctionner. Ce type de procédé marche bien lorsqu'il existe des règles formelles pour réaliser une tâche. Mais ces règles ne sont pas toujours disponibles ou peuvent varier fortement en fonction du contexte, c'est par exemple le cas en reconnaissance de la parole.
+%
+%La reconnaissance de la parole fait intervenir plusieurs domaines complexes à gérer pour un système automatique. Il faut tout d'abord transformer le signal audio en paramètres exploitables par un programme informatique. Il faut ensuite transformer ce signal audio en phonèmes, puis les phonèmes en mots et les mots en phrases. Ces étapes dépendent de beaucoup de paramètres comme les conditions d'enregistrement, la langue utilisée dans le document, l'accent des personnes qui parlent ou leur façon d'utiliser la langue (néologismes, mauvaises constructions grammaticales). En plus de variabilité de ces paramètres, il est impossible de définir des règles formelles pour encadrer chacun d'eux.
+%
+%Prenons l'exemple d'un enregistrement dans lequel les locuteurs parlent français. Même s'il existe une grammaire et un orthographe bien définis pour la langue française écrite, ce n'est pas le cas à l'oral. En effet les contractions (cheval sera prononcé ch'val), les faux départs et les répétitions sont légions. En plus de ces différences entre le français écrit et le français parlé, les locuteurs peuvent très bien faire des fautes de grammaire ou employer des mots qui ne font pas parti du dictionnaire courant. Toutes ces variations dans l'utilisation de la langue française rendent difficile l'utilisation de règles formelles pour reconnaître les mots prononcés. C'est pour pallier à ces problèmes que les systèmes de reconnaissance automatique de la parole utilisent des techniques d'apprentissage automatique qui vont permettre au système d'apprendre automatiquement de nouvelles connaissances en fonction des données qui lui seront fournies.
+%
+%\section{Apprentissage automatique}
+%\subsection{Généralités}
+%
+%L'apprentissage automatique (qui est un sous-domaine de l'Intelligence Artificielle) a pour but de permettre à une machine, un programme, de s'adapter et d'évoluer grâce aux données qui lui sont fournies, de manière à remplir des tâches complexes qu'il serait difficile, voir impossible, de remplir avec des méthodes plus traditionnelles. Un des défis de l'apprentissage automatique est d'extraire les données pertinentes présentes dans les corpus d'apprentissage afin d'en tirer des généralités applicables à d'autres données. L'apprentissage automatique repose sur la notion de classification. La classification va viser à étiqueter chaque donnée en l'associant à une classe. Ces classes peuvent être connues à l'avance ou déterminées automatiquement par le système. C'est ce qui va différencier l'apprentissage supervisé de l'apprentissage non supervisé. 
+%
+%\subsection{Apprentissage supervisé}
+%\label{sssec:apprentissage_supervise}
+%L'apprentissage supervisé va permettre d'apprendre des règles à partir de données d'apprentissage servant d'exemple. Ces données sont généralement validées et étiquetées par des êtres humains. C'est à partir de ces exemples déjà classés que le système va apprendre des règles essayant de reproduire la classification à partir des données. Par exemple, les arbres de décision décrits dans \ref{sec:sct} sont des outils utilisant un apprentissage supervisé, puisqu'ils vont permettent de ranger des données de test dans des classes prédéfinies. Ils auront été appris grâce à des données d'apprentissage étiquetées au préalable avec les bonnes classes.
+%
+%\subsection{Apprentissage non supervisé}
+%
+%L'apprentissage non supervisé (aussi appelé classification automatique) consiste à trier un groupe hétérogène de données en regroupant les données homogènes au sein d'une même classe, et les données hétérogènes au sein d'autres classes. À la différence de l'apprentissage supervisé, il n'y a pas de \og sortie attendue \fg{}. C'est à dire que c'est au système d'établir ses propres classes, au lieu de devoir classer les données dans des classes prédéfinies comme pour l'apprentissage supervisé. En reconnaissance automatique de la parole, et plus précisément dans le domaine de la reconnaissance du locuteur, les modèles à mélange de gaussiennes (aussi appelés GMM) sont un bon exemple de système d'apprentissage non supervisé. Ils permettent de représenter une distribution multidimensionnelle quelconque par une somme pondérée de distributions gaussiennes. Chaque distribution gaussienne étant caractérisée par un vecteur moyen et une matrice de covariance.
+
+%\subsection{Transcription enrichie}
+%\label{sub:transcription_enrichie}
+
+%Transcrire un signal audio consiste d'une part à retranscrire les mots qui ont été prononcés mais aussi à enrichir cette transcription avec différentes informations éventuellement disponibles comme le début et la fin de chaque intervention, le nom des différents locuteurs ou encore leur genre. Ces transcriptions peuvent être réalisées par un humain (elles seront appelées transcriptions manuelles) ou de manière entièrement automatique (elles seront appelés transcriptions automatiques) : en fonction de cela, les informations disponibles dans la transcription peuvent varier, c'est notamment le cas du nom des locuteurs. En effet, un humain pourra essayer, en fonction du contexte, de nommer les locuteurs de l'enregistrement à l'inverse d'un système automatique qui utilisera des étiquettes anonymes en guise de nom de locuteur (comme locu1, locu2, ...). C'est précisément à cet aspect de la transcription enrichie (à savoir le nommage des locuteurs) que les travaux sur l'identification nommée du locuteur s'intéressent. Il convient tout d'abord d'expliquer plus précisément les différents aspects d'une transcription enrichie.
 
 
 
@@ -344,55 +392,7 @@ Transcrire un signal audio consiste d'une part à retranscrire les mots qui ont é
 
 % subsubsection détection_des_entités_nommées (end)
 
-\section{Détection des entités nommées}
 
-Avec l'avènement d'Internet, la quantité de données textuelles à disposition augmente de jour en jour de façon exponentielle. Comme c'est le cas pour les données audio, ces données sont, à cause de leur quantité, impossible à indexer efficacement par un humain. L'extraction d'informations et le traitement de ces données est pourtant capitale pour bon nombre de scientifiques et d'industriels. Le Traitement Automatique des Langues Naturelles (TALN) est un domaine de recherche qui s'intéresse au traitement de ces corpus de texte. Son domaine de recherche est vaste mais on peut notamment citer plusieurs domaines d'application dans lequel le TALN intervient : 
-\begin{itemize}
-  \item aide à la rédaction (corrections, résumés, génération automatique de textes),
-  \item traduction,
-  \item recherche documentaire (questions/réponses, extraction d'informations),
-  \item dialogue homme-machine,
-  \item traitement de la parole.
-\end{itemize}
-
-\subsection{Catégorisation}
-
-Par la richesse des informations qu'elles contiennent, les entités nommées (EN) sont des éléments très importants pour ces systèmes d'extraction d'information. Bien qu'il n'existe pas de définition précise de ce qu'est une EN, elle est souvent apparentée aux \og noms propres \fg{}, mais pas seulement. Dans les années 1980, les campagnes d'évaluation MUC ont permis de définir ce qu'était une tâche de reconnaissance de entités nommées. Pour MUC-6 \tocite{ref MUC-6}, les EN sont les noms propres, les acronymes et éventuellement d'autres mots qui rentrent dans les catégories suivantes :
-
-\begin{itemize}
-  \item \emph{Organisation} : regroupe les entreprises, les institutions gouvernementales et les autres organisations ;
-  \item \emph{Person} : regroupe les noms de personnes ou de familles ;
-  \item \emph{Location} : regroupe les noms de lieux politiquement ou géographiquement définis (villes, pays, régions, etc.).
-\end{itemize}
-
-Il existe des typologies des EN beaucoup plus complètes que celle des campagnes MUC comme celle de Paik et coll. \tocite{Paik et coll.} ou de Coates-Stephens \tocite{coates stephens}. Par exemple, celle de Coates-Stephens définit 8 catégories d'EN :
-\begin{itemize}
-  \item les noms de personnes ;
-  \item les noms de lieux ;
-  \item les noms d'organisations ;
-  \item les noms d'origines (noms d'habitants de pays, de villes, de régions, etc.) ;
-  \item les noms de législations (\emph{loi Évin}), d'indices boursiers (\emph{Nikkei, CAC 40, Dow Jones}) ;
-  \item les noms d'événements (guerres, révolutions, catastrophes, salons, JO, etc.) ;
-  \item les noms d'objets.
-  
-\end{itemize}
-
-\subsection{Les différents types de systèmes}
-
-Selon Poibeau \tocite{poibeau} et Sekine et Eriguchi \tocite{sekine et eriguchi}, les systèmes de détection des EN peuvent êtres classés selon trois grands types :\\
-
-\textbf{Les systèmes fondés sur des règles écrites \og à la main \fg{}}\\
-Dans ces systèmes, le concepteur doit élaborer un ensemble de règles qui seront ensuite utilisées pour détecter les entités nommées. Historiquement, cette technique fût la première utilisée dans le domaine. Bien que depuis la campagne d'évaluation MUC-6, l'apprentissage automatique ait fait son apparition dans ce domaine, les systèmes à base de règles écrites \og à la main \fg{} restent encore très utilisés aujourd'hui.\\
-
-\textbf{Les systèmes à base d'apprentissage automatique}\\
-Ces systèmes utilisent des techniques d'apprentissage automatique (cf. \ref{sssec:apprentissage_supervise}) pour apprendre un modèle capable d'étiqueter des entités nommées à partir d'un corpus d'apprentissage. Ces travaux sont largement inspirés des techniques utilisées en reconnaissance automatique de la parole, et utilisent diverses techniques d'apprentissage : modèles de Markov cachés, modèle d'entropie maximum, arbres de décision, etc. Le système (LIA\_NE) développé par Béchet \tocite{Ref LIA\_NE Béchet} au LIA fait partie de type de système. \\ 
-
-\textbf{Les systèmes mixtes}\\
-Ces systèmes utilisent généralement des lexiques initiaux. Parmi ces systèmes, Poibeau \tocite{poibeau} distingue deux approches. La première consiste à apprendre automatiquement des règles, puis à utiliser un expert pour les réviser. Dans la seconde, un ensemble de règles de base est constitué par le concepteur, puis étendu (semi-)automatiquement par inférence, afin d'obtenir une meilleur couverture. C'est le cas de Nemesis, le système développé par Fourour \tocite{these N Fourour} au LINA\\
-
-
-\subsection{Entités nommées et identification nommée du locuteur}
-Problématique de délimitation de l'EN
 
 
 \chapter{L'identification nommée du locuteur}
@@ -741,6 +741,14 @@ En revanche, le système de décision est relativement sommaire : seule l'étiquett
 
 \section{Expériences et résultats}
 
+\subsection{Légende}
+
+\textit{\textbf{Trans.}: Transcription \textbf{M}anuelle ou \textbf{A}utomatique.\newline
+\textbf{Seg/Class.}: segmentation/classification manuelles ou automatiques.\newline
+\textbf{R, P}: rappel et précision calculés en en durée.\newline
+\textbf{ErrDur}: Taux d'erreur en durée.\newline
+\textbf{ErrLoc} : Taux d'erreur en nombre de locuteurs.\newline}
+
 \subsection{Résultats avec liste de locuteurs globale}
 
 Le tableau \ref{tab:results_liumni} présente les résultats du système sur les corpus de développement et de test, en utilisant des transcriptions totalement manuelles ou totalement automatiques. Le système de détection d'entités nommées utilisé est LIA\_NE, la liste de locuteurs d'ESTER 1 est utilisée pour filtrer les décisions. Le genre des locuteurs est pris en compte via la liste des locuteurs (le genre des locuteurs étant extrait des transcriptions de référence).
@@ -765,15 +773,7 @@ Le tableau \ref{tab:results_liumni} présente les résultats du système sur les co
 \hline
 \end{tabular}
 \end{center}
-\caption{Système proposé avec une transcription enrichie manuelle ou automatique en utilisant une liste de locuteurs\newline
-------------\newline
-{\textit{\textbf{Trans.}: Transcription \textbf{M}anuelle ou \textbf{A}utomatique.\newline
-\textbf{Seg/Class.}: segmentation/classification manuelles ou automatiques.\newline
-\textbf{R, P}: rappel et précision calculés en en durée.\newline
-\textbf{ErrDur}: Taux d'erreur en durée.\newline
-\textbf{ErrLoc} : Taux d'erreur en nombre de locuteurs.\newline
-}}
-}
+\caption{Système proposé avec une transcription enrichie manuelle ou automatique en utilisant une liste de locuteurs}
 \label{tab:results_liumni}
 \end{table}
 
@@ -799,15 +799,7 @@ Le tableau \ref{tab:results_liumni} présente les résultats du système sur les co
 \hline
 \end{tabular}
 \end{center}
-\caption{Système proposé avec une transcription enrichie manuelle ou automatique en utilisant une liste de locuteurs du show\newline
-------------\newline
-{\textit{\textbf{Trans.}: Transcription \textbf{M}anuelle ou \textbf{A}utomatique.\newline
-\textbf{Seg/Class.}: segmentation/classification manuelles ou automatiques.\newline
-\textbf{R, P}: rappel et précision calculés en en durée.\newline
-\textbf{ErrDur}: Taux d'erreur en durée.\newline
-\textbf{ErrLoc} : Taux d'erreur en nombre de locuteurs.\newline
-}}
-}
+\caption{Système proposé avec une transcription enrichie manuelle ou automatique en utilisant une liste de locuteurs du show}
 \label{tab:results_liumni_liste_show}
 \end{table}
 
@@ -838,15 +830,7 @@ Lorsque le genre n'est pas utilisé pour affiner les décisions, les performances 
 \hline
 \end{tabular}
 \end{center}
-\caption{Système proposé avec une transcription enrichie manuelle ou automatique en utilisant une liste de locuteurs, sans prise en compte du genre\newline
-------------\newline
-{\textit{\textbf{Trans.}: Transcription \textbf{M}anuelle ou \textbf{A}utomatique.\newline
-\textbf{Seg/Class.}: segmentation/classification manuelles ou automatiques.\newline
-\textbf{R, P}: rappel et précision calculés en en durée.\newline
-\textbf{ErrDur}: Taux d'erreur en durée.\newline
-\textbf{ErrLoc} : Taux d'erreur en nombre de locuteurs.\newline
-}}
-}
+\caption{Système proposé avec une transcription enrichie manuelle ou automatique en utilisant une liste de locuteurs, sans prise en compte du genre}
 \label{tab:results_liumni_sansgenre}
 \end{table}
 
@@ -875,15 +859,7 @@ Lorsque le genre n'est pas utilisé pour affiner les décisions, les performances 
 \hline
 \end{tabular}
 \end{center}
-\caption{Système de base avec une transcription enrichie manuelle ou automatique sans liste de locuteurs et sans genre\newline
-------------\newline
-{\textit{\textbf{Trans.}: Transcription \textbf{M}anuelle ou \textbf{A}utomatique.\newline
-\textbf{Seg/Class.}: segmentation/classification manuelles ou automatiques.\newline
-\textbf{R, P}: rappel et précision calculés en en durée.\newline
-\textbf{ErrDur}: Taux d'erreur en durée.\newline
-\textbf{ErrLoc} : Taux d'erreur en nombre de locuteurs.\newline
-}}
-}
+\caption{Système de base avec une transcription enrichie manuelle ou automatique sans liste de locuteurs et sans genre}
 \label{tab:results_liumni_sansliste}
 \end{table}
 
@@ -907,15 +883,7 @@ Lorsque le genre n'est pas utilisé pour affiner les décisions, les performances 
 \hline
 \end{tabular}
 \end{center}
-\caption{Système proposé avec une transcription enrichie manuelle ou automatique sans liste de locuteurs, et avec prise en compte du genre par le prénom\newline
-------------\newline
-{\textit{\textbf{Trans.}: Transcription \textbf{M}anuelle ou \textbf{A}utomatique.\newline
-\textbf{Seg/Class.}: segmentation/classification manuelles ou automatiques.\newline
-\textbf{R, P}: rappel et précision calculés en en durée.\newline
-\textbf{ErrDur}: Taux d'erreur en durée.\newline
-\textbf{ErrLoc} : Taux d'erreur en nombre de locuteurs.\newline
-}}
-}
+\caption{Système proposé avec une transcription enrichie manuelle ou automatique sans liste de locuteurs, et avec prise en compte du genre par le prénom}
 \label{tab:results_liumni_genre_prenom}
 \end{table}
 
@@ -1166,6 +1134,14 @@ liste de locuteurs, genre des locuteurs
 
 \section{Expériences et résultats}
 
+\subsection{Légende}
+
+\textit{\textbf{Trans.}: Transcription \textbf{M}anuelle ou \textbf{A}utomatique.\newline
+\textbf{Seg/Class.}: segmentation/classification manuelles ou automatiques.\newline
+\textbf{R, P}: rappel et précision calculés en en durée.\newline
+\textbf{ErrDur}: Taux d'erreur en durée.\newline
+\textbf{ErrLoc} : Taux d'erreur en nombre de locuteurs.\newline}
+
 \subsection{Corpus et données}
 
 \begin{table}[h]
@@ -1274,15 +1250,7 @@ Le tableau \ref{tab:results_fctcroyance} présente les résultats du système utili
 \hline
 \end{tabular}
 \end{center}
-\caption{Système utilisant les fonctions de croyance avec une transcription enrichie manuelle ou automatique en utilisant une liste de locuteurs et la détection du genre\newline
-------------\newline
-{\textit{\textbf{Trans.}: Transcription \textbf{M}anuelle ou \textbf{A}utomatique.\newline
-\textbf{Seg/Class.}: segmentation/classification manuelles ou automatiques.\newline
-\textbf{R, P}: rappel et précision calculés en en durée.\newline
-\textbf{ErrDur}: Taux d'erreur en durée.\newline
-\textbf{ErrLoc} : Taux d'erreur en nombre de locuteurs.\newline
-}}
-}
+\caption{Système utilisant les fonctions de croyance avec une transcription enrichie manuelle ou automatique en utilisant une liste de locuteurs et la détection du genre}
 \label{tab:results_fctcroyance}
 \end{table}
 
@@ -1308,15 +1276,7 @@ Le tableau \ref{tab:results_fctcroyance} présente les résultats du système utili
 \hline
 \end{tabular}
 \end{center}
-\caption{Système utilisant les fonctions de croyance avec une transcription enrichie manuelle ou automatique en utilisant une liste de locuteurs spécifique au show et la détection du genre\newline
-------------\newline
-{\textit{\textbf{Trans.}: Transcription \textbf{M}anuelle ou \textbf{A}utomatique.\newline
-\textbf{Seg/Class.}: segmentation/classification manuelles ou automatiques.\newline
-\textbf{R, P}: rappel et précision calculés en en durée.\newline
-\textbf{ErrDur}: Taux d'erreur en durée.\newline
-\textbf{ErrLoc} : Taux d'erreur en nombre de locuteurs.\newline
-}}
-}
+\caption{Système utilisant les fonctions de croyance avec une transcription enrichie manuelle ou automatique en utilisant une liste de locuteurs spécifique au show et la détection du genre}
 \label{tab:results_fctcroyance}
 \end{table}
 
@@ -1342,15 +1302,7 @@ Le tableau \ref{tab:results_fctcroyance} présente les résultats du système utili
 \hline
 \end{tabular}
 \end{center}
-\caption{Système utilisant les fonctions de croyance avec une transcription enrichie manuelle ou automatique en utilisant une liste de locuteurs et sans prise en compte du genre\newline
-------------\newline
-{\textit{\textbf{Trans.}: Transcription \textbf{M}anuelle ou \textbf{A}utomatique.\newline
-\textbf{Seg/Class.}: segmentation/classification manuelles ou automatiques.\newline
-\textbf{R, P}: rappel et précision calculés en en durée.\newline
-\textbf{ErrDur}: Taux d'erreur en durée.\newline
-\textbf{ErrLoc} : Taux d'erreur en nombre de locuteurs.\newline
-}}
-}
+\caption{Système utilisant les fonctions de croyance avec une transcription enrichie manuelle ou automatique en utilisant une liste de locuteurs et sans prise en compte du genre}
 \label{tab:results_fctcroyance}
 \end{table}
 
@@ -1378,15 +1330,7 @@ Le tableau \ref{tab:results_fctcroyance} présente les résultats du système utili
 \hline
 \end{tabular}
 \end{center}
-\caption{Système utilisant les fonctions de croyance avec une transcription enrichie manuelle ou automatique sans liste de locuteurs et sans genre\newline
-------------\newline
-{\textit{\textbf{Trans.}: Transcription \textbf{M}anuelle ou \textbf{A}utomatique.\newline
-\textbf{Seg/Class.}: segmentation/classification manuelles ou automatiques.\newline
-\textbf{R, P}: rappel et précision calculés en en durée.\newline
-\textbf{ErrDur}: Taux d'erreur en durée.\newline
-\textbf{ErrLoc} : Taux d'erreur en nombre de locuteurs.\newline
-}}
-}
+\caption{Système utilisant les fonctions de croyance avec une transcription enrichie manuelle ou automatique sans liste de locuteurs et sans genre}
 \label{tab:results_fctcroyance_sansliste}
 \end{table}
 
