@@ -86,6 +86,8 @@ Historiquement, c'est l'équipe de recherche IBM dirigée par F. Jelinek qui est l
 \subsection{Systèmes de transcription de journaux d'informations}
 \todo{trouver un autre titre ?}
 
+\label{ssec:trans_broadcast}
+
 Au milieu des années 90 sont apparues des campagnes d'évaluation ayant pour but de tester les performances des systèmes sur des corpus lus. Par exemple, les données disponibles pour la campagne américaine Hub-3 \cite{Pallet96} sont des extraits de journaux comme le \emph{Wall Street Journal} ou le \emph{New York Times}. Ces extraits sont lus et enregistrés dans différentes conditions de manière à constituer des corpus audio. Le langage utilisé est donc celui utilisé pour de l'écrit. De ce fait, ce type de campagne évalue les performances de systèmes s'apparentant à la dictée vocale. Les performances deviennent rapidement excellentes, le système d'IBM affiche des taux d'erreur de l'ordre de 7\% \cite{Bahl95}. En France, la première campagne lancée par l'AUPELF-UREF consistait à transcrire des textes lus du journal \emph{Le Monde} en utilisant le corpus BREF \cite{Lamel91}. Comme pour la campagne Hub-3, les résultats sont très bons puisque le système du LIMSI affiche des taux d'erreurs de l'ordre de 11\% \cite{Gauvain94speaker-independentcontinuous}.
 
 Les campagnes d'évaluation ont alors décidé de compliquer la tâche en proposant des corpus constitués d'enregistrements de journaux d'informations radiophoniques. Même si ces corpus contiennent beaucoup de parole qui a été préparée et écrite à l'avance par les journalistes, elle est néanmoins convertie à l'oral. À la différence des corpus précédents qui n'étaient constitués que de corpus écrits qui étaient ensuite lus tel quel. De plus, ces corpus contiennent aussi de la parole plus spontanée, puisque beaucoup d'émissions font intervenir des invités ou interrogent des personnes dans la rue. À noter que ces corpus sont aussi fortement multi-locuteurs. Avec ces nouvelles campagnes d'évaluations, les systèmes sont confrontées à des corpus qui se rapprochent de plus en plus de dialogues complètement spontanés entre plusieurs personnes (même si comme nous l'avons fait remarquer, une partie de la parole est encore relativement préparée).
@@ -108,9 +110,9 @@ Avec ces nouvelles campagnes est apparue la notion de transcription enrichie. En
 La figure \ref{fig:etapes_transcription_enrichie} décrit les différentes composantes des transcriptions réalisées pour les campagnes de type ESTER. Il est possible de distinguer deux grandes phases. 
 
 \subsection{Segmentation et classification}
-La première phase consiste à découper le fichier de manière à obtenir des portions homogènes, c'est à dire concernant le même locuteur et les mêmes conditions d'enregistrement. Ce premier niveau de découpage est communément appelé découpage en segments. Contrairement à ce que l'on pourrait penser, les segments ne représentent généralement pas des phrases, mais généralement des groupes de souffle : ils commencent et s'arrêtent lorsqu'un silence significatif est détecté. En effet, cette segmentation se fait au niveau purement acoustique, une découpe en phrases est donc impossible à ce stade. Ce premier découpage est effectué pour des raisons techniques, et notamment pour faciliter la tâche des systèmes de transcription automatique \tocite{Paragraphe sur le système de reco}, qui doivent décoder segment par segment pour éviter des problèmes d'explosion combinatoire.
+La première phase consiste à découper le fichier de manière à obtenir des portions homogènes, c'est à dire concernant le même locuteur et les mêmes conditions d'enregistrement. Ce premier niveau de découpage est communément appelé découpage en segments. Contrairement à ce que l'on pourrait penser, les segments ne représentent généralement pas des phrases, mais généralement des groupes de souffle : ils commencent et s'arrêtent lorsqu'un silence significatif est détecté. En effet, cette segmentation se fait au niveau purement acoustique, une découpe en phrases est donc impossible à ce stade. Ce premier découpage est effectué pour des raisons techniques, et notamment pour faciliter la tâche des systèmes de transcription automatique (cf. \ref{ssec:trans_auto}), qui doivent décoder segment par segment pour éviter des problèmes d'explosion combinatoire.
 
-Tous les segments contigus appartenant au même locuteur définissent un tour de parole de ce locuteur. Un même locuteur qui parle à plusieurs endroits d'un enregistrement aura donc plusieurs tours de parole au sein de cet enregistrement. La technique utilisée pour regrouper les segments (et donc les tours de parole) par locuteur est une technique de classification automatique (cf \tocite{Paragraphe sur la seg/classif}. On dit alors que les segments (et donc les tours de parole) d'un même locuteur sont regroupés au sein d'une même classe de locuteur. Dans les systèmes automatiques, ces classes de locuteurs sont dites anonymes. En effet, le nom de la classe n'est pas le vrai nom du locuteur, mais un nom unique choisi arbitrairement.
+Tous les segments contigus appartenant au même locuteur définissent un tour de parole de ce locuteur. Un même locuteur qui parle à plusieurs endroits d'un enregistrement aura donc plusieurs tours de parole au sein de cet enregistrement. La technique utilisée pour regrouper les segments (et donc les tours de parole) par locuteur est une technique de classification automatique (cf. \ref{ssub:decoupage_regroupement}). On dit alors que les segments (et donc les tours de parole) d'un même locuteur sont regroupés au sein d'une même classe de locuteur. Dans les systèmes automatiques, ces classes de locuteurs sont dites anonymes. En effet, le nom de la classe n'est pas le vrai nom du locuteur, mais un nom unique choisi arbitrairement.
 
 Au niveau purement acoustique, il est aussi possible de détecter le genre du locuteur qui s'exprime \tocite{Référence sylvain détection genre}. Cette information peut être rajoutée à la transcription enrichie, comme c'est le cas dans la figure \ref{fig:etapes_transcription_enrichie}.
 
@@ -131,16 +133,17 @@ Au niveau purement acoustique, il est aussi possible de détecter le genre du loc
 
 La deuxième phase consiste tout simplement à écrire les paroles prononcées par les différents locuteurs afin d'obtenir la transcription en mots du signal. Lorsque cette transcription est réalisée automatiquement, la ponctuation ainsi que les majuscules ne sont pas requises. En revanche, des post-traitements existent pour rajouter la ponctuation et les majuscules aux transcriptions afin de se rapprocher, tant que faire se peut, d'une transcription réalisée manuellement \tocite{Ref biblio ponctuation}.
 
-Les transcriptions, qui plus est les transcriptions de journaux radiophoniques, contiennent un grand nombre d'entités nommées (noms de personnes, lieux, radios, etc). Des systèmes de détection des entités nommées permettent de les repérer dans les transcriptions \tocite{§ EN}. Ce sont des informations supplémentaires qui vont pouvoir être utilisées en recherche d'informations, ou plus précisément dans le cadre des présents travaux, pour identifier les les locuteurs d'un document.
+Les transcriptions, qui plus est les transcriptions de journaux radiophoniques, contiennent un grand nombre d'entités nommées (noms de personnes, lieux, radios, etc). Des systèmes de détection des entités nommées permettent de les repérer dans les transcriptions \ref{ssec:EN}. Ce sont des informations supplémentaires qui vont pouvoir être utilisées en recherche d'informations, ou plus précisément dans le cadre des présents travaux, pour identifier les les locuteurs d'un document.
 
 
 \section{Architecture détaillée}
 
+Les différentes campagnes d'évaluations des systèmes de RAP actuelles mettent l'accent sur la réalisation d'une transcription enrichie (cf. \ref{ssec:trans_broadcast}) via des informations sur les locuteurs ou encore la détection des entités nommées. La réalisation de cette transcription enrichie fait intervenir différents types de systèmes et de domaines de recherche. Afin de situer le contexte des travaux présentés dans cette thèse, il convient de détailler les différents axes de recherche qui entrent en jeu lors de la réalisation d'une transcription enrichie.
+
 \subsection{Reconnaissance automatique du locuteur}
 \label{ssec:ral}
 
-La Reconnaissance Automatique du Locuteur (RAL) regroupe un ensemble de méthodes capables d'extraire les caractéristiques vocales propres à chaque individu à partir d'un document audio. Ces caractéristiques sont utilisées pour constituer la signature vocale d'un locuteur. C'est cette signature qui permettra d'authentifier la voix d'un locuteur dans un enregistrement.
-
+La Reconnaissance Automatique du Locuteur (RAL) étant la première étape de la réalisation d'une transcription enrichie, c'est un élément fondamental des systèmes de reconnaissance automatique de la parole. Elle regroupe un ensemble de méthodes capables d'extraire les caractéristiques vocales propres à chaque individu à partir d'un document audio. 
   
 Une des premières applications à laquelle on pense en parlant de RAL est la biométrie. En effet, même si la RAL n'est pas la méthode la plus fiable pour de la biométrie (les empreintes digitales le sont beaucoup plus par exemple), elle a l'avantage d'être peu intrusive (il est plus facile de parler dans un micro que de donner ses empreintes digitales) et d'être facile à déployer.
 
@@ -215,6 +218,7 @@ On peut noter sur la figure \ref{fig:decoupage_tours_classes}, qu'en plus de reg
 
 
 \subsection{Transcription automatique de la parole}
+\label{ssec:trans_auto}
 
 \subsubsection{Principes}
 
@@ -256,6 +260,7 @@ Deux types de modèles probabilistes sont utilisés pour la recherche de la séquen
 
 
 \subsection{Détection des entités nommées}
+\label{ssec:EN}
 
 Avec l'avènement d'Internet, la quantité de données textuelles à disposition augmente de jour en jour de façon exponentielle. Comme c'est le cas pour les données audio, ces données sont, à cause de leur quantité, impossible à indexer efficacement par un humain. L'extraction d'informations et le traitement de ces données est pourtant capitale pour bon nombre de scientifiques et d'industriels. Le Traitement Automatique des Langues Naturelles (TALN) est un domaine de recherche qui s'intéresse au traitement de ces corpus de texte. Son domaine de recherche est vaste mais on peut notamment citer plusieurs domaines d'application dans lequel le TALN intervient : 
 \begin{itemize}
@@ -301,6 +306,10 @@ Ces systèmes utilisent des techniques d'apprentissage automatique (cf. \ref{ssse
 \textbf{Les systèmes mixtes}\\
 Ces systèmes utilisent généralement des lexiques initiaux. Parmi ces systèmes, Poibeau \tocite{poibeau} distingue deux approches. La première consiste à apprendre automatiquement des règles, puis à utiliser un expert pour les réviser. Dans la seconde, un ensemble de règles de base est constitué par le concepteur, puis étendu (semi-)automatiquement par inférence, afin d'obtenir une meilleur couverture. C'est le cas de Nemesis, le système développé par Fourour \tocite{these N Fourour} au LINA\\
 
+
+\subsection{Identification des locuteurs}
+
+On va ici amener la partie suivante, sur l'ID nommée.
 
 %\chapter{Systèmes automatiques}
 %\minitoc
@@ -708,10 +717,10 @@ Les travaux du LIUM ont été les seuls à utiliser un système automatique de détec
 \section{Corpus et données}
 \section{Segmentation et classification automatique}
 
-Comme décrit dans \ref{ssec:ral}, la tâche de segmentation et de classification en locuteur consiste à annoter des régions du signal audio. Ces annotations peuvent être de plusieurs types : des étiquettes représentant les différents locuteurs, le genre des locuteurs, le type de canal (radio, studio) ou encore le type d'environnement sonore comme le bruit, la musique, \dots Dans la tâche de segmentation, les étiquettes représentant les locuteurs sont anonymes. Le système du LIUM est entièrement décrit dans \tocite{citer dernier article sylvain}, ce qui suit en donne un court aperçu.
+Comme décrit dans \ref{ssec:ral}, la tâche de segmentation et de classification en locuteur consiste à annoter des régions du signal audio. Ces annotations peuvent être de plusieurs types : des étiquettes représentant les différents locuteurs, le genre des locuteurs, le type de canal (radio, studio) ou encore le type d'environnement sonore comme le bruit, la musique, \dots Dans la tâche de segmentation, les étiquettes représentant les locuteurs sont anonymes. Le système du LIUM est entièrement décrit dans \cite{liumspkdiarization}, ce qui suit en donne un court aperçu.
 
 \subsection{Segmentation BIC}
-Le système utilisé au LIUM (LIUM\_SpkDiarization) utilise une segmentation basée sur GLR (Generalized Likelihood Ratio) et BIC\tocite{ref sur BIC} (Bayesian Information Criterion). Une première passe permet de détecter les points de rupture du signal constituant les frontières des segments. Ces points de rupture sont détectés en utilisant la mesure de vraisemblance GLR calculée (grâce à des GMM à matrice de covariance pleine) sur une fenêtre de 5 secondes tout le long du signal. Lorsque la mesure atteint un maximum dans cette fenêtre de 5 secondes, le système considère que c'est un point de rupture. Une seconde passe est ensuite effectuée afin de fusionner les segments correspondant au même locuteur, du début à la fin de l'enregistrement. La mesure utilisée pour le regroupement est la distance BIC utilisant des matrices de covariance pleines. 
+Le système utilisé au LIUM (LIUM\_SpkDiarization) utilise une segmentation basée sur GLR (Generalized Likelihood Ratio) et BIC \cite{Siegler97automaticsegmentation} (Bayesian Information Criterion). Une première passe permet de détecter les points de rupture du signal constituant les frontières des segments. Ces points de rupture sont détectés en utilisant la mesure de vraisemblance GLR calculée (grâce à des GMM à matrice de covariance pleine) sur une fenêtre de 5 secondes tout le long du signal. Lorsque la mesure atteint un maximum dans cette fenêtre de 5 secondes, le système considère que c'est un point de rupture. Une seconde passe est ensuite effectuée afin de fusionner les segments correspondant au même locuteur, du début à la fin de l'enregistrement. La mesure utilisée pour le regroupement est la distance BIC utilisant des matrices de covariance pleines. 
 
 \subsection{Classification BIC}
 
