@@ -138,16 +138,18 @@ Les transcriptions, qui plus est les transcriptions de journaux radiophoniques, 
 
 \section{Architecture détaillée}
 
-Les différentes campagnes d'évaluations des systèmes de RAP actuelles mettent l'accent sur la réalisation d'une transcription enrichie (cf. \ref{ssec:trans_broadcast}) via des informations sur les locuteurs ou encore la détection des entités nommées. La réalisation de cette transcription enrichie fait intervenir différents types de systèmes et de domaines de recherche. Afin de situer le contexte des travaux présentés dans cette thèse, il convient de détailler les différents axes de recherche qui entrent en jeu lors de la réalisation d'une transcription enrichie.
+Les différentes campagnes d'évaluations des systèmes de RAP actuelles mettent l'accent sur la réalisation d'une transcription enrichie (cf. \ref{ssec:trans_broadcast}) via l'extraction d'informations sur les locuteurs ou encore la détection des entités nommées. La réalisation de cette transcription enrichie fait intervenir différents types de systèmes et de domaines de recherche. Afin de situer le contexte des travaux présentés dans cette thèse, il convient de détailler les différents axes de recherche qui entrent en jeu lors de la réalisation d'une transcription enrichie.
 
 \subsection{Reconnaissance automatique du locuteur}
 \label{ssec:ral}
 
 La Reconnaissance Automatique du Locuteur (RAL) étant la première étape de la réalisation d'une transcription enrichie, c'est un élément fondamental des systèmes de reconnaissance automatique de la parole. Elle regroupe un ensemble de méthodes capables d'extraire les caractéristiques vocales propres à chaque individu à partir d'un document audio. 
   
+Des serveurs vocaux aux terminaux mobiles, la RAL est utilisée dans de nombreux domaines. Certains serveurs vocaux peuvent notamment l'utiliser pour détecter le genre du locuteur qui s'exprime. Par exemple, grâce à la plateforme MISTRAL \cite{MeignierMistral}, la société Calistel propose de router les appels d'hommes vers des opératrices féminines et inversement, afin d'obtenir un taux de satisfaction des appels plus important. Mais l'application de la RAL la plus connue est certainement la biométrie. En effet, la RAL va permettre de reconnaître, uniquement grâce à sa voix, un locuteur qui cherche à s'identifier au prêt d'un terminal.
+
 Une des premières applications à laquelle on pense en parlant de RAL est la biométrie. En effet, même si la RAL n'est pas la méthode la plus fiable pour de la biométrie (les empreintes digitales le sont beaucoup plus par exemple), elle a l'avantage d'être peu intrusive (il est plus facile de parler dans un micro que de donner ses empreintes digitales) et d'être facile à déployer.
 
-En plus de la difficulté à différencier deux locuteurs différente, la RAL est aussi confrontée à des problèmes intra-locuteurs. En effet, la voix d'un locuteur peut fortement varier d'un enregistrement à l'autre. Le niveau de fatigue, l'émotion, le contexte d'enregistrement ou encore l'âge d'un locuteur sont autant de variations qui peuvent venir perturber la RAL. Mais la biométrie n'est pas la seule application possible, de par ses caractéristiques, la RAL est utilisée dans bien d'autres domaines.
+En plus de la difficulté à différencier deux locuteurs différents, la RAL est aussi confrontée à des problèmes intra-locuteurs. En effet, la voix d'un locuteur peut fortement varier d'un enregistrement à l'autre. Le niveau de fatigue, l'émotion, le contexte d'enregistrement ou encore l'âge d'un locuteur sont autant de variations qui peuvent venir perturber la RAL. Mais la biométrie n'est pas la seule application possible, de par ses caractéristiques, la RAL est utilisée dans bien d'autres domaines.
 
 \subsubsection{Identification automatique du locuteur}
 
