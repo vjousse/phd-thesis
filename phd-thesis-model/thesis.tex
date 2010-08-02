@@ -177,11 +177,10 @@ En revanche, dans une application utilisant un ensemble ouvert de locuteurs poss
 
 La vérification automatique du locuteur (VAL) permet de décider si l'identité revendiquée par un locuteur est compatible avec sa voix. Il s'agit donc de trancher entre deux hypothèses : soit le locuteur est bien le locuteur autorisé (on l'appelle aussi locuteur client), c'est à dire que son identité correspond à celle qu'il revendique, soit le locuteur est un imposteur qui cherche à se faire passer pour la personne qu'il n'est pas. À partir d'un échantillon de voix de référence, et d'un échantillon de voix de test, le système va donc devoir dire si oui ou non les deux locuteurs correspondent \cite{Atal96}.
 
-Mais cette tâche a comme principal problème d'être très dépendante des différentes variations qui peuvent apparaître dans la voix d'un locuteur (comme précisé dans \ref{ssec:ral}). En effet, les systèmes de VAL sont très dépendants des différences entre les échantillons de de voix référence et les échantillons de tests. Accepter un locuteur qui devrait être rejeté peut avoir de lourdes conséquences, ne serait-ce que pour la biométrie par exemple. 
-
+Les systèmes de VAL sont très dépendants des différences entre les échantillons de voix de référence et les échantillons de tests. Accepter un locuteur qui devrait être rejeté peut avoir de lourdes conséquences, en particulier dans les applications où un haut niveau de sécurité est demandé \cite{Bonastre2003} (contrôle aux frontières, système bancaire, identification judiciaire \ldots). 
 \subsubsection{Suivi de locuteur}
 
-Le suivi de locuteur se base sur la tâche d'identification du locuteur. À partir d'un enregistrement de référence d'un locuteur, le système va devoir déterminer si le locuteur intervient dans le document. Si c'est le cas, il devra être capable de préciser où et quand ce locuteur intervient dans le fichier audio. La figure \ref{fig:suivi_locu} illustre le principe du suivi de locuteur.
+Le suivi de locuteur se base sur la tâche de vérification du locuteur. À partir d'un enregistrement de référence d'un locuteur, le système va devoir déterminer si le locuteur intervient dans le document. Si c'est le cas, il devra être capable de préciser où et quand ce locuteur intervient dans le fichier audio. La figure \ref{fig:suivi_locu} illustre le principe du suivi de locuteur.
 
 \begin{figure}[h]
 
