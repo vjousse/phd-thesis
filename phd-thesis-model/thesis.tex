@@ -203,14 +203,25 @@ Les travaux fondamentaux de la segmentation et de la classification en locuteur 
 
 Depuis, les techniques ont évoluées \cite{TranterReynolds2006} et le champ d'application de la segmentation en locuteurs s'est étendu, elle se retrouve intégrée dans le cadre plus vaste de l'indexation en locuteurs de bases de données de documents multimédia \cite{PhdMeignier}. Les documents traités sont divers et variés, on peut notamment citer les conversations téléphoniques, les enregistrements de journaux télévisés ou radiophoniques, les films ou encore les enregistrements de réunion.
 
-Le processus de segmentation et de classification est découpé en plusieurs étapes :
+La figure \ref{fig:seg_classif} décrit les principes du processus de segmentation et de classification qui s'effectue en plusieurs étapes :
 
 \begin{itemize}
-  \item La paramétrisation va extraire les caractéristiques acoustiques du document audio. Ces caractéristiques seront représentées via des vecteurs acoustiques qui pourront ensuite être exploités par les autres phases du processus.
-  \item La segmentation va s'attacher à trouver des points de ruptures, des frontières, au sein de l'enregistrement. Ces frontières peuvent être de différentes natures : changement de locuteur, changement de canal de transmission (studio, téléphone), présence d'un long silence, musique, etc. Les portions de signal entre ces différentes frontières sont appelées segments. Ces segments contiennent des données homogènes : même locuteur, même canal de transmission.
-  \item La classification groupe les segments locuteur par locuteur jusqu'à découvrir le nombre de classes correspondant au nombre de locuteurs intervenant dans le document. Chaque classe contient à la fin de la classification l'ensemble des segments prononcés par un locuteur. La classe définit alors l'intervention du locuteur dans le document.
-  \item La resegmentation affine les frontières des segments. Dans cette étape, le document est de nouveau découpé en segments en fonction des données contenues dans les classes.
+  \item La \textbf{paramétrisation} va extraire les caractéristiques acoustiques du document audio. Ces caractéristiques seront représentées via des vecteurs acoustiques qui pourront ensuite être exploités par les autres phases du processus.
+  \item La \textbf{segmentation} va s'attacher à trouver des points de ruptures, des frontières, au sein de l'enregistrement. Ces frontières peuvent être de différentes natures : changement de locuteur, changement de canal de transmission (studio, téléphone), présence d'un long silence, musique, etc. Les portions de signal entre ces différentes frontières sont appelées segments. Ces segments contiennent des données homogènes : même locuteur, même canal de transmission.
+  \item La \textbf{classification} groupe les segments locuteur par locuteur jusqu'à découvrir le nombre de classes correspondant au nombre de locuteurs intervenant dans le document. Chaque classe contient à la fin de la classification l'ensemble des segments prononcés par un locuteur. La classe définit alors l'intervention du locuteur dans le document.
+  \item La \textbf{resegmentation} affine les frontières des segments. Dans cette étape, le document est de nouveau découpé en segments en fonction des données contenues dans les classes.
 \end{itemize}
+
+\begin{figure}[h]
+
+\begin{center}
+\includegraphics[width=0.8\columnwidth]{img/segmentation-classification}
+
+\caption{Principe de la segmentation et classification en locuteur}
+\label{fig:seg_classif}
+\end{center}
+
+\end{figure}
 
 
 
