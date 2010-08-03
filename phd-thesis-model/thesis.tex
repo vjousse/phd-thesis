@@ -58,7 +58,7 @@ Les systèmes à commandes vocales sont des systèmes que l'on trouve abondamment d
 Comme tous les systèmes de RAP, ces systèmes se basent sur un vocabulaire (aussi appelé lexique) préalablement constitué. Ce lexique va définir la liste des mots que le système va être capable de reconnaître. Aucun autre mot que ceux contenus dans le lexique ne pourra être reconnu par le système.
 Bien qu'il soit techniquement possible d'avoir un vocabulaire assez important, il est généralement limité à une centaine de mots. En effet, les personnes se servant de ces systèmes ne sont de toute façon pas capable de mémoriser plus d'une centaine de commandes. À noter que ces mots doivent être contrastés au niveau phonétique, de manière à réduire les risques d'ambiguïté lors de la reconnaissance.
 
-Bien que d'autres méthodes aient été employées, comme la comparaison de références par programmation dynamique \cite{Tubach}, les systèmes utilisant des méthodes statistiques sont majoritairement utilisés depuis les années 1980 \cite{Rabiner89}. Certains de ces système utilisent des réseaux neuronaux, mais la plus part ont comme base les modèles de Markov cachés \cite{Gagnoulet89}. 
+Bien que d'autres méthodes aient été employées, comme la comparaison de références par programmation dynamique \cite{Tubach}, les systèmes utilisant des méthodes statistiques sont majoritairement utilisés depuis les années 1980 \cite{Rabiner89}. Certains de ces système utilisent des réseaux neuronaux, mais la plus part ont comme base les Modèles de Markov Cachés \cite{Gagnoulet89} (cf. \ref{ssec:trans_auto}). 
 
 \subsection{Systèmes de compréhension}
 
@@ -107,12 +107,12 @@ Lors de la première campagne ESTER, le meilleur système (celui du LIMSI) atteign
 
 Avec ces nouvelles campagnes est apparue la notion de transcription enrichie. En effet, les corpus étant constitués d'enregistrements de journaux radiophoniques, d'autres informations que la simple transcription en mots peuvent être extraites des corpus. Par rapport aux corpus de dictée vocale, les documents sont multi-locuteurs. Au sein d'un même enregistrement, des dizaines de locuteurs différents peuvent parler tout au long du fichier. De plus, ces locuteurs peuvent parler depuis un téléphone ou en studio. Toutes ces informations permettent d'étayer, d'enrichir la transcription. Les campagnes d'évaluations ont donc ajouté des tâches permettant d'enrichir la transcription, comme la reconnaissance du locuteur ou encore la détection des entités nommées.
 
-La figure \ref{fig:etapes_transcription_enrichie} décrit les différentes composantes des transcriptions réalisées pour les campagnes de type ESTER. Il est possible de distinguer deux grandes phases. 
+La figure \ref{fig:etapes_transcription_enrichie} décrit les différentes composantes des transcriptions réalisées pour les campagnes de type ESTER. Il est possible de distinguer deux grandes parties. 
 
 \subsection{Segmentation et classification}
-La première phase consiste à découper le fichier de manière à obtenir des portions homogènes, c'est à dire concernant le même locuteur et les mêmes conditions d'enregistrement. Ce premier niveau de découpage est communément appelé découpage en segments. Contrairement à ce que l'on pourrait penser, les segments ne représentent généralement pas des phrases, mais plutôt des groupes de souffle : ils commencent et s'arrêtent lorsqu'un silence significatif est détecté. En effet, cette segmentation se fait au niveau purement acoustique, une découpe en phrases est donc impossible à ce stade. Ce premier découpage est effectué pour des raisons techniques, et notamment pour faciliter la tâche des systèmes de transcription automatique (cf. \ref{ssec:trans_auto}), qui doivent décoder segment par segment pour éviter des problèmes d'explosion combinatoire.
+La première partie consiste à découper le fichier de manière à obtenir des portions homogènes, c'est à dire concernant le même locuteur et les mêmes conditions d'enregistrement. Ce premier niveau de découpage est communément appelé découpage en segments. Contrairement à ce que l'on pourrait penser, les segments ne représentent généralement pas des phrases, mais plutôt des groupes de souffle : ils commencent et s'arrêtent lorsqu'un silence significatif est détecté. Ce premier découpage est effectué pour des raisons techniques, et notamment pour faciliter la tâche des systèmes de transcription automatique (cf. \ref{ssec:trans_auto}), qui doivent décoder segment par segment pour éviter des problèmes d'explosion combinatoire.
 
-Tous les segments contigus appartenant au même locuteur définissent un tour de parole de ce locuteur. Un même locuteur qui parle à plusieurs endroits d'un enregistrement aura donc plusieurs tours de parole au sein de cet enregistrement. La technique utilisée pour regrouper les segments (et donc les tours de parole) par locuteur est une technique de classification automatique (cf. \ref{ssub:decoupage_regroupement}). On dit alors que les segments (et donc les tours de parole) d'un même locuteur sont regroupés au sein d'une même classe de locuteur. Dans les systèmes automatiques, ces classes de locuteurs sont dites anonymes. En effet, le nom de la classe n'est pas le vrai nom du locuteur, mais un nom unique choisi arbitrairement.
+Tous les segments contigus appartenant au même locuteur définissent un tour de parole de ce locuteur. Un même locuteur qui parle à plusieurs endroits d'un enregistrement aura donc plusieurs tours de parole au sein de cet enregistrement. En reconnaissance du locuteur (cf. \ref{ssub:decoupage_regroupement}), on dit que tous les segments (et donc les tours de parole) d'un même locuteur sont regroupés au sein d'une même classe. À chaque locuteur du document correspond donc une classe de locuteur.
 
 Au niveau purement acoustique, il est aussi possible de détecter le genre du locuteur qui s'exprime \tocite{Référence sylvain détection genre}. Cette information peut être rajoutée à la transcription enrichie, comme c'est le cas dans la figure \ref{fig:etapes_transcription_enrichie}.
 
@@ -120,7 +120,7 @@ Au niveau purement acoustique, il est aussi possible de détecter le genre du loc
 \begin{figure}[h]
 
 \begin{center}
-\includegraphics[width=0.9\columnwidth]{img/segmentation-classification}
+\includegraphics[width=0.9\columnwidth]{img/systeme_transcription_description}
 
 \caption{Les étapes de réalisation d'une transcription enrichie}
 \label{fig:etapes_transcription_enrichie}
@@ -131,14 +131,125 @@ Au niveau purement acoustique, il est aussi possible de détecter le genre du loc
 
 \subsection{Transcription et entités nommées}
 
-La deuxième phase consiste tout simplement à écrire les paroles prononcées par les différents locuteurs afin d'obtenir la transcription en mots du signal. Lorsque cette transcription est réalisée automatiquement, la ponctuation ainsi que les majuscules ne sont pas requises. En revanche, des post-traitements existent pour rajouter la ponctuation et les majuscules aux transcriptions afin de se rapprocher, tant que faire se peut, d'une transcription réalisée manuellement \tocite{Ref biblio ponctuation}.
+La deuxième partie consiste tout simplement à écrire les paroles prononcées par les différents locuteurs afin d'obtenir la transcription en mots du signal. Lorsque cette transcription est réalisée automatiquement, la ponctuation ainsi que les majuscules ne sont pas requises. En revanche, des post-traitements existent pour rajouter la ponctuation et les majuscules aux transcriptions afin de se rapprocher, tant que faire se peut, d'une transcription réalisée manuellement \tocite{Ref biblio ponctuation}.
 
 Les transcriptions, qui plus est les transcriptions de journaux radiophoniques, contiennent un grand nombre d'entités nommées (noms de personnes, lieux, radios, etc). Des systèmes de détection des entités nommées permettent de les repérer dans les transcriptions \ref{ssec:EN}. Ce sont des informations supplémentaires qui vont pouvoir être utilisées en recherche d'informations, ou plus précisément dans le cadre des présents travaux, pour identifier les les locuteurs d'un document.
 
 
 \section{Architecture détaillée}
 
-Les différentes campagnes d'évaluations des systèmes de RAP actuelles mettent l'accent sur la réalisation d'une transcription enrichie (cf. \ref{ssec:trans_broadcast}) via l'extraction d'informations sur les locuteurs ou encore la détection des entités nommées. La réalisation de cette transcription enrichie fait intervenir différents types de systèmes et de domaines de recherche. Afin de situer le contexte des travaux présentés dans cette thèse, il convient de détailler les différents axes de recherche qui entrent en jeu lors de la réalisation d'une transcription enrichie.
+Les différentes campagnes d'évaluations des systèmes de RAP actuelles met\-tent l'accent sur la réalisation d'une transcription enrichie (cf. \ref{ssec:trans_broadcast}) via l'extraction d'informations sur les locuteurs ou encore la détection des entités nommées. Lors de la réalisation d'une transcription enrichie, plusieurs systèmes entrent en jeu. Les systèmes de transcription automatique de la parole évidemment, mais aussi des systèmes de détection d'entités nommées et de reconnaissance automatique du locuteur. Afin de situer le contexte des travaux présentés dans cette thèse, ces différents domaines de recherche sont présentés ci-dessous.
+
+\subsection{Transcription automatique de la parole}
+\label{ssec:trans_auto}
+
+Les systèmes de transcription automatique de la parole utilisés actuellement sont des systèmes fondés sur des méthodes statistiques. Ces fondements ont été élaborés par Jelinek et son équipe chez IBM \cite{Jelinek1976}, au milieu des années 1970. La figure \ref{fig:principes_srap} donne un aperçu du fonctionnement actuel d'un système de transcription automatique de la parole. 
+ 
+\begin{figure}[h]
+
+\begin{center}
+\includegraphics[width=0.9\columnwidth]{img/sys_rap}
+
+\caption{Principes généraux d'un système de Reconnaissance Automatique de la Parole (SRAP)}
+\label{fig:principes_srap}
+\end{center}
+
+\end{figure}
+
+\subsubsection{Principes généraux} % (fold)
+\label{ssub:principes_generaux}
+
+
+L'objectif d'un système de RAP probabiliste est d'associer une séquence de mots $\hat{W} = w_1 w_2 ...wk$ (avec $w_i$ qui est un mot de cette séquence) à une séquence d'observations acoustiques $X$. Le système recherche la séquence de mots qui maximise la probabilité \emph{a posteriori} $P(W|X)$, où $P(W|X)$ est la probabilité d'émission de $W$ sachant $X$ . On obtient, après application de la règle de Bayes :
+
+\begin{equation}
+  \label{eq:bayes}
+  \hat{W} = \underset{W}{arg\ max}\ P(W|X)\ =\ \underset{W}{arg\ max}\ \frac{P(W)P(X|W)}{P(X)}
+\end{equation}
+
+Comme la séquence d'observations acoustiques $X$ est fixée, $P(X)$ peut être considérée comme une valeur constante inutile dans l'équation \ref{eq:bayes}. On a donc :
+
+\begin{equation}
+  \label{eq:bayes_simplifie}
+  \hat{W} =\ \underset{W}{arg\ max}\ P(W)P(X|W)
+\end{equation}
+
+Deux types de modèles probabilistes sont utilisés pour la recherche de la séquence de mots la plus probable : des modèles acoustiques qui fournissent la valeur de $P(X |W)$, et un modèle de langage qui fournit la valeur de $P(W)$. $P(X|W)$ peut se concevoir comme la probabilité d'observer $X$ lorsque $W$ est prononcée, alors que $P(W)$ se réfère à la probabilité que $W$ soit prononcée dans un langage donné. La difficulté pour obtenir un système de RAP performant est de définir les modèles les plus pertinents possibles pour le calcul de $P(W)$ et $P(X|W)$ (voir figure \ref{fig:principes_srap}).
+
+\subsubsection{Modèles acoustiques}
+
+Il est impossible pour un système de transcription d'exploiter le signal de la parole directement. En effet il contient bon nombre d'informations qui ne sont pas utiles au décodage de la parole (mais qui le seront pour la reconnaissance du locuteur, cf \ref{ssub:decoupage_regroupement}) et qui peuvent le parasiter : des informations sur le locuteur, sur les conditions d'enregistrement, etc. Le signal de la parole étant très variable et redondant, il nécessite de toute façon des traitements spécifiques avant de pouvoir être exploité. Ces traitements (appelés paramétrisation) vont consister à extraire du signal les paramètres qui sont dépendants de la parole prononcée.
+
+Plusieurs techniques de paramétrisation existent, les plus utilisées sont :
+\begin{itemize}
+  \item PLP (\emph{Perceptual Linear Prediction}) : domaine spectral \cite{Hermansky91}
+  \item LPCC (\emph{Linear Prediction Cepstral Coefficient}) : domaine temporel \cite{Markel1982}
+  \item MFCC (\emph{Mel Frequency Cepstral Coefficients}) : domaine cepstral \cite{Bridle74,Mermelstein76}
+\end{itemize}
+
+Le signal de la parole est modélisable par un ensemble d'unités acoustiques, qui peuvent être considérées comme des sons élémentaires de la langue. Classiquement, l'unité choisie est le phonème. Le phonème est la plus petite unité discrète ou distinctive d'un mot, auquel elle peut faire perdre son sens par substitution. Par exemple, \emph{"chou"} et \emph{"pou"} se distinguent par leurs phonèmes initiaux. Dans le cadre des systèmes de transcription de la parole actuels, ces unités acoustiques sont modélisées par des Modèles de Markov Cachés (MMC) \cite{Rabiner89}. 
+
+L'apprentissage de ces modèles acoustiques s'effectue grâce a des données \emph{a priori} annotées. Cet apprentissage permet d'obtenir une modélisation du message de la parole. Différentes techniques d'apprentissage et d'adaptation sont utilisées, parmi les plus connues figurent notamment :
+
+\begin{itemize}
+  \item l'apprentissage par maximum de vraisemblance (\emph{Maximum Likelihood : ML}), 
+  \item l'algorithme EM \cite{Dempster77maximumlikelihood} (\emph{Expectation/Maximisation}), 
+  \item l'estimation par information mutuelle maximale \cite{Valtech97} (\emph{Maximum Mutual Information Estimation : MMIE}), 
+  \item l'adaptation par maximum \emph{a posteriori} \cite{Gauvain94maximuma} (\emph{Maximum \emph{a posteriori} probability : MAP}), 
+  \item et l'adaptation par régression linéaire (\emph{Maximum Likelihood Linear Regression : MLLR}).
+\end{itemize}
+
+\subsubsection{Modèles de langage}
+
+
+\subsection{Détection des entités nommées}
+\label{ssec:EN}
+
+Avec l'avènement d'Internet, la quantité de données textuelles à disposition augmente de jour en jour de façon exponentielle. Comme c'est le cas pour les données audio, ces données sont, à cause de leur quantité, impossible à indexer efficacement par un humain. L'extraction d'informations et le traitement de ces données est pourtant capitale pour bon nombre de scientifiques et d'industriels. Le Traitement Automatique des Langues Naturelles (TALN) est un domaine de recherche qui s'intéresse au traitement de ces corpus de texte. Son domaine de recherche est vaste mais on peut notamment citer plusieurs domaines d'application dans lequel le TALN intervient : 
+\begin{itemize}
+  \item aide à la rédaction (corrections, résumés, génération automatique de textes),
+  \item traduction,
+  \item recherche documentaire (questions/réponses, extraction d'informations),
+  \item dialogue homme-machine,
+  \item traitement de la parole.
+\end{itemize}
+
+\subsubsection{Catégorisation}
+
+Par la richesse des informations qu'elles contiennent, les entités nommées (EN) sont des éléments très importants pour ces systèmes d'extraction d'information. Bien qu'il n'existe pas de définition précise de ce qu'est une EN, elle est souvent apparentée aux \og noms propres \fg{}, mais pas seulement. Dans les années 1980, les campagnes d'évaluation MUC ont permis de définir ce qu'était une tâche de reconnaissance de entités nommées. Pour MUC-6 \tocite{ref MUC-6}, les EN sont les noms propres, les acronymes et éventuellement d'autres mots qui rentrent dans les catégories suivantes :
+
+\begin{itemize}
+  \item \emph{Organisation} : regroupe les entreprises, les institutions gouvernementales et les autres organisations ;
+  \item \emph{Person} : regroupe les noms de personnes ou de familles ;
+  \item \emph{Location} : regroupe les noms de lieux politiquement ou géographiquement définis (villes, pays, régions, etc.).
+\end{itemize}
+
+Il existe des typologies des EN beaucoup plus complètes que celle des campagnes MUC comme celle de Paik et coll. \tocite{Paik et coll.} ou de Coates-Stephens \tocite{coates stephens}. Par exemple, celle de Coates-Stephens définit 8 catégories d'EN :
+\begin{itemize}
+  \item les noms de personnes ;
+  \item les noms de lieux ;
+  \item les noms d'organisations ;
+  \item les noms d'origines (noms d'habitants de pays, de villes, de régions, etc.) ;
+  \item les noms de législations (\emph{loi Évin}), d'indices boursiers (\emph{Nikkei, CAC 40, Dow Jones}) ;
+  \item les noms d'événements (guerres, révolutions, catastrophes, salons, JO, etc.) ;
+  \item les noms d'objets.
+  
+\end{itemize}
+
+\subsubsection{Les différents types de systèmes}
+
+Selon Poibeau \tocite{poibeau} et Sekine et Eriguchi \tocite{sekine et eriguchi}, les systèmes de détection des EN peuvent êtres classés selon trois grands types :\\
+
+\textbf{Les systèmes fondés sur des règles écrites \og à la main \fg{}}\\
+Dans ces systèmes, le concepteur doit élaborer un ensemble de règles qui seront ensuite utilisées pour détecter les entités nommées. Historiquement, cette technique fût la première utilisée dans le domaine. Bien que depuis la campagne d'évaluation MUC-6, l'apprentissage automatique ait fait son apparition dans ce domaine, les systèmes à base de règles écrites \og à la main \fg{} restent encore très utilisés aujourd'hui.\\
+
+\textbf{Les systèmes à base d'apprentissage automatique}\\
+Ces systèmes utilisent des techniques d'apprentissage automatique (cf. \ref{sssec:apprentissage_supervise}) pour apprendre un modèle capable d'étiqueter des entités nommées à partir d'un corpus d'apprentissage. Ces travaux sont largement inspirés des techniques utilisées en reconnaissance automatique de la parole, et utilisent diverses techniques d'apprentissage : modèles de Markov cachés, modèle d'entropie maximum, arbres de décision, etc. Le système (LIA\_NE) développé par Béchet \tocite{Ref LIA\_NE Béchet} au LIA fait partie de type de système. \\ 
+
+\textbf{Les systèmes mixtes}\\
+Ces systèmes utilisent généralement des lexiques initiaux. Parmi ces systèmes, Poibeau \tocite{poibeau} distingue deux approches. La première consiste à apprendre automatiquement des règles, puis à utiliser un expert pour les réviser. Dans la seconde, un ensemble de règles de base est constitué par le concepteur, puis étendu (semi-)automatiquement par inférence, afin d'obtenir une meilleur couverture. C'est le cas de Nemesis, le système développé par Fourour \tocite{these N Fourour} au LINA\\
+
+
 
 \subsection{Reconnaissance automatique du locuteur}
 \label{ssec:ral}
@@ -223,6 +334,7 @@ La figure \ref{fig:seg_classif} décrit les principes du processus de segmentatio
 
 \end{figure}
 
+À noter que les classes de locuteur produites sont anonymes. En effet, ce type de système étiquette chacune des classes avec un nom unique, mais dénué de tout sens. Le processus qui consiste à étiqueter ces classes avec le vrai couple prénom/nom du locuteur auquel elles se rapportent est appelé \textbf{identification nommée du locuteur}. C'est à cette tâche que s'intéressent les travaux de cette thèse. 
 
 
 %Toutes ces informations sont utilisées par le système de reconnaissance de la parole de manière à choisir la manière la plus adéquat de traiter chaque type de segment. Le défi réside dans l'apprentissage de modèles acoustiques robustes vis-à-vis des différentes situations acoustiques auxquelles il sera confronté. Pour réaliser cette segmentation, le système va découper le signal en trames (environ 25 ms chacune) puis va étiqueter ces trames en fonction des différentes informations qu'il est capable d'extraire. Le principe général va ensuite consister à calculer des distances entre ces trames de manière à savoir si elles doivent être regroupées au sein du même segment ou pas. Ce principe de calcul de distance sera réutilisé pour regrouper tous les segments d'un enregistrement au sein de la même classe de locuteur.
@@ -235,99 +347,6 @@ La figure \ref{fig:seg_classif} décrit les principes du processus de segmentatio
 
 \subsubsection{Caractéristiques et variabilité}
 \label{ssec:carac_variabilite}
-\subsection{Transcription automatique de la parole}
-\label{ssec:trans_auto}
-
-\subsubsection{Principes}
-
-À l'heure où l'informatique et Internet sont partout, les quantités de données numériques ne cessent de croître. Ces grandes collections de données sont difficilement indexables manuellement, il faut donc, pour faciliter la recherche et l'accès à l'information, qu'elles soient traitées de manière automatique. Les enregistrements audio sont traités à l'aide de systèmes de reconnaissance automatique de la parole (SRAP), ces systèmes sont constitués de plusieurs composantes comment le montre la figure \ref{fig:principes_srap}.
- 
-\begin{figure}[h]
-
-\begin{center}
-\includegraphics[width=0.9\columnwidth]{img/sys_rap}
-
-\caption{Principes généraux d'un système de Reconnaissance Automatique de la Parole (SRAP)}
-\label{fig:principes_srap}
-\end{center}
-
-\end{figure}
-
-\subsubsection{Principes généraux} % (fold)
-\label{ssub:principes_generaux}
-
-Le signal de parole que traitent les SRAP est un signal complexe à étudier. En effet, ce signal possède de nombreux paramètres qui peuvent énormément varier. Ce signal est évidemment différent d'un locuteur à l'autre mais peut aussi l'être pour le même locuteur en fonction des conditions d'enregistrement ou de l'état de santé de la personne. Quoiqu'il en soit, une même personne prononcera rarement le même mot de la même façon : cela rend les traitements automatiques compliqués. En effet, pour pouvoir traiter automatiquement ces données il faut être capable d'en extraire des informations pertinentes pour les systèmes automatiques, la difficulté réside à pouvoir extraire ces informations quelques soient les conditions d'enregistrement, l'émotivité, l'accent ou encore l'âge du locuteur. En plus de ces difficultés d'extraction des caractéristiques acoustiques, s'ajoutent la difficulté de segmentation du signal en mot. En effet pour un SRAP, la parole est un flux continu qu'il ne peut interpréter tel quel comme une suite de mots. La transcription que le SRAP produit est une transcription \emph{verbatim} du document sonore, une unité de cette transcription est appelée mot. Pour résoudre ces problèmes, la majorité des SRAP actuels utilisent une approche probabiliste.
-
-L'objectif d'un système de RAP probabiliste est d'associer une séquence de mots $\hat{W} = w_1 w_2 ...wk$ (avec $w_i$ qui est un mot de cette séquence) à une séquence d'observations acoustiques $X$. Le système recherche la séquence de mots qui maximise la probabilité \emph{a posteriori} $P(W|X)$, où $P(W|X)$ est la probabilité d'émission de $W$ sachant $X$ . On obtient, après application de la règle de Bayes :
-
-\begin{equation}
-  \label{eq:bayes}
-  \hat{W} = \underset{W}{arg\ max}\ P(W|X)\ =\ \underset{W}{arg\ max}\ \frac{P(W)P(X|W)}{P(X)}
-\end{equation}
-
-Comme la séquence d'observations acoustiques $X$ est fixée, $P(X)$ peut être considérée comme une valeur constante inutile dans l'équation \ref{eq:bayes}. On a donc :
-
-\begin{equation}
-  \label{eq:bayes_simplifie}
-  \hat{W} =\ \underset{W}{arg\ max}\ P(W)P(X|W)
-\end{equation}
-
-Deux types de modèles probabilistes sont utilisés pour la recherche de la séquence de mots la plus probable : des modèles acoustiques qui fournissent la valeur de $P(X 
-|W)$, et un modèle de langage qui fournit la valeur de $P(W)$. $P(X|W)$ peut se concevoir comme la probabilité d'observer $X$ lorsque $W$ est prononcée, alors que $P(W)$ se réfère à la probabilité que $W$ soit prononcée dans un langage donné. La difficulté pour obtenir un système de RAP performant est de définir les modèles les plus pertinents possibles pour le calcul de $P(W)$ et $P(X|W)$ (voir figure \ref{fig:principes_srap}).
-
-
-
-\subsection{Détection des entités nommées}
-\label{ssec:EN}
-
-Avec l'avènement d'Internet, la quantité de données textuelles à disposition augmente de jour en jour de façon exponentielle. Comme c'est le cas pour les données audio, ces données sont, à cause de leur quantité, impossible à indexer efficacement par un humain. L'extraction d'informations et le traitement de ces données est pourtant capitale pour bon nombre de scientifiques et d'industriels. Le Traitement Automatique des Langues Naturelles (TALN) est un domaine de recherche qui s'intéresse au traitement de ces corpus de texte. Son domaine de recherche est vaste mais on peut notamment citer plusieurs domaines d'application dans lequel le TALN intervient : 
-\begin{itemize}
-  \item aide à la rédaction (corrections, résumés, génération automatique de textes),
-  \item traduction,
-  \item recherche documentaire (questions/réponses, extraction d'informations),
-  \item dialogue homme-machine,
-  \item traitement de la parole.
-\end{itemize}
-
-\subsubsection{Catégorisation}
-
-Par la richesse des informations qu'elles contiennent, les entités nommées (EN) sont des éléments très importants pour ces systèmes d'extraction d'information. Bien qu'il n'existe pas de définition précise de ce qu'est une EN, elle est souvent apparentée aux \og noms propres \fg{}, mais pas seulement. Dans les années 1980, les campagnes d'évaluation MUC ont permis de définir ce qu'était une tâche de reconnaissance de entités nommées. Pour MUC-6 \tocite{ref MUC-6}, les EN sont les noms propres, les acronymes et éventuellement d'autres mots qui rentrent dans les catégories suivantes :
-
-\begin{itemize}
-  \item \emph{Organisation} : regroupe les entreprises, les institutions gouvernementales et les autres organisations ;
-  \item \emph{Person} : regroupe les noms de personnes ou de familles ;
-  \item \emph{Location} : regroupe les noms de lieux politiquement ou géographiquement définis (villes, pays, régions, etc.).
-\end{itemize}
-
-Il existe des typologies des EN beaucoup plus complètes que celle des campagnes MUC comme celle de Paik et coll. \tocite{Paik et coll.} ou de Coates-Stephens \tocite{coates stephens}. Par exemple, celle de Coates-Stephens définit 8 catégories d'EN :
-\begin{itemize}
-  \item les noms de personnes ;
-  \item les noms de lieux ;
-  \item les noms d'organisations ;
-  \item les noms d'origines (noms d'habitants de pays, de villes, de régions, etc.) ;
-  \item les noms de législations (\emph{loi Évin}), d'indices boursiers (\emph{Nikkei, CAC 40, Dow Jones}) ;
-  \item les noms d'événements (guerres, révolutions, catastrophes, salons, JO, etc.) ;
-  \item les noms d'objets.
-  
-\end{itemize}
-
-\subsubsection{Les différents types de systèmes}
-
-Selon Poibeau \tocite{poibeau} et Sekine et Eriguchi \tocite{sekine et eriguchi}, les systèmes de détection des EN peuvent êtres classés selon trois grands types :\\
-
-\textbf{Les systèmes fondés sur des règles écrites \og à la main \fg{}}\\
-Dans ces systèmes, le concepteur doit élaborer un ensemble de règles qui seront ensuite utilisées pour détecter les entités nommées. Historiquement, cette technique fût la première utilisée dans le domaine. Bien que depuis la campagne d'évaluation MUC-6, l'apprentissage automatique ait fait son apparition dans ce domaine, les systèmes à base de règles écrites \og à la main \fg{} restent encore très utilisés aujourd'hui.\\
-
-\textbf{Les systèmes à base d'apprentissage automatique}\\
-Ces systèmes utilisent des techniques d'apprentissage automatique (cf. \ref{sssec:apprentissage_supervise}) pour apprendre un modèle capable d'étiqueter des entités nommées à partir d'un corpus d'apprentissage. Ces travaux sont largement inspirés des techniques utilisées en reconnaissance automatique de la parole, et utilisent diverses techniques d'apprentissage : modèles de Markov cachés, modèle d'entropie maximum, arbres de décision, etc. Le système (LIA\_NE) développé par Béchet \tocite{Ref LIA\_NE Béchet} au LIA fait partie de type de système. \\ 
-
-\textbf{Les systèmes mixtes}\\
-Ces systèmes utilisent généralement des lexiques initiaux. Parmi ces systèmes, Poibeau \tocite{poibeau} distingue deux approches. La première consiste à apprendre automatiquement des règles, puis à utiliser un expert pour les réviser. Dans la seconde, un ensemble de règles de base est constitué par le concepteur, puis étendu (semi-)automatiquement par inférence, afin d'obtenir une meilleur couverture. C'est le cas de Nemesis, le système développé par Fourour \tocite{these N Fourour} au LINA\\
-
-
-\subsection{Identification des locuteurs}
-
-On va ici amener la partie suivante, sur l'ID nommée.
 
 %\chapter{Systèmes automatiques}
 %\minitoc
