@@ -136,12 +136,15 @@ La deuxième partie consiste tout simplement à écrire les paroles prononcées par 
 Les transcriptions, qui plus est les transcriptions de journaux radiophoniques, contiennent un grand nombre d'entités nommées (noms de personnes, lieux, radios, etc). Des systèmes de détection des entités nommées permettent de les repérer dans les transcriptions \ref{ssec:EN}. Ce sont des informations supplémentaires qui vont pouvoir être utilisées en recherche d'informations, ou plus précisément dans le cadre des présents travaux, pour identifier les les locuteurs d'un document.
 
 
-\section{Architecture détaillée}
+%\section{Architecture détaillée}
 
-Les différentes campagnes d'évaluations des systèmes de RAP actuelles met\-tent l'accent sur la réalisation d'une transcription enrichie (cf. \ref{ssec:trans_broadcast}) via l'extraction d'informations sur les locuteurs ou encore la détection des entités nommées. Lors de la réalisation d'une transcription enrichie, plusieurs systèmes entrent en jeu. Les systèmes de transcription automatique de la parole évidemment, mais aussi des systèmes de détection d'entités nommées et de reconnaissance automatique du locuteur. Afin de situer le contexte des travaux présentés dans cette thèse, ces différents domaines de recherche sont présentés ci-dessous.
+%Les différentes campagnes d'évaluations des systèmes de RAP actuelles met\-tent l'accent sur la réalisation d'une transcription enrichie (cf. \ref{ssec:trans_broadcast}) via l'extraction d'informations sur les locuteurs ou encore la détection des entités nommées. Lors de la réalisation d'une transcription enrichie, plusieurs systèmes entrent en jeu. Les systèmes de transcription automatique de la parole évidemment, mais aussi des systèmes de détection d'entités nommées et de reconnaissance automatique du locuteur. Afin de situer le contexte des travaux présentés dans cette thèse, ces différents domaines de recherche sont présentés ci-dessous.
 
-\subsection{Transcription automatique de la parole}
+\section{Transcription automatique de la parole}
 \label{ssec:trans_auto}
+
+La transcription automatique de la parole est au coeur du processus de production d'une transcription enrichie : c'est elle qui va fournir le texte correspondant aux paroles prononcées.
+
 
 Les systèmes de transcription automatique de la parole utilisés actuellement sont des systèmes fondés sur des méthodes statistiques. Ces fondements ont été élaborés par Jelinek et son équipe chez IBM \cite{Jelinek1976}, au milieu des années 1970. La figure \ref{fig:principes_srap} donne un aperçu du fonctionnement actuel d'un système de transcription automatique de la parole. 
  
@@ -156,7 +159,7 @@ Les systèmes de transcription automatique de la parole utilisés actuellement son
 
 \end{figure}
 
-\subsubsection{Principes généraux} % (fold)
+\subsection{Principes généraux} % (fold)
 \label{ssub:principes_generaux}
 
 
@@ -176,7 +179,7 @@ Comme la séquence d'observations acoustiques $X$ est fixée, $P(X)$ peut être con
 
 Deux types de modèles probabilistes sont utilisés pour la recherche de la séquence de mots la plus probable : des modèles acoustiques qui fournissent la valeur de $P(X |W)$, et un modèle de langage qui fournit la valeur de $P(W)$. $P(X|W)$ peut se concevoir comme la probabilité d'observer $X$ lorsque $W$ est prononcée, alors que $P(W)$ se réfère à la probabilité que $W$ soit prononcée dans un langage donné. La difficulté pour obtenir un système de RAP performant est de définir les modèles les plus pertinents possibles pour le calcul de $P(W)$ et $P(X|W)$ (voir figure \ref{fig:principes_srap}).
 
-\subsubsection{Modèles acoustiques}
+\subsection{Modèles acoustiques}
 
 Il est impossible pour un système de transcription d'exploiter le signal de la parole directement. En effet il contient bon nombre d'informations qui ne sont pas utiles au décodage de la parole (mais qui le seront pour la reconnaissance du locuteur, cf \ref{ssub:decoupage_regroupement}) et qui peuvent le parasiter : des informations sur le locuteur, sur les conditions d'enregistrement, etc. Le signal de la parole étant très variable et redondant, il nécessite de toute façon des traitements spécifiques avant de pouvoir être exploité. Ces traitements (appelés paramétrisation) vont consister à extraire du signal les paramètres qui sont dépendants de la parole prononcée.
 
@@ -199,10 +202,10 @@ L'apprentissage de ces modèles acoustiques s'effectue grâce a des données \emph{
   \item et l'adaptation par régression linéaire (\emph{Maximum Likelihood Linear Regression : MLLR}).
 \end{itemize}
 
-\subsubsection{Modèles de langage}
+\subsection{Modèles de langage}
 
 
-\subsection{Détection des entités nommées}
+\section{Détection des entités nommées}
 \label{ssec:EN}
 
 Avec l'avènement d'Internet, la quantité de données textuelles à disposition augmente de jour en jour de façon exponentielle. Comme c'est le cas pour les données audio, ces données sont, à cause de leur quantité, impossible à indexer efficacement par un humain. L'extraction d'informations et le traitement de ces données est pourtant capitale pour bon nombre de scientifiques et d'industriels. Le Traitement Automatique des Langues Naturelles (TALN) est un domaine de recherche qui s'intéresse au traitement de ces corpus de texte. Son domaine de recherche est vaste mais on peut notamment citer plusieurs domaines d'application dans lequel le TALN intervient : 
@@ -214,7 +217,7 @@ Avec l'avènement d'Internet, la quantité de données textuelles à disposition aug
   \item traitement de la parole.
 \end{itemize}
 
-\subsubsection{Catégorisation}
+\subsection{Catégorisation}
 
 Par la richesse des informations qu'elles contiennent, les entités nommées (EN) sont des éléments très importants pour ces systèmes d'extraction d'information. Bien qu'il n'existe pas de définition précise de ce qu'est une EN, elle est souvent apparentée aux \og noms propres \fg{}, mais pas seulement. Dans les années 1980, les campagnes d'évaluation MUC ont permis de définir ce qu'était une tâche de reconnaissance de entités nommées. Pour MUC-6 \tocite{ref MUC-6}, les EN sont les noms propres, les acronymes et éventuellement d'autres mots qui rentrent dans les catégories suivantes :
 
@@ -236,7 +239,7 @@ Il existe des typologies des EN beaucoup plus complètes que celle des campagnes 
   
 \end{itemize}
 
-\subsubsection{Les différents types de systèmes}
+\subsection{Les différents types de systèmes}
 
 Selon Poibeau \tocite{poibeau} et Sekine et Eriguchi \tocite{sekine et eriguchi}, les systèmes de détection des EN peuvent êtres classés selon trois grands types :\\
 
@@ -251,7 +254,7 @@ Ces systèmes utilisent généralement des lexiques initiaux. Parmi ces systèmes, P
 
 
 
-\subsection{Reconnaissance automatique du locuteur}
+\section{Reconnaissance automatique du locuteur}
 \label{ssec:ral}
 
 La Reconnaissance Automatique du Locuteur (RAL) étant la première étape de la réalisation d'une transcription enrichie, c'est un élément fondamental des systèmes de reconnaissance automatique de la parole. Elle regroupe un ensemble de méthodes capables d'extraire les caractéristiques vocales propres à chaque individu à partir d'un document audio. 
@@ -263,7 +266,7 @@ L'utilisation de la RAL dans les applications que nous venons de citer peut se d
 
 %En plus de la difficulté à différencier deux locuteurs différents, la RAL est aussi confrontée à des problèmes intra-locuteurs. En effet, la voix d'un locuteur peut fortement varier d'un enregistrement à l'autre. Le niveau de fatigue, l'émotion, le contexte d'enregistrement ou encore l'âge d'un locuteur sont autant de variations qui peuvent venir perturber la RAL. Mais la biométrie n'est pas la seule application possible, de par ses caractéristiques, la RAL est utilisée dans bien d'autres domaines.
 
-\subsubsection{Identification automatique du locuteur}
+\subsection{Identification automatique du locuteur}
 
 L'identification automatique du locuteur (IAL) est une des premières applications de la RAL \cite{Atal96}. En IAL, la liste des locuteurs à identifier est connue du système. Le système doit pouvoir décider, à partir d'un échantillon de voix, à quelle identité connue du système correspond l'échantillon. La figure \ref{fig:principe_ial} décrit le principe général de l'IAL.
 
@@ -284,12 +287,13 @@ En revanche, dans une application utilisant un ensemble ouvert de locuteurs poss
 
 \end{figure}
 
-\subsubsection{Vérification automatique du locuteur}
+\subsection{Vérification automatique du locuteur}
 
 La vérification automatique du locuteur (VAL) permet de décider si l'identité revendiquée par un locuteur est compatible avec sa voix. Il s'agit donc de trancher entre deux hypothèses : soit le locuteur est bien le locuteur autorisé (on l'appelle aussi locuteur client), c'est à dire que son identité correspond à celle qu'il revendique, soit le locuteur est un imposteur qui cherche à se faire passer pour la personne qu'il n'est pas. À partir d'un échantillon de voix de référence, et d'un échantillon de voix de test, le système va donc devoir dire si oui ou non les deux locuteurs correspondent \cite{Atal96}.
 
 Les systèmes de VAL sont très dépendants des différences entre les échantillons de voix de référence et les échantillons de tests (cf. \ref{ssec:carac_variabilite}). Accepter un locuteur qui devrait être rejeté peut avoir de lourdes conséquences, en particulier dans les applications où un haut niveau de sécurité est demandé \cite{Bonastre2003} (contrôle aux frontières, système bancaire, identification judiciaire \ldots). 
-\subsubsection{Suivi de locuteur}
+
+\subsection{Suivi de locuteur}
 
 Le suivi de locuteur (SL) se base sur la tâche de vérification du locuteur. À partir d'un enregistrement de référence d'un locuteur, le système va devoir déterminer si le locuteur intervient dans le document. Si c'est le cas, il devra être capable de préciser où et quand ce locuteur intervient dans l'enregistrement. À noter qu'à part le locuteur à suivre, aucun autre locuteur du document n'est connu du système. Plusieurs méthodes différentes peuvent être employées pour réaliser cette tâche \cite{EURECOM269}, la figure \ref{fig:suivi_locu} propose un aperçu général du principe du SL.
 
@@ -304,7 +308,7 @@ Le suivi de locuteur (SL) se base sur la tâche de vérification du locuteur. À pa
 
 \end{figure}
 
-\subsubsection{Segmentation et classification en locuteur}
+\subsection{Segmentation et classification en locuteur}
 
 \label{ssub:decoupage_regroupement}
 
@@ -345,7 +349,7 @@ La figure \ref{fig:seg_classif} décrit les principes du processus de segmentatio
 
 %On peut noter sur la figure \ref{fig:decoupage_tours_classes}, qu'en plus de regrouper les tours de parole par classe de locuteur (classe du Locuteur 1, classe du Locuteur 2), le genre du locuteur est aussi mentionné. Cette information vient enrichir la transcription et pourra être utile par la suite. Les classes de locuteur sont pour l'instant anonymes. En effet, la transcription ne nous permet pas de dire que c'est \og Monsieur untel \fg{} qui parle, elle permet juste de dire que c'est le même locuteur qui parle à deux endroits différents. La solution idéale serait de pouvoir nommer les classes de locuteurs par le prénom et le patronyme du locuteur concerné (couple que nous appellerons par la suite nom complet), c'est ce que les techniques d'identification nommée du locuteur cherchent à réaliser.
 
-\subsubsection{Caractéristiques et variabilité}
+\subsection{Caractéristiques et variabilité}
 \label{ssec:carac_variabilite}
 
 %\chapter{Systèmes automatiques}
