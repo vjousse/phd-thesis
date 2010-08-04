@@ -204,11 +204,42 @@ L'apprentissage de ces modèles acoustiques s'effectue grâce a des données \emph{
 
 \subsection{Modèles de langage}
 
+Les systèmes de transcription ont besoin de contraintes linguistiques propres à la langue à décoder. Ces contraintes vont êtres utilisées par le système pour guider le décodage dans la sélection d'hypothèses acoustiques concurrentielles. Ces contraintes sont introduites par les modèles de langage dans les systèmes de transcription. Ces modèles sont des modèles probabilistes, et la probabilité d'apparition de la séquence de mots $W$ s'exprime de la façon suivante :
+
+\begin{equation}
+P(W^k_1) = P(w_1) \prod_{i=2}^{k} P(w_i|h_i)
+\label{eq4}
+\end{equation}
+
+Où $h_i$ correspond à l'historique du mot $w_i$. On a donc $h_i = w_1, ..., w_{i-1}$.
+
+Les modèles utilisés en RAP sont des modèles de langage de type \textit{n-gramme} \cite{Jelinek1976}. Bien qu'ancien, ce type de modèle constitue toujours l'état de l'art.
+
+Les modèles de ce type correspondent à une modélisation stochastique du langage, où l'historique d'un mot est représenté par les $n-1$ mots qui le précèdent :
+
+\begin{equation}
+P(W^k_1) = P(w_1) \prod_{i=2}^{n-1} P(w_i|w_1, ..., w_{i-1}) \prod_{i=n}^{k} P(w_i|w_{i-n+1}, ..., w_{i-1})
+\label{eq5}
+\end{equation}
+
+Les modèles couramment utilisés dans les SRAP sont généralement des modèles d'ordre 3 ou 4 ($n=3$ ou $n=4$). Nous parlons de modèle \textit{trigramme} ou \textit{quadrigramme} (pour $n=1$ \textit{unigramme}, pour $n=2$ \textit{bigramme}, ...).
+Dans le cas d'un modèle quadrigramme, l'équation \ref{eq5} s'écrit :
+
+\begin{equation}
+P(W^k_1) = P(w_1) P(w_2|w_1) P(w_3|w_1,w_2) \prod_{i=4}^{k} P(w_i|w_{i-3}w_{i-2}w_{i-1})
+\label{eq6}
+\end{equation}
+
+Les modèles de langage $n-grammes$ ont la particularité d'être assez souples, puisqu'ils permettent de modéliser des phrases grammaticalement incorrectes. En revanche, ils ne s'interdisent pas non plus de produire des phrases dénuées de tout sens.
+En effet, ces modèles de langage sont capables d'attribuer une probabilité à des mots inconnus. Le système est donc capable de probabiliser des phrases qu'il n'a jamais observé dans son corpus d'apprentissage, tout en privilégiant les séquences de mots les plus fréquemment observées. 
 
 \section{Détection des entités nommées}
 \label{ssec:EN}
 
-Avec l'avènement d'Internet, la quantité de données textuelles à disposition augmente de jour en jour de façon exponentielle. Comme c'est le cas pour les données audio, ces données sont, à cause de leur quantité, impossible à indexer efficacement par un humain. L'extraction d'informations et le traitement de ces données est pourtant capitale pour bon nombre de scientifiques et d'industriels. Le Traitement Automatique des Langues Naturelles (TALN) est un domaine de recherche qui s'intéresse au traitement de ces corpus de texte. Son domaine de recherche est vaste mais on peut notamment citer plusieurs domaines d'application dans lequel le TALN intervient : 
+Avec l'avènement d'Internet, la quantité de données textuelles à disposition augmente de jour en jour de façon exponentielle. Comme c'est le cas pour les données audio, ces données sont, à cause de leur quantité, impossible à indexer efficacement par un humain. L'extraction d'informations et le traitement de ces données est pourtant capitale pour bon nombre de scientifiques et d'industriels. 
+
+Les transcriptions produites par les SRAP contiennent un grand nombre d'informations qui sont très coûteuses à indexer manuellement (l'émission, le sujet traité, les personnes concernées, etc.). Ces informations peuvent être extraites automatiquement pour venir enrichir la transcription grâce à des techniques issues du Traitement Automatique des Langues Naturelles (TALN). Le TALN est un domaine de recherche qui s'intéresse au traitement de corpus de texte. Son domaine de recherche est vaste mais on peut notamment citer plusieurs domaines d'application dans lequel le TALN intervient : 
+
 \begin{itemize}
   \item aide à la rédaction (corrections, résumés, génération automatique de textes),
   \item traduction,
@@ -217,9 +248,11 @@ Avec l'avènement d'Internet, la quantité de données textuelles à disposition aug
   \item traitement de la parole.
 \end{itemize}
 
+Dans le but de réaliser une transcription enrichie, la première étape est généralement de détecter les entités nommées. Ces entités nommées vont permettre d'extraire un certain nombre d'information des transcriptions, comme les noms de personne, les lieux, les noms d'organisations, etc.
+
 \subsection{Catégorisation}
 
-Par la richesse des informations qu'elles contiennent, les entités nommées (EN) sont des éléments très importants pour ces systèmes d'extraction d'information. Bien qu'il n'existe pas de définition précise de ce qu'est une EN, elle est souvent apparentée aux \og noms propres \fg{}, mais pas seulement. Dans les années 1980, les campagnes d'évaluation MUC ont permis de définir ce qu'était une tâche de reconnaissance de entités nommées. Pour MUC-6 \tocite{ref MUC-6}, les EN sont les noms propres, les acronymes et éventuellement d'autres mots qui rentrent dans les catégories suivantes :
+Par la richesse des informations qu'elles contiennent, les entités nommées (EN) sont des éléments très importants pour les systèmes d'extraction d'information. Bien qu'il n'existe pas de définition précise de ce qu'est une EN, elle est souvent apparentée aux \og noms propres \fg{}, mais pas seulement. Dans les années 1980, les campagnes d'évaluation MUC ont permis de définir ce qu'était une tâche de reconnaissance des entités nommées. Pour MUC-6 \cite{MUC6,MUC6results}, les EN sont les noms propres, les acronymes et éventuellement d'autres mots qui rentrent dans les catégories suivantes :
 
 \begin{itemize}
   \item \emph{Organisation} : regroupe les entreprises, les institutions gouvernementales et les autres organisations ;
@@ -227,7 +260,7 @@ Par la richesse des informations qu'elles contiennent, les entités nommées (EN) 
   \item \emph{Location} : regroupe les noms de lieux politiquement ou géographiquement définis (villes, pays, régions, etc.).
 \end{itemize}
 
-Il existe des typologies des EN beaucoup plus complètes que celle des campagnes MUC comme celle de Paik et coll. \tocite{Paik et coll.} ou de Coates-Stephens \tocite{coates stephens}. Par exemple, celle de Coates-Stephens définit 8 catégories d'EN :
+Il existe des typologies des EN beaucoup plus complètes que celle des campagnes MUC comme celle de Paik et al. \cite{Paik96} ou de Coates-Stephens \cite{Coates92}. Par exemple, celle de Coates-Stephens définit 8 catégories d'EN :
 \begin{itemize}
   \item les noms de personnes ;
   \item les noms de lieux ;
@@ -241,23 +274,23 @@ Il existe des typologies des EN beaucoup plus complètes que celle des campagnes 
 
 \subsection{Les différents types de systèmes}
 
-Selon Poibeau \tocite{poibeau} et Sekine et Eriguchi \tocite{sekine et eriguchi}, les systèmes de détection des EN peuvent êtres classés selon trois grands types :\\
+Selon Poibeau \cite{Poibeau2002} et Sekine et Eriguchi \cite{Sekine2000}, les systèmes de détection des EN peuvent êtres classés selon trois grands types :\\
 
 \textbf{Les systèmes fondés sur des règles écrites \og à la main \fg{}}\\
 Dans ces systèmes, le concepteur doit élaborer un ensemble de règles qui seront ensuite utilisées pour détecter les entités nommées. Historiquement, cette technique fût la première utilisée dans le domaine. Bien que depuis la campagne d'évaluation MUC-6, l'apprentissage automatique ait fait son apparition dans ce domaine, les systèmes à base de règles écrites \og à la main \fg{} restent encore très utilisés aujourd'hui.\\
 
 \textbf{Les systèmes à base d'apprentissage automatique}\\
-Ces systèmes utilisent des techniques d'apprentissage automatique (cf. \ref{sssec:apprentissage_supervise}) pour apprendre un modèle capable d'étiqueter des entités nommées à partir d'un corpus d'apprentissage. Ces travaux sont largement inspirés des techniques utilisées en reconnaissance automatique de la parole, et utilisent diverses techniques d'apprentissage : modèles de Markov cachés, modèle d'entropie maximum, arbres de décision, etc. Le système (LIA\_NE) développé par Béchet \tocite{Ref LIA\_NE Béchet} au LIA fait partie de type de système. \\ 
+Ces systèmes utilisent des techniques d'apprentissage automatique pour apprendre un modèle capable d'étiqueter des entités nommées à partir d'un corpus d'apprentissage. Ces travaux sont largement inspirés des techniques utilisées en reconnaissance automatique de la parole, et utilisent diverses techniques d'apprentissage : modèles de Markov cachés, modèle d'entropie maximum, arbres de décision, etc. Le système (LIA\_NE) développé par Béchet au Laboratoire d'Informatique d'Avignon (LIA) pour ESTER2 \cite{Ester2} fait partie de ce type de systèmes.\\ 
 
 \textbf{Les systèmes mixtes}\\
-Ces systèmes utilisent généralement des lexiques initiaux. Parmi ces systèmes, Poibeau \tocite{poibeau} distingue deux approches. La première consiste à apprendre automatiquement des règles, puis à utiliser un expert pour les réviser. Dans la seconde, un ensemble de règles de base est constitué par le concepteur, puis étendu (semi-)automatiquement par inférence, afin d'obtenir une meilleur couverture. C'est le cas de Nemesis, le système développé par Fourour \tocite{these N Fourour} au LINA\\
+Ces systèmes utilisent généralement des lexiques initiaux. Parmi ces systèmes, Poibeau \cite{Poibeau2002} distingue deux approches. La première consiste à apprendre automatiquement des règles, puis à utiliser un expert pour les réviser. Dans la seconde, un ensemble de règles de base est constitué par le concepteur, puis étendu (semi-)automatiquement par inférence, afin d'obtenir une meilleur couverture. C'est le cas de Nemesis, le système développé par Fourour \cite{Fourour04} au Laboratoire d'Informatique de Nantes Atlantique (LINA).\\
 
 
 
 \section{Reconnaissance automatique du locuteur}
 \label{ssec:ral}
 
-La Reconnaissance Automatique du Locuteur (RAL) étant la première étape de la réalisation d'une transcription enrichie, c'est un élément fondamental des systèmes de reconnaissance automatique de la parole. Elle regroupe un ensemble de méthodes capables d'extraire les caractéristiques vocales propres à chaque individu à partir d'un document audio. 
+La Reconnaissance Automatique du Locuteur (RAL) regroupe un ensemble de méthodes capables d'extraire les caractéristiques vocales propres à chaque individu à partir d'un document audio. 
   
 
 \subsection{Caractéristiques et variabilité}
