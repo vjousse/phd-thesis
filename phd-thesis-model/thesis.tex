@@ -259,6 +259,14 @@ Ces systèmes utilisent généralement des lexiques initiaux. Parmi ces systèmes, P
 
 La Reconnaissance Automatique du Locuteur (RAL) étant la première étape de la réalisation d'une transcription enrichie, c'est un élément fondamental des systèmes de reconnaissance automatique de la parole. Elle regroupe un ensemble de méthodes capables d'extraire les caractéristiques vocales propres à chaque individu à partir d'un document audio. 
   
+
+\subsection{Caractéristiques et variabilité}
+\label{ssec:carac_variabilite}
+
+Toutes les techniques de RAL se basent sur l'extraction des caractéristiques (\emph{features}) du signal audio \cite{Atal76,Doddington85,hollien_acoustics_of_crime90,oshaughnessy86}.
+
+\subsection{Applications}
+
 Des serveurs vocaux aux terminaux mobiles en passant par les dispositifs de sécurité, la RAL est utilisée dans de nombreux domaines. Certains serveurs vocaux l'utilisent notamment pour détecter le genre du locuteur qui s'exprime. Par exemple, grâce à la plateforme MISTRAL \cite{MeignierMistral}, la société Calistel propose de router les appels provenant de locuteurs masculins vers des opératrices féminines et inversement, afin d'obtenir un taux de satisfaction des appels plus important. Mais les applications de la RAL les plus connues sont certainement celles qui tournent autour de la biométrie. Dans les applications biométriques, un système de RAL va essayer de reconnaître, grâce à sa voix, un locuteur qui cherche à s'identifier au prêt d'un terminal. Même si ces systèmes donnent de bons résultats, ils ne sont pas parfaits. Les systèmes à l'état de l'art comme MISTRAL ont un taux d'erreur aux alentours de 5\% \cite{MeignierMistral}. Ils ne peuvent donc pas être considérés comme aussi sûr que les empreintes digitales et doivent être utilisés avec prudence à des fins judiciaires par exemple \cite{Boe99, Bonastre2003}. En revanche, avec l'arrivée des terminaux mobiles dans la vie de tous les jours, la RAL s'invite avec succès dans les téléphones portables de dernière génération \cite{Larcher_JEP10}.
 
 
@@ -268,7 +276,7 @@ L'utilisation de la RAL dans les applications que nous venons de citer peut se d
 
 \subsection{Identification automatique du locuteur}
 
-L'identification automatique du locuteur (IAL) est une des premières applications de la RAL \cite{Atal96}. En IAL, la liste des locuteurs à identifier est connue du système. Le système doit pouvoir décider, à partir d'un échantillon de voix, à quelle identité connue du système correspond l'échantillon. La figure \ref{fig:principe_ial} décrit le principe général de l'IAL.
+L'identification automatique du locuteur (IAL) est une des premières applications de la RAL \cite{Atal76}. En IAL, la liste des locuteurs à identifier est connue du système. Le système doit pouvoir décider, à partir d'un échantillon de voix, à quelle identité connue du système correspond l'échantillon. La figure \ref{fig:principe_ial} décrit le principe général de l'IAL.
 
 L'identification automatique du locuteur se découpe en deux étapes : une étape d'apprentissage et une étape de test. À partir d'un ensemble d'enregistrements de voix de chaque locuteur, le système apprend un modèle pour chaque locuteur lors de l'étape d'apprentissage. Lors de l'étape de test, le système confrontera l'échantillon de voix qu'il recevra aux différents modèles qu'il aura déjà appris afin de déterminer si l'identité du locuteur est déjà connue.
 
@@ -289,7 +297,7 @@ En revanche, dans une application utilisant un ensemble ouvert de locuteurs poss
 
 \subsection{Vérification automatique du locuteur}
 
-La vérification automatique du locuteur (VAL) permet de décider si l'identité revendiquée par un locuteur est compatible avec sa voix. Il s'agit donc de trancher entre deux hypothèses : soit le locuteur est bien le locuteur autorisé (on l'appelle aussi locuteur client), c'est à dire que son identité correspond à celle qu'il revendique, soit le locuteur est un imposteur qui cherche à se faire passer pour la personne qu'il n'est pas. À partir d'un échantillon de voix de référence, et d'un échantillon de voix de test, le système va donc devoir dire si oui ou non les deux locuteurs correspondent \cite{Atal96}.
+La vérification automatique du locuteur (VAL) permet de décider si l'identité revendiquée par un locuteur est compatible avec sa voix. Il s'agit donc de trancher entre deux hypothèses : soit le locuteur est bien le locuteur autorisé (on l'appelle aussi locuteur client), c'est à dire que son identité correspond à celle qu'il revendique, soit le locuteur est un imposteur qui cherche à se faire passer pour la personne qu'il n'est pas. À partir d'un échantillon de voix de référence, et d'un échantillon de voix de test, le système va donc devoir dire si oui ou non les deux locuteurs correspondent \cite{Atal76}.
 
 Les systèmes de VAL sont très dépendants des différences entre les échantillons de voix de référence et les échantillons de tests (cf. \ref{ssec:carac_variabilite}). Accepter un locuteur qui devrait être rejeté peut avoir de lourdes conséquences, en particulier dans les applications où un haut niveau de sécurité est demandé \cite{Bonastre2003} (contrôle aux frontières, système bancaire, identification judiciaire \ldots). 
 
@@ -349,8 +357,6 @@ La figure \ref{fig:seg_classif} décrit les principes du processus de segmentatio
 
 %On peut noter sur la figure \ref{fig:decoupage_tours_classes}, qu'en plus de regrouper les tours de parole par classe de locuteur (classe du Locuteur 1, classe du Locuteur 2), le genre du locuteur est aussi mentionné. Cette information vient enrichir la transcription et pourra être utile par la suite. Les classes de locuteur sont pour l'instant anonymes. En effet, la transcription ne nous permet pas de dire que c'est \og Monsieur untel \fg{} qui parle, elle permet juste de dire que c'est le même locuteur qui parle à deux endroits différents. La solution idéale serait de pouvoir nommer les classes de locuteurs par le prénom et le patronyme du locuteur concerné (couple que nous appellerons par la suite nom complet), c'est ce que les techniques d'identification nommée du locuteur cherchent à réaliser.
 
-\subsection{Caractéristiques et variabilité}
-\label{ssec:carac_variabilite}
 
 %\chapter{Systèmes automatiques}
 %\minitoc
