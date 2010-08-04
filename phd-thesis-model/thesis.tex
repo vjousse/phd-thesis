@@ -263,7 +263,9 @@ La Reconnaissance Automatique du Locuteur (RAL) étant la première étape de la ré
 \subsection{Caractéristiques et variabilité}
 \label{ssec:carac_variabilite}
 
-Toutes les techniques de RAL se basent sur l'extraction des caractéristiques (\emph{features}) du signal audio \cite{Atal76,Doddington85,hollien_acoustics_of_crime90,oshaughnessy86}.
+Toutes les techniques de RAL se basent sur l'extraction des caractéristiques (\emph{features}) du signal audio \cite{Atal76,Doddington85,hollien_acoustics_of_crime90,oshaughnessy86,Sambur75}. Ces caractéristiques doivent être robustes par rapport aux conditions d'enregistrement et fournir le plus de renseignements possibles concernant l'identité du locuteur.
+
+Une question importante est celle de la variabilité des caractéristiques mesurées. On parle de variabilité intra-locuteur lorsque l'on s'intéresse à la variation des paramètres mesurés pour un même locuteur, et de variabilité inter-locuteur si on considère des locuteurs différents \cite{Doddington85,hollien_acoustics_of_crime90,Rosenberg91}. Pour la reconnaissance du locuteur, on cherche à extraire des caractéristiques du signal de parole qui présentent une forte variabilité inter-locuteur (pour pouvoir différencier les locuteurs entre eux) et une faible variabilité intra-locuteur (pour garantir la robustesse du système).
 
 \subsection{Applications}
 
