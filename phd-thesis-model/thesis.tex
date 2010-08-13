@@ -105,6 +105,8 @@ Lors de la première campagne ESTER\cite{Galliano05}, le meilleur système (celui 
 
 \section{Transcription Enrichie}
 
+\label{sec:trans_enrichie}
+
 Avec ces nouvelles campagnes est apparue la notion de transcription enrichie. En effet, les corpus étant constitués d'enregistrements de journaux radiophoniques, d'autres informations que la simple transcription en mots peuvent être extraites des corpus. Par rapport aux corpus de dictée vocale, les documents sont multi-locuteurs. Au sein d'un même enregistrement, des dizaines de locuteurs différents peuvent parler tout au long du fichier. De plus, ces locuteurs peuvent s'exprimer depuis un téléphone ou en studio. Toutes ces informations permettent d'étayer, d'enrichir la transcription. De nouvelles tâches sont donc apparues dans les campagnes permettant d'évaluer l'enrichissement des transcriptions, comme la reconnaissance du locuteur ou encore la détection des entités nommées.
 
 La figure \ref{fig:etapes_transcription_enrichie} décrit les différentes composantes des transcriptions réalisées pour les campagnes de type ESTER. Lors de la réalisation de ces transcriptions, il est possible de distinguer deux grandes parties que nous détaillons ci-dessous. 
@@ -491,7 +493,9 @@ La figure \ref{fig:seg_classif} décrit les principes du processus de segmentatio
 \chapter{L'identification nommée du locuteur}
 \minitoc
 
-L'identification nommée du locuteur consiste à attribuer un prénom et un patronyme (appelé \og nom complet \fg{}) à chaque locuteur d'un document audio. Contrairement à la reconnaissance de la parole, l'identification nommées de locuteurs dans de larges corpus audio est un domaine de recherche relativement récent. Jusqu'en 2005, l'identification de locuteurs servait à suivre des locuteurs anonymes à différents endroits des enregistrements. Ce sont les travaux du LIMSI et plus particulièrement de Leonardo Canseco-Rodriguez \cite{CansecoRodriguez2005}, qui ont été les premiers à s'intéresser à l'identification nommée du locuteur utilisant la transcription (réalisée manuellement) du signal audio.
+L'identification nommée du locuteur (INL) consiste à attribuer un prénom et un patronyme (appelé \og nom complet \fg{}) à chaque locuteur d'un document audio. Les systèmes de reconnaissance de la parole récents s'intéressant aux transcriptions d'émissions radiophoniques (cf. \ref{ssec:trans_broadcast} fournissent une transcription dite enrichie (cf. \ref{sec:trans_enrichie}). Cette transcription contient notamment une segmentation et une classification en locuteurs (cf. \ref{ssub:decoupage_regroupement}) qui permet de délimiter les interventions des différents locuteurs dans l'enregistrement. En revanche, les informations fournies par le processus de segmentation et de classification en locuteur ne permettent pas d'identifier les locuteurs du document par leur prénom et nom. Les locuteurs sont uniquement identifiés par des labels anonymes du type \emph{Locuteur1}, \emph{Locuteur2}. L'INL cherche à remplacer ces labels anonymes par la vraie identité des locuteurs, à savoir par leurs noms complets (couple prénom/patronyme).
+
+Contrairement à la reconnaissance de la parole et aux tâches de reconnaissance du locuteur présentées dans le chapitre précédent, l'identification nommée de locuteurs est un domaine de recherche relativement récent. En effet, ce sont les travaux du LIMSI et plus particulièrement de Leonardo Canseco-Rodriguez \cite{CansecoRodriguez2005}, qui ont été les premiers à s'intéresser à l'identification nommée du locuteur utilisant la transcription enrichie (réalisée manuellement) d'enregistrements radiophoniques.
 
 \section{Méthode purement acoustique}
 \label{sub:suivi_locuteur}
