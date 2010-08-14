@@ -23,6 +23,7 @@
 
 \chapter{Reconnaissance automatique la parole}
 \minitoc
+\newpage
 
 La reconnaissance automatique de la parole (RAP) a pour but de transcrire sous forme textuelle un signal audio. La RAP est un problème complexe, c'est pourquoi seuls des sous problèmes ont été résolus à ce jour. Des contraintes sont imposées afin de réduire la complexité du problème en ciblant des applications bien particulières. Un système idéal serait capable de transcrire n'importe quel locuteur (qu'il le connaisse ou nom), dans n'importe quel environnement sonore (studio, téléphone, dans la rue, etc) en utilisant un registre de langage et une locution spontanés. Malheureusement, un tel système n'existe pas et des contraintes sont encore nécessaires. Ces contraintes peuvent être la mise à contribution du locuteur pour apprendre sa voix afin de mieux la reconnaître, ou encore la réduction des phrases que le système va être capable de reconnaître.
 
@@ -492,8 +493,15 @@ La figure \ref{fig:seg_classif} décrit les principes du processus de segmentatio
 
 \chapter{L'identification nommée du locuteur}
 \minitoc
+\newpage
 
-L'identification nommée du locuteur (INL) consiste à attribuer un prénom et un patronyme (appelé \og nom complet \fg{}) à chaque locuteur d'un document audio. Les systèmes de reconnaissance de la parole récents s'intéressant aux transcriptions d'émissions radiophoniques (cf. \ref{ssec:trans_broadcast} fournissent une transcription dite enrichie (cf. \ref{sec:trans_enrichie}). Cette transcription contient notamment une segmentation et une classification en locuteurs (cf. \ref{ssub:decoupage_regroupement}) qui permet de délimiter les interventions des différents locuteurs dans l'enregistrement. En revanche, les informations fournies par le processus de segmentation et de classification en locuteur ne permettent pas d'identifier les locuteurs du document par leur prénom et nom. Les locuteurs sont uniquement identifiés par des labels anonymes du type \emph{Locuteur1}, \emph{Locuteur2}. L'INL cherche à remplacer ces labels anonymes par la vraie identité des locuteurs, à savoir par leurs noms complets (couple prénom/patronyme).
+L'identification nommée du locuteur (INL) consiste à attribuer un prénom et un patronyme (appelés \og nom complet \fg{}) à chaque locuteur d'un document audio. Ces informations viennent enrichir la transcription et peuvent être utilisées dans plusieurs domaines d'applications. 
+
+Disposer des noms complets des intervenants d'un document est très utile pour la recherche d'informations. En effet, les bases de données audio et vidéo ne cessent de croître avec la numérisation massive des documents audiovisuels. Ainsi, les besoins en indexation et recherche automatiques croient de la même manière. Par exemple en France, l'Institut National de l'Audiovisuel (INA) a lancé un plan de sauvegarde et de numérisation de ses différents documents en 1999. Ce plan a pour but de numériser plusieurs millions d'heures d'enregistrements de radio et de télévision. Il doit permettre de ne pas perdre les données qu'elles contiennent à cause de l'obsolescence des supports. Suite au lancement de ce plan de sauvegarde, de nombreux travaux ont été menés à l'INA sur l'indexation automatique des documents \cite{Veneau2001,Allauzen2003,Joly2004,Poli2007}. L'utilisation de l'INL pour ce type de bases de données pourrait apporter un réel plus pour l'indexation. Elle permettrait par exemple de faciliter la recherche des différents intervenants dans les documents indexés.
+
+Les récentes campagnes d'évaluation des systèmes de reconnaissance automatique de la parole (cf. \ref{ssec:trans_broadcast}) s'intéressent à l'enrichissement de la transcription (cf. \ref{sec:trans_enrichie}) par diverses informations comme les entités nommées ou encore les informations sur les locuteurs du document. Cette transcription contient notamment une segmentation et une classification en locuteurs (cf. \ref{ssub:decoupage_regroupement}) qui permettent de délimiter les interventions des différents locuteurs dans l'enregistrement. En revanche, les informations fournies par le processus de segmentation et de classification en locuteur ne permettent pas d'identifier les locuteurs du document par leur prénom et nom. Les locuteurs sont uniquement identifiés par des labels anonymes du type \emph{Locuteur1}, \emph{Locuteur2}. L'INL s'inscrit parfaitement dans l'enrichissement de la transcription en permettant de remplacer ces labels anonymes par la \og vraie identité \fg{} des locuteurs. On entend par \og vraie identité \fg{} du locuteur son prénom et son patronyme. Ce couple prénom/patronyme sera par la suite désigné comme étant le \textbf{nom complet} du locuteur.
+
+Afin de pouvoir identifier les locuteurs d'un document, il faut réussir à obtenir leur prénom et leur nom.\todo{On parle du suivi du loc comme alternative, puis on amène l'extraction à partir de la transcription}.
 
 Contrairement à la reconnaissance de la parole et aux tâches de reconnaissance du locuteur présentées dans le chapitre précédent, l'identification nommée de locuteurs est un domaine de recherche relativement récent. En effet, ce sont les travaux du LIMSI et plus particulièrement de Leonardo Canseco-Rodriguez \cite{CansecoRodriguez2005}, qui ont été les premiers à s'intéresser à l'identification nommée du locuteur utilisant la transcription enrichie (réalisée manuellement) d'enregistrements radiophoniques.
 
@@ -799,6 +807,7 @@ Les travaux du LIUM ont été les seuls à utiliser un système automatique de détec
 
 \chapter{Le système d'identification nommée du Laboratoire d'Informatique de l'Université du Maine (LIUM\_NI)}
 \minitoc
+\newpage
 
 \label{sec:sys_id_lium}
 
@@ -992,6 +1001,7 @@ Les noms complets des locuteurs sont présents dans la transcription, et ils est 
 
 \chapter{LIUM\_NI : Un nouveau système de décision (titre à trouver ?)}
 \minitoc
+\newpage
 
 \section{Analyse des erreurs}
 
