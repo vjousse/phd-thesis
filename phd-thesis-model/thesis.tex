@@ -343,6 +343,8 @@ Les systèmes de VAL sont très dépendants des différences entre les échantillons 
 
 \subsection{Suivi de locuteur}
 
+\label{ssec:sl}
+
 Le suivi de locuteur (SL) se base sur la tâche de vérification du locuteur. À partir d'un enregistrement de référence d'un locuteur, le système va devoir déterminer si le locuteur intervient dans le document. Si c'est le cas, il devra être capable de préciser où et quand ce locuteur intervient dans l'enregistrement. À noter qu'à part le locuteur à suivre, aucun autre locuteur du document n'est connu du système. Plusieurs méthodes différentes peuvent être employées pour réaliser cette tâche \cite{EURECOM269}, la figure \ref{fig:suivi_locu} propose un aperçu général du principe du SL.
 
 \begin{figure}[h]
@@ -501,11 +503,11 @@ Disposer des noms complets des intervenants d'un document est très utile pour la
 
 Les récentes campagnes d'évaluation des systèmes de reconnaissance automatique de la parole (cf. \ref{ssec:trans_broadcast}) s'intéressent à l'enrichissement de la transcription (cf. \ref{sec:trans_enrichie}) par diverses informations comme les entités nommées ou encore les informations sur les locuteurs du document. Cette transcription contient notamment une segmentation et une classification en locuteurs (cf. \ref{ssub:decoupage_regroupement}) qui permettent de délimiter les interventions des différents locuteurs dans l'enregistrement. En revanche, les informations fournies par le processus de segmentation et de classification en locuteur ne permettent pas d'identifier les locuteurs du document par leur prénom et nom. Les locuteurs sont uniquement identifiés par des labels anonymes du type \emph{Locuteur1}, \emph{Locuteur2}. L'INL s'inscrit parfaitement dans l'enrichissement de la transcription en permettant de remplacer ces labels anonymes par la \og vraie identité \fg{} des locuteurs. On entend par \og vraie identité \fg{} du locuteur son prénom et son patronyme. Ce couple prénom/patronyme sera par la suite désigné comme étant le \textbf{nom complet} du locuteur.
 
-Afin de pouvoir identifier les locuteurs d'un document, il faut réussir à obtenir leur prénom et leur nom.\todo{On parle du suivi du loc comme alternative, puis on amène l'extraction à partir de la transcription}.
+Afin de pouvoir attribuer aux locuteurs d'un document leurs nom complets, il faut obtenir leurs prénoms et noms. Deux principales approches sont possibles : disposer d'informations a priori sur les locuteurs comme dans le cas du suivi de locuteur (cf. \ref{ssec:sl}) ou utiliser les informations fournies par le document lui même pour déterminer l'identité des locuteurs.
 
-Contrairement à la reconnaissance de la parole et aux tâches de reconnaissance du locuteur présentées dans le chapitre précédent, l'identification nommée de locuteurs est un domaine de recherche relativement récent. En effet, ce sont les travaux du LIMSI et plus particulièrement de Leonardo Canseco-Rodriguez \cite{CansecoRodriguez2005}, qui ont été les premiers à s'intéresser à l'identification nommée du locuteur utilisant la transcription enrichie (réalisée manuellement) d'enregistrements radiophoniques.
+%Contrairement à la reconnaissance de la parole et aux tâches de reconnaissance du locuteur présentées dans le chapitre précédent, l'identification nommée de locuteurs est un domaine de recherche relativement récent. En effet, ce sont les travaux du LIMSI et plus particulièrement de Leonardo Canseco-Rodriguez \cite{CansecoRodriguez2005}, qui ont été les premiers à s'intéresser à l'identification nommée du locuteur utilisant la transcription enrichie (réalisée manuellement) d'enregistrements radiophoniques.
 
-\section{Méthode purement acoustique}
+\section{Connaissances a priori}
 \label{sub:suivi_locuteur}
 
 L'identification nommée du locuteur a d'abord été réalisée avec des méthodes purement acoustiques \tocite{ref méthodes acoustiques}. Ces méthodes sont des méthodes dites de \og suivi du locuteur \fg. En effet, on apprend un modèle acoustique à partir des échantillons de voix d'une personne, et c'est ce modèle qui sera ensuite utilisé pour identifier (ou plutôt suivre) la personne dans un autre enregistrement. Plus la quantité de données disponibles pour apprendre le modèle sera grande, plus l'identification du locuteur sera performante.
@@ -514,7 +516,7 @@ Même si ces modèles sont performants \tocite{ref résultats sys acoustiques}, ils
 Ces méthodes entièrement basées sur l'acoustique imposent donc de disposer de modèles acoustiques pour chaque locuteur d'un enregistrement que l'on cherche à nommer : ces connaissances a priori sont souvent compliquées à obtenir et le principe même de ces méthodes empêche toute identification d'un locuteur non connu à l'avance. Ce sont ces limitations qui ont motivé les travaux consistant à utiliser la transcription du signal audio pour identifier les locuteurs d'un enregistrement. Dans les journaux d'information, les locuteurs ont pour habitude de s'annoncer, Canseco-Rodriguez \cite{CansecoRodriguez2005,CansecoRodriguez2006} a donc eu l'idée d'utiliser ces annonces pour essayer de nommer les locuteurs d'un enregistrement à partir du contenu de la transcription. Ces transcriptions peuvent être réalisées par un humain ou par des systèmes entièrement automatiques. Elles sont au coeur des méthodes d'identification nommées présentées dans cette thèse.
 
 
-\section{Concepts}
+\section{Analyse conjointe du signal et de sa transcription}
 
 L'idée directrice des travaux reposant sur la transcription d'un enregistrement est que le nom complet d'un locuteur d'un enregistrement est présent dans la transcription de cet enregistrement. C'est généralement le cas dans les journaux radiophoniques où la majorité des locuteurs s'annoncent : il est donc possible d'utiliser ces informations pour nommer les locuteurs du document. C'est d'ailleurs pour cette raison que tous les travaux du domaine concernent uniquement des enregistrements de journaux radiophoniques. Pour pouvoir exploiter les noms de locuteurs cités dans la transcription il va tout d'abord falloir les détecter puis être capable de les attribuer aux bons tours de parole.
 
