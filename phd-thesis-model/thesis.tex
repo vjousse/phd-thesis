@@ -512,7 +512,7 @@ Afin de pouvoir attribuer aux locuteurs d'un document leurs nom complets, il fau
 \section{Utilisation de connaissances a priori}
 \label{sub:suivi_locuteur}
 
-Obtenir l'identité d'un locuteur a d'abord été réalisé avec des méthodes purement acoustiques. Le suivi de locuteur (décrit dans le chapitre \ref{sec:ral}) peut être étendu à $n$ locuteurs afin d'identifier tous les locuteurs d'un document. Bien qu'utilisées depuis plusieurs années, ces méthodes souffrent de plusieurs inconvénients. 
+Obtenir l'identité d'un locuteur a d'abord été réalisé avec des méthodes purement acoustiques. Le suivi de locuteur (décrit dans le chapitre \ref{sec:ral}) peut être étendu à $n$ locuteurs afin d'identifier tous les locuteurs d'un document. Bien qu'utilisées depuis des années, ces méthodes souffrent de plusieurs inconvénients. 
 
 Tout d'abord, il est absolument nécessaire de connaître les personnes que l'on cherche à identifier. En effet, les systèmes doivent commencer par apprendre des modèles acoustiques correspondant à chaque locuteur du document pour ensuite les associer aux différents intervenants de l'enregistrement traité. Ils ne peuvent donc identifier que des personnes dont ils possèdent déjà les modèles. De plus, lorsque l'on peut apprendre ce modèle acoustique, il faut posséder une quantité de données suffisante pour pouvoir l'apprendre : plusieurs minutes sont un minimum.
 
@@ -524,7 +524,52 @@ Ces différentes limitations ont motivé les récents travaux ne nécessitant pas de
 
 \section{Utilisation des informations de la transcription}
 
-L'idée directrice des travaux reposant sur la transcription d'un enregistrement est que le nom complet d'un locuteur d'un enregistrement est présent dans la transcription de cet enregistrement. C'est généralement le cas dans les journaux radiophoniques où la majorité des locuteurs s'annoncent : il est donc possible d'utiliser ces informations pour nommer les locuteurs du document. C'est d'ailleurs pour cette raison que tous les travaux du domaine concernent uniquement des enregistrements de journaux radiophoniques. Pour pouvoir exploiter les noms de locuteurs cités dans la transcription il va tout d'abord falloir les détecter puis être capable de les attribuer aux bons tours de parole.
+Puisque le but de ces méthodes est de n'utiliser aucune connaissance a priori sur le document traité, elles doivent extraire les noms complets à partir des informations disponibles dans le fichier audio. La transcription en mots du signal est une source d'informations de choix pour trouver les prénoms et les patronymes des locuteurs : dans beaucoup d'enregistrements (et notamment ceux provenant des journaux radiophoniques) les noms complets des intervenants font partie de la transcription. 
+
+La figure \ref{fig:principe_inl} donne un aperçu de ce que l'identification nommée à partir de la transcription cherche à réaliser. 
+
+\begin{figure}[h]
+
+\begin{center}
+\includegraphics[width=0.9\columnwidth]{img/discussion_nommee}
+
+\caption{Aperçu global de l'identification nommée du locuteur utilisant la transcription}
+\label{fig:principe_inl}
+\end{center}
+
+\end{figure}
+
+
+\subsection{Présence des noms complets}
+
+À partir du moment où les noms complets des locuteurs sont cités dans le document lui même, il semble possible de les exploiter pour identifier les différents intervenants. C'est l'hypothèse de base de toutes les méthodes utilisant la transcription pour réaliser l'identification nommée : les noms complets des locuteurs du document sont présents dans le document lui même.
+
+Même si cette hypothèse est très forte, elle permet d'exploiter un grand nombre de documents. Les journaux d'informations (qu'ils soient radiophoniques ou télévisuels) sont par exemple tout à fait adaptés à ce style de techniques. Dans ce type de document, la majorité des locuteurs s'annoncent ou sont annoncés. C'est systématiquement le cas des présentateurs et des invités par exemple. Dans les enregistrements de réunions, les locuteurs sont présentés et se passent la parole : il est donc possible de récupérer leurs noms complets. De manière plus générale, tout type de document où les locuteurs s'annoncent ou sont annoncés vont pouvoir être exploités avec les techniques d'identification nommée basées sur la transcription du signal audio.
+
+Disposer de documents dans lesquels les noms complets des locuteurs sont cités n'est pas suffisant, il faut ensuite être capable d'attribuer ces noms complets aux différents intervenants du document. La partie suivante décrit le principe d'attribution commun à toutes les méthodes d'INL basées sur la transcription.
+
+
+\subsection{Attribution des noms complets}
+
+La deuxième hypothèse sur laquelle reposent les techniques utilisant la transcription est qu'il est possible d'exploiter les noms complets contenus dans la transcription pour identifier les locuteurs du document. La technique utilisée par tous les systèmes d'identification nommée à partir de la transcription est la même : attribuer un nom complet détecté dans le document au locuteur qui est en train de parler (appelé locuteur courant), au locuteur qui parle ensuite (appelé locuteur suivant) ou au locuteur qui vient de parler (appelé locuteur précédent). La figure \ref{fig:segment} résume le principe de cette attribution.
+
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=1\columnwidth]{img/segment.pdf}
+\caption{Principe de base des systèmes d'identification nommée basés sur la transcription}
+\label{fig:segment}
+\end{center}
+\end{figure}
+
+
+
+
+Ces techniques nécessitent de détecter les différents noms complets cités dans la transcription pour ensuite les attribuer aux locuteurs du document. Il va donc falloir obtenir la transcription du signal audio pour pouvoir y détecter les différents noms complets qu'elle contient. Cette transcription devra aussi être enrichie avec une segmentation et une classification en locuteurs, puisque ce sont à ces locuteurs qu'il faudra attribuer les noms complets détectés dans la transcription. 
+Comme le montre la figure \ref{fig:principe_inl}, la première étape consiste à réaliser une transcription enrichie du signal audio. Pour pouvoir être exploitée par les techniques d'identification nommée, cette transcription doit être préparée. La partie suivante décrit la préparation de cette transcription. 
+
+\subsubsection{Principes généraux} % (fold)
+\label{ssub:principes_generaux}
 
 Les méthodes d'identification nommée du locuteur à partir de la transcription sont multiples mais partagent toutes un principe commun. Du pré-traitement de la transcription, en passant par des décisions locales puis globales, les outils utilisés divergent mais le principe reste le même.
 
@@ -547,15 +592,6 @@ Bien que l'identification nommée se base sur des transcriptions, ces transcripti
 \label{ssub:etiquetage_des_nom_complets}
 
 Lorsque la transcription est enrichie avec l'étiquetage des entités nommées qu'elle contient, il est possible de déterminer l'emplacement des différents nom complets cités dans l'enregistrement. La difficulté va être de réussir à déterminer si ces noms détectés sont des locuteurs de l'enregistrement ou non, et quand ils le sont à quelle partie de l'enregistrement ils se rapportent. Pour ce faire, les méthodes d'identification nommée attribuent des étiquettes à chaque nom complet détecté, ces étiquettes sont : \og précédent \fg{}, \og courant \fg{}, \og suivant \fg{} ou \og autre \fg{}. Ces étiquettes vont permettent de déterminer si le nom complet détecté dans la transcription désigne le locuteur s'exprimant dans le tour de parole précédent, dans le tour courant, dans le suivant ou dans aucun des tours contigus. Le dernier cas appelé \og autre \fg{} met en évidence une des limites de l'approche : que le nom complet détecté concerne un locuteur de l'enregistrement ou pas, ce locuteur doit parler dans les tours de parole contigus au tour de parole où son nom a été détecté. La figure \ref{fig:segment} décrit les différents cas de figures possibles.
-
-
-\begin{figure}
-\begin{center}
-\includegraphics[width=1\columnwidth]{img/segment.pdf}
-\caption{Principe de base des systèmes d'identification nommée basés sur la transcription}
-\label{fig:segment}
-\end{center}
-\end{figure}
 
 À cette étape, les noms complets détectés sont propagés aux tours de parole contigus. On appellera cette propagation \og décision locale \fg{} par la suite.
 
