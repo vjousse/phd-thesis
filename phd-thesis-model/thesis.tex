@@ -546,12 +546,14 @@ La figure \ref{fig:principe_inl} donne un aperçu de ce que l'identification nomm
 
 Même si cette hypothèse est très forte, elle permet d'exploiter un grand nombre de documents. Les journaux d'informations (qu'ils soient radiophoniques ou télévisuels) sont par exemple tout à fait adaptés à ce style de techniques. Dans ce type de document, la majorité des locuteurs s'annoncent ou sont annoncés. C'est systématiquement le cas des présentateurs et des invités par exemple. Dans les enregistrements de réunions, les locuteurs sont présentés et se passent la parole : il est donc possible de récupérer leurs noms complets. De manière plus générale, tout type de document où les locuteurs s'annoncent ou sont annoncés vont pouvoir être exploités avec les techniques d'identification nommée basées sur la transcription du signal audio.
 
-Disposer de documents dans lesquels les noms complets des locuteurs sont cités n'est pas suffisant, il faut ensuite être capable d'attribuer ces noms complets aux différents intervenants du document. La partie suivante décrit le principe d'attribution commun à toutes les méthodes d'INL basées sur la transcription.
+Les systèmes d'INL devront donc être capable de détecter ces noms complets dans la transcription du signal pour pouvoir ensuite les exploiter. C'est le travail des systèmes de détection des entités nommées présentés dans la partie \ref{ssec:EN}.
+
+Mais disposer de documents dans lesquels les noms complets des locuteurs sont cités n'est pas suffisant, il faut ensuite être capable d'attribuer ces noms complets aux différents intervenants du document. La partie suivante décrit le principe d'attribution commun à toutes les méthodes d'INL basées sur la transcription.
 
 
-\subsection{Attribution des noms complets}
+\subsection{Attributions locales}
 
-La deuxième hypothèse sur laquelle reposent les techniques utilisant la transcription est qu'il est possible d'exploiter les noms complets contenus dans la transcription pour identifier les locuteurs du document. La technique utilisée par tous les systèmes d'identification nommée à partir de la transcription est la même : attribuer un nom complet détecté dans le document au locuteur qui est en train de parler (appelé locuteur courant), au locuteur qui parle ensuite (appelé locuteur suivant) ou au locuteur qui vient de parler (appelé locuteur précédent). La figure \ref{fig:segment} résume le principe de cette attribution, que l'on doit au LIMSI et Leonardo-Canseco \cite{CansecoRodriguez2005}.
+La deuxième hypothèse sur laquelle reposent les techniques utilisant la transcription est qu'il est possible d'exploiter les noms complets contenus dans la transcription pour identifier les locuteurs du document. La technique utilisée par tous les systèmes d'identification nommée à partir de la transcription est la même : attribuer un nom complet détecté dans le document au locuteur qui est en train de parler (tour de parole courant), au locuteur qui parle ensuite (tour de parole suivant) ou au locuteur qui vient de parler (tour de parole précédent). La figure \ref{fig:segment} résume le principe de cette attribution, que l'on doit au LIMSI et Leonardo-Canseco \cite{CansecoRodriguez2005}.
 
 
 \begin{figure}[h]
@@ -564,20 +566,32 @@ La deuxième hypothèse sur laquelle reposent les techniques utilisant la transcri
 
 Typiquement, un nom complet peut être attribué au locuteur courant lorsque celui-ci s'annonce ou se présente. Par exemple les journalistes ont pour habitude de finir leurs interventions en rappelant leur identité, comme par exemple \emph{\og c'était Paul Dupond en direct de \ldots \fg}. Ici, le nom complet \emph{Paul Dupond} devrait être attribué au locuteur qui a prononcé cette phrase (le locuteur courant). A l'inverse, un locuteur prononçant cette phrase \emph{\og Nous écoutons maintenant, Jean Durand.\fg{}} annonce une personne qui va parler après lui. Le nom complet \emph{Jean Durand} devra donc être attribué au locuteur suivant. Pour finir, une phrase du type \emph{\og Merci Maude Bayeu, nous passons maintenant à la météo \fg} rappelle le locuteur qui vient de s'exprimer juste avant. Le nom complet \emph{Maude Bayeu} sera donc attribué au locuteur précédent.
 
+Un des problèmes que les systèmes d'INL ont a résoudre est donc d'attribuer un nom complet détecté au tour de parole correspondant (précédent, courant ou suivant), ou à défaut, de ne pas réaliser d'attribution si le nom complet ne correspond pas au locuteur d'un des tours de parole courant ou contigu. C'est par exemple le cas des noms complets qui ne font pas partie du document (\emph{Jean-Jacques Rousseau} aura par exemple peu de chance d'être un des locuteurs du document) ou qui font référence à des locuteurs présents plus loin dans le fichier. En effet, même si un nom complet détecté correspond bien à un des locuteurs du document, il ne sera pas exploité par ces techniques s'il ne correspond pas à un des locuteurs des tours de parole contigus ou courant. Ce cas est appelé \og autre \fg sur la figure \ref{fig:segment}.
 
-\subsection{Conflits d'attributions}
+Ce type d'attribution sera par la suite appelée \og attribution locale \fg. En effet, on attribue ici un nom complet à un des tours de parole contigu au tour de parole où le nom complet a été détecté. Aucune attribution au niveau du fichier entier n'est pour l'instant effectué, seuls les tours de paroles contigus sont concernés. La propagation de ces attributions locales au sein du fichier entier est une étape appelée \og attribution globale \fg.
 
-Ces techniques nécessitent de détecter les différents noms complets cités dans la transcription pour ensuite les attribuer aux locuteurs du document. Il faut donc disposer de la transcription du signal audio pour y détecter les différents noms complets. Cette transcription doit aussi être enrichie avec une segmentation et une classification en locuteurs, puisque ce sont à ces locuteurs qu'il faut attribuer les noms complets détectés dans la transcription pour les nommer. 
-Comme le montre l'aperçu présenté sur la figure \ref{fig:principe_inl}, la première étape est de réaliser une transcription enrichie du signal audio. Mais, pour pouvoir être exploitée par les techniques d'identification nommée, cette transcription doit être préparée.
+\subsection{Attributions globales}
 
-\subsubsection{Principes généraux} % (fold)
+Afin de bien comprendre la problématique de l'attribution globale des noms complets, il faut placer les attributions locales dans le contexte d'une transcription enrichie (cf. \ref{sec:trans_enrichie}).
+
+Comme décrit dans la partie précédente, chaque nom complet détecté dans un tour de parole est attribué ou tour de parole courant, précédent ou suivant. Chacun de ces tours de parole appartient à une classe de locuteur dite anonyme, que l'INL chercher à nommer en lui attribuant un et un seul nom complet. Or, plusieurs noms complets peuvent être candidats pour la même classe de locuteur.
+
+
+\section{Principes généraux} % (fold)
 \label{ssub:principes_generaux}
+
+\todo{à réécrire}
+
+Les techniques d'INL nécessitent de détecter les différents noms complets cités dans la transcription pour ensuite les attribuer aux locuteurs du document. Il faut donc disposer de la transcription du signal audio pour y détecter les différents noms complets. Cette transcription doit aussi être enrichie avec une segmentation et une classification en locuteurs, puisque ce sont à ces locuteurs qu'il faut attribuer les noms complets détectés dans la transcription pour les nommer. 
 
 Les méthodes d'identification nommée du locuteur à partir de la transcription sont multiples mais partagent toutes un principe commun. Du pré-traitement de la transcription, en passant par des décisions locales puis globales, les outils utilisés divergent mais le principe reste le même.
 
 \section{Processus d'identification nommée}
 
+Comme le montre l'aperçu présenté sur la figure \ref{fig:principe_inl}, la première étape est de réaliser une transcription enrichie du signal audio. Mais, pour pouvoir être exploitée par les techniques d'identification nommée, cette transcription doit être préparée.
+
 \subsection{Préparation de la transcription} % (fold)
+
 \label{ssub:enrichissement_de_la_transcription}
 
 Bien que l'identification nommée se base sur des transcriptions, ces transcriptions doivent être enrichies (cf \ref{sub:transcription_enrichie}) et préparées avant de pouvoir les exploiter. En effet, dans le cadre de l'identification nommée, certains mots ont besoin d'être regroupés en catégories et remplacés dans la transcription. C'est le cas pour une bonne partie des entités nommées (lieux, radios, noms complets) qui ont été détectées dans la transcription. Ce pré-traitement a pour but de généraliser au maximum les règles qui seront utilisées par la suite. C'était  \og Maude Bayeu en direct de Paris\fg{} donnera par exemple \og C'était PERSONNE en direct de LIEU \fg{}. La figure \ref{fig:pre_traitement} illustre les pré-traitements nécessaires afin d'obtenir une transcription exploitable par un système d'identification nommée du locuteur.
