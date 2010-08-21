@@ -574,7 +574,45 @@ Ce type d'attribution sera par la suite appelée \og attribution locale \fg. En e
 
 Afin de bien comprendre la problématique de l'attribution globale des noms complets, il faut placer les attributions locales dans le contexte d'une transcription enrichie (cf. \ref{sec:trans_enrichie}).
 
-Comme décrit dans la partie précédente, chaque nom complet détecté dans un tour de parole est attribué ou tour de parole courant, précédent ou suivant. Chacun de ces tours de parole appartient à une classe de locuteur dite anonyme, que l'INL chercher à nommer en lui attribuant un et un seul nom complet. Or, plusieurs noms complets peuvent être candidats pour la même classe de locuteur.
+En effet, comme décrit dans la partie précédente, chaque nom complet détecté dans un tour de parole est attribué ou tour de parole courant, précédent ou suivant. Chacun de ces tours de parole appartient à une classe de locuteur dite anonyme, que l'INL chercher à nommer en lui attribuant un et un seul nom complet. Or, plusieurs noms complets peuvent être candidats pour la même classe de locuteur. Comme le montre la figure \ref{fig:decisions_locales_conflit}, il est tout à fait possible que plusieurs noms complets différents soient en conflit au sein d'un même tour de parole. Dans l'exemple, deux noms complets sont possibles pour le tour de parole du locuteur numéro 2 : Maude Bayeu et Pierre Moscovici.
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=1\columnwidth]{img/decision_multiple.pdf}
+\caption{Exemple de décisions locales conflictuelles}
+\label{fig:decisions_locales_conflit}
+\end{center}
+\end{figure}
+
+Chaque tour de parole appartenant à une même classe de locuteur, les conflits des tours de parole vont se répercuter au sein de la classe de locuteur. La figure \ref{fig:processus_entier} montre un exemple de décision avec conflits. 
+Dans l'étape 1, la transcription est enrichie avec une segmentation et une classification en locuteurs ainsi qu'avec une détection des entités nommées. Chacune des entités nommées de type \emph{PERSONNE} sont ensuite attribuées localement au tour de parole correspondant dans l'étape 2. 
+
+Par exemple, le nom complet \emph{C} est attribué aux tours de parole 5 et 11, qui correspondent respectivement à la classe du locuteur 3 et du locuteur 1. Le nom \emph{B} quant à lui se retrouve aussi en conflit, puisqu'il est attribué aux tours de parole 1 et 8 qui appartiennent respectivement à la classe du locuteur 1 et à la classe du locuteur 2.
+
+À l'issue de cette seconde étape, plusieurs noms complets sont donc possibles pour une même classe de locuteur : la classe du locuteur 1 peut être nommée avec \emph{A},\emph{B} ou \emph{C}, la classe du locuteur 2 avec \emph{A} ou \emph{B} et la classe du locuteur 3 avec \emph{C}. En revanche les classes de locuteur 4 et 5 n'ont pas de candidats possibles.
+La troisième étape consiste à résoudre ces conflits afin de ne plus avoir qu'un candidat par classe de locuteur pour pouvoir le répartir au sein du fichier entier dans l'étape 4.
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=1\columnwidth]{img/entire_process.pdf}
+\caption{Vue globale du processus attribution d'un complet à une classe de locuteur anonyme}
+\label{fig:processus_entier}
+\end{center}
+\end{figure}
+
+L'attribution globale des noms complets est un problème complexe puisque nombre de conflits peuvent apparaître. Il appartiendra à chaque technique d'INL de résoudre ces conflits afin de nommer tous les locuteurs du document.
+
+Même si les façons de réaliser les différentes étapes différent entre les méthodes d'identification nommée, les principes qui viennent d'être décrits sont communs à toutes. Le traitement d'un fichier audio avec un système d'identification nommée se résume donc aux étapes qui sont décrites dans la figure \ref{fig:fonctionnement_general}.
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=1\columnwidth]{img/fonctionnement_general.pdf}
+\caption{Aperçu global d'un processus d'identification nommée du locuteur}
+\label{fig:fonctionnement_general}
+\end{center}
+\end{figure}
+
+
 
 
 \section{Principes généraux} % (fold)
@@ -618,37 +656,7 @@ Lorsque la transcription est enrichie avec l'étiquetage des entités nommées qu'e
 \subsection{Attribution d'un nom complet à une classe anonyme} % (fold)
 \label{ssub:attribution_d_un_nom_complet_a_une_classe_anonyme}
 
-Attribuer un complet à une classe de locuteur anonyme revient à répercuter les décisions locales au sein du fichier tout entier, c'est à dire passer des tours de paroles aux classes de locuteur, avec tous les problèmes que cela implique. En effet, comme le montre la figure \ref{fig:decisions_locales_conflit}, il est tout à fait possible que plusieurs noms complets différents soient en conflit au sein d'un même tour de parole. Dans l'exemple, deux noms complets sont possibles pour le locuteur numéro 2 : Maude Bayeu et Pierre Moscovici.
-
-\begin{figure}[h]
-\begin{center}
-\includegraphics[width=1\columnwidth]{img/decision_multiple.pdf}
-\caption{Exemple de décisions locales conflictuelles}
-\label{fig:decisions_locales_conflit}
-\end{center}
-\end{figure}
-
-Chaque tour de parole étant regroupé au sein d'une classe de locuteur (celle que l'on cherche à nommer), ces conflits vont se répercuter au sein de la classe de locuteur elle même. La figure \ref{fig:processus_entier} résume tous ces différents problèmes.
-
-\begin{figure}[h]
-\begin{center}
-\includegraphics[width=1\columnwidth]{img/entire_process.pdf}
-\caption{Vue globale du processus attribution d'un complet à une classe de locuteur anonyme}
-\label{fig:processus_entier}
-\end{center}
-\end{figure}
-
-Même si les façons de réaliser les différentes étapes différent entre les méthodes d'identification nommée, les principes qui viennent d'être décrits sont communs à toutes. Le traitement d'un fichier audio avec un système d'identification nommée se résume donc aux étapes qui sont décrites dans la figure \ref{fig:fonctionnement_general}.
-
-\begin{figure}
-\begin{center}
-\includegraphics[width=1\columnwidth]{img/fonctionnement_general.pdf}
-\caption{Aperçu global d'un processus d'identification nommée du locuteur}
-\label{fig:fonctionnement_general}
-\end{center}
-\end{figure}
-
-
+A
 % subsubsection attribution_d_un_nom_complet_à_une_classe_anonyme (end)
 
 \subsection{Métriques et évaluation}
