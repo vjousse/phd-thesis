@@ -613,16 +613,16 @@ Même si les façons de réaliser les différentes étapes différent entre les méthod
 \end{figure}
 
 
-\section{Processus détaillé}
+\subsection{Processus complet}
 
 Les méthodes d'identification nommée du locuteur à partir de la transcription sont multiples mais partagent toutes un principe commun. Du pré-traitement de la transcription, en passant par des attributions locales puis globales, les outils utilisés divergent mais le principe reste le même.
 Comme le montre la figure \ref{fig:principe_inl}, la première étape est de réaliser une transcription enrichie du signal audio. Mais, pour pouvoir être exploitée par les techniques d'identification nommée, cette transcription doit être préparée.
 
-\subsection{Préparation de la transcription} % (fold)
+\subsubsection{Préparation de la transcription} % (fold)
 
 \label{ssub:enrichissement_de_la_transcription}
 
-Comme mentionné dans la partie précédente, l'INL s'appuie sur les entités nommées (EN) pour détecter les différents noms complets présents dans la transcription. Ces noms complets sont en réalité des EN de type \emph{PERSONNE} (cf. section \ref{ssec:EN}). L'utilisation de systèmes de détection des EN pour trouver ces noms complets dans la transcription apporte des informations supplémentaires. En effet, les systèmes de détection d'EN n'étiquettent pas uniquement les EN de type \emph{PERSONNE}, mais beaucoup d'autres types d'EN comme les lieux ou les organisations (différentes catégorisations des EN sont d'ailleurs possibles, se rapporter à \ref{ssec:EN} pour plus de détails).
+Comme mentionné dans la partie précédente, l'INL s'appuie sur les entités nommées (EN) pour détecter les différents noms complets présents dans la transcription. Ces noms complets sont en fait des EN de type \emph{PERSONNE} (cf. section \ref{ssec:EN}). L'utilisation de systèmes de détection des EN pour trouver ces noms complets dans la transcription apporte des informations supplémentaires. En effet, les systèmes de détection d'EN n'étiquettent pas uniquement les EN de type \emph{PERSONNE}, mais beaucoup d'autres types d'EN comme les lieux ou les organisations (différentes catégorisations des EN sont d'ailleurs possibles, se rapporter à \ref{ssec:EN} pour plus de détails).
 
 Bien que l'identification nommée se base sur des transcriptions, ces transcriptions doivent être enrichies (cf \ref{sub:transcription_enrichie}) et préparées avant de pouvoir les exploiter. En effet, dans le cadre de l'identification nommée, certains mots ont besoin d'être regroupés en catégories et remplacés dans la transcription. C'est le cas pour une bonne partie des entités nommées (lieux, radios, noms complets) qui ont été détectées dans la transcription. Ce pré-traitement a pour but de généraliser au maximum les règles qui seront utilisées par la suite. C'était  \og Maude Bayeu en direct de Paris\fg{} donnera par exemple \og C'était PERSONNE en direct de LIEU \fg{}. La figure \ref{fig:pre_traitement} illustre les pré-traitements nécessaires afin d'obtenir une transcription exploitable par un système d'identification nommée du locuteur.
 
@@ -636,7 +636,7 @@ Bien que l'identification nommée se base sur des transcriptions, ces transcripti
 
 % subsubsection enrichissement_de_la_transcription (end)
 
-\subsection{Étiquetage des nom complets et propagation} % (fold)
+\subsubsection{Étiquetage des nom complets et propagation} % (fold)
 \label{ssub:etiquetage_des_nom_complets}
 
 Lorsque la transcription est enrichie avec l'étiquetage des entités nommées qu'elle contient, il est possible de déterminer l'emplacement des différents nom complets cités dans l'enregistrement. La difficulté va être de réussir à déterminer si ces noms détectés sont des locuteurs de l'enregistrement ou non, et quand ils le sont à quelle partie de l'enregistrement ils se rapportent. Pour ce faire, les méthodes d'identification nommée attribuent des étiquettes à chaque nom complet détecté, ces étiquettes sont : \og précédent \fg{}, \og courant \fg{}, \og suivant \fg{} ou \og autre \fg{}. Ces étiquettes vont permettent de déterminer si le nom complet détecté dans la transcription désigne le locuteur s'exprimant dans le tour de parole précédent, dans le tour courant, dans le suivant ou dans aucun des tours contigus. Le dernier cas appelé \og autre \fg{} met en évidence une des limites de l'approche : que le nom complet détecté concerne un locuteur de l'enregistrement ou pas, ce locuteur doit parler dans les tours de parole contigus au tour de parole où son nom a été détecté. La figure \ref{fig:segment} décrit les différents cas de figures possibles.
@@ -645,13 +645,13 @@ Lorsque la transcription est enrichie avec l'étiquetage des entités nommées qu'e
 
 % subsubsection Étiquetage_des_nom_complets (end)
 
-\subsection{Attribution d'un nom complet à une classe anonyme} % (fold)
+\subsubsection{Attribution d'un nom complet à une classe anonyme} % (fold)
 \label{ssub:attribution_d_un_nom_complet_a_une_classe_anonyme}
 
 A
 % subsubsection attribution_d_un_nom_complet_à_une_classe_anonyme (end)
 
-\subsection{Métriques et évaluation}
+\subsection{Évaluation et métriques}
 
 \label{sec:metrique}
 
