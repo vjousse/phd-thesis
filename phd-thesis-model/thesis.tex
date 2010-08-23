@@ -600,7 +600,7 @@ La troisième étape consiste à résoudre ces conflits afin de ne plus avoir qu'un 
 \end{center}
 \end{figure}
 
-L'attribution globale des noms complets est un problème complexe puisque nombre de conflits peuvent apparaître. Il appartiendra à chaque technique d'INL de résoudre ces conflits afin de nommer tous les locuteurs du document.
+L'attribution globale des noms complets est un problème complexe puisque nombre de conflits peuvent apparaître. Il appartient à chaque technique d'INL de résoudre ces conflits afin de nommer tous les locuteurs du document.
 
 Même si les façons de réaliser les différentes étapes différent entre les méthodes d'identification nommée, les principes qui viennent d'être décrits sont communs à toutes. Le traitement d'un fichier audio avec un système d'identification nommée se résume donc aux étapes qui sont décrites dans la figure \ref{fig:fonctionnement_general}.
 
@@ -613,34 +613,26 @@ Même si les façons de réaliser les différentes étapes différent entre les méthod
 \end{figure}
 
 
+\section{Processus détaillé}
 
-
-\section{Principes généraux} % (fold)
-\label{ssub:principes_generaux}
-
-\todo{à réécrire}
-
-Les techniques d'INL nécessitent de détecter les différents noms complets cités dans la transcription pour ensuite les attribuer aux locuteurs du document. Il faut donc disposer de la transcription du signal audio pour y détecter les différents noms complets. Cette transcription doit aussi être enrichie avec une segmentation et une classification en locuteurs, puisque ce sont à ces locuteurs qu'il faut attribuer les noms complets détectés dans la transcription pour les nommer. 
-
-Les méthodes d'identification nommée du locuteur à partir de la transcription sont multiples mais partagent toutes un principe commun. Du pré-traitement de la transcription, en passant par des décisions locales puis globales, les outils utilisés divergent mais le principe reste le même.
-
-\section{Processus d'identification nommée}
-
-Comme le montre l'aperçu présenté sur la figure \ref{fig:principe_inl}, la première étape est de réaliser une transcription enrichie du signal audio. Mais, pour pouvoir être exploitée par les techniques d'identification nommée, cette transcription doit être préparée.
+Les méthodes d'identification nommée du locuteur à partir de la transcription sont multiples mais partagent toutes un principe commun. Du pré-traitement de la transcription, en passant par des attributions locales puis globales, les outils utilisés divergent mais le principe reste le même.
+Comme le montre la figure \ref{fig:principe_inl}, la première étape est de réaliser une transcription enrichie du signal audio. Mais, pour pouvoir être exploitée par les techniques d'identification nommée, cette transcription doit être préparée.
 
 \subsection{Préparation de la transcription} % (fold)
 
 \label{ssub:enrichissement_de_la_transcription}
 
+Comme mentionné dans la partie précédente, l'INL s'appuie sur les entités nommées (EN) pour détecter les différents noms complets présents dans la transcription. Ces noms complets sont en réalité des EN de type \emph{PERSONNE} (cf. section \ref{ssec:EN}). L'utilisation de systèmes de détection des EN pour trouver ces noms complets dans la transcription apporte des informations supplémentaires. En effet, les systèmes de détection d'EN n'étiquettent pas uniquement les EN de type \emph{PERSONNE}, mais beaucoup d'autres types d'EN comme les lieux ou les organisations (différentes catégorisations des EN sont d'ailleurs possibles, se rapporter à \ref{ssec:EN} pour plus de détails).
+
 Bien que l'identification nommée se base sur des transcriptions, ces transcriptions doivent être enrichies (cf \ref{sub:transcription_enrichie}) et préparées avant de pouvoir les exploiter. En effet, dans le cadre de l'identification nommée, certains mots ont besoin d'être regroupés en catégories et remplacés dans la transcription. C'est le cas pour une bonne partie des entités nommées (lieux, radios, noms complets) qui ont été détectées dans la transcription. Ce pré-traitement a pour but de généraliser au maximum les règles qui seront utilisées par la suite. C'était  \og Maude Bayeu en direct de Paris\fg{} donnera par exemple \og C'était PERSONNE en direct de LIEU \fg{}. La figure \ref{fig:pre_traitement} illustre les pré-traitements nécessaires afin d'obtenir une transcription exploitable par un système d'identification nommée du locuteur.
 
-\begin{figure}
-\begin{center}
-\includegraphics[width=1\columnwidth]{img/pre_traitement.pdf}
-\caption{Pré-traitement su signal audio}
-\label{fig:pre_traitement}
-\end{center}
-\end{figure}
+%\begin{figure}
+%\begin{center}
+%\includegraphics[width=1\columnwidth]{img/pre_traitement.pdf}
+%\caption{Pré-traitement su signal audio}
+%\label{fig:pre_traitement}
+%\end{center}
+%\end{figure}
 
 % subsubsection enrichissement_de_la_transcription (end)
 
