@@ -615,65 +615,31 @@ Même si les façons de réaliser les différentes étapes différent entre les méthod
 \end{figure}
 
 
-
-
-\subsection{Évaluation et métriques}
-
-\label{sec:metrique}
-
-Un système d'identification nommée est évalué en comparant l'hypothèse générée par celui-ci à la référence distribuée avec le corpus. Cette comparaison met en évidence 5 cas d'erreur ou de succès possibles relatifs aux situations suivantes~:
-\begin{itemize}
-\item l'identité proposée est correcte ($C_1$)~: le système propose une identité correspondant à celle indiquée dans la référence ;
-\item erreur de substitution ($S$)~: le système propose une identité différente de l'identité présente dans la référence ;
-\item erreur de suppression ($D$) : le système ne propose pas d'identité alors que le locuteur est identifié dans la référence ;
-\item erreur d'insertion ($I$)~: le système propose une identité alors que le locuteur n'est pas identifié dans la référence ;
-\item il n'y a pas d'identité ($C_2$)~: le système ne propose pas d'identité et la référence ne contient pas d'identité.
-\end{itemize}
-
-
-Une mesure de Précision et de Rappel peut être définie à partir des 5 cas d'erreur~:
-\begin{equation}
-	\label{eq:PR}
-	P = \frac{C_1}{C_1+S+I} \ \ ; \ \ R = \frac{C_1}{C_1+S+D}
-\end{equation}
-
-%Dans tous les précédents articles \cite{Tranter06,Esteve07,Chengyuan07} traitant de l'identification nommée du locuteur, les résultats sont présentés sous la forme de mesures de précision et de rappel.
-
-Comme il a été proposé dans \cite{Tranter06}, ces valeurs peuvent être complétées par un taux d'erreur $Err$ global également calculé à partir de ces 5 erreurs. Ce taux s'inspire du calcul du WER utilisé pour l'évaluation de la transcription. Il a l'avantage de mesurer la qualité des résultats du système d'identification nommée en une seule valeur, facilitant les comparaisons entre les systèmes par rapport aux mesures de précision et de rappel.
-\begin{equation}
-	\label{eq:PR}
-	Err = \frac{S+I+D}{S+I+D+C_2+C_1} \ \ ;
-\end{equation}
-
-
-Les erreurs peuvent être calculées en terme de durée ou en terme de nombre de locuteurs.
-Pour une évaluation en durée, dans le cas où un locuteur parlant 90\% du temps est correctement nommé et que les six autres locuteurs parlant seulement 10\% du temps ne le sont pas, le système présentera un taux d'erreur de 10\%. 
-
-Pour une évaluation en terme de nombre de locuteurs, dans le même cas de figure, le système aura un taux d'erreur de 87,5\%.
-
-D'un point de vue applicatif, la métrique exprimée en durée est préférable si les locuteurs considérés comme importants correspondent aux locuteurs s'exprimant beaucoup. En revanche, si l'application cherche à nommer le plus possible de locuteurs, il est plus intéressant d'évaluer les performances en terme de nombre de locuteurs.
-
-\section{Règles symboliques}
+\section{Approche symbolique}
 \label{sub:regles_manuelles}
 
- Les auteurs ont été les premiers à montrer que le couple prénom/patronyme d'un locuteur apparaissant dans un contexte lexical donné permettaient d'identifier de manière précise l'identité des locuteurs s'exprimant dans les tours de parole proches. Leur méthode repose sur l'utilisation de règles affectant les étiquettes \textit{\og tour courant \fg}, \textit{\og tour précédent \fg}, \textit{\og tour suivant \fg } aux noms complets détectés. Ces étiquettes ont été reprises dans l'ensemble des travaux réalisés sur l'identification nommée depuis. Les règles utilisées ont été définies manuellement après analyse d'un corpus de langue anglaise. Douze règles sont utilisées pour désigner le locuteur courant, 34 pour le suivant et 6 pour le précédent.
+Deux principaux types approches ont été étudiées pour l'attribution locale des noms complets, à savoir une approche de type symbolique avec l'utilisation de règles écrites à la main, et plusieurs approches à base de méthodes statistiques. Nous décrivons ici la première approche utilisée dans la littérature, à savoir l'approche symbolique. Les méthodes à base de systèmes statistiques sont décrites dans la suite de cette thèse. 
+
+ Les travaux réalisés par le LIMSI \cite{CansecoRodriguez2005,CansecoRodriguez2006} ont été les premiers à montrer que le couple prénom/patronyme d'un locuteur apparaissant dans un contexte lexical donné permettait d'identifier de manière précise l'identité des locuteurs s'exprimant dans les tours de parole contigus. Ces travaux sont à la base de toutes les techniques d'INL, puisque ce sont eux qui ont défini le principe de l'attribution locale décrit ci-dessus. 
+ 
+Ces travaux s'appuient sur l'utilisation de règles linguistiques pour réaliser l'attribution locale des noms complets. Ces règles ont été définies manuellement après analyse d'un corpus de langue anglaise (\emph{Hub-4e}). À noter que le corpus utilisé pour l'analyse de ces règles est un corpus réalisé manuellement. 
 
 
-Dans le but de généraliser les règles, les mots pouvant être regroupés au sein d'une même classe sémantique, sont remplacés par cette classe dans la transcription. Les différentes classes sémantiques retenues sont :
+Dans le but de généraliser les règles, plusieurs dictionnaires de concepts sont utilisés. En effet, les mots pouvant être regroupés au sein d'un même concept sont remplacés par ce concept dans la transcription. Les dictionnaires utilisés sont au nombre de 6 :
+
+
 \begin{itemize}
-	\item les noms complets (prénom et patronyme) de locuteurs ([name]),
-	\item le nom de l'émission ([show]),
-	\item les toponymes comme les villes, pays et monuments [(location]),
-	\item les professions ([title]),
-	\item les remerciements ([greet]),
-	\item les mots faisant office d'accord avec l'autre ([agree]),
-	\item mots gérant la communication (bonjour, au revoir : [comm])
-	\item et les questions ([quest]).
+	\item \textbf{noms complets} (prénom et patronyme) de locuteurs ([name]) : ce dictionnaire contient les noms anglais les plus communs, y compris les personnes célèbres et les personnalités internationales. Ces noms ont été récupérés via des sites internet et complétés par les identités des locuteurs présents dans les transcriptions de référence (tout corpus confondu).
+	\item \textbf{toponymes} [(location]) : ce dictionnaire est constitué des lieux géographiques les plus courants comme les villes, les régions, les états, les monuments... Ils ont été récupérés à partir de journaux en ligne. La plus part se situent aux États-Unis.
+	\item \textbf{noms d'émission} ([show]) : ce dictionnaire contient le nom des émissions et des radios. Les informations ont été extraites des transcriptions de référence (tous corpus confondus).
+	\item \textbf{professions} ([title]) : ce dictionnaire est composé des titres (Monsieur, Madame, ...), des rangs militaires et des professions. Ils ont été récupérés à partir de sites internet.
+	\item \textbf{mots gérant la communication} : c'est un dictionnaire global incluant une variété de termes utilisés pour gérer la communication. Il contient une sélection des termes les plus fréquemment utilisés pour les remerciements ([thanks]), les salutations ([greet]), les consentements ([agree]), les questions ([quest]), les réflexions personnelles ([reflect]) et les pronoms démonstratifs ([dem]). Cet ensemble de concept a été récupéré via internet.
+  \item \textbf{conjugaisons} : ce dictionnaire contient la liste complète des verbes anglais. Ils sont conjugués et classés comme verbes à l'infinitif ([infverb]), au passé ([pasverb]), au présent ([preverb]) ou au participe ([parverb]). Cette liste a été récupérée via internet.
 \end{itemize}
 
-Ces dictionnaires de classes ont été réalisés en extrayant les informations des transcriptions et en les complétant avec des listes de noms et des journaux en ligne. Ils permettent de généraliser les règles utilisées.
+Ces dictionnaires de concept ont été réalisés en extrayant les informations des transcriptions de référence et en les complétant avec des informations récupérées sur internet. Ils permettent de généraliser les règles utilisées.
 
-À partir du corpus de développement de 150 heures d'enregistrements de radio et de télévision anglais, les règles les plus utiles pour déterminer l'identité des locuteurs ont été extraites. Elles sont décrites dans le tableau \ref{table:canseco_regles}.
+À partir du corpus de développement de 150 heures d'enregistrements de radio et de télévision anglais, les règles les plus utiles pour déterminer l'identité des locuteurs ont été extraites. Elles sont décrites dans le tableau \ref{table:canseco_regles}. Au final, douze règles sont utilisées pour désigner le locuteur courant, 34 pour le suivant et 6 pour le précédent.
 
 \begin{table}[h]
   \begin{center}
@@ -726,7 +692,7 @@ De plus, le passage d'un corpus à un autre est fastidieux : il faut réécrire le 
 Pour finir, seuls les tours de paroles contigus au tour de parole dans lequel le nom de locuteur a été détecté peuvent être nommés. Aucune propagation au sein du fichier entier n'a été étudiée.
 Ces travaux permettent de valider l'idée d'utiliser des informations linguistiques contenues dans les transcriptions manuelles (comme les noms complets des locuteurs et les mots les entourant) pour nommer les locuteurs d'un document audio.
 
-\section{Règles statistiques : N-grammes}
+\section{Approche statistique : N-grammes}
 
 \label{sub:regles_statistiques}
 
@@ -910,6 +876,42 @@ Ces travaux sont les premiers à utiliser un système automatique de détection des
 En revanche, le système de décision est relativement sommaire : seule l'étiquette avec le score maximal est pris en compte, les probabilités des autres étiquettes pour un nom complet sont tout simplement ignorées. De plus la prise de décision au niveau de la classe de locuteur se réduit à attribuer le nom de locuteur ayant un score maximum : l'incertitude au sein d'une même classe (plusieurs locuteurs possibles avec des scores élevés) n'est pas prise en compte.
 
 \section{Expériences et résultats}
+\subsection{Évaluation et métriques}
+
+\label{sec:metrique}
+
+Un système d'identification nommée est évalué en comparant l'hypothèse générée par celui-ci à la référence distribuée avec le corpus. Cette comparaison met en évidence 5 cas d'erreur ou de succès possibles relatifs aux situations suivantes~:
+\begin{itemize}
+\item l'identité proposée est correcte ($C_1$)~: le système propose une identité correspondant à celle indiquée dans la référence ;
+\item erreur de substitution ($S$)~: le système propose une identité différente de l'identité présente dans la référence ;
+\item erreur de suppression ($D$) : le système ne propose pas d'identité alors que le locuteur est identifié dans la référence ;
+\item erreur d'insertion ($I$)~: le système propose une identité alors que le locuteur n'est pas identifié dans la référence ;
+\item il n'y a pas d'identité ($C_2$)~: le système ne propose pas d'identité et la référence ne contient pas d'identité.
+\end{itemize}
+
+
+Une mesure de Précision et de Rappel peut être définie à partir des 5 cas d'erreur~:
+\begin{equation}
+	\label{eq:PR}
+	P = \frac{C_1}{C_1+S+I} \ \ ; \ \ R = \frac{C_1}{C_1+S+D}
+\end{equation}
+
+%Dans tous les précédents articles \cite{Tranter06,Esteve07,Chengyuan07} traitant de l'identification nommée du locuteur, les résultats sont présentés sous la forme de mesures de précision et de rappel.
+
+Comme il a été proposé dans \cite{Tranter06}, ces valeurs peuvent être complétées par un taux d'erreur $Err$ global également calculé à partir de ces 5 erreurs. Ce taux s'inspire du calcul du WER utilisé pour l'évaluation de la transcription. Il a l'avantage de mesurer la qualité des résultats du système d'identification nommée en une seule valeur, facilitant les comparaisons entre les systèmes par rapport aux mesures de précision et de rappel.
+\begin{equation}
+	\label{eq:PR}
+	Err = \frac{S+I+D}{S+I+D+C_2+C_1} \ \ ;
+\end{equation}
+
+
+Les erreurs peuvent être calculées en terme de durée ou en terme de nombre de locuteurs.
+Pour une évaluation en durée, dans le cas où un locuteur parlant 90\% du temps est correctement nommé et que les six autres locuteurs parlant seulement 10\% du temps ne le sont pas, le système présentera un taux d'erreur de 10\%. 
+
+Pour une évaluation en terme de nombre de locuteurs, dans le même cas de figure, le système aura un taux d'erreur de 87,5\%.
+
+D'un point de vue applicatif, la métrique exprimée en durée est préférable si les locuteurs considérés comme importants correspondent aux locuteurs s'exprimant beaucoup. En revanche, si l'application cherche à nommer le plus possible de locuteurs, il est plus intéressant d'évaluer les performances en terme de nombre de locuteurs.
+
 
 \subsection{Légende}
 
