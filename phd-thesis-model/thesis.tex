@@ -542,6 +542,8 @@ La figure \ref{fig:principe_inl} donne un aperçu de ce que l'identification nomm
 
 \subsection{Présence des noms complets}
 
+\label{ssec:presence_noms_complets}
+
 À partir du moment où les noms complets des locuteurs sont cités dans le document lui même, il semble possible de les exploiter pour identifier les différents intervenants. C'est l'hypothèse de base de toutes les méthodes utilisant la transcription pour réaliser l'identification nommée : les noms complets des locuteurs du document sont présents dans le document lui même.
 
 Même si cette hypothèse est très forte, elle permet d'exploiter un grand nombre de documents. Les journaux d'informations (qu'ils soient radiophoniques ou télévisuels) sont par exemple tout à fait adaptés à ce style de techniques. Dans ce type de document, la majorité des locuteurs s'annoncent ou sont annoncés. C'est systématiquement le cas des présentateurs et des invités par exemple. Dans les enregistrements de réunions, les locuteurs sont présentés et se passent la parole : il est donc possible de récupérer leurs noms complets. De manière plus générale, tout type de document où les locuteurs s'annoncent ou sont annoncés vont pouvoir être exploités avec les techniques d'identification nommée basées sur la transcription du signal audio.
@@ -622,7 +624,7 @@ Deux principaux types approches ont été étudiées pour l'attribution locale des n
 
  Les travaux réalisés par le LIMSI \cite{CansecoRodriguez2005,CansecoRodriguez2006} ont été les premiers à montrer que le couple prénom/patronyme d'un locuteur apparaissant dans un contexte lexical donné permettait d'identifier de manière précise l'identité des locuteurs s'exprimant dans les tours de parole contigus. Ces travaux sont à la base de toutes les techniques d'INL, puisque ce sont eux qui ont défini le principe de l'attribution locale décrit ci-dessus. 
  
-Ces travaux s'appuient sur l'utilisation de règles linguistiques pour réaliser l'attribution locale des noms complets. L'idée est d'utiliser le contexte linguistique de chaque nom complet pour lui attribuer une des trois étiquettes (\og locuteur précédent \fg, \og locuteur courant \fg ,\og locuteur suivant \fg). Ces règles ont été définies manuellement après analyse d'un corpus de langue anglaise (\emph{Hub-4e}). À noter que le corpus utilisé pour l'analyse de ces règles est un corpus réalisé manuellement. 
+Ces travaux s'appuient sur l'utilisation de règles linguistiques pour réaliser l'attribution locale des noms complets. L'idée est d'utiliser le contexte linguistique de chaque nom complet pour lui attribuer une des trois étiquettes (\og locuteur précédent \fg, \og locuteur courant \fg ,\og locuteur suivant \fg). Ces règles ont été définies manuellement après analyse d'un corpus de langue anglaise (\emph{Hub-4e}). Ce corpus est un corpus qui a été réalisé manuellement et qui concerne des émissions de radio et de télévisions américaines (ABC, CNN, CSPAN et NPR). Comme décrit dans \ref{ssec:presence_noms_complets}, ce type de corpus se prête particulièrement à l'utilisation de méthodes d'INL basées sur la transcription.
 
 Dans le but de réaliser des règles les plus génériques possibles, certains mots du contexte linguistique ont été remplacés par des mots plus génériques appelés concepts. Ces concepts vont permettre de regrouper au sein d'une même graphie plusieurs mots différents. Par exemple, tous les noms lieux sont remplacés par le concept [location]. De ce fait, les deux règles \og reporting from Bagdad \fg et \og reporting from Paris \fg peuvent être scindées en une seule règle \og reporting from [location] \fg. Plusieurs dictionnaires de concepts sont utilisés pour remplacer les mots. Les dictionnaires utilisés sont au nombre de 6 :
 
@@ -636,9 +638,7 @@ Dans le but de réaliser des règles les plus génériques possibles, certains mots 
   \item \textbf{conjugaisons} : ce dictionnaire contient la liste complète des verbes anglais. Ils sont conjugués et classés comme verbes à l'infinitif ([infverb]), au passé ([pasverb]), au présent ([preverb]) ou au participe ([parverb]). Cette liste a été récupérée via internet.
 \end{itemize}
 
-Ces dictionnaires de concept ont été réalisés en extrayant les informations des transcriptions de référence et en les complétant avec des informations récupérées sur internet. Ils permettent de généraliser les règles utilisées.
-
-À partir du corpus de développement de 150 heures d'enregistrements de radio et de télévision anglais, les règles les plus utiles pour déterminer l'identité des locuteurs ont été extraites. Elles sont décrites dans le tableau \ref{table:canseco_regles}. Au final, douze règles sont utilisées pour désigner le locuteur courant, 34 pour le suivant et 6 pour le précédent.
+À partir du corpus de développement de 150 heures d'enregistrements de radio et de télévision en langue anglaise (corpus Hub-4e), les règles les plus utiles pour déterminer l'identité des locuteurs ont été extraites. Elles sont décrites dans le tableau \ref{table:canseco_regles}. Au final, douze règles sont utilisées pour désigner le locuteur courant, 34 pour le suivant et 6 pour le précédent.
 
 \begin{table}[h]
   \begin{center}
@@ -683,13 +683,23 @@ En plus de ces règles, d'autres règles comprenant un caractère joker (*) ont été
   \label{table:canseco_joker}    
 \end{table}
 
-L'évaluation a été réalisée sur un corpus de test en anglais, où a été étudié le comportement de chaque règle pour les noms de locuteurs présents dans l'enregistrement. Le taux d'erreur des règles est de 11\%. Les règles permettent donc d'attribuer correctement un nom de locuteur au tour de parole précédent, suivant ou courant.
+L'évaluation a été réalisée sur le corpus d'apprentissage et sur un corpus de test de 10 heures de données en langue anglaise. Le comportement de chaque règle a été étudiée pour les noms de locuteurs présents dans l'enregistrement. Lors de l'évaluation, deux types de tours de parole ont été pris en compte. À savoir les tours de paroles \og purs \fg, c'est à dire les tours de paroles où seul un candidat est possible~: aucun conflit n'est présent dans ce type de tour de parole. À l'inverse, dans les tours de paroles \og impurs \fg, plusieurs noms complets sont en concurrence~: une des règle a donc attribué un nom complet de la transcription au mauvais tour de parole. Afin de calculer les erreurs commises par le système, différents cas de figure ont été pris en compte~:
 
+\begin{itemize}
+  \item C1 : l'identité extraite de la transcription est associée avec un tour de parole
+  \item C2
+  \item C3
+  \item C4
+  \item Undef
+  \item False id
+\end{itemize}
 
-Ces travaux ont prouvé la pertinence de l'utilisation du contexte lexical pour nommer les locuteurs d'un enregistrement. En revanche, ils nécessitent un traitement manuel du corpus~: les règles et les dictionnaires de concepts sont réalisés par un humain. Le temps de mise en place de telles règles peut être long suivant la quantité de corpus à analyser et demande une expertise du domaine pour pouvoir être réalisée. Dans les travaux décrits dans \cite{CansecoRodriguez2005,CansecoRodriguez2006}, un corpus en langue anglaise de 150 heures a été étudié.
-De plus, le passage d'un corpus à un autre est fastidieux : il faut réécrire le jeu de règles pour l'utiliser sur des documents d'une autre langue ou provenant d'autres types d'émission.
-Pour finir, seuls les tours de paroles contigus au tour de parole dans lequel le nom de locuteur a été détecté peuvent être nommés. Aucune propagation au sein du fichier entier n'a été étudiée.
-Ces travaux permettent de valider l'idée d'utiliser des informations linguistiques contenues dans les transcriptions manuelles (comme les noms complets des locuteurs et les mots les entourant) pour nommer les locuteurs d'un document audio.
+Sur le corpus d'apprentissage, les règles identifiant le locuteur courant sont les plus fiables (seulement 1,3\% de fausse identification), tandis que les règles identifiant les locuteurs précédents (25\% de fausse identification) et courants (12,5\% de fausse identification) présentent de taux d'erreur élevés. Cette tendance ce confirme sur le corpus de test avec 0,8\% d'erreurs pour les règles de type \og courant \fg, 16\% pour les règles de type \og suivant \fg et 34,2\% pour les règles de type \og précédent \fg. Le taux d'erreur global des règles sur le corpus de test est de 10,9\%. 
+
+Avec un taux d'erreur des règles d'environ 11\%, ces travaux démontrent qu'identifier les locuteurs d'un document à partir de sa transcription est possible. En revanche, ils nécessitent un traitement manuel du corpus~: les règles et les dictionnaires de concepts sont réalisés par un humain. Le temps de mise en place de telles règles peut être long suivant la quantité de corpus à analyser et demande une expertise du domaine pour pouvoir être réalisée. Dans les travaux décrits dans \cite{CansecoRodriguez2005,CansecoRodriguez2006}, un corpus en langue anglaise de 150 heures a été étudié. De plus, le passage d'un corpus à un autre est fastidieux : il faut réécrire le jeu de règles pour l'utiliser sur des documents d'une autre langue ou provenant d'autres types d'émissions.
+
+Ces travaux traitent du problème de l'attribution locale des étiquettes \og précédent \fg, \og courant \fg et suivant \og. L'attribution globale 
+
 
 \section{Approche statistique : N-grammes}
 
