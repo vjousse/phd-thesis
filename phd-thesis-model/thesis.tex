@@ -683,16 +683,20 @@ En plus de ces règles, d'autres règles comprenant un caractère joker (*) ont été
   \label{table:canseco_joker}    
 \end{table}
 
-L'évaluation a été réalisée sur le corpus d'apprentissage et sur un corpus de test de 10 heures de données en langue anglaise. Le comportement de chaque règle a été étudiée pour les noms de locuteurs présents dans l'enregistrement. Lors de l'évaluation, deux types de tours de parole ont été pris en compte. À savoir les tours de paroles \og purs \fg, c'est à dire les tours de paroles où seul un candidat est possible~: aucun conflit n'est présent dans ce type de tour de parole. À l'inverse, dans les tours de paroles \og impurs \fg, plusieurs noms complets sont en concurrence~: une des règle a donc attribué un nom complet de la transcription au mauvais tour de parole. Afin de calculer les erreurs commises par le système, différents cas de figure ont été pris en compte~:
+L'évaluation a été réalisée sur un corpus de test de 10 heures de données en langue anglaise. Deux types de transcriptions enrichies ont été utilisées : transcriptions manuelles et automatiques. Le taux d'erreur mot pour les transcriptions automatiques est de 18\%, le système utilisé est celui présenté dans \cite{Lamel02lightlysupervised}. 
+
+Les erreurs réalisées par le système de transcription automatique, et notamment les erreurs de découpage en tours de paroles (produits par le système de segmentation et de classification en locuteur) posent problème pour l'évaluation des règles. En effet, lorsqu'un tour de parole produit par le système automatique correspond à plusieurs tours de paroles la référence, comment considérer la validité de la règle ? Doit-elle être considérée comme bonne, fausse ? Pour répondre à ce problème, deux types de tours de parole ont été pris en compte dans les transcriptions réalisées automatiquement. À savoir les tours de paroles \og purs \fg, c'est à dire les tours de paroles qui correspondent aux tours de parole de la référence et les tours de paroles \og impurs \fg, c'est à dire les tours de paroles qui regroupent en plusieurs tours de parole de la référence (à cause d'une erreur du système de segmentation et de classification). Afin de calculer les erreurs commises par le système, différents cas de figure ont été pris en compte~:
 
 \begin{itemize}
-  \item C1 : l'identité extraite de la transcription est associée avec un tour de parole
-  \item C2
-  \item C3
-  \item C4
-  \item Undef
-  \item False id
+  \item \textbf{C1} : l'identité extraite de la transcription est associée avec un tour de parole pur et correspond exactement à l'identité indiquée dans la référence (prénom et patronyme).
+  \item \textbf{C2} : l'identité extraite de la transcription est associée avec un tour de parole impur et correspond exactement à une des identités indiquées dans la référence (prénom et patronyme).
+  \item \textbf{C3} : l'identité extraite de la transcription est associée avec un tour de parole pur et correspond partiellement à l'identité indiquée dans la référence.
+  \item \textbf{C4} : l'identité extraite de la transcription est associée avec un tour de parole impur et correspond partiellement à une des identités indiquées dans la référence.
+  \item \textbf{Undef} : la règle correspond a un locuteur inconnu dans la référence (ces cas sont exclus des résultats de test)
+  \item \textbf{False id} : Aucun des cas ci-dessus ne s'applique, c'est donc une erreur d'association avec un tour de parole.
 \end{itemize}
+
+\todo{Présenter les résultats dans un tableau}
 
 Sur le corpus d'apprentissage, les règles identifiant le locuteur courant sont les plus fiables (seulement 1,3\% de fausse identification), tandis que les règles identifiant les locuteurs précédents (25\% de fausse identification) et courants (12,5\% de fausse identification) présentent de taux d'erreur élevés. Cette tendance ce confirme sur le corpus de test avec 0,8\% d'erreurs pour les règles de type \og courant \fg, 16\% pour les règles de type \og suivant \fg et 34,2\% pour les règles de type \og précédent \fg. Le taux d'erreur global des règles sur le corpus de test est de 10,9\%. 
 
