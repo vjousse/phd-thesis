@@ -683,7 +683,7 @@ En plus de ces règles, d'autres règles comprenant un caractère joker (*) ont été
   \label{table:canseco_joker}    
 \end{table}
 
-L'évaluation a été réalisée sur un corpus de test de 10 heures de données en langue anglaise. Deux types de transcriptions enrichies ont été utilisées : transcriptions manuelles et automatiques. Le taux d'erreur mot pour les transcriptions automatiques est de 18\%, le système utilisé est celui présenté dans \cite{Lamel02lightlysupervised}. 
+L'évaluation a été réalisée sur un corpus de test de 10 heures de données en langue anglaise (corpus Hub-4e, années 1997, 1998 et 1999). Deux types de transcriptions enrichies ont été utilisées : transcriptions manuelles et automatiques. Le taux d'erreur mot pour les transcriptions automatiques est de 18\%, le système utilisé est celui présenté dans \cite{Lamel02lightlysupervised}. 
 
 Les erreurs réalisées par le système de transcription automatique, et notamment les erreurs de découpage en tours de paroles (produits par le système de segmentation et de classification en locuteur) posent problème pour l'évaluation des règles. En effet, lorsqu'un tour de parole produit par le système automatique correspond à plusieurs tours de paroles la référence, comment considérer la validité de la règle ? Doit-elle être considérée comme bonne, fausse ? Pour répondre à ce problème, deux types de tours de parole ont été pris en compte dans les transcriptions réalisées automatiquement. À savoir les tours de paroles \og purs \fg, c'est à dire les tours de paroles qui correspondent aux tours de parole de la référence et les tours de paroles \og impurs \fg, c'est à dire les tours de paroles qui regroupent en plusieurs tours de parole de la référence (à cause d'une erreur du système de segmentation et de classification). Afin de calculer les erreurs commises par le système, différents cas de figure ont été pris en compte~:
 
@@ -696,9 +696,39 @@ Les erreurs réalisées par le système de transcription automatique, et notamment 
   \item \textbf{False id} : Aucun des cas ci-dessus ne s'applique, c'est donc une erreur d'association avec un tour de parole.
 \end{itemize}
 
-\todo{Présenter les résultats dans un tableau}
 
-Sur le corpus d'apprentissage, les règles identifiant le locuteur courant sont les plus fiables (seulement 1,3\% de fausse identification), tandis que les règles identifiant les locuteurs précédents (25\% de fausse identification) et courants (12,5\% de fausse identification) présentent de taux d'erreur élevés. Cette tendance ce confirme sur le corpus de test avec 0,8\% d'erreurs pour les règles de type \og courant \fg, 16\% pour les règles de type \og suivant \fg et 34,2\% pour les règles de type \og précédent \fg. Le taux d'erreur global des règles sur le corpus de test est de 10,9\%. 
+
+Le tableau \ref{tab:results_canseco} résume les résultats sur les transcriptions manuelles et automatiques. Sur le corpus d'évaluation avec les transcriptions manuelles, les règles identifiant le locuteur courant sont les plus fiables (aucune fausse identification), tandis que les règles identifiant le locuteur précédent (43,1\% de fausse identification) et suivant (20,2\% de fausse identification) présentent des taux d'erreur plus élevés. Cette tendance ce confirme avec l'utilisation de transcription automatiques, les règles de type \og courant \fg représentent 8,0\% des erreurs, les règles de type \og suivant \fg 19,0\% des erreurs et les règles de type \og précédent \fg 50,0\% des erreurs. Le taux d'erreur global des règles sur le corpus de test avec les transcriptions manuelles est d'environ 13\%, contre environ 18\% pour les transcriptions automatiques. 
+
+
+\begin{table}[h]
+  \begin{center}
+
+    \small
+    \begin{tabularx}{\linewidth}{cccc|ccc}
+      %\cline{3-6}
+      \hline
+      \hline
+      & \multicolumn{3}{c|}{Transcriptions manuelles}  & \multicolumn{3}{c}{Transcriptions automatiques} \\ 
+      & \emph{courant} & \emph{suivant} & \emph{précédent} & \emph{courant} & \emph{suivant} & \emph{précédent} \\ \hline 
+      \emph{c1} & 115 (95,0\%) & 50 (55,0\%) & 7 (16,0\%) & 94 (84,0\%) & 38 (60,3\%) & 8 (21,0\%) \\ 
+      \emph{c2} & - & - & - & 2 (1,7\%) & 3 (4,8\%) & - \\
+      \emph{c3} & 7 (5,0\%) & 22 (24,8\%) & 18 (40,9\%) & 7 (6,2\%) & 10 (15,9\%) & 11 (29,0\%) \\
+      \emph{c4} & - & - & - & - & - & - \\
+      \emph{\#False id} & - & 16 (20,2\%) & 19 (43,1\%) & 9 (8,0\%) & 12 (19,0\%) & 19 (50,0\%) \\
+      \emph{\#undef.} & - & 3 & 1 & - & 2 & 1 \\ \hline
+      \emph{Total} & 122 & 91 & 45 & 112 & 65 & 39 \\
+      \hline
+      \hline
+
+      \hline
+    \end{tabularx}
+  \end{center}
+  \caption{Taux d'erreur des règles manuelles sur les transcriptions manuelles et automatiques (corpus d'évaluation 97-98-99 Hub-4e)}
+  \label{tab:results_canseco}
+\end{table}
+
+
 
 Avec un taux d'erreur des règles d'environ 11\%, ces travaux démontrent qu'identifier les locuteurs d'un document à partir de sa transcription est possible. En revanche, ils nécessitent un traitement manuel du corpus~: les règles et les dictionnaires de concepts sont réalisés par un humain. Le temps de mise en place de telles règles peut être long suivant la quantité de corpus à analyser et demande une expertise du domaine pour pouvoir être réalisée. Dans les travaux décrits dans \cite{CansecoRodriguez2005,CansecoRodriguez2006}, un corpus en langue anglaise de 150 heures a été étudié. De plus, le passage d'un corpus à un autre est fastidieux : il faut réécrire le jeu de règles pour l'utiliser sur des documents d'une autre langue ou provenant d'autres types d'émissions.
 
