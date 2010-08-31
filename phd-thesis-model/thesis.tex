@@ -513,7 +513,7 @@ Afin de pouvoir attribuer aux locuteurs d'un document leurs nom complets, il fau
 \section{Utilisation de connaissances a priori}
 \label{sub:suivi_locuteur}
 
-Obtenir l'identité d'un locuteur a d'abord été réalisé avec des méthodes purement acoustiques. Le suivi de locuteur (décrit dans le chapitre \ref{sec:ral}) peut être étendu à $n$ locuteurs afin d'identifier tous les locuteurs d'un document. Bien qu'utilisées depuis des années, ces méthodes souffrent de plusieurs inconvénients. 
+Obtenir l'identité d'un locuteur a d'abord été réalisé avec des méthodes purement acoustiques \cite{Bimbot2004}. Le suivi de locuteur (décrit dans le chapitre \ref{sec:ral}) peut être étendu à $n$ locuteurs afin d'identifier tous les locuteurs d'un document. Bien qu'utilisées depuis des années, ces méthodes souffrent de plusieurs inconvénients. 
 
 Tout d'abord, il est absolument nécessaire de connaître les personnes que l'on cherche à identifier. En effet, les systèmes doivent commencer par apprendre des modèles acoustiques correspondant à chaque locuteur du document pour ensuite les associer aux différents intervenants de l'enregistrement traité. Ils ne peuvent donc identifier que des personnes dont ils possèdent déjà les modèles. De plus, lorsque l'on peut apprendre ce modèle acoustique, il faut posséder une quantité de données suffisante pour pouvoir l'apprendre : plusieurs minutes sont un minimum.
 
@@ -874,12 +874,9 @@ La méthode à base de N-grammes permet d'automatiser l'apprentissage des règles q
 L'étiquetage des noms complets est réalisé grâce à une liste de locuteurs et l'étiquetage des autres catégories est réalisé à partir des données de l'apprentissage étiquetées manuellement. Afin de se rapprocher d'une utilisation "réelle" de l'identification nommée il est possible d'utiliser un détecteur d'entités nommées pour automatiser cet étiquetage. De plus, la propagation des scores au niveau des classes de locuteur et les problèmes concernant l'attribution d'un seul nom complet à une classe de locuteur soulevés dans \ref{attributions_globales} n'ont été étudiés que succintement. En , une solution rudimentaire a été mise en place, qui consiste simplement à additionner les différents scores.
 
 
-\section{Règles statistiques : Arbre de décision}
 
-Le laboratoire d'informatique de l'université du Maine (LIUM) a présenté ses travaux sur l'identification nommée du locuteur dans \cite{MauclairOdyssey06} et \cite{Esteve07}.
-Les travaux du LIUM \cite{MauclairOdyssey06} ont été publiés en même temps que ceux de l'Université de Cambridge. Ils font aussi suite aux premiers travaux de Canseco. Le LIUM utilise un arbre de classification sémantique (SCT - Semantic Classification Tree \cite{Kuhn1995}) pour déterminer les règles linguistiques à utiliser pour attribuer l'étiquette \og suivant \fg{}, \og précédent \fg{} ou \og courant \fg{} à un nom complet détecté dans la transcription. Ces règles linguistiques sont basées sur des expressions régulières construites autour des noms complets détectés. Ce système ayant servi de base aux travaux présentés ici, il est plus longuement présenté dans la section qui lui est consacrée \label{sec:sys_id_lium}.
 
-\section{Modèle d'entropie maximum}
+\section{Approche statistique : modèle d'entropie maximum}
 
 \subsection{Principes}
 
@@ -904,9 +901,9 @@ Pour combiner toutes ces informations, Microsoft a choisi d'utiliser un modèle d
 
 Les résultats montrent qu'en utilisation les mêmes informations que dans \cite{Tranter06} le modèle d'entropie maximum est plus performant. À l'inverse de l'information sur les genres et la position des noms complets, l'ajout des modèles de locuteur n'apporte en revanche aucun gain significatif. Les expériences ont été menées sur des transcriptions entièrement manuelles.
 
-Ces travaux sont une extension des travaux menés par Cambridge dans \cite{Tranter06}. Ils améliorent les performances obtenues par Cambridge grâce au modèle d'entropie. Ils sont les premiers à introduire l'utilisation du genre du locuteur. En revanche, aucune expérience sur des données automatiques n'a été conduite. De plus,   les entités nommées et les catégories ont été étiquetées manuellement.
+Ces travaux sont une extension des travaux menés par Cambridge dans \cite{Tranter06}. Ils améliorent les performances obtenues par Cambridge grâce au modèle d'entropie. Ils sont les premiers à introduire l'utilisation du genre du locuteur. En revanche, aucune expérience sur des données automatiques n'a été conduite. De plus, les entités nommées et les catégories ont été étiquetées manuellement.
 
-\section{Conclusion}
+\section{Bilan}
 
 Les travaux sur l'identification nommée du locuteur utilisant la transcription enrichie du signal sont relativement récents puisque les premiers travaux menés par Canseco datent de 2004. Ils partagent tous la même hypothèse de base, à savoir qu'il est possible de déterminer, pour un nom de locuteur présent dans la transcription, s'il se rapporte au locuteur qui parle actuellement, à celui qui va parler juste après, ou à celui qui a parlé juste avant.
 
@@ -915,9 +912,14 @@ Deux principaux systèmes statistiques ont suivis les travaux de Canseco, à savoi
 Les travaux du LIUM ont été les seuls à utiliser un système automatique de détection des entités nommées. Dans le but d'automatiser le plus possible le processus, l'utilisation d'un tel système est indispensable. De plus, l'affectation des étiquettes \og précédent \fg{}, \og courant \fg{} et \og suivant \fg{} a beaucoup été étudiée dans la littérature. En revanche, le processus de propagation de ces étiquettes au niveau des classes de locuteur et la résolution des conflits n'a pas été étudiée jusqu'ici. Pour finir, beaucoup de travaux ont été conduits sur des transcriptions partiellement ou totalement manuel ; un travail sur des transcriptions entièrement automatiques est à réaliser.
 
 
-\chapter{Le système d'identification nommée du Laboratoire d'Informatique de l'Université du Maine (LIUM\_NI)}
+\chapter{LIUM\_NI : un système automatique d'Identification Nommée du Locuteur}
 \minitoc
 \newpage
+
+%\section{Règles statistiques : Arbre de décision}
+%
+%Le laboratoire d'informatique de l'université du Maine (LIUM) a présenté ses travaux sur l'identification nommée du locuteur dans \cite{MauclairOdyssey06} et \cite{Esteve07}.
+%Les travaux du LIUM \cite{MauclairOdyssey06} ont été publiés en même temps que ceux de l'Université de Cambridge. Ils font aussi suite aux premiers travaux de Canseco. Le LIUM utilise un arbre de classification sémantique (SCT - Semantic Classification Tree \cite{Kuhn1995}) pour déterminer les règles linguistiques à utiliser pour attribuer l'étiquette \og suivant \fg{}, \og précédent \fg{} ou \og courant \fg{} à un nom complet détecté dans la transcription. Ces règles linguistiques sont basées sur des expressions régulières construites autour des noms complets détectés. Ce système ayant servi de base aux travaux présentés ici, il est plus longuement présenté dans la section qui lui est consacrée \label{sec:sys_id_lium}.
 
 \label{sec:sys_id_lium}
 \section{Processus}
