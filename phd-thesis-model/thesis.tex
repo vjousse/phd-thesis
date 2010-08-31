@@ -575,6 +575,8 @@ Ce type d'attribution sera par la suite appelée \og attribution locale \fg. En e
 
 \subsection{Attributions globales}
 
+\label{attributions_globales}
+
 Afin de bien comprendre la problématique de l'attribution globale des noms complets, il faut placer les attributions locales dans le contexte d'une transcription enrichie (cf. \ref{sec:trans_enrichie}).
 
 En effet, comme décrit dans la partie précédente, chaque nom complet détecté dans un tour de parole est attribué ou tour de parole courant, précédent ou suivant. Chacun de ces tours de parole appartient à une classe de locuteur dite anonyme, que l'INL chercher à nommer en lui attribuant un et un seul nom complet. Or, plusieurs noms complets peuvent être candidats pour la même classe de locuteur. Comme le montre la figure \ref{fig:decisions_locales_conflit}, il est tout à fait possible que plusieurs noms complets différents soient en conflit au sein d'un même tour de parole. Dans l'exemple, deux noms complets sont possibles pour le tour de parole du locuteur appartenant à classe numéro 2 (LOCUTEUR 2) : Maude Bayeu et Pierre Moscovici.
@@ -594,8 +596,8 @@ Dans ce processus, à l'étape 1, la transcription est enrichie avec une segmentat
 
 \begin{figure}[h]
 \begin{center}
-\includegraphics[width=1\columnwidth]{img/entire_process.pdf}
-\caption{Vue globale du processus attribution d'un complet à une classe de locuteur anonyme}
+\includegraphics[width=1\columnwidth]{img/entire_process_fr.pdf}
+\caption{Vue globale du processus attribution d'un nom complet à une classe de locuteur anonyme}
 \label{fig:processus_entier}
 \end{center}
 \end{figure}
@@ -758,6 +760,7 @@ Suite aux travaux de Canseco (2005), le laboratoire de l'Université de Cambridge
 \end{figure}
 
 À la différence des précédents travaux, Cambridge utilise des N-grammes pour modéliser les règles linguistiques (cf. figure \ref{fig:tranter_n_gram}). Comme décrit dans \ref{ssection:modele_langage}, les N-grammes sont des outils très utilisés en modélisation du langage, ceux utilisés par Cambridge vont de 2 à 5 mots. Ils sont obtenus via un corpus d'apprentissage dans lequel la liste des personnes (leurs noms complets) intervenant dans les enregistrements est connue à l'avance. Les occurrences de ces noms complets sont détectées grâce à cette liste et les N-grammes sont appris en utilisant le contexte du nom complet détecté (une fenêtre de cinq mots incluant le nom complet est utilisée). Chaque N-gramme apparaissant plus d'un certain nombre de fois (cinq dans le cas de ces travaux) est considéré comme une règle de prédiction et est donc retenu comme règle linguistique.
+
 Toutes les règles précédemment apprises sont utilisées sur le corpus de test. Lorsqu'une règle avec une probabilité $p_1$ est déclenchée et suggère un nom $n_1$ pour une classe de locuteur $s_a$, le score pour l'hypothèse $s_a = n_1$ est incrémenté.
 Lorsque deux règles sont déclenchées pour le même nom de locuteur, leurs probabilités sont combinées en utilisant la formule :
 \begin{equation}\mathbf{}
@@ -765,7 +768,7 @@ Lorsque deux règles sont déclenchées pour le même nom de locuteur, leurs probabi
 \label{eq:sl}
 \end{equation}
 
-Comme dans les précédents travaux de Canseco (2005), Tranter (2006) utilise des concepts pour généraliser les règles. Ces concepts sont issus des données d'apprentissage et ont été complétes avec d'autres sources (journaux écrits notamment). Ces concepts sont les suivants : GOODBYE, HELLO, OKAY, THANKS, LOCATION, PERSON, PERSON'S, SHOW, SHOW'S and TITLE. Ils regroupent ceux utilisés par Canseco, la concept [agree] devient OKAY, [greet] devient THANKS, ... En revanche là où Tranter différencie HELLO et GOODBYE, Canseco les regroupait au sein d'un même concept [comm]. De plus, Tranter n'utilise pas le concept [quest].
+Comme dans les précédents travaux de Canseco (2005), Tranter (2006) utilise des concepts pour généraliser les règles. Ces concepts sont issus des données d'apprentissage et ont été complétés avec d'autres sources (journaux écrits notamment). Ces concepts sont les suivants : GOODBYE, HELLO, OKAY, THANKS, LOCATION, PERSON, PERSON'S, SHOW, SHOW'S and TITLE. Ils regroupent ceux utilisés par Canseco, la concept [agree] devient OKAY, [greet] devient THANKS, ... En revanche là où Tranter différencie HELLO et GOODBYE, Canseco les regroupait au sein d'un même concept [comm]. De plus, Tranter n'utilise pas le concept [quest] et les verbes.
 
 \subsection{Corpus}
 
@@ -810,32 +813,33 @@ La quantité de noms complets disponibles à partir de la transcription reste aux 
 Dans ces travaux plusieurs cas possibles sont étudiés lors de la comparaison entre la référence et les hypothèses fournies par le système d'INL :
 
 \begin{itemize}
-  \item \textbf{C}orrect~: le système propose une identité correspondant à celle indiquée dans la référence ;
-  \item \textbf{S}ubstitution~: le système propose une identité différente de l'identité présente dans la référence ;
-  \item \textbf{I}nsertion~: le système propose une identité alors que le locuteur n'est pas identifié dans la référence ;
-\item erreur de suppression ($D$) : le système ne propose pas d'identité alors que le locuteur est identifié dans la référence ;
-\item il n'y a pas d'identité ($C_2$)~: le système ne propose pas d'identité et la référence ne contient pas d'identité.
+  \item Correct ($C$)~: le système propose une identité correspondant à celle indiquée dans la référence ;
+  \item Substitution ($S$)~: le système propose une identité différente de l'identité présente dans la référence ;
+  \item Insertion ($I$)~: le système propose une identité alors que le locuteur n'est pas identifié dans la référence ;
+  \item Suppression ($D$) : le système ne propose pas d'identité alors que le locuteur est identifié dans la référence ;
+  \item Inconnu ($U$)~: le système ne propose pas d'identité et la référence ne contient pas d'identité.
 \end{itemize}
 
 Une mesure de Précision et de Rappel peut être définie à partir des 5 cas d'erreur~:
 \begin{equation}
 	\label{eq:PR}
-	P = \frac{C_1}{C_1+S+I} \ \ ; \ \ R = \frac{C_1}{C_1+S+D}
+	P = \frac{C}{C+S+I} \ \ ; \ \ R = \frac{C}{C+S+D}
 \end{equation}
 
 %Dans tous les précédents articles \cite{Tranter06,Esteve07,Chengyuan07} traitant de l'identification nommée du locuteur, les résultats sont présentés sous la forme de mesures de précision et de rappel.
 
-Comme il a été proposé dans \cite{Tranter06}, ces valeurs peuvent être complétées par un taux d'erreur $Err$ global également calculé à partir de ces 5 erreurs. Ce taux s'inspire du calcul du WER utilisé pour l'évaluation de la transcription. Il a l'avantage de mesurer la qualité des résultats du système d'identification nommée en une seule valeur, facilitant les comparaisons entre les systèmes par rapport aux mesures de précision et de rappel.
+Ces valeurs peuvent être complétées par un taux d'erreur $Err$ global. Ce taux s'inspire du calcul du $WER$ utilisé pour l'évaluation de la transcription. Il a l'avantage de mesurer la qualité des résultats du système d'identification nommée en une seule valeur, facilitant les comparaisons entre les systèmes par rapport aux mesures de précision et de rappel.
 \begin{equation}
 	\label{eq:PR}
-	Err = \frac{S+I+D}{S+I+D+C_2+C_1} \ \ ;
+	Err = \frac{S+I+D}{S+I+D+C+U} \ \ ;
 \end{equation}
 
+À noter que ces métriques sont utilisés pour mesurer les performances en terme de durée.
 
 \subsection{Résultats}
 
-Les résultats montrent que l'utilisation de catégories pour généraliser les mots présents dans les règles apporte un gain significatif, que ce soit sur des transcriptions manuelles ou des transcriptions automatiques. Sur des transcriptions réalisées manuellement et sur le corpus de développement, à 95 \% de précision le rappel est de 60 \%. Sur les données d'évaluation, le rappel chute à 38 \% pour la même précision. Le tableau \ref{table:resultats_tranter} donne le rappel maximum obtenu sur chaque type de transcription (automatiques ou manuelles), ainsi que le rappel à 95\% de précision.
-La figure \ref{fig:resultats_tranter} donne les différents résultats en fonction du type de transcription utilisée (\emph{asr} : transcription automatique, \emph{aseg} : segmentation et classification automatiques) et de l'usage des concepts (dénommés \emph{Cat} dans la figure) ou non. 
+La figure \ref{fig:resultats_tranter} donne les différents résultats en fonction du type de transcription utilisée (\emph{asr} : transcription automatique, \emph{aseg} : segmentation et classification automatiques) et de l'usage des concepts ou non. 
+Ces résultats montrent que l'utilisation de catégories pour généraliser les mots présents dans les règles apporte un gain significatif, que ce soit sur des transcriptions manuelles ou des transcriptions automatiques. Sur des transcriptions réalisées manuellement et sur le corpus de développement, à 95 \% de précision le rappel est de 60 \%. Sur les données d'évaluation, le rappel chute à 38 \% pour la même précision. Le tableau \ref{table:resultats_tranter} donne le rappel maximum obtenu sur chaque type de transcription (automatiques ou manuelles), ainsi que le rappel à 95\% de précision.
 
 \begin{table}[h]
   \begin{center}
@@ -857,7 +861,7 @@ La figure \ref{fig:resultats_tranter} donne les différents résultats en fonction
 \begin{figure}
 \begin{center}
 \includegraphics[width=0.7\columnwidth]{img/resultats_tranter.pdf}
-\caption{Résultats sur le corpus d'évaluation avec (cat) ou sans (word) classes sémantiques. Les résultats sont donnés pour les transcriptions de référence (ref), les transcriptions utilisant un SRAP (asr) pour obtenir les mots et les transcriptions utilisant un système de segmentation automatique pour les tours de parole et les locuteurs (aseg) }
+\caption{Résultats sur le corpus d'évaluation avec ou sans (mots) l'utilisation de concepts. Les résultats sont donnés pour les transcriptions de référence (ref), les transcriptions utilisant un SRAP (srap) pour obtenir les mots et les transcriptions utilisant un système de segmentation automatique pour les tours de parole et les locuteurs (aseg) }
 \label{fig:resultats_tranter}
 \end{center}
 \end{figure}
@@ -866,10 +870,8 @@ Le taux d'erreur (DER : Diarization Error Rate) du système de segmentation/class
 À noter que tous les résultats sont exprimés en terme du durée : plus les locuteurs s'exprimant de manière conséquente sont détectés, plus les résultats sont élevés : le nombre de locuteurs correctement nommés n'est pas pris en compte. Voir la section \ref{sec:metrique} pour plus de détails sur les différentes métriques d'évaluation.
 
 
-
-La méthode à base de N-grammes permet d'automatiser l'apprentissage des règles que Canseco avait définies à la main. De plus, une propagation relativement simple des scores est effectuée au sein des classes de locuteurs : les différents scores obtenus pour un locuteur $n_1$ et une classe de locuteur $s_a$ sont cumulés. Les tests réalisés montrent de bonnes performances sur des données manuelles, mais de beaucoup moins bonnes sur les données automatiques alors que les systèmes automatiques de transcription et de segmentation sont performants.
-De plus, l'étiquetage des noms complets est réalisé grâce à une liste de locuteurs et l'étiquetage des autres catégories est réalisé à partir des données de l'apprentissage étiquetées manuellement.
-Afin de se rapprocher d'une utilisation "réelle" de l'identification nommée il serait donc bon d'utiliser un détecteur d'entités nommées pour réaliser cet étiquetage. De plus, la propagation des scores au niveau des classes de locuteur et les problèmes concernant l'attribution d'un seul nom complet à une classe de locuteur soulevés dans \ref{ssub:attribution_d_un_nom_complet_a_une_classe_anonyme} n'ont pas vraiment été étudiés, une simple somme des différents scores étant effectuée.
+La méthode à base de N-grammes permet d'automatiser l'apprentissage des règles que Canseco avait définies à la main. Une propagation relativement simple des scores est effectuée au sein des classes de locuteurs : les différents scores obtenus pour un locuteur $n_1$ et une classe de locuteur $s_a$ sont cumulés. Les tests réalisés montrent de bonnes performances sur des données manuelles, mais de beaucoup moins bonnes sur les données automatiques alors que les systèmes automatiques de transcription et de segmentation sont très performants.
+L'étiquetage des noms complets est réalisé grâce à une liste de locuteurs et l'étiquetage des autres catégories est réalisé à partir des données de l'apprentissage étiquetées manuellement. Afin de se rapprocher d'une utilisation "réelle" de l'identification nommée il est possible d'utiliser un détecteur d'entités nommées pour automatiser cet étiquetage. De plus, la propagation des scores au niveau des classes de locuteur et les problèmes concernant l'attribution d'un seul nom complet à une classe de locuteur soulevés dans \ref{attributions_globales} n'ont été étudiés que succintement. En , une solution rudimentaire a été mise en place, qui consiste simplement à additionner les différents scores.
 
 
 \section{Règles statistiques : Arbre de décision}
