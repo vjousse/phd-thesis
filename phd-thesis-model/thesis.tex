@@ -796,13 +796,13 @@ Afin de tester le système mis en place, ces travaux examinent les locuteurs de l
       Apprentissage & 79,3\% & 4,0\% & 16,8\% & 148,2\% & 6912 \\
       Développement & 78,2\% & 8,8\% & 13,0\% & 4,3\% & 195 \\
       Évaluation & 76,8\% & 12,9\% & 10,3\% & 4,2\% & 206 \\ \hline
-      Évaluation (asr) & 47,3\% & 42,5\% & 10,3\% & 4,2\% & 138 \\
+      Évaluation (srap) & 47,3\% & 42,5\% & 10,3\% & 4,2\% & 138 \\
       \hline
 
       \hline
     \end{tabular}
   \end{center}
-  \caption{\% de données Disponibles (D), Indisponibles (I) et Non-nommées (N). Cela fixe la limite haute des performances atteignables, puisque les noms complets I ne peuvent être récupérés à partir de la transcription. Les résultats en utilisant les transcriptions automatiques (asr) sont aussi donnés.}
+  \caption{\% de données Disponibles (D), Indisponibles (I) et Non-nommées (N). Cela fixe la limite haute des performances atteignables, puisque les noms complets I ne peuvent être récupérés à partir de la transcription. Les résultats en utilisant les transcriptions automatiques (srap) sont aussi donnés.}
   \label{tab:results_tranter_perf}
 \end{table}
 
@@ -838,7 +838,7 @@ Ces valeurs peuvent être complétées par un taux d'erreur $Err$ global. Ce taux s
 
 \subsection{Résultats}
 
-La figure \ref{fig:resultats_tranter} donne les différents résultats en fonction du type de transcription utilisée (\emph{asr} : transcription automatique, \emph{aseg} : segmentation et classification automatiques) et de l'usage des concepts ou non. 
+La figure \ref{fig:resultats_tranter} donne les différents résultats en fonction du type de transcription utilisée (\emph{srap} : transcription automatique, \emph{aseg} : segmentation et classification automatiques) et de l'usage des concepts ou non. 
 Ces résultats montrent que l'utilisation de catégories pour généraliser les mots présents dans les règles apporte un gain significatif, que ce soit sur des transcriptions manuelles ou des transcriptions automatiques. Sur des transcriptions réalisées manuellement et sur le corpus de développement, à 95 \% de précision le rappel est de 60 \%. Sur les données d'évaluation, le rappel chute à 38 \% pour la même précision. Le tableau \ref{table:resultats_tranter} donne le rappel maximum obtenu sur chaque type de transcription (automatiques ou manuelles), ainsi que le rappel à 95\% de précision.
 
 \begin{table}[h]
@@ -893,12 +893,12 @@ La position du nom complet dans l'enregistrement est aussi prise en compte. Poso
 	\item $n_l$ apparait dans $S_l$.
 \end{itemize}
 
-Afin de prendre en compte le fait que plusieurs N-grammes peuvent correspondre à un même contexte lexical autour du nom complet détecté, Tranter utilise une combinaison heuristique présentée dans la formule \ref{eq:sl}. Ces travaux proposent de remplacer cette heuristique par un modèle d'entropie maximum \tocite{Article entropie}. Cette approche permet de représenter les différentes règles au sein d'un modèle statistique et d'y ajouter des connaissances supplémentaires.
+Afin de prendre en compte le fait que plusieurs N-grammes peuvent correspondre à un même contexte lexical autour du nom complet détecté, Tranter utilise une combinaison heuristique présentée dans la formule \ref{eq:sl}. Ces travaux proposent de remplacer cette heuristique par un modèle d'entropie maximum \cite{BergerEntropie96}. Cette approche permet de représenter les différentes règles au sein d'un modèle statistique et d'y ajouter des connaissances supplémentaires.
 
 Pour déterminer la probabilité d'attribuer un nom complet $s$ à une classe de locuteur $c$, un ensemble de règles (N-grammes) applicables $R(s)$ est tout d'abord déterminé. La combinaison heuristique de Tranter peut être réécrite de cette manière :
 
 \begin{equation}\mathbf{}
-  p(s|c)=1 - (1-p_1)(1-p_2)
+  p(s|c) \propto 1 - \prod_{r\in R(s)}(1-p_r)
 \label{eq:sl_new}
 \end{equation}
 
@@ -910,8 +910,6 @@ Le modèle d'entropie maximum proposé s'exprime de la manière suivante :
   p(s|c)=1 - (1-p_1)(1-p_2)
 \label{eq:maxent}
 \end{equation}
-
-\todo{réécrire l'équation}
 
 Les N-grammes sont utilisés comme fonctions de caractéristiques $f_k$ du modèle d'entropie maximum. $L_k$ représente les paramètres du modèle (multiplicateur de Lagrange \tocite{Della pietra 1995}) et $Z_L(c)$ est une constante de normalisation qui permet de s'assurer que la somme des probabilités est égale à un. Les paramètres du modèle sont appris en utilisant la méthode Generalized Iterative Scaling afin d'optimiser la probabilité \emph{a posteriori} des paramètres $L$ étant donné les données d'apprentissage avec une prior Gaussienne \tocite{Biblio 7 crosoft}.
 
