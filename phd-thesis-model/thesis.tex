@@ -895,23 +895,22 @@ La position du nom complet dans l'enregistrement est aussi prise en compte. Poso
 
 Afin de prendre en compte le fait que plusieurs N-grammes peuvent correspondre à un même contexte lexical autour du nom complet détecté, Tranter utilise une combinaison heuristique présentée dans la formule \ref{eq:sl}. Ces travaux proposent de remplacer cette heuristique par un modèle d'entropie maximum \cite{BergerEntropie96}. Cette approche permet de représenter les différentes règles au sein d'un modèle statistique et d'y ajouter des connaissances supplémentaires.
 
-Pour déterminer la probabilité d'attribuer un nom complet $s$ à une classe de locuteur $c$, un ensemble de règles (N-grammes) applicables $R(s)$ est tout d'abord déterminé. La combinaison heuristique de Tranter peut être réécrite de cette manière :
+Pour déterminer la probabilité d'attribuer un nom complet $s$ à une classe de locuteur $c$, un ensemble de règles (N-grammes) applicables $\mathcal{R}(s)$ est tout d'abord déterminé. La combinaison heuristique de Tranter peut être réécrite de cette manière :
 
 \begin{equation}\mathbf{}
-  p(s|c) \propto 1 - \prod_{r\in R(s)}(1-p_r)
+  P(s|c) \propto 1 - \prod_{r\in \mathcal{R}(s)}(1-p_r)
 \label{eq:sl_new}
 \end{equation}
-
-\todo{réécrire l'équation proprement}
 
 Le modèle d'entropie maximum proposé s'exprime de la manière suivante :
 
 \begin{equation}\mathbf{}
-  p(s|c)=1 - (1-p_1)(1-p_2)
+  P(s|c)=\frac{1}{Z_\lambda(c)} \exp(\sum_{k=1}^{F} \lambda_k f_k(s,c))
 \label{eq:maxent}
 \end{equation}
 
-Les N-grammes sont utilisés comme fonctions de caractéristiques $f_k$ du modèle d'entropie maximum. $L_k$ représente les paramètres du modèle (multiplicateur de Lagrange \tocite{Della pietra 1995}) et $Z_L(c)$ est une constante de normalisation qui permet de s'assurer que la somme des probabilités est égale à un. Les paramètres du modèle sont appris en utilisant la méthode Generalized Iterative Scaling afin d'optimiser la probabilité \emph{a posteriori} des paramètres $L$ étant donné les données d'apprentissage avec une prior Gaussienne \tocite{Biblio 7 crosoft}.
+Les N-grammes sont utilisés comme attributs (\emph{features}) $f_k(s,c)$ du modèle d'entropie maximum. $\lambda_k$ représente les paramètres du modèle (multiplicateur de Lagrange) et $Z_\lambda(c)$ est une constante de normalisation qui permet de s'assurer que la somme des probabilités est égale à un. Les paramètres du modèle sont appris en utilisant la méthode dite de \emph{Generalized Iterative Scaling} afin d'optimiser la probabilité \emph{a posteriori} des paramètres $\lambda$ étant donné les données d'apprentissage avec une distribution Gaussienne \emph{a priori} \cite{Chen2000}.
+\todo{S'assurer que la précédente phrase se traduit bien comme ça}
 
 Les règles linguistiques et les concepts sont obtenus de la même manière que dans \ref{Tranter} : un modèle N-gramme est utilisé pour apprendre les règles et un dictionnaire de concept pour remplacer certains mots.
 
