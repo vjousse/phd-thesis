@@ -87,10 +87,11 @@ Pour obtenir de bonnes performances en temps réel, ces systèmes à grand vocabula
 Historiquement, c'est l'équipe de recherche IBM dirigée par F. Jelinek qui est la première à avoir développé un système grand vocabulaire (\emph{Tangora} 5~000 mots en 1985, 20~000 en 1987) pour la dictée vocale. Par la suite, l'ensemble des grands systèmes développés se sont inspirés du système \emph{Tangora}. Avec un taux de réussite supérieur à 95~\% pour un vocabulaire de 20 000 mots, \emph{Tangora} est un système multilingue existant notamment pour l'anglais \cite{Averbuch87}, l'italien \cite{Alto87}, le français \cite{CerfDanon90} ou encore l'allemand \cite{Wothke89}.
 
 
-\subsection{Systèmes de transcription de journaux d'informations}
-\todo{trouver un autre titre ?}
+\subsection{Systèmes de transcription enrichie}
 
 \label{ssec:trans_broadcast}
+
+Les systèmes de transcription enrichie ont pour but de transcrire tout type de document audio, en essayant d'extraire le maximum d'informations de l'enregistrement. Le mode d'élocution n'est pas contraint et le vocabulaire utilisé est très grand, il dépasse généralement les 65~000 mots. Ce type de système est complètement indépendant du locuteur et doit pouvoir s'adapter à l'environnement utilisé lors de l'enregistrement (environnement bruité, studio, téléphone, etc.). 
 
 Au milieu des années 90 sont apparues des campagnes d'évaluation ayant pour but de tester les performances des systèmes sur des corpus lus. Par exemple, les données disponibles pour la campagne américaine Hub-3 \cite{Pallet96} sont des extraits de journaux comme le \emph{Wall Street Journal} ou le \emph{New York Times}. Ces extraits sont lus et enregistrés dans différentes conditions de manière à constituer des corpus audio. Le langage utilisé est donc celui utilisé pour de l'écrit. De ce fait, ce type de campagne évalue les performances de systèmes s'apparentant à la dictée vocale. Les performances deviennent rapidement excellentes, le système d'IBM affiche des taux d'erreur de l'ordre de 7\% \cite{Bahl95}. En France, la première campagne lancée par l'AUPELF-UREF consistait à transcrire des textes lus du journal \emph{Le Monde} en utilisant le corpus BREF \cite{Lamel91}. Comme pour la campagne Hub-3, les résultats sont très bons puisque le système du LIMSI affiche des taux d'erreurs de l'ordre de 11\% \cite{Gauvain94speaker-independentcontinuous}.
 
