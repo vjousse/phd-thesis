@@ -946,7 +946,7 @@ Deux principaux systèmes statistiques ont suivis les travaux de Canseco, à savoi
 Les travaux du LIUM ont été les seuls à utiliser un système automatique de détection des entités nommées. Dans le but d'automatiser le plus possible le processus, l'utilisation d'un tel système est indispensable. De plus, l'affectation des étiquettes \og précédent \fg{}, \og courant \fg{} et \og suivant \fg{} a beaucoup été étudiée dans la littérature. En revanche, le processus de propagation de ces étiquettes au niveau des classes de locuteur et la résolution des conflits n'a pas été étudiée jusqu'ici. Pour finir, beaucoup de travaux ont été conduits sur des transcriptions partiellement ou totalement manuel ; un travail sur des transcriptions entièrement automatiques est à réaliser.
 
 
-\chapter{Système automatique d'INL basé sur l'utilisation d'arbre de classification sémantique}
+\chapter{Système automatique d'INL basé sur l'utilisation d'un arbre de classification sémantique}
 \minitoc
 \newpage
 
@@ -954,7 +954,7 @@ Les travaux du LIUM ont été les seuls à utiliser un système automatique de détec
 
 \todo{Présenter un graphe du système avec les différents modules à la fin de ce chapitre pour dire qu'on a tout réécrit et que maintenant ça s'architecture comme ça. Ca sera dans le coup plus facile de dire quelles briques on remplace dans le nouveau système et les futures XP}
 
-Cette thèse fait suite aux travaux déjà menés au Laboratoire d'Informatique de l'Université du Maine (LIUM) sur l'INL \cite{MauclairOdyssey06} et \cite{Esteve07}. Le LIUM s'est appuyé sur les travaux de Canseco (cf. section \ref{sub:regles_manuelles}) pour mettre en place un système d'INL basé sur un arbre de classification sémantique pour les attributions locales \cite{Kuhn1995} et sur un détecteur automatique d'entités nommées pour identifier les noms complets dans la transcription. L'utilisation de ces deux systèmes automatiques et d'un processus de décision permet au système du LIUM de fonctionner de manière entièrement automatique.
+Cette thèse fait suite aux travaux déjà menés au Laboratoire d'Informatique de l'Université du Maine (LIUM) sur l'INL \cite{MauclairOdyssey06} et \cite{Esteve07}. Le LIUM s'est appuyé sur les travaux de Canseco (cf. section \ref{sub:regles_manuelles}) pour mettre en place un système d'INL basé sur un arbre de classification sémantique pour les attributions locales \cite{Kuhn1995} et sur un détecteur automatique d'entités nommées pour identifier les noms complets dans la transcription. L'utilisation de ces deux systèmes automatiques et d'un processus de décision permet au système du LIUM de fonctionner de manière entièrement automatique pour identifier les locuteurs d'un document.
 
 Nous commençons par décrire le système de détection des entités nommées, puis nous décrirons ensuite l'arbre de classification sémantique utilisé pour réaliser les attributions locales. Nous finirons par expliquer le processus d'attribution globale du LIUM. Outre le module de détection d'entités nommées, les autres modules ont fait l'objet d'une réécriture complète pour cette thèse.
 
@@ -965,7 +965,7 @@ Nous commençons par décrire le système de détection des entités nommées, puis no
 
 Le système de détection des entités nommées (EN) a été mis en place afin de participer à une partie expérimentale de la campagne d'évaluation ESTER I \cite{Galliano05} sur la détection des EN. C'est un système à base de règles. Quelques règles ont été inférées à partir du corpus d'apprentissage d'ESTER I et d'autres ont été développées manuellement (pour, par exemple, réaliser une grammaire pour détecter les dates). De plus, des listes de prénoms, de patronymes, de villes, de pays, etc. ont été ajoutées à la base de connaissances du système.
 
-La liste des EN choisie pour la campagne ESTER I se compose de 8 catégories principales qui sont : les personnes, les lieux, les organisations, les groupes socio-politiques, les montants, les informations temporelles, les produits et les facilities (\todo{Traduire facilities}). Pour son système d'INL, le LIUM n'a retenu que 5 de ces catégories : les personnes, les lieux, les organisations les groupes socio-politiques et les informations temporelles \cite{Esteve07}. Les résultats sur le corpus de développement de la campagne ESTER I sont présentés dans le tableau \ref{table:resultats_ne_lium} en terme de précision et de rappel. La tâche de détection des entités nommées n'était qu'expérimental dans ESTER I, il n'y a donc pas eu d'évaluation finale.
+La liste des EN choisie pour la campagne ESTER I se compose de 8 catégories principales qui sont : les personnes, les lieux, les organisations, les groupes socio-politiques, les montants, les informations temporelles, les produits et les aménagements. Pour son système d'INL, le LIUM n'a retenu que 5 de ces catégories : les personnes, les lieux, les organisations les groupes socio-politiques et les informations temporelles \cite{Esteve07}. Les résultats sur le corpus de développement de la campagne ESTER I sont présentés dans le tableau \ref{table:resultats_ne_lium} en terme de précision et de rappel. La tâche de détection des entités nommées n'était qu'expérimentale dans ESTER I, il n'y a donc pas eu d'évaluation finale.
 
 \begin{table}[h]
   \begin{center}
@@ -991,7 +991,7 @@ La liste des EN choisie pour la campagne ESTER I se compose de 8 catégories prin
   \label{table:resultats_ne_lium}
 \end{table}
 
-Afin de généraliser la transcription dans le cadre de l'INL, lorsqu'une EN est détectée, la suite de mots correspondant est remplacée par le type de l'EN. Les traitements effectués sur la transcription sont décrits dans la figure \ref{fig:pre_traitement}.
+Afin de généraliser la transcription dans le cadre de l'INL, lorsqu'une EN est détectée, la suite de mots correspondant est remplacée par le type de l'EN dans la transcription. Les traitements effectués sur la transcription sont décrits dans la figure \ref{fig:pre_traitement}.
 
 \begin{figure}
 \begin{center}
@@ -1002,14 +1002,13 @@ Afin de généraliser la transcription dans le cadre de l'INL, lorsqu'une EN est d
 \end{figure}
 
 
-
-
 \section{Attributions locales : arbre de classification sémantique}
 
-
-Les arbres de classification sémantiques (SCT - Semantic CLassification Tree) sont souvent utilisés dans le traitement du langage naturel. Par exemple, ils sont employés pour des systèmes de dialogue \cite{Kuhn1995}, pour l'estimation de modèles de langage hiérarchiques n-grammes \cite{Esteve2001}, ou pour la détection de noms propres inconnus \cite{Bechet2000}. Les SCTs sont des arbres de décision binaire s'appuyant sur des patrons linguistiques comme paramètre de décision pour classer les échantillons. Dans le cadre de l'identification nommée, ils sont utilisés pour attribuer les étiquettes \og{}précédent\fg{}, \og{}courant\fg{} et \og{}suivante\fg{} décrites dans la section \ref{ssec:attributions_locales}.
+Les arbres de classification sémantiques (SCT - Semantic Classification Tree) sont souvent utilisés dans le traitement du langage naturel. Par exemple, ils sont employés pour des systèmes de dialogue \cite{Kuhn1995}, pour l'estimation de modèles de langage hiérarchiques n-grammes \cite{Esteve2001}, ou pour la détection de noms propres inconnus \cite{Bechet2000}. Les SCTs sont des arbres de décision binaire s'appuyant sur des patrons linguistiques comme paramètre de décision pour classer les échantillons. Dans le cadre de l'identification nommée, ils sont utilisés pour attribuer les étiquettes \og{}précédent\fg{}, \og{}courant\fg{} et \og{}suivante\fg{} décrites dans la section \ref{ssec:attributions_locales}.
 
 \subsection{Arbre de décision binaire}
+
+L'attribution locale des étiquettes est la base de tout système d'INL. Là où les autres travaux utilisent des règles réalisées manuellement (cf. section \ref{sub:regles_manuelles}) ou des N-grammes (\ref{sub:regles_statistiques}), le LIUM utilise un type particulier d'arbre binaire, à savoir un arbre de classification sémantique.
 
 Un arbre de décision binaire \cite{Breiman84,Cornejols02} est un type de classificateur qui va permettre d'affecter des classes à un échantillon grâce à une suite de décisions binaires de type oui/non. Les n\oe{}uds de l'arbre sont des tests auquel l'échantillon sera soumis, en fonction du résultat du test (oui ou non) l'échantillon sera ensuite testé sur la branche correspondante. Si cette branche ne contient qu'une feuille, alors elle correspond aux classes à attribuer. Si cette branche est un sous-arbre contenant d'autres tests, ils sont effectués jusqu'à atteindre une feuille de l'arbre.
 Prenons l'exemple d'un arbre de décision binaire permettant de classer les phrases selon le fait qu'elles parlent ou non de l'identification nommée. Les deux classes possibles sont \emph{INL} et \emph{NOTINL}. Si une phrase contient les termes \og{}identification\fg{} et \og{}nommée\fg{} elle sera alors considérée comme appartenant à la classe \emph{INL}, sinon elle sera classée comme \emph{NOTINL}. L'arbre présenté dans la figure \ref{fig:arbre_binaire} modélise ce cas de figure.
@@ -1022,12 +1021,11 @@ Prenons l'exemple d'un arbre de décision binaire permettant de classer les phras
 \end{center}
 \end{figure}
 
-Dans les SCTs, les n\oe{}uds de l'arbre sont des expressions régulières construites lors de l'apprentissage décrit ci-dessous.
 %le nom détecté parmi les étiquettes previous, current, next et other. Les SCTs reposent sur l'utilisation d'expressions régulières. Afin d'être analysés par le SCT, des couples sont créés comprenant une occurrence de nom complet ainsi que son contexte lexical. Le but est de classer ces couples avec les 4 étiquettes previous, current, next et other (voir les feuilles de la figure 7.2) en utilisant les expressions régulières.
 
 \subsection{Apprentissage}
 
-Pendant le processus de construction du SCT, chaque n\oe{}ud est associé à une expression régulière contenant des mots et des caractères spéciaux (\emph{<}, \emph{>} et \emph{+}). le < (respectivement >) se rapporte au commencement (respectivement la fin) d'une intervention d'un locuteur tandis que + se rapporte à n'importe quelle suite de mots. Par exemple, l'expression régulière \emph{< + de + >} correspond à chaque intervention contenant le mot \emph{de}, alors que \emph{< + en direct + de + >} correspond à chaque intervention contenant les mots \emph{en direct} et \emph{de} apparaissant dans cet ordre. La figure \ref{fig:sct} montre une petite partie d'un tel arbre de classification avec un exemple de probabilités attribuées à chaque étiquette.
+Dans les SCTs, les n\oe{}uds de l'arbre sont des expressions régulières construites lors de la phase d'apprentissage. Pendant le processus de construction du SCT, chaque n\oe{}ud est associé à une expression régulière contenant des mots et des caractères spéciaux (\emph{<}, \emph{>} et \emph{+}). le < (respectivement >) se rapporte au commencement (respectivement la fin) d'une intervention d'un locuteur tandis que + se rapporte à n'importe quelle suite de mots. Par exemple, l'expression régulière \emph{< + de + >} correspond à chaque intervention contenant le mot \emph{de}, alors que \emph{< + en direct + de + >} correspond à chaque intervention contenant les mots \emph{en direct} et \emph{de} apparaissant dans cet ordre. La figure \ref{fig:sct} montre une petite partie d'un tel arbre de classification avec un exemple de probabilités attribuées à chaque étiquette.
 
 \begin{figure}[h]
 \begin{center}
@@ -1040,6 +1038,9 @@ Pendant le processus de construction du SCT, chaque n\oe{}ud est associé à une e
 Le processus de construction du SCT doit choisir pour chaque n\oe{}ud l'expression régulière qui réduit au minimum un critère d'impureté. Ici le critère utilisé est le critère de Gini (se référer à \cite{Breiman84} pour de plus amples détails). Un autre critère communément utilisé est l'entropie de Shannon.
 
 Pour chaque niveau dans l'arbre, ce processus de construction ajoute un mot à l'expression régulière courante. Le critère d'impureté permet d'évaluer le degré de déterminisme associé à un n\oe{}ud : plus le critère d'impureté est bas, plus la classification est déterministe.
+
+Le fonctionnement et l'apprentissage des SCTs sont décrits de manière exhaustive dans \cite{KuhnPHD}.
+
 
 \subsection{Algorithme}
 
