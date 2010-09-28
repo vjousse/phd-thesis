@@ -1004,13 +1004,14 @@ Afin de généraliser la transcription dans le cadre de l'INL, lorsqu'une EN est d
 
 \section{Attributions locales : arbre de classification sémantique}
 
-Les arbres de classification sémantiques (SCT - Semantic Classification Tree) sont souvent utilisés dans le traitement du langage naturel. Par exemple, ils sont employés pour des systèmes de dialogue \cite{Kuhn1995}, pour l'estimation de modèles de langage hiérarchiques n-grammes \cite{Esteve2001}, ou pour la détection de noms propres inconnus \cite{Bechet2000}. Les SCTs sont des arbres de décision binaire s'appuyant sur des patrons linguistiques comme paramètre de décision pour classer les échantillons. Dans le cadre de l'identification nommée, ils sont utilisés pour attribuer les étiquettes \og{}précédent\fg{}, \og{}courant\fg{} et \og{}suivante\fg{} décrites dans la section \ref{ssec:attributions_locales}.
+Les arbres de classification sémantiques (SCT - Semantic Classification Tree) sont souvent utilisés dans le traitement du langage naturel. Par exemple, ils sont employés pour des systèmes de dialogue \cite{Kuhn1995}, pour l'estimation de modèles de langage hiérarchiques n-grammes \cite{Esteve2001}, ou pour la détection de noms propres inconnus \cite{Bechet2000}. Les SCTs sont des arbres de décision binaire s'appuyant sur des patrons linguistiques comme paramètres de décision pour classer les échantillons. Dans le cadre de l'identification nommée, ils sont utilisés pour réaliser l'attribution locale des étiquettes \og{}précédent\fg{}, \og{}courant\fg{} et \og{}suivante\fg{} décrites dans la section \ref{ssec:attributions_locales}.
 
 \subsection{Arbre de décision binaire}
 
-L'attribution locale des étiquettes est la base de tout système d'INL. Là où les autres travaux utilisent des règles réalisées manuellement (cf. section \ref{sub:regles_manuelles}) ou des N-grammes (\ref{sub:regles_statistiques}), le LIUM utilise un type particulier d'arbre binaire, à savoir un arbre de classification sémantique.
+Là où les autres travaux utilisent des règles réalisées manuellement (cf. section \ref{sub:regles_manuelles}) ou des N-grammes (\ref{sub:regles_statistiques}), le LIUM utilise un type particulier d'arbre binaire, à savoir un arbre de classification sémantique.
 
 Un arbre de décision binaire \cite{Breiman84,Cornejols02} est un type de classificateur qui va permettre d'affecter des classes à un échantillon grâce à une suite de décisions binaires de type oui/non. Les n\oe{}uds de l'arbre sont des tests auquel l'échantillon sera soumis, en fonction du résultat du test (oui ou non) l'échantillon sera ensuite testé sur la branche correspondante. Si cette branche ne contient qu'une feuille, alors elle correspond aux classes à attribuer. Si cette branche est un sous-arbre contenant d'autres tests, ils sont effectués jusqu'à atteindre une feuille de l'arbre.
+
 Prenons l'exemple d'un arbre de décision binaire permettant de classer les phrases selon le fait qu'elles parlent ou non de l'identification nommée. Les deux classes possibles sont \emph{INL} et \emph{NOTINL}. Si une phrase contient les termes \og{}identification\fg{} et \og{}nommée\fg{} elle sera alors considérée comme appartenant à la classe \emph{INL}, sinon elle sera classée comme \emph{NOTINL}. L'arbre présenté dans la figure \ref{fig:arbre_binaire} modélise ce cas de figure.
 
 \begin{figure}[h]
@@ -1025,7 +1026,7 @@ Prenons l'exemple d'un arbre de décision binaire permettant de classer les phras
 
 \subsection{Apprentissage}
 
-Dans les SCTs, les n\oe{}uds de l'arbre sont des expressions régulières construites lors de la phase d'apprentissage. Pendant le processus de construction du SCT, chaque n\oe{}ud est associé à une expression régulière contenant des mots et des caractères spéciaux (\emph{<}, \emph{>} et \emph{+}). le < (respectivement >) se rapporte au commencement (respectivement la fin) d'une intervention d'un locuteur tandis que + se rapporte à n'importe quelle suite de mots. Par exemple, l'expression régulière \emph{< + de + >} correspond à chaque intervention contenant le mot \emph{de}, alors que \emph{< + en direct + de + >} correspond à chaque intervention contenant les mots \emph{en direct} et \emph{de} apparaissant dans cet ordre. La figure \ref{fig:sct} montre une petite partie d'un tel arbre de classification avec un exemple de probabilités attribuées à chaque étiquette.
+Dans les SCTs, les n\oe{}uds de l'arbre sont des expressions régulières construites lors de la phase d'apprentissage. Pendant le processus de construction du SCT, chaque n\oe{}ud est associé à une expression régulière contenant des mots et des caractères spéciaux (\emph{<}, \emph{>} et \emph{+}). Le < (respectivement >) se rapporte au commencement (respectivement la fin) d'une intervention d'un locuteur tandis que + se rapporte à n'importe quelle suite de mots. Par exemple, l'expression régulière \emph{< + de + >} correspond à chaque intervention contenant le mot \emph{de}, alors que \emph{< + en direct + de + >} correspond à chaque intervention contenant les mots \emph{en direct} et \emph{de} apparaissant dans cet ordre. La figure \ref{fig:sct} montre une petite partie d'un tel arbre de classification avec un exemple de probabilités attribuées à chaque étiquette.
 
 \begin{figure}[h]
 \begin{center}
@@ -1035,16 +1036,19 @@ Dans les SCTs, les n\oe{}uds de l'arbre sont des expressions régulières construi
 \end{center}
 \end{figure}
 
-Le processus de construction du SCT doit choisir pour chaque n\oe{}ud l'expression régulière qui réduit au minimum un critère d'impureté. Ici le critère utilisé est le critère de Gini (se référer à \cite{Breiman84} pour de plus amples détails). Un autre critère communément utilisé est l'entropie de Shannon.
+Le processus de construction du SCT doit choisir pour chaque n\oe{}ud l'expression régulière qui réduit au minimum un critère d'impureté. Ici le critère utilisé est le critère de Gini (se référer à \cite{Breiman84} pour de plus amples détails). Un autre critère communément utilisé est l'entropie de Shannon \cite{Shannon}.
 
-Pour chaque niveau dans l'arbre, ce processus de construction ajoute un mot à l'expression régulière courante. Le critère d'impureté permet d'évaluer le degré de déterminisme associé à un n\oe{}ud : plus le critère d'impureté est bas, plus la classification est déterministe.
+Pour chaque niveau dans l'arbre, ce processus de construction ajoute un mot à l'expression régulière courante. Le critère d'impureté permet d'évaluer le degré de déterminisme associé à un n\oe{}ud : plus le critère d'impureté est bas, plus la classification est déterministe. Le fonctionnement et l'apprentissage des SCTs sont décrits de manière exhaustive dans \cite{KuhnPHD}.
 
-Le fonctionnement et l'apprentissage des SCTs sont décrits de manière exhaustive dans \cite{KuhnPHD}.
+Afin de préparer le corpus d'apprentissage pour construire l'arbre, plusieurs traitement sont réalisés sur le corpus~:
 
-
-\subsection{Algorithme}
-
-Une fois l'arbre construit, il est utilisé sur le contexte lexical de chaque entité nommée de type \og{}personnes\fg{} détectée. Ce contexte lexical est constitué des 5 mots à gauche et à droite de l'entité nommée. L'algorithme utilisé est décrit ci-après.
+\begin{itemize}
+    \item Le corpus est traité via le détecteur d'entités nommées décrit à la section précédente. Les mots composants les entités nommées retenues sont remplacées par leur type dans la transcription.
+    \item L'arbre de classification sémantique apprend les expressions régulières grâce aux mots présents dans les contextes lexicaux gauche et droite de chaque nom complet détecté. Un maximum de 10 mots autour du nom complet détecté a été gardé~: au plus 5 mots à gauche et 5 mots à droite. Le nombre de mots à garder a été déterminé grâce au corpus de développement.
+    \item Les transcriptions de référence utilisées pour l'apprentissage contiennent plus d'informations que celles produites par un système de transcription automatique. Les transcriptions sont donc normalisées afin de se rapprocher au maximum de celles qu'un système de transcription automatique peut fournir. Par exemple, la ponctuation et les majuscules ont été retirées.
+    \item Les articles considérés comme non porteurs de sens (\textit{l', le, la, les, un, une, uns}) ont été éliminés du contexte analysé. En revanche, les mots comme \textit{de, dans, à} ont été gardés puisqu'ils peuvent potentiellement concerner une information importante comme un lieu, une radio ou une émission.
+    \item L'arbre a besoin de savoir si un nom complet détecté correspond au locuteur suivant, précédent ou courant pour pouvoir réaliser son apprentissage. Cette phase d'étiquetage de chaque nom complet est réalisée automatiquement en comparant le nom complet détecté aux noms complets des locuteurs suivant, précédent et courant. Cette phase d'étiquetage n'est pas vérifiée manuellement, il est supposé que les étiquettes sont correctes.
+\end{itemize}
 
 \subsection{Attributions locales}
 
