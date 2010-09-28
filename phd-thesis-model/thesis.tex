@@ -1050,7 +1050,9 @@ Afin de préparer le corpus d'apprentissage pour construire l'arbre, plusieurs tr
     \item L'arbre a besoin de savoir si un nom complet détecté correspond au locuteur suivant, précédent ou courant pour pouvoir réaliser son apprentissage. Cette phase d'étiquetage de chaque nom complet est réalisée automatiquement en comparant le nom complet détecté aux noms complets des locuteurs suivant, précédent et courant. Cette phase d'étiquetage n'est pas vérifiée manuellement, il est supposé que les étiquettes sont correctes.
 \end{itemize}
 
-\subsection{Attributions locales}
+\subsection{Étiquetage}
+
+Afin d'utiliser l'arbre de classification pour réaliser les attributions locales, le corpus subit le même traitement que celui décrit dans la section précédente. Ensuite, pour chaque nom complet détecté l'arbre est utilisé sur son contexte lexical. Il permet d'attribuer une probabilité à chaque étiquette possible~: \og{}locuteur précédent\fg{}, \og{}locuteur courant\fg{} ou \og{}locuteur suivant\fg{}. La figure \ref{fig:sct} donne un exemple de probabilités obtenues pour chaque étiquette.
 
 \section{Attributions globales}
 \section{Corpus et données}
