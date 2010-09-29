@@ -1050,9 +1050,11 @@ Afin de préparer le corpus d'apprentissage pour construire l'arbre, plusieurs tr
     \item L'arbre a besoin de savoir si un nom complet détecté correspond au locuteur suivant, précédent ou courant pour pouvoir réaliser son apprentissage. Cette phase d'étiquetage de chaque nom complet est réalisée automatiquement en comparant le nom complet détecté aux noms complets des locuteurs suivant, précédent et courant. Cette phase d'étiquetage n'est pas vérifiée manuellement, il est supposé que les étiquettes sont correctes.
 \end{itemize}
 
-\subsection{Étiquetage}
+\subsection{Étiquetage et attributions locales}
 
-Afin d'utiliser l'arbre de classification pour réaliser les attributions locales, le corpus subit le même traitement que celui décrit dans la section précédente. Ensuite, pour chaque nom complet détecté l'arbre est utilisé sur son contexte lexical. Il permet d'attribuer une probabilité à chaque étiquette possible~: \og{}locuteur précédent\fg{}, \og{}locuteur courant\fg{} ou \og{}locuteur suivant\fg{}. La figure \ref{fig:sct} donne un exemple de probabilités obtenues pour chaque étiquette.
+Le SCT va permettre d'étiqueter les différents noms complets d'un document. Pour ce faire, le document doit être préparé de la même manière que le corpus ayant servi à l'apprentissage de l'arbre. Tout corpus soumis à l'arbre de classification aura donc été pré-traité comme décrit dans la section précédente. Ensuite, pour chaque nom complet détecté, un contexte lexical n'incluant pas plus de 10 mots est conservé. C'est sur ces portions de texte contenant un nom complet que l'arbre est utilisé. Il permet, pour chaque nom complet étiqueté par le détecteur d'entités nommées, d'attribuer une probabilité pour chaque étiquette possible~: \og{}locuteur précédent\fg{}, \og{}locuteur courant\fg{} ou \og{}locuteur suivant\fg{}. La figure \ref{fig:sct} donne un exemple de probabilités obtenues pour chaque étiquette.
+
+Le SCT ne choisi pas une classe parmi les quatre possibles, mais attribue une probabilité à chacune des classes. Dans les travaux du LIUM, seul la probabilité la plus élevée est prise en compte. Les trois autres sont donc ignorées. Cela permet, de n'attribuer qu'une étiquette à un nom complet.
 
 \section{Attributions globales}
 \section{Corpus et données}
