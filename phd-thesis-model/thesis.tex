@@ -1093,6 +1093,69 @@ Pour l'assignation d'un nom complet $e_i$ à une classe $c_l$ donnée, nous calcul
 
 \subsection{Processus de décision}
 
+Le LIUM fait l'hypothèse que la segmentation et le regroupement en classes sont corrects, ils ne sont donc pas remis en cause.
+Le but est maintenant d'attribuer à chaque classe $c_l$ un nom complet $e_i$. 
+%Soit $f: \mathcal{C}\rightarrow \mathcal{E}$ la fonction d'assignation des noms complets aux classes de locuteur.
+
+
+Notre solution propose de réorganiser le partage des noms complets entre les classes anonymes. Elle s'effectue en deux étapes qui sont répétées jusqu'à ce que toutes les classes aient été nommées, ou jusqu'à ce qu'il n'y ait plus de candidat~:
+\begin{itemize}
+    \item tri des classes candidates pour un nom complet en fonction des scores;
+    \item assignation du nom complet à la classe la plus probable.
+\end{itemize}
+
+Plusieurs stratégies peuvent être utilisées pour trier les classes $c_l$ en concurrence pour un nom complet $e_i$ donné. Prendre le score maximal $s_l(e_i)$ semble être la solution la plus naturelle. C'est celle qui a été choisis dans les travaux du LIUM.
+
+Tous les noms complets possibles sont pris en compte {\it a priori} et triés en fonction de leur score $s_l(e_i)$. Premièrement, le nom complet avec le score maximal (noté $e_i^*$) est choisi, et si plusieurs classes sont associées au même $e_i^*$, alors ce nom complet sera assigné à la classe dont le score $s_l(e_i^*)$ est maximal. Ensuite, tous les noms complets choisis sont supprimés des classes qui n'ont pas encore été nommées. 
+
+Un exemple concret est donné dans le tableau \ref{tab:examplecomb}. 
+Le nom complet \og Jacques Derrida \fg{} a été assigné à trois classes différentes. Dans cet exemple, $c_{13}$ a le meilleur score et  \og Jacques Derrida \fg{} sera donc affecté à $c_{13}$. D'autres noms complets seront ensuite attribués aux classes $c_{14}$ et $c_{15}$.
+%TAL suppression de la colonne avec les scores normalisés
+\begin{table}[htbp]
+
+\begin{center}
+{\small
+\begin{tabular}{|c c c|} \hline
+    Classe & Nom complet $e_i^*$ &$s_l(e_i^*)$     \\ \hline
+    $c_{13}$ &Jacques Derrida  &    $\mathbf{8,58}$               \\
+    $c_{14}$   &Jacques Derrida &  1,67 \\
+    $c_{15}$ &Jacques Derrida  & 4,94 \\
+\hline
+\end{tabular}
+}
+\end{center}
+\caption{Exemple d'une assignation initiale multiple}
+\label{tab:examplecomb}
+
+\end{table}
+%FIN TAL
+
+Lors de l'itération suivante, les noms complets restants sont examinés de la même manière pour les classes restantes et ainsi de suite, jusqu'à ce que toutes les classes soient nommées ou que la liste des noms complets à attribuer soit vide. Le tableau \ref{tab:examplecomb1} montre les résultats obtenus pour l'exemple précédent.
+
+%----------------------
+\begin{table}[htbp]
+\begin{center}
+{\small
+\begin{tabular}{|c c c |} \hline
+     Classe & Nom complet $e_i^*$  (1\up{re} itération)&    2\up{e} itération      \\ \hline
+    $c_{13}$ &\textbf{Jacques Derrida (8,58)} &  -             \\
+    $c_{14}$   &Jacques Derrida (1,67) & \textbf{Alexandre Adler (0,30)} \\
+    $c_{15}$ &Jacques Derrida (4,94) & \textbf{Nicolas Demorand (0,90)} \\
+    $c_{16}$ &\textbf{Olivier Duhamel (0,93)} & -  \\
+     % $c_{17}$ &\textbf{Marc Kravetz} (0.94) & Jacques Derrida  (0.33) \\
+\hline
+\end{tabular}
+}
+\end{center}
+\caption{Exemple du processus de décision avec deux itérations (décision en gras, scores entre parenthèses).}
+%\caption{}
+ \label{tab:examplecomb1}
+
+\end{table}
+
+%FIN TAL
+
+
 
 
 \section{Corpus et données}
