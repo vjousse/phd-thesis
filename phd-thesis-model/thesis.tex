@@ -883,8 +883,6 @@ La méthode à base de N-grammes permet d'automatiser l'apprentissage des règles q
 L'étiquetage des noms complets est réalisé grâce à une liste de locuteurs et l'étiquetage des autres catégories est réalisé à partir des données de l'apprentissage étiquetées manuellement. Afin de se rapprocher d'une utilisation "réelle" de l'identification nommée il est possible d'utiliser un détecteur d'entités nommées pour automatiser cet étiquetage. De plus, la propagation des scores au niveau des classes de locuteur et les problèmes concernant l'attribution d'un seul nom complet à une classe de locuteur soulevés dans \ref{attributions_globales} n'ont été étudiés que succintement. En , une solution rudimentaire a été mise en place, qui consiste simplement à additionner les différents scores.
 
 
-
-
 \section{Approche statistique : modèle d'entropie maximum}
 
 Suite aux travaux du LIUM et de Cambridge, Microsoft s'est appuyé sur le modèle N-gramme et a ajouté des informations supplémentaires pour améliorer l'identification nommée du locuteur \cite{Chengyuan07}.
@@ -1062,6 +1060,41 @@ Pour pourvoir être utilisé par le SCT, un document doit être préparé de la même 
 À noter que le SCT ne choisit pas une étiquette parmi les quatre possibles, mais attribue une probabilité à chacune des étiquettes. Dans les travaux du LIUM, seule la probabilité la plus élevée est prise en compte. Cela permet de n'attribuer qu'une et une seul étiquette à un nom complet. En revanche, les informations fournies par les probabilités attribuées aux autres étiquettes ne sont pas prises en compte.
 
 \section{Attributions globales}
+
+Les attributions locales vont permettre d'affecter un nom complet à un tour de parole. Mais, comme mentionné dans la section \ref{attributions_globales}, des conflits peuvent apparaître. En effet, chaque tour de parole appartient à une classe de locuteur que l'on cherche à nommer. Tous les noms complets attribués à des tours de parole via la phase d'attribution locale sont des candidats potentiels pour nommer la classe anonyme correspondante. Nous décrivons ici le processus de décision utilisé par le LIUM pour résoudre ces problèmes.
+
+\subsection{Notations}
+$\mathcal{E}=\{e_1,\ldots, e_I\}$ correspond à l'ensemble des noms complets candidats pour nommer une classe. 
+
+Soit $\mathcal{O}=\{o_1,\ldots, o_J\}$ les occurrences des noms complets étiquetés par le détecteur d'entités nommées dans les transcriptions.
+$\mathcal{T}=\{t_1,\ldots, t_K\}$ désigne l'ensemble des tours de parole, et  $\mathcal{C}=\{c_1,\ldots, c_L\}$ l'ensemble des classes à nommer. Les traitements vont permettre d'attribuer un nom complet issu de $\mathcal{E}$ aux classes de $\mathcal{C}$.
+Une classe est définie par $c_l~=~\{ t_k~\in~T /\ c_l\ est\ le\ locuteur\ de\ t_k \}$, chaque classe $c_l$ regroupant un ou plusieurs tours de parole $t_k$. Chaque tour de parole appartient à une et une seule classe.
+
+%TAL Modification de probabilité en score probabiliste
+Pour chaque occurrence d'un nom complet $o_j$ (pour $j= 1,\ldots, J$) détecté dans un tour de parole $t_k$, on notera  $t_{k-1}$ (respectivement $t_{k+1}$) le tour de parole précédant (respectivement suivant) celui où il a été détecté. De la même manière, le score $P(o_j,t_{r})$  désigne la probabilité que $o_j$ soit le locuteur du tour de parole $t_{r}$ avec $r \in \{k-1,k,k+1\}$. Ces scores sont fournis par l'arbre de classification, ils correspondent respectivement à l'étiquette \textit{\og tour précédent \fg }, \textit{\og tour courant \fg }, \textit{\og tour suivant \fg } et \textit{\og autre \fg }.
+
+
+%La probabilité de l'étiquette \textit{\og autre \fg } n'intervient pas dans le processus de décision.
+
+%SYL, il faut expliqué plus clairement comment la classe \og autre \fg  est utilisé, comme sa masse de probabilité agit
+%SYL, ne faudrait il pas prendre une décision au max pour éliminer les cas \og autre \fg  contre (prev, next, curr)
+
+%Comme l'a judicieusement fait remarquer christine, on s'en sert pas de ça ...
+%Appelons $t_{k-1}(o_j)$ le tour de parole précédant celui où se situe $o_j$, $t_{k}(o_j)$ le tour de parole où se situe $o_j$ et $t_{k+1}(o_j)$ le tour de parole suivant celui où se situe $o_j$. Chaque classe de locuteur $c_l$ regroupe un ou plusieurs tours de parole $t_k$. Toutefois, chaque tour de parole appartient à une et une seule classe de locuteur.
+
+\subsection{Calcul des scores}
+\label{CalScore}
+
+Pour l'assignation d'un nom complet $e_i$ à une classe $c_l$ donnée, nous calculons un score pour chaque nom complet $e_i$, dénoté $s_l(e_i)$, qui n'est autre que la somme des scores concernant les tours de parole de la classe $c_{l}$ :
+
+\begin{equation}s_{l}(e_i)= \sum_{\left\{(o_j, t_r)  | o_j= e_i, \: t_r \in c_l \right\}} P(o_j,t_{r})
+\label{eq:sl}
+\end{equation}
+
+\subsection{Processus de décision}
+
+
+
 \section{Corpus et données}
 
 
