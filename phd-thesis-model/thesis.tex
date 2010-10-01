@@ -1024,6 +1024,8 @@ Prenons l'exemple d'un arbre de décision binaire permettant de classer les phras
 
 \subsection{Apprentissage}
 
+\label{sct_apprentissage}
+
 Dans les SCTs, les n\oe{}uds de l'arbre sont des expressions régulières construites lors de la phase d'apprentissage. Pendant le processus de construction du SCT, chaque n\oe{}ud est associé à une expression régulière contenant des mots et des caractères spéciaux (\emph{<}, \emph{>} et \emph{+}). Le < (respectivement >) se rapporte au commencement (respectivement la fin) d'une intervention d'un locuteur tandis que + se rapporte à n'importe quelle suite de mots. Par exemple, l'expression régulière \emph{< + de + >} correspond à chaque intervention contenant le mot \emph{de}, alors que \emph{< + en direct + de + >} correspond à chaque intervention contenant les mots \emph{en direct} et \emph{de} apparaissant dans cet ordre. La figure \ref{fig:sct} montre une petite partie d'un tel arbre de classification avec un exemple de probabilités attribuées à chaque étiquette.
 
 \begin{figure}[h]
@@ -1155,10 +1157,43 @@ Lors de l'itération suivante, les noms complets restants sont examinés de la mêm
 
 %FIN TAL
 
+\section{Évaluation du système proposé}
+\subsection{Description des corpus}
+
+\label{corpus}
+
+L'évaluation du système proposé est réalisée à partir d'émissions radiophoniques en français de la campagne ESTER 1 phase II \cite{Galliano06,Gravier04}. La majorité de ces émissions contient essentiellement de la parole lue ou préparée, et peu de parole spontanée~: 15 \% du corpus correspond à des interventions de personnes parlant au téléphone.
+
+Les émissions proviennent de cinq radios françaises et de Radio Télévision Marocaine et durent de 10 à 60 min. Elles sont réparties en trois corpus utilisés pour l'apprentissage de l'arbre de classification, le développement et l'évaluation du système. 
+Le corpus de développement a été utilisé pour fixer les différents paramètres du système comme la taille du contexte lexical de l'arbre ou le poids donné aux échantillons lors de l'apprentissage (\textit{cf.} \ref{sct_apprentissage}). 
+
+Le corpus d'apprentissage contient 76 heures de données (75~095 segments et 7~416 tours de parole) dans lesquels 11~292 noms complets sont détectés. 755 locuteurs différents interviennent dans ce corpus dont 40 qui n'ont pu être nommés. Le corpus de développement contient 30 heures (27~149 segments et 2~931 tours de parole) dans lesquels 4~533 noms complets ont été détectés. 359 locuteurs différents interviennent dans ce corpus dont 38 qui n'ont pu être nommés. Le corpus d'évaluation contient 10 heures (10~335 segments et 1~082 tours de parole) dans lesquels 1~541~noms complets ont été détectés. 213~locuteurs différents interviennent dans ce corpus dont 24 qui n'ont pu être nommés. 26,5 \% de ces locuteurs sont communs au corpus d'apprentissage seul et 28,4 \% sont communs aux corpus d'apprentissage et de développement. Ce découpage correspond au découpage de la campagne d'évaluation officielle ESTER 1 PHASE II 2005.
+
+Les transcriptions fournies avec les corpus ont été créées pour l'évaluation des tâches de segmentation et de classification en locuteurs, ainsi que pour la tâche de transcription. Les références proposées sont d'une grande qualité, les annotateurs ont essayé de nommer le maximum de locuteurs par des identifiants permettant d'en déduire leurs noms complets. Ces noms complets ont été extraits automatiquement et n'ont pas fait l'objet de validation manuelle approfondie. 
+
+Le tableau~\ref{corp_stat}  montre la répartition \textit{a priori} des quatre étiquettes calculée pour le corpus de test. L'étiquette \textit{\og autre \fg } est la plus fréquente et représente 79,5 \% des cas ; vient ensuite l'étiquette \textit{\og tour suivant \fg } avec 16,5 \%, tandis que les deux dernières étiquettes \textit{\og tour précédent \fg } et \textit{\og tour courant \fg } sont les moins fréquentes~: environ 2~\% chacune. 
+
+\begin{table}
+\begin{center}
+{\begin{tabular}{|l|c|}
+\cline{2-2}
+  \multicolumn{1}{c|}{} &  \textbf{\textit{\'Evaluation}}\\ 
+
+ \hline
+\textit{Tour précédent} & 2,0 \% (31) \\
+\textit{Tour courant}   & 2,0 \% (30) \\
+\textit{Tour suivant}   & 16,5 \% (255)\\
+\textit{Autre}          & 79,5 \% (1~225) \\
+\hline
+ \hline
+\textit{Total}          & 100 \% (1~541) \\
+\hline
+\end{tabular}}
+\end{center}
+\caption{\label{corp_stat}Répartition des étiquettes sur le corpus d'évaluation, statistiques sur les noms complets (fréquence et effectif).}
+\end{table}
 
 
-
-\section{Corpus et données}
 
 
 %\section{Arbres de classification sémantique (SCT) et décision locales}
@@ -1174,8 +1209,7 @@ Lors de l'itération suivante, les noms complets restants sont examinés de la mêm
 %Ces travaux sont les premiers à utiliser un système automatique de détection des entités nommées. Ils automatisent complètement le processus d'identification nommée, de l'apprentissage au test : toutes les étapes sont automatiques.
 %En revanche, le système de décision est relativement sommaire : seule l'étiquette avec le score maximal est pris en compte, les probabilités des autres étiquettes pour un nom complet sont tout simplement ignorées. De plus la prise de décision au niveau de la classe de locuteur se réduit à attribuer le nom de locuteur ayant un score maximum : l'incertitude au sein d'une même classe (plusieurs locuteurs possibles avec des scores élevés) n'est pas prise en compte.
 %
-\section{Expériences et résultats}
-\subsection{Évaluation et métriques}
+\subsection{Métriques utilisées}
 
 \label{sec:metrique}
 
@@ -1211,6 +1245,8 @@ Pour une évaluation en terme de nombre de locuteurs, dans le même cas de figure,
 
 D'un point de vue applicatif, la métrique exprimée en durée est préférable si les locuteurs considérés comme importants correspondent aux locuteurs s'exprimant beaucoup. En revanche, si l'application cherche à nommer le plus possible de locuteurs, il est plus intéressant d'évaluer les performances en terme de nombre de locuteurs.
 
+
+\subsection{Protocole d'évaluation}
 
 \subsection{Légende}
 
