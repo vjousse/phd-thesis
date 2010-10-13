@@ -936,8 +936,9 @@ Les résultats présentés dans la figure \ref{fig:resultats_microsoft} montrent qu
 Ces travaux sont une extension des travaux menés par Cambridge dans \cite{Tranter06}. Ils améliorent les performances obtenues par Cambridge grâce au modèle d'entropie maximum et l'utilisation d'informations supplémentaires comme la position des locuteurs dans l'enregistrement ou leur genre. En revanche, aucune expérience sur des données automatiques n'a été conduite. De plus, les entités nommées et les concepts ont été étiquetés manuellement.
 
 \section{Approche statistique : arbre de classification sémantique}
+\label{sec:sys_id_lium}
 
-Le LIUM s'est appuyé sur les travaux de Canseco (cf. section \ref{sub:regles_manuelles}) pour mettre en place un système d'INL basé sur un arbre de classification sémantique pour les attributions locales \cite{Kuhn1995} et sur un détecteur automatique d'entités nommées pour identifier les noms complets dans la transcription. L'utilisation de ces deux systèmes automatiques et d'un processus de décision permet au système du LIUM de fonctionner de manière entièrement automatique pour identifier les locuteurs d'un document.
+Le LIUM \cite{MauclairOdyssey06,Esteve07} s'est appuyé sur les travaux de Canseco (cf. section \ref{sub:regles_manuelles}) pour mettre en place un système d'INL basé sur un arbre de classification sémantique pour les attributions locales \cite{Kuhn1995} et sur un détecteur automatique d'entités nommées pour identifier les noms complets dans la transcription. L'utilisation de ces deux systèmes automatiques et d'un processus de décision permet au système du LIUM de fonctionner de manière entièrement automatique pour identifier les locuteurs d'un document.
 
 \subsection{Détection des entités nommées}
 
@@ -1044,16 +1045,27 @@ Les travaux du LIUM ont été les seuls à utiliser un système automatique de détec
 \minitoc
 \newpage
 
-\label{sec:sys_id_lium}
 
-Cette thèse fait suite aux travaux déjà menés au Laboratoire d'Informatique de l'Université du Maine (LIUM) sur l'INL \cite{MauclairOdyssey06} et \cite{Esteve07}. Le LIUM s'est appuyé sur les travaux de Canseco (cf. section \ref{sub:regles_manuelles}) pour mettre en place un système d'INL basé sur un arbre de classification sémantique pour les attributions locales \cite{Kuhn1995} et sur un détecteur automatique d'entités nommées pour identifier les noms complets dans la transcription. Les travaux réalisés dans la présente thèse s'inspirent des travaux précédemment réalisés au LIUM. En effet, un arbre de classification sémantique (dont une partie a été réécrite pendant la thèse) est aussi utilisé pour réaliser les attributions locales. En revanche, le reste du système a été mis en place et développé pendant la thèse.
+Cette thèse fait suite aux travaux déjà menés au Laboratoire d'Informatique de l'Université du Maine (LIUM) sur l'INL décrits dans \ref{sec:sys_id_lium}. En effet, dans \cite{Esteve07} il a été démontré que le système à base de SCT était plus performant sur des transcriptions automatiques que le système à base de N-grammes. Les travaux réalisés dans la présente thèse utilisent donc un SCT pour réaliser les attributions locales.
 
-Nous commençons par décrire le système de détection des entités nommées, puis nous décrirons ensuite l'arbre de classification sémantique utilisé pour réaliser les attributions locales. Nous finirons par expliquer le processus d'attribution globale basée sur la théorie des fonctions de croyance avant de présenter les résultats du système.
+Nous commençons par décrire le système de détection des entités nommées, puis nous décrirons ensuite l'arbre de classification sémantique utilisé pour réaliser les attributions locales. Nous finirons par expliquer le processus d'attribution globale basé sur la théorie des fonctions de croyance avant de présenter les résultats du système.
 
 %Le laboratoire d'informatique de l'université du Maine (LIUM) a présenté ses travaux sur l'identification nommée du locuteur dans \cite{MauclairOdyssey06} et \cite{Esteve07}.
 %Les travaux du LIUM \cite{MauclairOdyssey06} ont été publiés en même temps que ceux de l'Université de Cambridge. Ils font aussi suite aux premiers travaux de Canseco. Le LIUM utilise un arbre de classification sémantique (SCT - Semantic Classification Tree \cite{Kuhn1995}) pour déterminer les règles linguistiques à utiliser pour attribuer l'étiquette \og suivant \fg{}, \og précédent \fg{} ou \og courant \fg{} à un nom complet détecté dans la transcription. Ces règles linguistiques sont basées sur des expressions régulières construites autour des noms complets détectés. Ce système ayant servi de base aux travaux présentés ici, il est plus longuement présenté dans la section qui lui est consacrée \label{sec:sys_id_lium}.
 
 \section{Détection des entités nommées}
+
+Dans le but de réaliser un système d'INL fonctionnant sur des transcriptions réalisées par un SRAP, il faut tout d'abord disposer d'un système de détection des EN performant sur les transcriptions automatiques. La campagne d'évaluation Ester 2 \cite{Ester2} comprenait une tâche d'évaluation des systèmes de détection des entités nommées sur des transcriptions aussi bien manuelles qu'automatiques. Plusieurs laboratoires universitaires français ont participé à cette tâche comme le LINA, le LIMSI, le LIA, le LI (Tours) ou encore le LSIS. Deux entreprises privées ont aussi participé à l'évaluation~: Synapse et Xerox. La mesure utilisée pour l'évaluation est le Slot Error Rate (SER) décrit dans \cite{SER}.
+
+Sur des transcriptions réalisées manuellement, Synapse et Xerox ont (de loin) les systèmes le plus performants avec un SER inférieur à 10~\%. Le troisième système est celui du LIA (LIA\_NE) qui obtient un SER de 23,9~\%. En revanche, sur des transcriptions réalisées automatiquement, c'est LIA\_NE qui arrive en première position avec un taux d'erreur de 43,4~\% sur les transcriptions du LIMSI qui affichent un taux d'erreur mot (WER) de 12,1~\% (soit le meilleur système de la campagne d'évaluation Ester 2). D'autres tests ont été réalisés avec des transcriptions contenant plus d'erreurs (17,83~\% et 26,09\% de WER), et dans tous les cas c'est LIA\_NE qui est le meilleur système. Les résultats sont présentés dans le tableau \ref{tab:ne_ester2}.
+
+\begin{table}[h]
+\begin{center}
+\includegraphics[width=\columnwidth]{img/ne_ester2.pdf}
+\caption{Performances de chaque participant à la tâche de détection des entités nommées de la campagne Ester 2. Les résultats sont donnés en terme de Slot Error Rate (\%S), Rappel (\%R) et Précision (\%P)}
+\label{tab:ne_ester2}
+\end{center}
+\end{table}
 
 \section{Attributions locales : arbre de classification sémantique}
 
