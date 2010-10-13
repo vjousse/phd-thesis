@@ -1003,6 +1003,10 @@ Dans l'exemple de la figure \ref{fig:attrib_locale_lium}, le tour de parole corr
 \end{center}
 \end{figure}
 
+Lors du processus d'attribution globale, le nom complet avec le plus grand score pour une classe donnée est attribué à cette classe. Chaque classe de locuteur est traitée indépendamment de l'autre, c'est à dire que rien n'empêche le système d'attribuer le même nom de locuteur à deux classes différentes. Chose qui, si la segmentation et la classification ne sont pas remises en causes, ne devrait pas pouvoir arriver.
+
+\subsection{Expériences et résultats}
+
 \section{Bilan}
 
 Les travaux sur l'identification nommée du locuteur utilisant la transcription enrichie du signal sont relativement récents puisque les premiers travaux menés par Canseco datent de 2004. Ils partagent tous la même hypothèse de base, à savoir qu'il est possible de déterminer, pour un nom de locuteur présent dans la transcription, s'il se rapporte au locuteur qui parle actuellement, à celui qui va parler juste après, ou à celui qui a parlé juste avant.
