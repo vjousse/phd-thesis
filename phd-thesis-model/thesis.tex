@@ -1007,13 +1007,37 @@ Lors du processus d'attribution globale, le nom complet avec le plus grand score
 
 \subsection{Expériences et résultats}
 
+Le système a été évalué sur des données provenant de la campagne d'évaluation des systèmes de transcriptions en français ESTER I \cite{Galliano05}. Ces données regroupent six radios différentes et correspondent à 81 heures d'enregistrements pour le corpus d'apprentissage (150 émissions), 12,5 heures pour le corpus de développement (26 émissions) et 10 heures pour le corpus de test (18 émissions). Le corpus de test a été enregistré 15 mois après les autres corpus et contient 2 radios qui ne sont pas présentes dans les corpus de développement et d'apprentissage. Toutes ces données ont été étiquetés en entités nommées grâce au système décrit plus haut.
+
+La métrique utilisée pour évaluer ce système est la même que celle utilisée par Tranter dans \ref{Tranter}. Ce système a d'ailleurs été comparé à celui de Tranter dans \cite{Esteve07}. Il a été évalué sur des données segmentées et transcrites manuellement, et sur des données segmentées manuellement mais transcrites automatiquement. Ces transcriptions automatiques sont celles fournies par le LIMSI lors de la campagne ESTER I. Les résultats sont exprimés en terme de précision et de rappel dans les figures \ref{fig:results_yannick_manu} et \ref{fig:results_yannick_auto}. Le système de Tranter à base de N-grammes sert de comparaison.
+
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=0.7\columnwidth]{img/results_manu_yannick.pdf}
+\caption{Résultats du système du LIUM et du système à base de N-grammes sur des transcriptions entièrement manuelles (segmentation/classification/transcription)}
+\label{fig:results_yannick_manu}
+\end{center}
+\end{figure}
+
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=0.7\columnwidth]{img/results_auto_yannick.pdf}
+\caption{Résultats du système du LIUM et du système à base de N-grammes sur des transcriptions automatiques et une segmentation/classification manuelle}
+\label{fig:results_yannick_auto}
+\end{center}
+\end{figure}
+
+Sur des transcriptions manuelles les deux systèmes font presque jeu égal. En revanche, sur des transcriptions automatiques, le système à base de SCT est clairement plus performant.
+
 \section{Bilan}
 
 Les travaux sur l'identification nommée du locuteur utilisant la transcription enrichie du signal sont relativement récents puisque les premiers travaux menés par Canseco datent de 2004. Ils partagent tous la même hypothèse de base, à savoir qu'il est possible de déterminer, pour un nom de locuteur présent dans la transcription, s'il se rapporte au locuteur qui parle actuellement, à celui qui va parler juste après, ou à celui qui a parlé juste avant.
 
-Deux principaux systèmes statistiques ont suivis les travaux de Canseco, à savoir celui à base de N-grammes de l'université de Cambridge et celui à base d'arbre de classification sémantique (SCT) de l'université du Mans. Les travaux de \cite{Esteve07} ont démontré la supériorité du système à base de SCT par rapport au système à base de N-grammes sur des transcriptions automatiques. Ces systèmes ne seront utilisables que sur des transcriptions automatiques, en effet l'intérêt de nommer automatiquement des locuteurs sur des transcriptions manuelles est nul. Il faudra donc s'intéresser plus particulièrement au système à base de SCT par la suite. Par rapport à ces systèmes précurseurs, Microsoft a ajouté la prise en compte du genre du locuteur et la prise en compte de la position du nom complet détecté dans l'enregistrement. Ces informations améliorant les performances, il faudra les prendre en compte.
+Deux principaux systèmes statistiques ont suivis les travaux de Canseco, à savoir celui à base de N-grammes de l'université de Cambridge et celui à base d'arbre de classification sémantique (SCT) de l'université du Mans. Les travaux de \cite{Esteve07} ont démontré la supériorité du système à base de SCT par rapport au système à base de N-grammes sur des transcriptions automatiques. Ce type de système étant amené à être majoritairement utilisé sur des transcriptions automatiques, l'utilisation de SCT semble pertinente pour la suite des travaux à mener dans ce domaine. Par rapport à ces systèmes précurseurs, Microsoft a ajouté la prise en compte du genre du locuteur et la prise en compte de la position du nom complet détecté dans l'enregistrement. Ces informations améliorant les performances, il faudra les prendre en compte.
 
-Les travaux du LIUM ont été les seuls à utiliser un système automatique de détection des entités nommées. Dans le but d'automatiser le plus possible le processus, l'utilisation d'un tel système est indispensable. De plus, l'affectation des étiquettes \og précédent \fg{}, \og courant \fg{} et \og suivant \fg{} a beaucoup été étudiée dans la littérature. En revanche, le processus de propagation de ces étiquettes au niveau des classes de locuteur et la résolution des conflits n'a pas été étudiée jusqu'ici. Pour finir, beaucoup de travaux ont été conduits sur des transcriptions partiellement ou totalement manuel ; un travail sur des transcriptions entièrement automatiques est à réaliser.
+Les travaux du LIUM ont été les seuls à utiliser un système automatique de détection des entités nommées. Dans le but d'automatiser le plus possible le processus, l'utilisation d'un tel système est indispensable. De plus, l'affectation des étiquettes \og précédent \fg{}, \og courant \fg{} et \og suivant \fg{} a beaucoup été étudiée dans la littérature. En revanche, le processus de propagation de ces étiquettes au niveau des classes de locuteur et la résolution des conflits n'a pas été étudiée jusqu'ici. Pour finir, beaucoup de travaux ont été conduits sur des transcriptions partiellement ou totalement manuelles ; un travail sur des transcriptions entièrement automatiques est à réaliser.
 
 
 \chapter{LIUM\_NI : Un système d'INL par analyse conjointe du signal et de sa transcription}
