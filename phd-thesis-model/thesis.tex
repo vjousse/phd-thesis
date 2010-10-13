@@ -979,22 +979,29 @@ Afin de généraliser la transcription dans le cadre de l'INL, lorsqu'une EN est d
 \end{center}
 \end{figure}
 
-\subsection{Attributions locales : arbre de classification sémantique}
+\subsection{Attributions}
 
-Les arbres de classification sémantiques (SCT - Semantic Classification Tree) sont souvent utilisés dans le traitement du langage naturel. Par exemple, ils sont employés pour des systèmes de dialogue \cite{Kuhn1995}, pour l'estimation de modèles de langage hiérarchiques n-grammes \cite{Esteve2001}, ou pour la détection de noms propres inconnus \cite{Bechet2000}. Les SCTs sont des arbres de décision binaire s'appuyant sur des patrons linguistiques comme paramètres de décision pour classer les échantillons. Dans le cadre de l'identification nommée, ils sont utilisés par le LIUM pour réaliser l'attribution locale des étiquettes \og{}précédent\fg{}, \og{}courant\fg{} et \og{}suivante\fg{} décrites dans la section \ref{ssec:attributions_locales}.
+Les arbres de classification sémantiques (SCT - Semantic Classification Tree) sont des arbres de décision binaire s'appuyant sur des patrons linguistiques comme paramètres de décision pour classer les échantillons. Dans le cadre de l'identification nommée, ils sont utilisés par le LIUM pour réaliser l'attribution locale des étiquettes \og{}précédent\fg{}, \og{}courant\fg{} et \og{}suivant\fg{} décrites dans la section \ref{ssec:attributions_locales}. Ces arbres sont activés sur le contexte lexical gauche et droit de chaque nom complet détecté par le système d'EN. Au maximum cinq mots à gauche et cinq mots à droite sont gardés pour l'apprentissage et l'utilisation de l'arbre. Le SCT va attribuer une probabilité à chaque étiquette possible pour un nom complet détecté dans la transcription. La figure \ref{fig:sct} donne un exemple d'arbre de classification utilisé par le LIUM. Les détails sur l'apprentissage de l'arbre sont décrits dans \cite{MauclairOdyssey06}.
 
-\subsubsection{Étiquetage et attributions locales}
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=0.7\columnwidth]{img/decision_detail_resume_etiquette.pdf}
+\caption{Exemple d'arbre de classification sémantique}
+\label{fig:sct}
+\end{center}
+\end{figure}
 
-Les arbres de classification sémantique intègrent dans chaque n\oe ud une expression régulière. La suite d'expressions régulières activées depuis la racine jusqu'à une feuille de l'arbre permet de classifier les contextes lexicaux suivant les quatre étiquettes décrites précédemment. 
+Dans les travaux du LIUM, seule l'étiquette avec la plus grande probabilité est prise en compte, les autres probabilités sont ignorées. Lorsque deux décisions du SCT attribuent le même nom complet à une classe de locuteur anonyme, chacune des probabilités est additionnée. On obtient alors, pour chaque nom complet candidat pour nommer une classe anonyme, un score qui peut être utilisé pour prendre une décision.
 
-Pour pourvoir être utilisé par le SCT, un document doit être préparé de la même manière que le corpus ayant servi à l'apprentissage de l'arbre. Tout corpus soumis à l'arbre de classification devra donc être pré-traité comme décrit dans la section précédente. Ensuite, pour chaque nom complet détecté, un contexte lexical n'incluant pas plus de 10 mots est conservé. C'est sur ces portions de texte contenant un nom complet que l'arbre est utilisé. Il permet, pour chaque nom complet étiqueté par le détecteur d'entités nommées, d'attribuer une probabilité pour chaque étiquette possible~: \og{}locuteur précédent\fg{}, \og{}locuteur courant\fg{} ou \og{}locuteur suivant\fg{}. La figure \ref{fig:sct} donne un exemple de probabilités obtenues pour chaque étiquette.
+Dans l'exemple de la figure \ref{fig:attrib_locale_lium}, le tour de parole correspondant à la classe de locuteur \emph{LOCU2} se voit affecter deux fois le nom complet \emph{Maude Bayeu}. Dans ce cas, le nom complet \emph{Maude Bayeu} aura pour score 1,22. À noter que par les sommes qu'il réalise, le LIUM ne peut par la suite plus parler de probabilités.
 
-À noter que le SCT ne choisit pas une étiquette parmi les quatre possibles, mais attribue une probabilité à chacune des étiquettes. Dans les travaux du LIUM, seule la probabilité la plus élevée est prise en compte. Cela permet de n'attribuer qu'une et une seul étiquette à un nom complet. En revanche, les informations fournies par les probabilités attribuées aux autres étiquettes ne sont pas prises en compte.
-
-\subsubsection{Attributions globales}
-
-Les attributions locales vont permettre d'affecter un nom complet à un tour de parole. Mais, comme mentionné dans la section \ref{attributions_globales}, des conflits peuvent apparaître. En effet, chaque tour de parole appartient à une classe de locuteur que l'on cherche à nommer. Tous les noms complets attribués à des tours de parole via la phase d'attribution locale sont des candidats potentiels pour nommer la classe anonyme correspondante. Nous décrivons ici le processus de décision utilisé par le LIUM pour résoudre ces problèmes.
-
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=0.7\columnwidth]{img/attribution_locale_lium.pdf}
+\caption{Exemple d'attributions locales du système du LIUM}
+\label{fig:attrib_locale_lium}
+\end{center}
+\end{figure}
 
 \section{Bilan}
 
@@ -1046,15 +1053,9 @@ Prenons l'exemple d'un arbre de décision binaire permettant de classer les phras
 
 \label{sct_apprentissage}
 
-Dans les SCTs, les n\oe{}uds de l'arbre sont des expressions régulières construites lors de la phase d'apprentissage. Pendant le processus de construction du SCT, chaque n\oe{}ud est associé à une expression régulière contenant des mots et des caractères spéciaux (\emph{<}, \emph{>} et \emph{+}). Le < (respectivement >) se rapporte au commencement (respectivement la fin) d'une intervention d'un locuteur tandis que + se rapporte à n'importe quelle suite de mots. Par exemple, l'expression régulière \emph{< + de + >} correspond à chaque intervention contenant le mot \emph{de}, alors que \emph{< + en direct + de + >} correspond à chaque intervention contenant les mots \emph{en direct} et \emph{de} apparaissant dans cet ordre. La figure \ref{fig:sct} montre une petite partie d'un tel arbre de classification avec un exemple de probabilités attribuées à chaque étiquette.
+Dans les SCTs, les n\oe{}uds de l'arbre sont des expressions régulières construites lors de la phase d'apprentissage. Pendant le processus de construction du SCT, chaque n\oe{}ud est associé à une expression régulière contenant des mots et des caractères spéciaux (\emph{<}, \emph{>} et \emph{+}). Le < (respectivement >) se rapporte au commencement (respectivement la fin) d'une intervention d'un locuteur tandis que + se rapporte à n'importe quelle suite de mots. Par exemple, l'expression régulière \emph{< + de + >} correspond à chaque intervention contenant le mot \emph{de}, alors que \emph{< + en direct + de + >} correspond à chaque intervention contenant les mots \emph{en direct} et \emph{de} apparaissant dans cet ordre. 
+%La figure \ref{fig:sct} montre une petite partie d'un tel arbre de classification avec un exemple de probabilités attribuées à chaque étiquette.
 
-\begin{figure}[h]
-\begin{center}
-\includegraphics[width=0.7\columnwidth]{img/sct.pdf}
-\caption{Exemple d'arbre de classification sémantique}
-\label{fig:sct}
-\end{center}
-\end{figure}
 
 Le processus de construction du SCT doit choisir pour chaque n\oe{}ud l'expression régulière qui réduit au minimum un critère d'impureté. Ici le critère utilisé est le critère de Gini (se référer à \cite{Breiman84} pour de plus amples détails). Un autre critère communément utilisé est l'entropie de Shannon \cite{Shannon}.
 
