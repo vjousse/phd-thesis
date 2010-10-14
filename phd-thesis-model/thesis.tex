@@ -1057,7 +1057,7 @@ Nous commençons par décrire le système de détection des entités nommées, puis no
 
 Dans le but de réaliser un système d'INL fonctionnant sur des transcriptions réalisées par un SRAP, il faut tout d'abord disposer d'un système de détection des EN performant sur les transcriptions automatiques. La campagne d'évaluation Ester 2 \cite{Ester2} comprenait une tâche d'évaluation des systèmes de détection des entités nommées sur des transcriptions aussi bien manuelles qu'automatiques. Plusieurs laboratoires universitaires français ont participé à cette tâche comme le LINA, le LIMSI, le LIA, le LI (Tours) ou encore le LSIS. Deux entreprises privées ont aussi participé à l'évaluation~: Synapse et Xerox. La mesure utilisée pour l'évaluation est le Slot Error Rate (SER) décrit dans \cite{SER}.
 
-Sur des transcriptions réalisées manuellement, Synapse et Xerox ont (de loin) les systèmes le plus performants avec un SER inférieur à 10~\%. Le troisième système est celui du LIA (LIA\_NE) qui obtient un SER de 23,9~\%. En revanche, sur des transcriptions réalisées automatiquement, c'est LIA\_NE qui arrive en première position avec un taux d'erreur de 43,4~\% sur les transcriptions du LIMSI qui affichent un taux d'erreur mot (WER) de 12,1~\% (soit le meilleur système de la campagne d'évaluation Ester 2). D'autres tests ont été réalisés avec des transcriptions contenant plus d'erreurs (17,83~\% et 26,09\% de WER), et dans tous les cas c'est LIA\_NE qui est le meilleur système. Les résultats sont présentés dans le tableau \ref{tab:ne_ester2}.
+Sur des transcriptions réalisées manuellement, Synapse et Xerox ont (de loin) les systèmes le plus performants avec un SER inférieur à 10~\%. Le troisième système est celui du LIA (LIA\_NE) qui obtient un SER de 23,9~\%. En revanche, sur des transcriptions réalisées automatiquement, c'est LIA\_NE qui arrive en première position avec un taux d'erreur de 43,4~\% sur les transcriptions du LIMSI qui affichent un taux d'erreur mot (WER) de 12,1~\% (soit le meilleur système de la campagne d'évaluation Ester 2). D'autres tests ont été réalisés avec des transcriptions contenant plus d'erreurs (17,83~\% et 26,09\% de WER), et dans tous les cas c'est LIA\_NE qui obtient les meilleurs performances. Les résultats sont présentés dans le tableau \ref{tab:ne_ester2}.
 
 \begin{table}[h]
 \begin{center}
@@ -1066,6 +1066,10 @@ Sur des transcriptions réalisées manuellement, Synapse et Xerox ont (de loin) le
 \label{tab:ne_ester2}
 \end{center}
 \end{table}
+
+LIA\_NE \cite{bechetc-icassp10} étant le système le plus performant sur des transcriptions automatiques, c'est tout naturellement qu'il a été choisi comme détecteur d'entités nommées pour les travaux de cette thèse. LIA\_NE a la particularité d'avoir été conçu spécifiquement pour être utilisé sur des sorties de transcriptions automatiques. Ces transcriptions ont des caractéristiques qui peuvent mettre à défaut les systèmes de détection d'EN prévus pour être utilisé sur des textes écrits tels que les livres ou les journaux. 
+
+Les transcriptions automatiques proviennent de documents audio qui contiennent de la parole plus ou moins spontanée, et qui sont soumis à des phénomènes propres à la parole orale comme les disfluences ou les faux départs. Ces transcriptions ne sont pas parfaites et contiennent des erreurs commises par le système de reconnaissance automatique de la parole. La ponctuation et les majuscules sont généralement absents des transcriptions. Même si des modules de post-traitement existent pour les remettre, ils sont eux aussi sujets à erreurs. De plus, les transcriptions automatiques ne contiennent que des mots qui appartiennent au dictionnaire du SRAP alors que les EN sont essentiellement composées de noms propres pour lesquels il est très difficile d'obtenir une liste exhaustive.
 
 \section{Attributions locales : arbre de classification sémantique}
 
