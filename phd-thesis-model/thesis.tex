@@ -1140,30 +1140,28 @@ Les arbres de classification sémantique intègrent dans chaque n\oe ud une expres
 
 Pour pourvoir être utilisé par le SCT, un document doit être préparé de la même manière que le corpus ayant servi à l'apprentissage de l'arbre. Tout corpus soumis à l'arbre de classification devra donc être pré-traité comme décrit dans la section précédente. Ensuite, pour chaque nom complet détecté, un contexte lexical n'incluant pas plus de 10 mots est conservé. C'est sur ces portions de texte contenant un nom complet que l'arbre est utilisé. Il permet, pour chaque nom complet étiqueté par le détecteur d'entités nommées, d'attribuer une probabilité pour chaque étiquette possible~: \og{}locuteur précédent\fg{}, \og{}locuteur courant\fg{} ou \og{}locuteur suivant\fg{}. La figure \ref{fig:sct} donne un exemple de probabilités obtenues pour chaque étiquette.
 
-À noter que le SCT ne choisit pas une étiquette parmi les quatre possibles, mais attribue une probabilité à chacune des étiquettes. Dans les travaux présentés dans cette thèse, les probalités affectées à toutes les étiquettes sont prises en compte. En effet, nous estimons que même si une étiquette a une probalité supérieure aux autres, cela ne signifie pas nécessairement que c'est la bonne étiquette et que l'on ne doit prendre en compte que cette dernière. 
+À noter que le SCT ne choisit pas une étiquette parmi les quatre possibles, mais attribue une probabilité à chacune des étiquettes. Dans les travaux présentés dans cette thèse, les probabilités affectées à toutes les étiquettes sont prises en compte. En effet, nous estimons que même si une étiquette a une probabilité supérieure aux autres, cela ne signifie pas nécessairement que c'est la bonne étiquette et que l'on ne doit prendre en compte que cette dernière. 
 
 Imaginons la répartition des masses de probabilités suivante pour un nom complet : courant 0,31, précédent 0,28, suivant 0,30, autre 0.11. Décider que le nom complet désigne le locuteur courant car c'est l'étiquette qui a la plus forte probabilité occulte complètement le fait que l'arbre est très incertain sur ces étiquettes. En effet, le conflit entre les différentes étiquettes est très élevé, et l'arbre affecte quasiment autant de croyance aux étiquettes courant, précédent et suivant. L'enjeu d'un processus d'attributions globales est de pouvoir prendre en compte ces croyances et incertitudes au sein des classes de locuteurs à nommer. Dans cette thèse, la théorie des fonctions de croyances est utilisée pour résoudre ce problème.
 
+
+\todo{Prise en compte du genre}
+
 \section{Fonctions de croyances pour l'INL}
 
-La section \ref{attributions_globales} décrit toutes les difficultés auxquelles la phase d'attribution globale a à faire face. Une de ces principales difficultés est de résoudre les conflits qui apparaissent à la suite de la phase d'atributions locales.
+La section \ref{attributions_globales} décrit toutes les difficultés auxquelles la phase d'attribution globale a à faire face. Une de ces principales difficultés est de résoudre les conflits qui apparaissent à la suite de la phase d'attributions locales (c'est à dire plusieurs candidats possibles pour une même classe de locuteur anonyme). Ces conflits sont dus à des connaissances imparfaites provenant de l'arbre de décision. En effet, il arrive couramment que l'arbre de décision se trompe et désigne un locuteur comme étant par exemple le locuteur suivant (en lui affectant une grosse probabilité), alors qu'il ne l'est pas. La théorie des fonctions de croyance va permettre de modéliser ces connaissances et ces incertitudes de manière à faciliter la phase d'attribution globale. Avant de finir par utiliser cette théorie, plusieurs pistes ont été explorées, elles sont décrites dans la partie X. Dans la section suivante, quelques éléments de la théorie des fonctions de croyances \cite{shafer76,smets94} sont brièvement rappelés.
 
 \subsection{Fonctions de croyances}
 
-Dans cette section, quelques éléments de la th\'eorie des fonctions de croyances \cite{shafer76,smets94} sont bri\`evement rappelés. Dans cette thèse, l'interprétation propos\'ee par Smets est adopt\'ee~: le mod\`ele des croyances transf\'erables \cite{smets94}. Le but de ce mod\`ele est de d\'eterminer la croyance concernant diff\'erentes propositions, \`a partir d'un ensemble d'informations disponibles. Soit ${\cal E}$ un ensemble fini, appel\'e cadre de discernement de l'exp\'erience. La repr\'esentation de l'incertitude se fait gr\^ace au concept de la fonction de croyance, d\'efinie comme une fonction $m$ de $2^{\cal
-E}$ dans $[0,1]$ telle que:
+Dans cette thèse, l'interprétation proposée par Smets est adoptée~: le modèle des croyances transférables \cite{smets94}. Le but de ce modèle est de déterminer la croyance concernant différentes propositions, à partir d'un ensemble d'informations disponibles. Soit ${\cal E}$ un ensemble fini, appelé cadre de discernement de l'expérience. La représentation de l'incertitude se fait grâce au concept de la fonction de croyance, définie comme une fonction $m$ de $2^{\cal E}$ dans $[0,1]$ telle que:
 \begin{equation}
 \sum_{A\subseteq {\cal E}} m(A)=1.
-\end{equation} La quantit\'e
-$m(A)$ repr\'esente la part de croyance allou\'ee exactement \`a la
-proposition $A$. Les sous-ensembles $A $ de $\cal E$ tels que
-$m(A)>0$ sont les {\em \'el\'ements focaux} de $m$.
-%La quantit\'e $m(\emptyset)$, qui peut \^etre
-%diff\'erente de $0$, repr\'esente la croyance allou\'ee \`a une
-%proposition ext\'erieure \`a $\cal E$.
- Une structure de croyance est
-\`a support simple si elle est focalis\'ee au maximum sur $\cal E$
-et un seul sous-ensemble $A$. Elle est alors d\'efinie par:
+\end{equation} 
+
+La quantité $m(A)$ représente la part de croyance allouée exactement à la proposition $A$. Les sous-ensembles $A $ de $\cal E$ tels que $m(A)>0$ sont les {\em éléments focaux} de $m$.
+%La quantité $m(\emptyset)$, qui peut être %différente de $0$, représente la croyance allouée à une %proposition extérieure à $\cal E$.
+Une structure de croyance est à support simple si elle est focalisée au maximum sur $\cal E$ et un seul sous-ensemble $A$. Elle est alors définie par:
+
 \begin{equation}
 \left\{\begin{array}{l}
 m(A) = w, \quad w \in [0,1] \\
@@ -1171,35 +1169,25 @@ m({\cal E}) = 1-w
 \end{array}
 \right.
 \end{equation}
-L'ignorance totale est repr\'esent\'ee par la fonction de croyance
-vide telle que $m(\Omega)=1$. Si tous les \'el\'ements focaux de $m$
-sont des singletons, $m$ devient alors une mesure de probabilit\'e
-(dite masse bay\'esienne).
 
-La th\'eorie des croyances poss\`ede plusieurs outils d'agr\'egation
-permettant de combiner des fonctions de croyance d\'efinies sur un
-m\^eme cadre de discernement \cite{smets94}. En particulier, la
-combinaison de deux structures $m_1$ et $m_2$ définies de fa\c con
-``indépendante" sur $\cal E$ utilisant l'opérateur binaire
-conjonctif non normalisé $\cap$ définit une fonction résultante $m'$
-par la formule suivante \cite{smets94}:
+L'ignorance totale est représentée par la fonction de croyance vide telle que $m(\Omega)=1$. Si tous les éléments focaux de $m$ sont des singletons, $m$ devient alors une mesure de probabilité (dite masse bayésienne).
+
+La théorie des croyances possède plusieurs outils d'agrégation permettant de combiner des fonctions de croyance définies sur un même cadre de discernement \cite{smets94}. En particulier, la combinaison de deux structures $m_1$ et $m_2$ définies de façon ``indépendante" sur $\cal E$ utilisant l'opérateur binaire conjonctif non normalisé $\cap$ définit une fonction résultante $m'$ par la formule suivante \cite{smets94}:
+
 \begin{equation} \label{eq:comb_Dempster}
 \forall A\subseteq {\cal E}, \; m'(A)=\sum_{B \cap C =
 A}m_1(B)m_2(C).
 \end{equation}
-On peut alors d\'efinir la combinaison de $n$ structures
-$m_1,\ldots, m_n$ sur $\cal E$ par : $m= m_1 \cap \ldots \cap m_n$,
-telle que
+
+On peut alors définir la combinaison de $n$ structures $m_1,\ldots, m_n$ sur $\cal E$ par : $m= m_1 \cap \ldots \cap m_n$, telle que
+
 \begin{equation}\label{eq:combindetail}
 m(A)= \sum_{A_1 \cap \ldots \cap A_n = A} \prod_{i=1}^{n} m_i(A_i)
 \quad \forall A \subseteq \Omega.
 \end{equation}
- Si on obtient une fonction de
-croyance $m$ non normalisée (i. e. telle que $m(\emptyset)\neq 0$),
-on peut la convertir par la proc\'edure de normalisation de Dempster
-\cite{shafer76} en une structure normalis\'ee $m^*$ en
-r\'epartissant proportionnellement la masse de l'ensemble vide sur
-les autres éléments focaux :
+
+Si on obtient une fonction de croyance $m$ non normalisée (i. e. telle que $m(\emptyset)\neq 0$), on peut la convertir par la procédure de normalisation de Dempster \cite{shafer76} en une structure normalisée $m^*$ en répartissant proportionnellement la masse de l'ensemble vide sur les autres éléments focaux :
+
 \begin{equation}\label{eq:norm_Dempster}
 m^*(A)=\left\{\begin{array}{ll}
 \displaystyle\frac{m(A)}{1-m(\emptyset)}& \mbox{si } A \neq \emptyset\\
@@ -1209,13 +1197,8 @@ m^*(A)=\left\{\begin{array}{ll}
 \end{equation}
 
 %{\bf décision....}
-Une fonction de croyance $m$ décrit l'état d'une croyance sur un
-phénomène. Une fois qu'une structure $m$ est d\'efinie, il est
-possible de la transformer en
- distribution de probabilit\'e, en particulier pour des aspects d\'ecisionnels.
-  Une de ces distributions, appel\'ee
- probabilit\'e {\it pignistique}, consiste \`a r\'epartir \'equitablement la masse d'un sous-ensemble de $\Omega$ entre ses \'el\'ements.
- Cette distribution, not\'ee $P_{m}$, est d\'efinie pour tout $\omega \in \Omega$ par \cite{smets94}:
+Une fonction de croyance $m$ décrit l'état d'une croyance sur un phénomène. Une fois qu'une structure $m$ est définie, il est possible de la transformer en distribution de probabilité, en particulier pour des aspects décisionnels.  Une de ces distributions, appelée probabilité {\it pignistique}, consiste à répartir équitablement la masse d'un sous-ensemble de $\Omega$ entre ses éléments. Cette distribution, notée $P_{m}$, est définie pour tout $\omega \in \Omega$ par \cite{smets94}:
+
 \begin{equation}\label{eq:pig} P_{m}(\{\omega\})= \sum_{A \subset
 \Omega}\frac {m^*(A)}{|A|} \delta_{A}(\omega),
 \end{equation}
@@ -1224,18 +1207,10 @@ possible de la transformer en
 
 \subsection{Définition des masses de croyance}
 
-
 Comme décrit dans \ref{attributions_globales}, plusieurs occurrences correspondant à des noms complets différents peuvent être détectées. Plusieurs noms complets sont donc en compétition ou en conflit en tant que locuteur courant potentiel (ou précédent, ou suivant).
 
- On s'intéresse à un tour $t_k$ appartenant au locuteur $c_l$ et ayant $n_k$ occurrences. Soient $n_{k+r}$, le nombre
- d'occurrences tours précédent ($r=-1$) et suivant ($r=1$)
- de ce tour. Soient $\{o_{j,r}^k\},$
-avec $ r=-1,0,1$ et $j=1,\ldots, n_{k+r}$, les occurrences de noms
-complets détectés dans ces trois
- tours. Chaque occurrence $o_{j,r}^k$, correspondant à une étiquette $e_i$,
- représente une certaine information sur le locuteur du tour $t_k$
-  qui peut être décrite par
- une masse de croyance $m^{jr}_{t_k}$ sur $\cal E$ à support simple, focalisée sur $e_i$ et $\cal E$:
+On s'intéresse à un tour $t_k$ appartenant au locuteur $c_l$ et ayant $n_k$ occurrences. Soient $n_{k+r}$, le nombre d'occurrences tours précédent ($r=-1$) et suivant ($r=1$) de ce tour. Soient $\{o_{j,r}^k\},$ avec $ r=-1,0,1$ et $j=1,\ldots, n_{k+r}$, les occurrences de noms complets détectés dans ces trois tours. Chaque occurrence $o_{j,r}^k$, correspondant à une étiquette $e_i$, représente une certaine information sur le locuteur du tour $t_k$ qui peut être décrite par une masse de croyance $m^{jr}_{t_k}$ sur $\cal E$ à support simple, focalisée sur $e_i$ et $\cal E$:
+
  \begin{equation}\label{eq:putaindequationcruciale}
     \left\{\begin{array}{c}
         m^{jr}_{t_k}(\{e_i\})= \alpha_{il} P(o_{j,r}^k,t_{k-r}) \mbox{  si  } o_{j,r}^k=e_i \\
@@ -1243,13 +1218,8 @@ complets détectés dans ces trois
         \alpha_{ij}P(o_{j,r}^k,t_{k-r}),
     \end{array}\right.
 \end{equation}
-où $\alpha_{il} \in [0,1]$ est une mesure de compatibilité de genre
-entre $e_i$ et $c_l$. Si les genres sont connus avec certitude,
-$\alpha_{il}=0$ si $g(e_i)\neq g(c_l)$ et $\alpha_{il}=1$ si
-$g(e_i)= g(c_l)$. Si les prénoms sont ambigus (comme Dominique) ou
-non spécifiés, ou si le genre du locuteur est incertain,
-$\alpha_{il}\in ]0,1[$ est estimé à partir d'une base de prénoms et
-du corpus d'apprentissage. 
+
+où $\alpha_{il} \in [0,1]$ est une mesure de compatibilité de genre entre $e_i$ et $c_l$. Si les genres sont connus avec certitude, $\alpha_{il}=0$ si $g(e_i)\neq g(c_l)$ et $\alpha_{il}=1$ si $g(e_i)= g(c_l)$. Si les prénoms sont ambigus (comme Dominique) ou non spécifiés, ou si le genre du locuteur est incertain, $\alpha_{il}\in ]0,1[$ est estimé à partir d'une base de prénoms et du corpus d'apprentissage. 
 
 %Le tableau \ref{tab:conflitdempster}
 %présente la masse de croyance concernant le locuteur du tour
@@ -1277,57 +1247,37 @@ du corpus d'apprentissage.
 %\label{tab:conflitdempster}
 %\end{table}
 %----------------
+
 \subsection{Combinaison par tour de parole et par locuteur}
 
- La première étape de la combinaison consiste à agréger les
- informations au sein d'un tour de parole donné.
-La combinaison des $n_{k-1}+n_k+n_{k+1}$ masses ciblées sur le tour
-$t_k$ et obtenues par l'équation \ref{eq:putaindequationcruciale}
-peut se faire par la règle conjonctive
- de Dempster {\it non normalisée} (cf. équations \ref{eq:comb_Dempster}- \ref{eq:combindetail}), afin d'assurer l'associativité et la commutativité de la
- combinaison:
-on obtient une masse de croyance $m_{t_k}$ sur l'identité du
-locuteur du tour $t_k$, définie par
+La première étape de la combinaison consiste à agréger les informations au sein d'un tour de parole donné. La combinaison des $n_{k-1}+n_k+n_{k+1}$ masses ciblées sur le tour $t_k$ et obtenues par l'équation \ref{eq:putaindequationcruciale} peut se faire par la règle conjonctive de Dempster {\it non normalisée} (cf. équations \ref{eq:comb_Dempster}- \ref{eq:combindetail}), afin d'assurer l'associativité et la commutativité de la combinaison: on obtient une masse de croyance $m_{t_k}$ sur l'identité du locuteur du tour $t_k$, définie par 
+
 \begin{equation} \label{eq:massetour}
 m_{t_k} =\displaystyle \bigcap_{r=-1}^{1}\bigcap_{j=1}^{n_{k+r}}
 m^{jr}_{t_k}
-\end{equation} et la masse
-de croyance normalisée $m^*_{t_k}$ correspondante (cf. équation
-\ref{eq:norm_Dempster}).
+\end{equation}
 
-La deuxième étape de la combinaison consiste à agréger les résultats
-obtenus par tour de parole pour l'ensemble de l'émission. Plusieurs
-possibilités sont envisageables {\it a priori} pour combiner ces
-informations. Il est possible de procéder de fa\c con  analogue à
-celle de l'équation \ref{eq:sl}. Pour l'assignation d'un nom complet
-$e_i$ à un locuteur $c_l$ donné, nous pourrions calculer un ``score"
-pour chaque $e_i$, dénoté $sm_l(e_i)$, comme la somme des masses de
-croyance concernant les tours de parole du locuteur $c_{l}$ :
+et la masse de croyance normalisée $m^*_{t_k}$ correspondante (cf. équation \ref{eq:norm_Dempster}).
+
+La deuxième étape de la combinaison consiste à agréger les résultats obtenus par tour de parole pour l'ensemble de l'émission. Plusieurs possibilités sont envisageables {\it a priori} pour combiner ces informations. Il est possible de procéder de façon  analogue à celle de l'équation \ref{eq:sl}. Pour l'assignation d'un nom complet $e_i$ à un locuteur $c_l$ donné, nous pourrions calculer un ``score" pour chaque $e_i$, dénoté $sm_l(e_i)$, comme la somme des masses de croyance concernant les tours de parole du locuteur $c_{l}$ :
+
 \begin{equation}\label{eq:sml}
 sm_{l}(e_i)= \sum_{t_k \in c_l } m^*_{t_k}(\{e_i\}).
 \end{equation}
-Les scores obtenus ne sont donc pas nécessairement normalisés (i.e.
-$\leq 1$), ce qui rendra là encore difficile l'interprétation des
-résultats lors du processus de décision. Nous préférons rester dans
-le cadre de la théorie des croyances: une manière assez naturelle
- consiste en effet à continuer de combiner toutes les
-masses de croyance relatives au même locuteur $c_l$ par la même
-règle conjonctive de Dempster et donc à fusionner toutes les masses
-de croyance relatives aux différents tours de parole $t_k$ de ce
-locuteur. On obtient alors une masse de croyance globale $M_l$ sur
-l'identité du locuteur $c_l$ de l'émission, définie par
+
+Les scores obtenus ne sont donc pas nécessairement normalisés (i.e.  $\leq 1$), ce qui rendra là encore difficile l'interprétation des résultats lors du processus de décision. Nous préférons rester dans le cadre de la théorie des croyances: une manière assez naturelle consiste en effet à continuer de combiner toutes les masses de croyance relatives au même locuteur $c_l$ par la même règle conjonctive de Dempster et donc à fusionner toutes les masses de croyance relatives aux différents tours de parole $t_k$ de ce locuteur. On obtient alors une masse de croyance globale $M_l$ sur l'identité du locuteur $c_l$ de l'émission, définie par
+
 \begin{equation} \label{eq:masseglobale}
 M_{l} =\displaystyle \bigcap_{t_k \in c_l} m_{t_k}
-\end{equation} et la masse
-de croyance normalisée $M^*_{l}$ correspondante.
+\end{equation}
+
+et la masse de croyance normalisée $M^*_{l}$ correspondante.
 
 
 \subsection{Règle de décision}
 
-La méthode exposée en section \ref{sec:decision} est utilisée comme base pour la décision d'affectation, mais celle-ci se trouve
-simplifiée et unifiée grâce à l'utilisation des masses de croyance.
-Les masses de croyance $M_l$ sont transformées en une probabilité
-pignistique $P_{M_l}$ (cf. équation \ref{eq:pig}) et la règle $\mathbf{R}$ suivante est utilisée :
+La méthode exposée en section \ref{sec:decision} est utilisée comme base pour la décision d'affectation, mais celle-ci se trouve simplifiée et unifiée grâce à l'utilisation des masses de croyance.  Les masses de croyance $M_l$ sont transformées en une probabilité pignistique $P_{M_l}$ (cf. équation \ref{eq:pig}) et la règle $\mathbf{R}$ suivante est utilisée :
+
     \begin{equation}\label{eq:maxcroyance}
         \begin{array}{c}
             \forall c_l \in \mathcal{C}\setminus \mathcal{D},  \displaystyle e_i^*=\arg \max_{e_i \in \mathcal{E}} \mbox P_{M_l}(e_i) \Rightarrow f(c_l)=e_i^*\\
@@ -1335,18 +1285,7 @@ pignistique $P_{M_l}$ (cf. équation \ref{eq:pig}) et la règle $\mathbf{R}$ suiva
         \end{array}
     \end{equation}
 
-Ensuite, comme certains noms complets sont attribués lors de cette
-première étape à plusieurs locuteurs différents, il faut là encore
-réorganiser le partage des noms complets entre les locuteurs
-anonymes. Le même processus de décision que celui
-proposé en \ref{sec:decision} est appliqué, en rempla\c cant les scores
-$\mbox{SC}_l$ par les probabilités pignistiques $P_{M_l}$. En
-reprenant l'exemple proposé en \ref{sec:decision}, le nom complet
-``Jacques Derrida" est là encore assigné aux départ aux trois
-locuteurs $c_{13}$, $c_{14}$ et $c_{15}$ (cf. tableau
-\ref{tab:examplecombdempster}). Mais finalement,``Jacques Derrida"
-est également assigné à $c_{15}$, car c'est pour ce locuteur qu'il
-obtient la plus grande probabilité pignistique.
+Ensuite, comme certains noms complets sont attribués lors de cette première étape à plusieurs locuteurs différents, il faut là encore réorganiser le partage des noms complets entre les locuteurs anonymes. Le même processus de décision que celui proposé en \ref{sec:decision} est appliqué, en remplaçant les scores $\mbox{SC}_l$ par les probabilités pignistiques $P_{M_l}$. En reprenant l'exemple proposé en \ref{sec:decision}, le nom complet ``Jacques Derrida" est là encore assigné aux départ aux trois locuteurs $c_{13}$, $c_{14}$ et $c_{15}$ (cf. tableau \ref{tab:examplecombdempster}). Mais finalement,``Jacques Derrida" est également assigné à $c_{15}$, car c'est pour ce locuteur qu'il obtient la plus grande probabilité pignistique.
 %----------------------
 \begin{table}[htbp]
 \caption{Décision avec deux itérations (décision en gras,
@@ -1371,9 +1310,6 @@ probabilités pignistiques $P_{M_l}(e_i^*)$ entre parenthèses).}
 \end{table}
 
 
-
-
-
 \section{Évaluation du système proposé}
 \subsection{Description des corpus}
 
@@ -1394,7 +1330,7 @@ Le tableau~\ref{corp_stat}  montre la répartition \textit{a priori} des quatre é
 \begin{center}
 {\begin{tabular}{|l|c|}
 \cline{2-2}
-  \multicolumn{1}{c|}{} &  \textbf{\textit{\'Evaluation}}\\ 
+  \multicolumn{1}{c|}{} &  \textbf{\textit{évaluation}}\\ 
 
  \hline
 \textit{Tour précédent} & 2,0 \% (31) \\
@@ -1642,7 +1578,7 @@ Chaque tour de parole sera identifié par une étiquette anonyme \texttt{LOCUX} su
 
 \subsection{Entités nommées}
 
-Ce qui est ici appelé ``erreur'' est relatif à ce qu'attend l'arbre. \'Etiqueter \textit{[président Jacques Chirac]} comme anthroponyme est correct du point de vue linguistique et n'est pas une erreur commise par Nemesis, mais n'est pas conforme à ce qui est attendu par le système d'identification nommée. En effet, le système d'identification nommée ne marche qu'avec les couples noms~/prénoms et n'acceptera pas \textit{[président Jacques Chirac]}. Il faut donc bien garder à l'esprit que ce qui est appelé ici erreur, est ce qui met le système d'identification nommée en échec.\\
+Ce qui est ici appelé ``erreur'' est relatif à ce qu'attend l'arbre. étiqueter \textit{[président Jacques Chirac]} comme anthroponyme est correct du point de vue linguistique et n'est pas une erreur commise par Nemesis, mais n'est pas conforme à ce qui est attendu par le système d'identification nommée. En effet, le système d'identification nommée ne marche qu'avec les couples noms~/prénoms et n'acceptera pas \textit{[président Jacques Chirac]}. Il faut donc bien garder à l'esprit que ce qui est appelé ici erreur, est ce qui met le système d'identification nommée en échec.\\
 
 %\subsection{Anaphores et autres erreurs}
 
@@ -1651,7 +1587,7 @@ Ce qui est ici appelé ``erreur'' est relatif à ce qu'attend l'arbre. \'Etiqueter
 %\subsection{Nemesis}
 
 
-\textbf{\'Etiquetage erroné}\\
+\textbf{étiquetage erroné}\\
 
 Nemesis rencontre des problèmes pour l'étiquetage des radios type France Inter et France Info. En effet, France étant un prénom, il étiquette France Inter et France Info comme étant des anthroponymes. L'ajout de France Info et de France Inter dans ses lexiques de médias ne change rien. La règle qui est déclenchée prioritairement par Nemesis est donc celle qui considère France comme un prénom. Par exemple :\\\\
 \texttt{
@@ -1673,7 +1609,7 @@ Ici \texttt{France Info} est encore détecté comme étant \texttt{LOCU1} (le locut
 
 Lors de l'évaluation, le système ne prend pas en compte l'identité attribuée au locuteur puisque \texttt{France Info} n'est pas connu comme locuteur correct dans la transcription de référence, ceci fait donc chuter le rappel. C'est le seul cas d'étiquetage erroné posant vraiment problème dans le corpus étudié.\\
 
-\textbf{\'Etiquetage partiel}\\
+\textbf{étiquetage partiel}\\
 
 Dans quelques rares cas (3 sur les 86 erreurs), Nemesis n'étiquette que partiellement les identités de locuteur. Ceci peu être du à un prénom étranger comme \texttt{Anissa} (\texttt{Anissa \textit{[El Jabri]}} partiellement étiqueté) ou à prénom peu commun comme \texttt{Eymard} (\texttt{Eymard du \textit{[Chatenet]}} partiellement étiqueté). Un autre cas a été relevé, \texttt{\textit{[Frédéric]} Rivière} est en effet mal étiqueté puisque seul son prénom l'est.\\
 
@@ -1683,7 +1619,7 @@ Dans quelques rares cas (3 sur les 86 erreurs), Nemesis n'étiquette que partiell
 %CJ Je ne comprends pas => Nemesis étiquette mal le nom du locuteur parce que c'est un patronyme étranger. Pourquoi ce n'est pas dans la catégorie "etiquetage erroné" ?
 %CJ Ce n'est pas parce que Nemesis inclus le rôle de la personne dans l'entité nommée, qu'il commet une erreur d'étiquetage (voir explication thèse Fourour chap 4 p 84 de pourquoi il prend "large")
 %VJ Oui je sais, c'est ce que j'essaie d'expliquer en dessous, je vais faire en sorte d'être plus clair.
-\textbf{\'Etiquetage inadéquat}\\
+\textbf{étiquetage inadéquat}\\
 
 Certaines étiquettes sont correctes du point de vue linguistique mais ne correspondent pas à ce qui est attendu par le système d'identification.
  Par exemple, \texttt{\textit{[président du Fetia Api]}} est bien un anthroponyme et est détecté comme tel par Nemesis. En revanche, lors de l'évaluation, \texttt{\textit{[président du Fetia Api]}} ne sera pas connu de la référence (dans laquelle il n'y a que des couples prénoms~/patronymes) et sera donc considéré comme inconnu. Ce genre d'erreur provient donc d'une inéquation entre les sorties de Nemesis et les entrées du système d'identification nommée.
@@ -1786,8 +1722,8 @@ Le tableau \ref{tab:repart_erreurs} montre la répartition et l'importance des di
 \hline
 \textbf{Erreurs} & \textbf{Fréquence} & \textbf{Pourcentage Total} \\ \hline
 \hline
-\textbf{(N1) \'Etiquetage partiel ou inadéquat} & 7 & 8,2\% \\ \hline
-\textbf{(N2) \'Etiquetage erroné} & 4 & 4,6\% \\ \hline \hline
+\textbf{(N1) étiquetage partiel ou inadéquat} & 7 & 8,2\% \\ \hline
+\textbf{(N2) étiquetage erroné} & 4 & 4,6\% \\ \hline \hline
 \textbf{(N3) \'Mauvais contexte} & 5 & 5,8\% \\ \hline \hline
 %\textit{total} & \textit{16} & \textit{18,6\%} \\ \hline \hline
 \textbf{(A1) Décision incertaine} & 32 & 37,2\% \\ \hline
