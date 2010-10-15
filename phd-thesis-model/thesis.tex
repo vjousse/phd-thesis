@@ -1162,6 +1162,9 @@ Tout d'abord, il convient d'expliciter les différentes notations qui seront util
 À ce stade, un filtre est réalisé: il s'agit de la comparaison des genres. Si le genre du nom complet $e_i$ et du locuteur $c_l$ sont differents, les probabilités précédentes ne seront pas prises en compte. On note $g(e_i)$ et $g(c_l)$ les genres respectifs (féminin, masculin ou inconnu) de $e_i$ et $c_l$. Le genre des locuteurs est détecté par le système de segmentation et de classification acoustique et le genre des noms complets est déterminé par le prénom (généralement sans ambiguité s'il est reconnu) à partir d'une base linguistique de prénoms.
 
 \subsection{Processus de décision}
+
+\label{sec:decision}
+
 Le but du processus de décision est d'assigner un nom complet $e_i$ à un locuteur $c_l$ donné. Pour ce faire, il faut pouvoir disposer d'une information (pour chaque $e_i$ d'un locuteur $c_l$) permettant de comparer ce candidat aux autres.candidats possibles pour $c_l$. Dans cette thèse, nous utilisons un score probabiliste obtenu grâce aux fonctions de croyances. Nous décrivons dans X la manière dont ce score est obtenu. Par la suite, $\mbox{SC}_l(e_i)$ désignera le score du nom complet candidat $e_i$ pour la classe de locuteur $c_l$.
 
 Une fois ce score obtenu, il faut ensuite attribuer à chaque locuteur $c_l$ un nom complet $e_i$.  Soit $f: \mathcal{C}\rightarrow \mathcal{E}$ la fonction d'assignation des noms complets aux  locuteurs. Les locuteurs étant censés être tous différents, une caractéristique importante que l'on voudrait imposer pour $f$ est l'injectivité: $f(c_l)=f(c_l') \Rightarrow c_l=c_l'$. Chaque nom complet ne peut être attribué à plus d'un locuteur. Bien sûr, certains noms complets peuvent rester non attribués et inversement, certains locuteurs peuvent rester sans étiquette. 
@@ -1253,15 +1256,25 @@ Comme décrit dans \ref{attributions_globales}, plusieurs occurrences corresponda
 
 On s'intéresse à un tour $t_k$ appartenant au locuteur $c_l$ et ayant $n_k$ occurrences. Soient $n_{k+r}$, le nombre d'occurrences tours précédent ($r=-1$) et suivant ($r=1$) de ce tour. Soient $\{o_{j,r}^k\},$ avec $ r=-1,0,1$ et $j=1,\ldots, n_{k+r}$, les occurrences de noms complets détectés dans ces trois tours. Chaque occurrence $o_{j,r}^k$, correspondant à une étiquette $e_i$, représente une certaine information sur le locuteur du tour $t_k$ qui peut être décrite par une masse de croyance $m^{jr}_{t_k}$ sur $\cal E$ à support simple, focalisée sur $e_i$ et $\cal E$:
 
- \begin{equation}\label{eq:putaindequationcruciale}
+%\begin{equation}\label{eq:putaindequationcruciale}
+    %\left\{\begin{array}{c}
+        %m^{jr}_{t_k}(\{e_i\})= \alpha_{il} P(o_{j,r}^k,t_{k-r}) \mbox{  si  } o_{j,r}^k=e_i \\
+        %m^{jr}_{t_k}(\mathcal{E})= 1-
+        %\alpha_{ij}P(o_{j,r}^k,t_{k-r}),
+    %\end{array}\right.
+%\end{equation}
+
+%où $\alpha_{il} \in [0,1]$ est une mesure de compatibilité de genre entre $e_i$ et $c_l$. Si les genres sont connus avec certitude, $\alpha_{il}=0$ si $g(e_i)\neq g(c_l)$ et $\alpha_{il}=1$ si $g(e_i)= g(c_l)$. Si les prénoms sont ambigus (comme Dominique) ou non spécifiés, ou si le genre du locuteur est incertain, $\alpha_{il}\in ]0,1[$ est estimé à partir d'une base de prénoms et du corpus d'apprentissage. 
+
+
+\begin{equation}\label{eq:putaindequationcruciale}
     \left\{\begin{array}{c}
-        m^{jr}_{t_k}(\{e_i\})= \alpha_{il} P(o_{j,r}^k,t_{k-r}) \mbox{  si  } o_{j,r}^k=e_i \\
+        m^{jr}_{t_k}(\{e_i\})= P(o_{j,r}^k,t_{k-r}) \mbox{  si  } o_{j,r}^k=e_i \\
         m^{jr}_{t_k}(\mathcal{E})= 1-
-        \alpha_{ij}P(o_{j,r}^k,t_{k-r}),
+        P(o_{j,r}^k,t_{k-r}),
     \end{array}\right.
 \end{equation}
 
-où $\alpha_{il} \in [0,1]$ est une mesure de compatibilité de genre entre $e_i$ et $c_l$. Si les genres sont connus avec certitude, $\alpha_{il}=0$ si $g(e_i)\neq g(c_l)$ et $\alpha_{il}=1$ si $g(e_i)= g(c_l)$. Si les prénoms sont ambigus (comme Dominique) ou non spécifiés, ou si le genre du locuteur est incertain, $\alpha_{il}\in ]0,1[$ est estimé à partir d'une base de prénoms et du corpus d'apprentissage. 
 
 %Le tableau \ref{tab:conflitdempster}
 %présente la masse de croyance concernant le locuteur du tour
@@ -1318,7 +1331,7 @@ et la masse de croyance normalisée $M^*_{l}$ correspondante.
 
 \subsection{Règle de décision}
 
-La méthode exposée en section \ref{sec:decision} est utilisée comme base pour la décision d'affectation, mais celle-ci se trouve simplifiée et unifiée grâce à l'utilisation des masses de croyance.  Les masses de croyance $M_l$ sont transformées en une probabilité pignistique $P_{M_l}$ (cf. équation \ref{eq:pig}) et la règle $\mathbf{R}$ suivante est utilisée :
+La méthode exposée en section \ref{sec:decision} est utilisée comme base pour la décision d'affectation. Les masses de croyance $M_l$ sont transformées en une probabilité pignistique $P_{M_l}$ (cf. équation \ref{eq:pig}) et la règle $\mathbf{R}$ suivante est utilisée :
 
     \begin{equation}\label{eq:maxcroyance}
         \begin{array}{c}
@@ -1327,29 +1340,31 @@ La méthode exposée en section \ref{sec:decision} est utilisée comme base pour la
         \end{array}
     \end{equation}
 
-Ensuite, comme certains noms complets sont attribués lors de cette première étape à plusieurs locuteurs différents, il faut là encore réorganiser le partage des noms complets entre les locuteurs anonymes. Le même processus de décision que celui proposé en \ref{sec:decision} est appliqué, en remplaçant les scores $\mbox{SC}_l$ par les probabilités pignistiques $P_{M_l}$. En reprenant l'exemple proposé en \ref{sec:decision}, le nom complet ``Jacques Derrida" est là encore assigné aux départ aux trois locuteurs $c_{13}$, $c_{14}$ et $c_{15}$ (cf. tableau \ref{tab:examplecombdempster}). Mais finalement,``Jacques Derrida" est également assigné à $c_{15}$, car c'est pour ce locuteur qu'il obtient la plus grande probabilité pignistique.
+Ensuite, comme certains noms complets sont attribués lors de cette première étape à plusieurs locuteurs différents, il faut là encore réorganiser le partage des noms complets entre les locuteurs anonymes. Le processus de décision proposé en \ref{sec:decision} est appliqué, en remplaçant les scores $\mbox{SC}_l$ par les probabilités pignistiques $P_{M_l}$. 
+
+En reprenant l'exemple proposé en \ref{sec:decision}, le nom complet ``Jacques Derrida" est là encore assigné aux départ aux trois locuteurs $c_{13}$, $c_{14}$ et $c_{15}$ (cf. tableau \ref{tab:examplecombdempster}). Mais finalement,``Jacques Derrida" est également assigné à $c_{15}$, car c'est pour ce locuteur qu'il obtient la plus grande probabilité pignistique.
 %----------------------
-\begin{table}[htbp]
-\caption{Décision avec deux itérations (décision en gras,
-probabilités pignistiques $P_{M_l}(e_i^*)$ entre parenthèses).}
-\begin{center}
-{\small
-\begin{tabular}{|c c c |} \hline
-     Locuteur & $e_i^*$  (1ère itération)&    2ème itération      \\ \hline
-    $c_{13}$ &J. Derrida ($0,89$) &  \textbf{N. Demorand }($0,11$)             \\
-    $c_{14}$   &J. Derrida ($0,71$) & \textbf{A. Adler} $(0,25)$ \\
-    $c_{15}$ &\textbf{J. Derrida} ($0,99$) & - \\
-     $c_{16}$ &\textbf{O. Duhamel } ($0,88$) & -  \\
-     % $c_{17}$ &\textbf{Marc Kravetz} (0.94) & Jacques Derrida  (0.33) \\
-\hline
-\end{tabular}
-}
-\end{center}
-
-%\caption{}
- \label{tab:examplecombdempster}
-
-\end{table}
+%\begin{table}[htbp]
+%\caption{Décision avec deux itérations (décision en gras,
+%probabilités pignistiques $P_{M_l}(e_i^*)$ entre parenthèses).}
+%\begin{center}
+%{\small
+%\begin{tabular}{|c c c |} \hline
+%     Locuteur & $e_i^*$  (1ère itération)&    2ème itération      \\ \hline
+%    $c_{13}$ &J. Derrida ($0,89$) &  \textbf{N. Demorand }($0,11$)             \\
+%    $c_{14}$   &J. Derrida ($0,71$) & \textbf{A. Adler} $(0,25)$ \\
+%    $c_{15}$ &\textbf{J. Derrida} ($0,99$) & - \\
+%     $c_{16}$ &\textbf{O. Duhamel } ($0,88$) & -  \\
+%     % $c_{17}$ &\textbf{Marc Kravetz} (0.94) & Jacques Derrida  (0.33) \\
+%\hline
+%\end{tabular}
+%}
+%\end{center}
+%
+%%\caption{}
+% \label{tab:examplecombdempster}
+%
+%\end{table}
 
 
 \section{Évaluation du système proposé}
