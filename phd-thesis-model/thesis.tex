@@ -1087,11 +1087,13 @@ Comme décrit dans le tableau \ref{tab:ne_ester2}, cette approche ayant obtenue l
 
 \section{Attributions locales : arbre de classification sémantique}
 
-Les arbres de classification sémantiques (SCT - Semantic Classification Tree) sont souvent utilisés dans le traitement du langage naturel. Par exemple, ils sont employés pour des systèmes de dialogue \cite{Kuhn1995}, pour l'estimation de modèles de langage hiérarchiques n-grammes \cite{Esteve2001}, ou pour la détection de noms propres inconnus \cite{Bechet2000}. Les SCTs sont des arbres de décision binaire s'appuyant sur des patrons linguistiques comme paramètres de décision pour classer les échantillons. Dans le cadre de l'identification nommée, ils sont utilisés pour réaliser l'attribution locale des étiquettes \og{}précédent\fg{}, \og{}courant\fg{} et \og{}suivante\fg{} décrites dans la section \ref{ssec:attributions_locales}.
+La phase de détection des entités nommées va ensuite permettre d'attribuer chaque entité nommée de type \emph{personne} au locuteur courant ou aux locuteurs contigus du tour de parole dans lequel l'EN a été étiquetée. Cette phase d'attribution locale est effectuée grâce à un arbre de classification sémantique (SCT - Semantic Classification Tree).
+
+Les arbres de classification sémantiques  sont souvent utilisés dans le traitement du langage naturel. Par exemple, ils sont employés pour des systèmes de dialogue \cite{Kuhn1995}, pour l'estimation de modèles de langage hiérarchiques n-grammes \cite{Esteve2001}, ou pour la détection de noms propres inconnus \cite{Bechet2000}. Les SCTs sont des arbres de décision binaire s'appuyant sur des patrons linguistiques comme paramètres de décision pour classer les échantillons. Dans le cadre de l'identification nommée, ils sont utilisés pour réaliser l'attribution locale des étiquettes \og{}précédent\fg{}, \og{}courant\fg{} et \og{}suivante\fg{} décrites dans la section \ref{ssec:attributions_locales}.
 
 \subsection{Arbre de décision binaire}
 
-Là où les autres travaux utilisent des règles réalisées manuellement (cf. section \ref{sub:regles_manuelles}) ou des N-grammes (\ref{sub:regles_statistiques}), le LIUM utilise un type particulier d'arbre binaire, à savoir un arbre de classification sémantique.
+Là où les autres travaux utilisent des règles réalisées manuellement (cf. section \ref{sub:regles_manuelles}) ou des N-grammes (\ref{sub:regles_statistiques}), les travaux de cette thèse utilisent un type particulier d'arbre binaire, à savoir un arbre de classification sémantique.
 
 Un arbre de décision binaire \cite{Breiman84,Cornejols02} est un type de classificateur qui va permettre d'affecter des classes à un échantillon grâce à une suite de décisions binaires de type oui/non. Les n\oe{}uds de l'arbre sont des tests auquel l'échantillon sera soumis, en fonction du résultat du test (oui ou non) l'échantillon sera ensuite testé sur la branche correspondante. Si cette branche ne contient qu'une feuille, alors elle correspond aux classes à attribuer. Si cette branche est un sous-arbre contenant d'autres tests, ils sont effectués jusqu'à atteindre une feuille de l'arbre.
 
@@ -1138,10 +1140,13 @@ Les arbres de classification sémantique intègrent dans chaque n\oe ud une expres
 
 Pour pourvoir être utilisé par le SCT, un document doit être préparé de la même manière que le corpus ayant servi à l'apprentissage de l'arbre. Tout corpus soumis à l'arbre de classification devra donc être pré-traité comme décrit dans la section précédente. Ensuite, pour chaque nom complet détecté, un contexte lexical n'incluant pas plus de 10 mots est conservé. C'est sur ces portions de texte contenant un nom complet que l'arbre est utilisé. Il permet, pour chaque nom complet étiqueté par le détecteur d'entités nommées, d'attribuer une probabilité pour chaque étiquette possible~: \og{}locuteur précédent\fg{}, \og{}locuteur courant\fg{} ou \og{}locuteur suivant\fg{}. La figure \ref{fig:sct} donne un exemple de probabilités obtenues pour chaque étiquette.
 
-À noter que le SCT ne choisit pas une étiquette parmi les quatre possibles, mais attribue une probabilité à chacune des étiquettes. Dans les travaux du LIUM, seule la probabilité la plus élevée est prise en compte. Cela permet de n'attribuer qu'une et une seul étiquette à un nom complet. En revanche, les informations fournies par les probabilités attribuées aux autres étiquettes ne sont pas prises en compte.
+À noter que le SCT ne choisit pas une étiquette parmi les quatre possibles, mais attribue une probabilité à chacune des étiquettes. Dans les travaux présentés dans cette thèse, les probalités affectées à toutes les étiquettes sont prises en compte. En effet, nous estimons que même si une étiquette a une probalité supérieure aux autres, cela ne signifie pas nécessairement que c'est la bonne étiquette et que l'on ne doit prendre en compte que cette dernière. 
+
+Imaginons la répartition des masses de probabilités suivante pour un nom complet : courant 0,31, précédent 0,28, suivant 0,30, autre 0.11. Décider que le nom complet désigne le locuteur courant car c'est l'étiquette qui a la plus forte probabilité occulte complètement le fait que l'arbre est très incertain sur ces étiquettes. En effet, le conflit entre les différentes étiquettes est très élevé, et l'arbre affecte quasiment autant de croyance aux étiquettes courant, précédent et suivant. L'enjeu d'un processus d'attributions globales est de pouvoir prendre en compte ces croyances et incertitudes au sein des classes de locuteurs à nommer. Dans cette thèse, la théorie des fonctions de croyances est utilisée pour résoudre ce problème.
 
 \section{Fonctions de croyances pour l'INL}
 
+La section \ref{attributions_globales} décrit toutes les difficultés auxquelles la phase d'attribution globale a à faire face. Une de ces principales difficultés est de résoudre les conflits qui apparaissent à la suite de la phase d'atributions locales.
 
 \subsection{Fonctions de croyances}
 
@@ -1368,102 +1373,6 @@ probabilités pignistiques $P_{M_l}(e_i^*)$ entre parenthèses).}
 
 
 
-
-\section{Attributions globales}
-
-Les attributions locales vont permettre d'affecter un nom complet à un tour de parole. Mais, comme mentionné dans la section \ref{attributions_globales}, des conflits peuvent apparaître. En effet, chaque tour de parole appartient à une classe de locuteur que l'on cherche à nommer. Tous les noms complets attribués à des tours de parole via la phase d'attribution locale sont des candidats potentiels pour nommer la classe anonyme correspondante. Nous décrivons ici le processus de décision utilisé par le LIUM pour résoudre ces problèmes.
-
-\subsection{Notations}
-$\mathcal{E}=\{e_1,\ldots, e_I\}$ correspond à l'ensemble des noms complets candidats pour nommer une classe. 
-
-Soit $\mathcal{O}=\{o_1,\ldots, o_J\}$ les occurrences des noms complets étiquetés par le détecteur d'entités nommées dans les transcriptions.
-$\mathcal{T}=\{t_1,\ldots, t_K\}$ désigne l'ensemble des tours de parole, et  $\mathcal{C}=\{c_1,\ldots, c_L\}$ l'ensemble des classes à nommer. Les traitements vont permettre d'attribuer un nom complet issu de $\mathcal{E}$ aux classes de $\mathcal{C}$.
-Une classe est définie par $c_l~=~\{ t_k~\in~T /\ c_l\ est\ le\ locuteur\ de\ t_k \}$, chaque classe $c_l$ regroupant un ou plusieurs tours de parole $t_k$. Chaque tour de parole appartient à une et une seule classe.
-
-%TAL Modification de probabilité en score probabiliste
-Pour chaque occurrence d'un nom complet $o_j$ (pour $j= 1,\ldots, J$) détecté dans un tour de parole $t_k$, on notera  $t_{k-1}$ (respectivement $t_{k+1}$) le tour de parole précédant (respectivement suivant) celui où il a été détecté. De la même manière, le score $P(o_j,t_{r})$  désigne la probabilité que $o_j$ soit le locuteur du tour de parole $t_{r}$ avec $r \in \{k-1,k,k+1\}$. Ces scores sont fournis par l'arbre de classification, ils correspondent respectivement à l'étiquette \textit{\og tour précédent \fg }, \textit{\og tour courant \fg }, \textit{\og tour suivant \fg } et \textit{\og autre \fg }.
-
-
-%La probabilité de l'étiquette \textit{\og autre \fg } n'intervient pas dans le processus de décision.
-
-%SYL, il faut expliqué plus clairement comment la classe \og autre \fg  est utilisé, comme sa masse de probabilité agit
-%SYL, ne faudrait il pas prendre une décision au max pour éliminer les cas \og autre \fg  contre (prev, next, curr)
-
-%Comme l'a judicieusement fait remarquer christine, on s'en sert pas de ça ...
-%Appelons $t_{k-1}(o_j)$ le tour de parole précédant celui où se situe $o_j$, $t_{k}(o_j)$ le tour de parole où se situe $o_j$ et $t_{k+1}(o_j)$ le tour de parole suivant celui où se situe $o_j$. Chaque classe de locuteur $c_l$ regroupe un ou plusieurs tours de parole $t_k$. Toutefois, chaque tour de parole appartient à une et une seule classe de locuteur.
-
-\subsection{Calcul des scores}
-\label{CalScore}
-
-Pour l'assignation d'un nom complet $e_i$ à une classe $c_l$ donnée, nous calculons un score pour chaque nom complet $e_i$, dénoté $s_l(e_i)$, qui n'est autre que la somme des scores concernant les tours de parole de la classe $c_{l}$ :
-
-\begin{equation}s_{l}(e_i)= \sum_{\left\{(o_j, t_r)  | o_j= e_i, \: t_r \in c_l \right\}} P(o_j,t_{r})
-\label{eq:sl}
-\end{equation}
-
-\subsection{Processus de décision}
-
-Le LIUM fait l'hypothèse que la segmentation et le regroupement en classes sont corrects, ils ne sont donc pas remis en cause.
-Le but est maintenant d'attribuer à chaque classe $c_l$ un nom complet $e_i$. 
-%Soit $f: \mathcal{C}\rightarrow \mathcal{E}$ la fonction d'assignation des noms complets aux classes de locuteur.
-
-
-Notre solution propose de réorganiser le partage des noms complets entre les classes anonymes. Elle s'effectue en deux étapes qui sont répétées jusqu'à ce que toutes les classes aient été nommées, ou jusqu'à ce qu'il n'y ait plus de candidat~:
-\begin{itemize}
-    \item tri des classes candidates pour un nom complet en fonction des scores;
-    \item assignation du nom complet à la classe la plus probable.
-\end{itemize}
-
-Plusieurs stratégies peuvent être utilisées pour trier les classes $c_l$ en concurrence pour un nom complet $e_i$ donné. Prendre le score maximal $s_l(e_i)$ semble être la solution la plus naturelle. C'est celle qui a été choisis dans les travaux du LIUM.
-
-Tous les noms complets possibles sont pris en compte {\it a priori} et triés en fonction de leur score $s_l(e_i)$. Premièrement, le nom complet avec le score maximal (noté $e_i^*$) est choisi, et si plusieurs classes sont associées au même $e_i^*$, alors ce nom complet sera assigné à la classe dont le score $s_l(e_i^*)$ est maximal. Ensuite, tous les noms complets choisis sont supprimés des classes qui n'ont pas encore été nommées. 
-
-Un exemple concret est donné dans le tableau \ref{tab:examplecomb}. 
-Le nom complet \og Jacques Derrida \fg{} a été assigné à trois classes différentes. Dans cet exemple, $c_{13}$ a le meilleur score et  \og Jacques Derrida \fg{} sera donc affecté à $c_{13}$. D'autres noms complets seront ensuite attribués aux classes $c_{14}$ et $c_{15}$.
-%TAL suppression de la colonne avec les scores normalisés
-\begin{table}[htbp]
-
-\begin{center}
-{\small
-\begin{tabular}{|c c c|} \hline
-    Classe & Nom complet $e_i^*$ &$s_l(e_i^*)$     \\ \hline
-    $c_{13}$ &Jacques Derrida  &    $\mathbf{8,58}$               \\
-    $c_{14}$   &Jacques Derrida &  1,67 \\
-    $c_{15}$ &Jacques Derrida  & 4,94 \\
-\hline
-\end{tabular}
-}
-\end{center}
-\caption{Exemple d'une assignation initiale multiple}
-\label{tab:examplecomb}
-
-\end{table}
-%FIN TAL
-
-Lors de l'itération suivante, les noms complets restants sont examinés de la même manière pour les classes restantes et ainsi de suite, jusqu'à ce que toutes les classes soient nommées ou que la liste des noms complets à attribuer soit vide. Le tableau \ref{tab:examplecomb1} montre les résultats obtenus pour l'exemple précédent.
-
-%----------------------
-\begin{table}[htbp]
-\begin{center}
-{\small
-\begin{tabular}{|c c c |} \hline
-     Classe & Nom complet $e_i^*$  (1\up{re} itération)&    2\up{e} itération      \\ \hline
-    $c_{13}$ &\textbf{Jacques Derrida (8,58)} &  -             \\
-    $c_{14}$   &Jacques Derrida (1,67) & \textbf{Alexandre Adler (0,30)} \\
-    $c_{15}$ &Jacques Derrida (4,94) & \textbf{Nicolas Demorand (0,90)} \\
-    $c_{16}$ &\textbf{Olivier Duhamel (0,93)} & -  \\
-     % $c_{17}$ &\textbf{Marc Kravetz} (0.94) & Jacques Derrida  (0.33) \\
-\hline
-\end{tabular}
-}
-\end{center}
-\caption{Exemple du processus de décision avec deux itérations (décision en gras, scores entre parenthèses).}
-%\caption{}
- \label{tab:examplecomb1}
-
-\end{table}
-
-%FIN TAL
 
 \section{Évaluation du système proposé}
 \subsection{Description des corpus}
@@ -1942,7 +1851,103 @@ Pour finir, comme c'est déjà le cas pour certains modèles de langage en reconnai
 
 \subsection{Décisions locales : le classifieur}
 
-\subsection{Décisions globales : Théorie des croyances}
+\subsection{Décisions globales : du maximum à la Théorie des croyances}
+
+
+Les attributions locales vont permettre d'affecter un nom complet à un tour de parole. Mais, comme mentionné dans la section \ref{attributions_globales}, des conflits peuvent apparaître. En effet, chaque tour de parole appartient à une classe de locuteur que l'on cherche à nommer. Tous les noms complets attribués à des tours de parole via la phase d'attribution locale sont des candidats potentiels pour nommer la classe anonyme correspondante. Nous décrivons ici le processus de décision utilisé par le LIUM pour résoudre ces problèmes.
+
+\subsubsection{Notations}
+$\mathcal{E}=\{e_1,\ldots, e_I\}$ correspond à l'ensemble des noms complets candidats pour nommer une classe. 
+
+Soit $\mathcal{O}=\{o_1,\ldots, o_J\}$ les occurrences des noms complets étiquetés par le détecteur d'entités nommées dans les transcriptions.
+$\mathcal{T}=\{t_1,\ldots, t_K\}$ désigne l'ensemble des tours de parole, et  $\mathcal{C}=\{c_1,\ldots, c_L\}$ l'ensemble des classes à nommer. Les traitements vont permettre d'attribuer un nom complet issu de $\mathcal{E}$ aux classes de $\mathcal{C}$.
+Une classe est définie par $c_l~=~\{ t_k~\in~T /\ c_l\ est\ le\ locuteur\ de\ t_k \}$, chaque classe $c_l$ regroupant un ou plusieurs tours de parole $t_k$. Chaque tour de parole appartient à une et une seule classe.
+
+%TAL Modification de probabilité en score probabiliste
+Pour chaque occurrence d'un nom complet $o_j$ (pour $j= 1,\ldots, J$) détecté dans un tour de parole $t_k$, on notera  $t_{k-1}$ (respectivement $t_{k+1}$) le tour de parole précédant (respectivement suivant) celui où il a été détecté. De la même manière, le score $P(o_j,t_{r})$  désigne la probabilité que $o_j$ soit le locuteur du tour de parole $t_{r}$ avec $r \in \{k-1,k,k+1\}$. Ces scores sont fournis par l'arbre de classification, ils correspondent respectivement à l'étiquette \textit{\og tour précédent \fg }, \textit{\og tour courant \fg }, \textit{\og tour suivant \fg } et \textit{\og autre \fg }.
+
+
+%La probabilité de l'étiquette \textit{\og autre \fg } n'intervient pas dans le processus de décision.
+
+%SYL, il faut expliqué plus clairement comment la classe \og autre \fg  est utilisé, comme sa masse de probabilité agit
+%SYL, ne faudrait il pas prendre une décision au max pour éliminer les cas \og autre \fg  contre (prev, next, curr)
+
+%Comme l'a judicieusement fait remarquer christine, on s'en sert pas de ça ...
+%Appelons $t_{k-1}(o_j)$ le tour de parole précédant celui où se situe $o_j$, $t_{k}(o_j)$ le tour de parole où se situe $o_j$ et $t_{k+1}(o_j)$ le tour de parole suivant celui où se situe $o_j$. Chaque classe de locuteur $c_l$ regroupe un ou plusieurs tours de parole $t_k$. Toutefois, chaque tour de parole appartient à une et une seule classe de locuteur.
+
+\subsubsection{Calcul des scores}
+\label{CalScore}
+
+Pour l'assignation d'un nom complet $e_i$ à une classe $c_l$ donnée, nous calculons un score pour chaque nom complet $e_i$, dénoté $s_l(e_i)$, qui n'est autre que la somme des scores concernant les tours de parole de la classe $c_{l}$ :
+
+\begin{equation}s_{l}(e_i)= \sum_{\left\{(o_j, t_r)  | o_j= e_i, \: t_r \in c_l \right\}} P(o_j,t_{r})
+\label{eq:sl}
+\end{equation}
+
+\subsubsection{Processus de décision}
+
+Le LIUM fait l'hypothèse que la segmentation et le regroupement en classes sont corrects, ils ne sont donc pas remis en cause.
+Le but est maintenant d'attribuer à chaque classe $c_l$ un nom complet $e_i$. 
+%Soit $f: \mathcal{C}\rightarrow \mathcal{E}$ la fonction d'assignation des noms complets aux classes de locuteur.
+
+
+Notre solution propose de réorganiser le partage des noms complets entre les classes anonymes. Elle s'effectue en deux étapes qui sont répétées jusqu'à ce que toutes les classes aient été nommées, ou jusqu'à ce qu'il n'y ait plus de candidat~:
+\begin{itemize}
+    \item tri des classes candidates pour un nom complet en fonction des scores;
+    \item assignation du nom complet à la classe la plus probable.
+\end{itemize}
+
+Plusieurs stratégies peuvent être utilisées pour trier les classes $c_l$ en concurrence pour un nom complet $e_i$ donné. Prendre le score maximal $s_l(e_i)$ semble être la solution la plus naturelle. C'est celle qui a été choisis dans les travaux du LIUM.
+
+Tous les noms complets possibles sont pris en compte {\it a priori} et triés en fonction de leur score $s_l(e_i)$. Premièrement, le nom complet avec le score maximal (noté $e_i^*$) est choisi, et si plusieurs classes sont associées au même $e_i^*$, alors ce nom complet sera assigné à la classe dont le score $s_l(e_i^*)$ est maximal. Ensuite, tous les noms complets choisis sont supprimés des classes qui n'ont pas encore été nommées. 
+
+Un exemple concret est donné dans le tableau \ref{tab:examplecomb}. 
+Le nom complet \og Jacques Derrida \fg{} a été assigné à trois classes différentes. Dans cet exemple, $c_{13}$ a le meilleur score et  \og Jacques Derrida \fg{} sera donc affecté à $c_{13}$. D'autres noms complets seront ensuite attribués aux classes $c_{14}$ et $c_{15}$.
+%TAL suppression de la colonne avec les scores normalisés
+\begin{table}[htbp]
+
+\begin{center}
+{\small
+\begin{tabular}{|c c c|} \hline
+    Classe & Nom complet $e_i^*$ &$s_l(e_i^*)$     \\ \hline
+    $c_{13}$ &Jacques Derrida  &    $\mathbf{8,58}$               \\
+    $c_{14}$   &Jacques Derrida &  1,67 \\
+    $c_{15}$ &Jacques Derrida  & 4,94 \\
+\hline
+\end{tabular}
+}
+\end{center}
+\caption{Exemple d'une assignation initiale multiple}
+\label{tab:examplecomb}
+
+\end{table}
+%FIN TAL
+
+Lors de l'itération suivante, les noms complets restants sont examinés de la même manière pour les classes restantes et ainsi de suite, jusqu'à ce que toutes les classes soient nommées ou que la liste des noms complets à attribuer soit vide. Le tableau \ref{tab:examplecomb1} montre les résultats obtenus pour l'exemple précédent.
+
+%----------------------
+\begin{table}[htbp]
+\begin{center}
+{\small
+\begin{tabular}{|c c c |} \hline
+     Classe & Nom complet $e_i^*$  (1\up{re} itération)&    2\up{e} itération      \\ \hline
+    $c_{13}$ &\textbf{Jacques Derrida (8,58)} &  -             \\
+    $c_{14}$   &Jacques Derrida (1,67) & \textbf{Alexandre Adler (0,30)} \\
+    $c_{15}$ &Jacques Derrida (4,94) & \textbf{Nicolas Demorand (0,90)} \\
+    $c_{16}$ &\textbf{Olivier Duhamel (0,93)} & -  \\
+     % $c_{17}$ &\textbf{Marc Kravetz} (0.94) & Jacques Derrida  (0.33) \\
+\hline
+\end{tabular}
+}
+\end{center}
+\caption{Exemple du processus de décision avec deux itérations (décision en gras, scores entre parenthèses).}
+%\caption{}
+ \label{tab:examplecomb1}
+
+\end{table}
+
+%FIN TAL
+
 
 \section{Applications et connaissances a priori}
 liste de locuteurs, genre des locuteurs
