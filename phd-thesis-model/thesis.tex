@@ -1147,9 +1147,48 @@ Imaginons la répartition des masses de probabilités suivante pour un nom complet
 
 \todo{Prise en compte du genre}
 
-\section{Fonctions de croyances pour l'INL}
+\section{Attributions globales~: processus de décision et fonctions de croyances pour l'INL}
 
-La section \ref{attributions_globales} décrit toutes les difficultés auxquelles la phase d'attribution globale a à faire face. Une de ces principales difficultés est de résoudre les conflits qui apparaissent à la suite de la phase d'attributions locales (c'est à dire plusieurs candidats possibles pour une même classe de locuteur anonyme). Ces conflits sont dus à des connaissances imparfaites provenant de l'arbre de décision. En effet, il arrive couramment que l'arbre de décision se trompe et désigne un locuteur comme étant par exemple le locuteur suivant (en lui affectant une grosse probabilité), alors qu'il ne l'est pas. La théorie des fonctions de croyance va permettre de modéliser ces connaissances et ces incertitudes de manière à faciliter la phase d'attribution globale. Avant de finir par utiliser cette théorie, plusieurs pistes ont été explorées, elles sont décrites dans la partie X. Dans la section suivante, quelques éléments de la théorie des fonctions de croyances \cite{shafer76,smets94} sont brièvement rappelés.
+La section \ref{attributions_globales} décrit toutes les difficultés auxquelles la phase d'attribution globale a à faire face. Une de ces principales difficultés est de résoudre les conflits qui apparaissent à la suite de la phase d'attributions locales (c'est à dire plusieurs candidats possibles pour une même classe de locuteur anonyme). Ces conflits sont dus à des connaissances imparfaites provenant de l'arbre de décision. En effet, il arrive couramment que l'arbre de décision se trompe et désigne un locuteur comme étant par exemple le locuteur suivant (en lui affectant une grosse probabilité), alors qu'il ne l'est pas. La théorie des fonctions de croyance va permettre de modéliser ces connaissances et ces incertitudes de manière à faciliter la phase d'attribution globale. Avant de finir par utiliser cette théorie, plusieurs pistes ont été explorées, elles sont décrites dans la partie X.
+
+\subsection{Formalisme et notations}
+
+Tout d'abord, il convient d'expliciter les différentes notations qui seront utilisées par la suite.
+
+ Soit $\mathcal{E}=\{e_1,\ldots, e_I\}$ correspondant à l'ensemble des noms complets candidats pour nommer un locuteur. L'ensemble $\mathcal{O}=\{o_1,\ldots, o_J\}$ correspond aux occurrences successives des noms complets détectés dans les transcriptions, $\mathcal{T}=\{t_1,\ldots, t_K\}$ désigne l'ensemble des tours de parole dans l'ordre chronologique, et $\mathcal{C}=\{c_1,\ldots, c_L\}$ l'ensemble des locuteurs à nommer.  Le but est donc d'attribuer un nom complet issu de $\mathcal{E}$ aux locuteurs de $\mathcal{C}$. Chaque locuteur $c_l$ peut intervenir une ou plusieurs fois dans une émission, ce qui correspond donc à un ou plusieurs tours de parole: $c_l=\{ t \in {\cal T} \;| c_l\ \mbox{est le locuteur de } t\}$. Chaque tour de parole appartient à un et un seul locuteur, c'est-à-dire que les tours de parole sont successifs et ne peuvent être simultanés. Pour chaque occurrence d'un nom complet $o_j$ (pour $j= 1,\ldots, J$) détecté dans un tour de parole $t_k$, on désigne par $P(o_j,t_k)$ la probabilité que $o_j$ soit le locuteur du tour de parole $t_k$. Ainsi, $P(o_j,t_{k-1})$ et $P(o_j,t_{k+1})$ représentent la probabilité que $o_j$ soit le locuteur du tour respectivement précédent et suivant celui où il a été détecté. Par hypothèse, la probabilité que $o_j$ soit un autre locuteur est donc: $1 -\displaystyle\sum_{r \in \{-1,0,1\}} P(o_j,t_{k+r})$.
+
+À ce stade, un filtre est réalisé: il s'agit de la comparaison des genres. Si le genre du nom complet $e_i$ et du locuteur $c_l$ sont differents, les probabilités précédentes ne seront pas prises en compte. On note $g(e_i)$ et $g(c_l)$ les genres respectifs (féminin, masculin ou inconnu) de $e_i$ et $c_l$. Le genre des locuteurs est détecté par le système de segmentation et de classification acoustique et le genre des noms complets est déterminé par le prénom (généralement sans ambiguité s'il est reconnu) à partir d'une base linguistique de prénoms.
+
+\subsection{Processus de décision}
+Le but du processus de décision est d'assigner un nom complet $e_i$ à un locuteur $c_l$ donné. Pour ce faire, il faut pouvoir disposer d'une information (pour chaque $e_i$ d'un locuteur $c_l$) permettant de comparer ce candidat aux autres.candidats possibles pour $c_l$. Dans cette thèse, nous utilisons un score probabiliste obtenu grâce aux fonctions de croyances. Nous décrivons dans X la manière dont ce score est obtenu. Par la suite, $\mbox{SC}_l(e_i)$ désignera le score du nom complet candidat $e_i$ pour la classe de locuteur $c_l$.
+
+Il faut donc maintenant attribuer à chaque locuteur $c_l$ un nom complet $e_i$.  Soit $f: \mathcal{C}\rightarrow \mathcal{E}$ la fonction d'assignation des noms complets aux  locuteurs. Les locuteurs étant censés être tous différents, une caractéristique importante que l'on voudrait imposer pour $f$ est l'injectivité: $f(c_l)=f(c_l') \Rightarrow c_l=c_l'$. Chaque nom complet ne peut être attribué à plus d'un locuteur. Bien sûr, certains noms complets peuvent rester non attribués et inversement, certains locuteurs peuvent rester sans étiquette. 
+
+L'algorithme utilise est le suivant: tous les noms complets possibles sont pris en compte {\it a priori} et triés en fonction de leur score $\mbox{SC}_l(e_i)$. Premièrement, le nom complet avec le score maximum (noté $e_i^*$) est choisi, et si plusieurs locuteurs sont associés au même $e_i^*$, alors ce nom complet sera assigné au locuteur dont le score $SC_l(e_i^*)$ est maximum. Ensuite, tous les noms complets choisis sont supprimés de la liste relative aux locuteurs qui n'ont pas encore été nommés. Lors de l'itération suivante, les noms complets restants sont examinés de la même manière pour les locuteurs restants et ainsi de suite, jusqu'à ce que tous les locuteurs soient nommés ou que la liste des noms complets à attribuer soit vide. Le tableau \ref{tab:examplecomb1} montre un exemple de décision. Jacques Derrida étant choisi pour $c_{15}$ lors de la première itération, il ne peut donc pas être affecté à $c_{13}$ et $c_{14}$ lors de la deuxième. $c_{13}$ et $c_{14}$ sont alors nommés avec d'autres candidats potentiels.
+
+%----------------------
+\begin{table}[htbp]
+\caption{Exemple du processus de décision avec deux itérations
+(décision en gras, scores entre parenthèses).}
+\begin{center}
+{\small
+\begin{tabular}{|c c c |} \hline
+     Locuteur & $e_i^*$  (1ère itération)&    2ème itération      \\ \hline
+    $c_{13}$ &J. Derrida ($3,00$) &  \textbf{N. Demorand }($0,25$)             \\
+    $c_{14}$   &J. Derrida ($0,94$) & \textbf{A. Adler} (0,56) \\
+    $c_{15}$ &\textbf{J. Derrida} ($3,95$) & - \\
+     $c_{16}$ &\textbf{O. Duhamel } ($1,15$) & -  \\
+     % $c_{17}$ &\textbf{Marc Kravetz} (0.94) & Jacques Derrida  (0.33) \\
+\hline
+\end{tabular}
+}
+\end{center}
+
+%\caption{}
+ \label{tab:examplecomb1}
+
+\end{table}
+
 
 \subsection{Fonctions de croyances}
 
@@ -1859,7 +1898,7 @@ Le nom complet \og Jacques Derrida \fg{} a été assigné à trois classes différent
 \end{table}
 %FIN TAL
 
-Lors de l'itération suivante, les noms complets restants sont examinés de la même manière pour les classes restantes et ainsi de suite, jusqu'à ce que toutes les classes soient nommées ou que la liste des noms complets à attribuer soit vide. Le tableau \ref{tab:examplecomb1} montre les résultats obtenus pour l'exemple précédent.
+Lors de l'itération suivante, les noms complets restants sont examinés de la même manière pour les classes restantes et ainsi de suite, jusqu'à ce que toutes les classes soient nommées ou que la liste des noms complets à attribuer soit vide. Le tableau \ref{tab:examplecomb1tal} montre les résultats obtenus pour l'exemple précédent.
 
 %----------------------
 \begin{table}[htbp]
@@ -1878,7 +1917,7 @@ Lors de l'itération suivante, les noms complets restants sont examinés de la mêm
 \end{center}
 \caption{Exemple du processus de décision avec deux itérations (décision en gras, scores entre parenthèses).}
 %\caption{}
- \label{tab:examplecomb1}
+ \label{tab:examplecomb1tal}
 
 \end{table}
 
