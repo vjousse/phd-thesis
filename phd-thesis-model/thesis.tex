@@ -1149,7 +1149,9 @@ Imaginons la répartition des masses de probabilités suivante pour un nom complet
 
 \section{Attributions globales~: processus de décision et fonctions de croyances pour l'INL}
 
-La section \ref{attributions_globales} décrit toutes les difficultés auxquelles la phase d'attribution globale a à faire face. Une de ces principales difficultés est de résoudre les conflits qui apparaissent à la suite de la phase d'attributions locales (c'est à dire plusieurs candidats possibles pour une même classe de locuteur anonyme). Ces conflits sont dus à des connaissances imparfaites provenant de l'arbre de décision. En effet, il arrive couramment que l'arbre de décision se trompe et désigne un locuteur comme étant par exemple le locuteur suivant (en lui affectant une grosse probabilité), alors qu'il ne l'est pas. La théorie des fonctions de croyance va permettre de modéliser ces connaissances et ces incertitudes de manière à faciliter la phase d'attribution globale. Avant de finir par utiliser cette théorie, plusieurs pistes ont été explorées, elles sont décrites dans la partie X.
+La section \ref{attributions_globales} décrit toutes les difficultés auxquelles la phase d'attribution globale a à faire face. Une de ces principales difficultés est de résoudre les conflits qui apparaissent à la suite de la phase d'attributions locales (c'est à dire plusieurs candidats possibles pour une même classe de locuteur anonyme). Ces conflits sont dus à des connaissances imparfaites provenant de l'arbre de décision. 
+
+En effet, il arrive couramment que l'arbre de décision se trompe et désigne un locuteur comme étant par exemple le locuteur suivant (en lui affectant une forte probabilité), alors qu'il ne l'est pas. La théorie des fonctions de croyance va permettre de modéliser ces connaissances et ces incertitudes de manière à faciliter la phase d'attribution globale.
 
 \subsection{Formalisme et notations}
 
@@ -1162,9 +1164,9 @@ Tout d'abord, il convient d'expliciter les différentes notations qui seront util
 \subsection{Processus de décision}
 Le but du processus de décision est d'assigner un nom complet $e_i$ à un locuteur $c_l$ donné. Pour ce faire, il faut pouvoir disposer d'une information (pour chaque $e_i$ d'un locuteur $c_l$) permettant de comparer ce candidat aux autres.candidats possibles pour $c_l$. Dans cette thèse, nous utilisons un score probabiliste obtenu grâce aux fonctions de croyances. Nous décrivons dans X la manière dont ce score est obtenu. Par la suite, $\mbox{SC}_l(e_i)$ désignera le score du nom complet candidat $e_i$ pour la classe de locuteur $c_l$.
 
-Il faut donc maintenant attribuer à chaque locuteur $c_l$ un nom complet $e_i$.  Soit $f: \mathcal{C}\rightarrow \mathcal{E}$ la fonction d'assignation des noms complets aux  locuteurs. Les locuteurs étant censés être tous différents, une caractéristique importante que l'on voudrait imposer pour $f$ est l'injectivité: $f(c_l)=f(c_l') \Rightarrow c_l=c_l'$. Chaque nom complet ne peut être attribué à plus d'un locuteur. Bien sûr, certains noms complets peuvent rester non attribués et inversement, certains locuteurs peuvent rester sans étiquette. 
+Une fois ce score obtenu, il faut ensuite attribuer à chaque locuteur $c_l$ un nom complet $e_i$.  Soit $f: \mathcal{C}\rightarrow \mathcal{E}$ la fonction d'assignation des noms complets aux  locuteurs. Les locuteurs étant censés être tous différents, une caractéristique importante que l'on voudrait imposer pour $f$ est l'injectivité: $f(c_l)=f(c_l') \Rightarrow c_l=c_l'$. Chaque nom complet ne peut être attribué à plus d'un locuteur. Bien sûr, certains noms complets peuvent rester non attribués et inversement, certains locuteurs peuvent rester sans étiquette. 
 
-L'algorithme utilise est le suivant: tous les noms complets possibles sont pris en compte {\it a priori} et triés en fonction de leur score $\mbox{SC}_l(e_i)$. Premièrement, le nom complet avec le score maximum (noté $e_i^*$) est choisi, et si plusieurs locuteurs sont associés au même $e_i^*$, alors ce nom complet sera assigné au locuteur dont le score $SC_l(e_i^*)$ est maximum. Ensuite, tous les noms complets choisis sont supprimés de la liste relative aux locuteurs qui n'ont pas encore été nommés. Lors de l'itération suivante, les noms complets restants sont examinés de la même manière pour les locuteurs restants et ainsi de suite, jusqu'à ce que tous les locuteurs soient nommés ou que la liste des noms complets à attribuer soit vide. Le tableau \ref{tab:examplecomb1} montre un exemple de décision. Jacques Derrida étant choisi pour $c_{15}$ lors de la première itération, il ne peut donc pas être affecté à $c_{13}$ et $c_{14}$ lors de la deuxième. $c_{13}$ et $c_{14}$ sont alors nommés avec d'autres candidats potentiels.
+L'algorithme utilisé est le suivant: tous les noms complets possibles sont pris en compte {\it a priori} et triés en fonction de leur score $\mbox{SC}_l(e_i)$. Premièrement, le nom complet avec le score maximum (noté $e_i^*$) est choisi, et si plusieurs locuteurs sont associés au même $e_i^*$, alors ce nom complet sera assigné au locuteur dont le score $SC_l(e_i^*)$ est maximum. Ensuite, tous les noms complets choisis sont supprimés de la liste relative aux locuteurs qui n'ont pas encore été nommés. Lors de l'itération suivante, les noms complets restants sont examinés de la même manière pour les locuteurs restants et ainsi de suite, jusqu'à ce que tous les locuteurs soient nommés ou que la liste des noms complets à attribuer soit vide. Le tableau \ref{tab:examplecomb1} montre un exemple de décision. Jacques Derrida étant choisi pour $c_{15}$ lors de la première itération, il ne peut donc pas être affecté à $c_{13}$ et $c_{14}$ lors de la deuxième itération. $c_{13}$ et $c_{14}$ sont alors nommés avec d'autres candidats potentiels.
 
 %----------------------
 \begin{table}[htbp]
@@ -1174,10 +1176,10 @@ L'algorithme utilise est le suivant: tous les noms complets possibles sont pris 
 {\small
 \begin{tabular}{|c c c |} \hline
      Locuteur & $e_i^*$  (1ère itération)&    2ème itération      \\ \hline
-    $c_{13}$ &J. Derrida ($3,00$) &  \textbf{N. Demorand }($0,25$)             \\
-    $c_{14}$   &J. Derrida ($0,94$) & \textbf{A. Adler} (0,56) \\
-    $c_{15}$ &\textbf{J. Derrida} ($3,95$) & - \\
-     $c_{16}$ &\textbf{O. Duhamel } ($1,15$) & -  \\
+    $c_{13}$ &J. Derrida ($0,10$) &  \textbf{N. Demorand }($0,25$)             \\
+    $c_{14}$   &J. Derrida ($0,82$) & \textbf{A. Adler} (0,56) \\
+    $c_{15}$ &\textbf{J. Derrida} ($0.95$) & - \\
+     $c_{16}$ &\textbf{O. Duhamel } ($1.00$) & -  \\
      % $c_{17}$ &\textbf{Marc Kravetz} (0.94) & Jacques Derrida  (0.33) \\
 \hline
 \end{tabular}
@@ -1189,6 +1191,7 @@ L'algorithme utilise est le suivant: tous les noms complets possibles sont pris 
 
 \end{table}
 
+Toute la difficulté du processus de décision réside dans le calcul de ce score $\mbox{SC}_l(e_i)$. C'est en effet sur lui que va s'appuyer la décision d'attribution finale. Il doit permettre de refléter les probabilités de l'arbre tout en prenant en compte l'importance des conflits qui peuvent apparaître au sein d'une classe. La théorie des fonctions de croyance permettant de modéliser la croyance et l'incertiude, c'est elle qui est utilisée dans cette thèse pour obtenir les scores $\mbox{SC}_l(e_i)$.
 
 \subsection{Fonctions de croyances}
 
