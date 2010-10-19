@@ -1653,12 +1653,13 @@ Les noms complets des locuteurs sont présents dans la transcription, et ils est 
 
 \subsection{Némésis et LIA\_NE~:  expériences et résultats}
 
-\section{Système de décision~: une modélisation à trouver}
+\section{Système de décision~: modélisation}
 
+Comme mentionné dans la section \ref{chap:liumni}, les travaux de cette thèse font suite à ceux précédemment menés au LIUM \cite{MauclairOdyssey06,Esteve07}. Nous commençons tout d'abord par rappeler et formaliser le processus de décision utilisé dans les précédents travaux, pour ensuite présenter la solution intermédiaire développée pendant cette thèse. Nous finissons par exposer le cheminement qui nous a conduit à utiliser la théorie des fonctions de croyance.
 
 \subsection{Utilisation d'un maximum}
 
-Comme mentionné dans la section \ref{chap:liumni}, les travaux de cette thèse font suite à ceux précédemment menés au LIUM \cite{MauclairOdyssey06,Esteve07}. Le processus de décision utilisé dans ces travaux était assez rudimentaire.
+Le processus de décision utilisé dans les travaux du LIUM est assez rudimentaire.
 
 En effet, lors de la propagation des attributions locales aux tours de paroles puis aux classes de locuteur, une simple somme des probabilités $P(o_j,t_{r})$ (cf. \ref{sec:notations} pour la signification des notations) était effectuée. Ce score concernant un locuteur $e_i$ pour une classe donnée $c_l$ s'exprime comme ceci~:
 
@@ -1703,11 +1704,38 @@ Ensuite, la règle $\mathbf{R_1}$ ne prend pas en compte le conflit au sein d'une
 
 \subsection{Prise en compte du conflit}
 
-Comme décrit dans la section précédente, le conflit existant au sein des classes de locuteur peut être une information intéressante à prendre en compte lors du processus de décision. Nous proposons donc l'utilisation d'une nouvelle règle $\mathbf{R_2}$ formulée comme ceci~:
+Comme décrit dans la section précédente, le conflit (modélisé par $\beta_{il}$) existant au sein des classes de locuteur peut être une information intéressante à prendre en compte lors du processus de décision. Mais l'utilisation de $\beta_{il}$ comme unique critère de décision ne peut être une option. En effet, dans le cas où un mauvais nom complet serait le seul candidat pour une classe donnée, $\beta_{il}$ vaudrait 100 \%. Ce nom complet serait alors systématiquement choisi pour la classe de locuteur concernée, même si $s_l(e_i)$ est très faible pour cette classe. Il faut donc prendre en compte conjointement $s_l(e_i)$ et $\beta_{il}$. Pour ce faire, nous proposons l'utilisation d'une nouvelle règle $\mathbf{R_2}$~:
 
 \begin{equation} \label{eq:SC}
    \mbox {SC}_l(e_i)=s_{l}(e_i) \beta_{il}
 \end{equation}
+
+Cette règle permet de normaliser le score de chaque locuteur en fonction du score global de la classe. Lorsqu'un nom complet est le seul candidat pour une classe, son score reste inchangé. Lorsqu'il y a plusieurs candidats pour une classe, la normalisation permet de prendre en compte la contribution du score par rapport à l'ensemble des scores de la classe. Les scores en forte concurrence sont alors pénalisés. Cette normalisation est particulièrement efficace lorsque plusieurs noms complets potentiels ont des scores élevés.
+
+Reprenons l'exemple décrit dans le tableau \ref{tab:examplecombbeta} en utilisant cette fois ci ${SC}_l(e_i)$ pour prendre la décision. Le tableau \ref{tab:examplecombbeta} décrit ce cas de figure.
+
+\begin{table}[htbp]
+\caption{Exemple d'une assignation initiale multiple prenant en compte le conflit}
+\begin{center}
+{\small
+\begin{tabular}{|c c c c c|} \hline
+    Locuteur & nom complet $e_i^*$ &$s_l(e_i^*)$     &  $\beta_{il}$    & $\mbox{SC}_l(e_i^*)$       \\ \hline
+    $c_{13}$ &Jacques Derrida  &    $\mathbf{8,58}$ &  $35\%$       &  $3,00$     \\
+    $c_{14}$   &Jacques Derrida &  $1,67$ &  $56\%$ &  $0,94$\\
+    $c_{15}$ &Jacques Derrida  & $4,94$ & $\mathbf{80\%}$ &  $\mathbf{3,95}$\\
+\hline
+\end{tabular}
+}
+\end{center}
+
+\label{tab:examplecombbeta}
+
+\end{table}
+
+Dans le précédent exemple, \emph{Jacques Derrida} était affecté à la classe de locuteur $c_{13}$. Avec l'utilisation de ${SC}_l(e_i)$ pour prendre la décision, \emph{Jacques Derrida} est maintenant attribué à la classe $c_{15}$~: celle ou il obtient un score $s_l(e_i^*)$ élevé et pour laquelle il y a peu de conflit ($\beta_{il}$ est égal à $80 \%$).
+
+\todo{Donner expériences montrant la différence entre les deux approches}
+
 
 \subsection{Utilisation de la Théorie des croyances}
 
