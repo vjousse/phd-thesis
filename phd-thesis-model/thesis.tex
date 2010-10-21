@@ -1474,30 +1474,14 @@ Pour une évaluation en terme de nombre de locuteurs, dans le même cas de figure,
 
 D'un point de vue applicatif, la métrique exprimée en durée est préférable si les locuteurs considérés comme importants correspondent aux locuteurs s'exprimant beaucoup. En revanche, si l'application cherche à nommer le plus possible de locuteurs, il est plus intéressant d'évaluer les performances en terme de nombre de locuteurs.
 
-\subsection{Système de segmentation et de classification automatique du LIUM}
-
-Comme décrit dans \ref{ssec:ral}, la tâche de segmentation et de classification en locuteur consiste à annoter des régions du signal audio. Ces annotations peuvent être de plusieurs types : des étiquettes représentant les différents locuteurs, le genre des locuteurs, le type de canal (radio, studio) ou encore le type d'environnement sonore comme le bruit, la musique, \dots Dans la tâche de segmentation, les étiquettes représentant les locuteurs sont anonymes. Le système du LIUM est entièrement décrit dans \cite{liumspkdiarization}, ce qui suit en donne un court aperçu.
-
-Le système utilisé au LIUM (LIUM\_SpkDiarization) utilise une segmentation basée sur GLR (Generalized Likelihood Ratio) et BIC \cite{Siegler97automaticsegmentation} (Bayesian Information Criterion). Une première passe permet de détecter les points de rupture du signal constituant les frontières des segments. Ces points de rupture sont détectés en utilisant la mesure de vraisemblance GLR calculée (grâce à des GMM à matrice de covariance pleine) sur une fenêtre de 5 secondes tout le long du signal. Lorsque la mesure atteint un maximum dans cette fenêtre de 5 secondes, le système considère que c'est un point de rupture. Une seconde passe est ensuite effectuée afin de fusionner les segments correspondant au même locuteur, du début à la fin de l'enregistrement. La mesure utilisée pour le regroupement est la distance BIC utilisant des matrices de covariance pleines. 
+\subsection{Protocole d'évaluation}
 
 
-L'algorithme utilisé pour regrouper les segments au sein de classes se base sur une classification hiérarchique. Au départ, chaque classe est constituée d'un unique segment, chaque classe étant modélisée avec une GMM à matrice de covariance pleine. La mesure utilisée pour regrouper les classes entre elles, et pour stopper le regroupement est la mesure BIC. Les classes les plus proches sont regroupées tant que la distance BIC entre ces classes est inférieure à 0.
 
-La détection du genre est réalisée grâce à des GMM (avec une diagonale à 128 composantes) pour chacun des quatre combinaisons possibles entre le genre (homme/femme) et le canal (studio/téléphone). Chaque classe est étiquetée en fonction de la GMM qui maximise la vraisemblance avec la classe en question. Chaque modèle a été préalablement appris en utilisant le corpus d'apprentissage de la campagne ESTER.
 
-\subsection{Système de transcription automatique du LIUM}
+\subsection{Résultats avec liste de locuteurs globale et prise en compte du genre via le prénom}
 
-\subsection{Légende}
-
-\textit{\textbf{Trans.}: Transcription \textbf{M}anuelle ou \textbf{A}utomatique.\newline
-\textbf{Seg/Class.}: segmentation/classification manuelles ou automatiques.\newline
-\textbf{R, P}: rappel et précision calculés en en durée.\newline
-\textbf{ErrDur}: Taux d'erreur en durée.\newline
-\textbf{ErrLoc} : Taux d'erreur en nombre de locuteurs.\newline}
-
-\subsection{Résultats avec liste de locuteurs globale}
-
-Le tableau \ref{tab:results_liumni} présente les résultats du système sur les corpus de développement et de test, en utilisant des transcriptions totalement manuelles ou totalement automatiques. Le système de détection d'entités nommées utilisé est LIA\_NE, la liste de locuteurs d'ESTER 1 est utilisée pour filtrer les décisions. Le genre des locuteurs est pris en compte via la liste des locuteurs (le genre des locuteurs étant extrait des transcriptions de référence).
+Le tableau \ref{tab:results_belief} présente les résultats du système sur les corpus de développement et de test, en utilisant des transcriptions totalement manuelles. Le système de détection d'entités nommées utilisé est LIA\_NE, la liste de locuteurs du corpus d'apprentissage ESTER 1 est utilisée pour filtrer les décisions. Le genre des locuteurs est pris en compte via la liste de prénoms décrite dans la section \ref{sec:genre}.
 
 \begin{table}[h]
 \begin{center}
@@ -1508,130 +1492,21 @@ Le tableau \ref{tab:results_liumni} présente les résultats du système sur les co
 \hline
 \multicolumn{6}{|c|}{Corpus de Développement} \\
 \hline
-\textbf{M} & \textbf{M} & 87,36\% & 95,69\% & 11,67\% & 14,11\% \\ \hline
-\textbf{A} & \textbf{A} & 29,31\% & 59,98\% & 64,49\% & -\% \\
+\textbf{M} & \textbf{M} & 82,96\% & 92,64\% & 15,76\% & 15,64\% \\ \hline
 \hline
 \hline
 \multicolumn{6}{|c|}{Corpus de Test} \\
 \hline
-\textbf{M} & \textbf{M} & 85,99\% & 95,72\% & 12,88\% & 18,26\% \\ \hline
-\textbf{A} & \textbf{A} & 29,48\% & 69,42\% & 64,46\% & -\% \\
+\textbf{M} & \textbf{M} & 77,20\% & 93,28\% & 22,80\% & 29,03\% \\ \hline
 \hline
 \end{tabular}
 \end{center}
-\caption{Système proposé avec une transcription enrichie manuelle ou automatique en utilisant une liste de locuteurs}
-\label{tab:results_liumni}
-\end{table}
-
-\subsection{Résultats avec liste de locuteurs par show}
-
-\begin{table}[h]
-\begin{center}
-\begin{tabular}{|c|c|c|c|c|c|}
-\cline{3-6}
-\multicolumn{2}{c|}{} & \multicolumn{3}{|c|}{En durée}  & En nb de Locuteur \\ \hline
-\textbf{Trans.} & \textbf{Seg/Class.} & \textbf{R} & \textbf{P} & \textbf{ErrDur} & \textbf{ErrLoc} \\ \hline
-\hline
-\multicolumn{6}{|c|}{Corpus de Développement} \\
-\hline
-\textbf{M} & \textbf{M} & 88,67\% & 97,31\% & 10,45\% & 12,45\% \\ \hline
-\textbf{A} & \textbf{A} & 28,80\% & 69,65\% & 64,91\% & -\% \\
-\hline
-\hline
-\multicolumn{6}{|c|}{Corpus de Test} \\
-\hline
-\textbf{M} & \textbf{M} & 86,85\% & 96,56\% & 12,10\% & 17,01\% \\ \hline
-\textbf{A} & \textbf{A} & 28,83\% & 73,77\% & 64,84\% & -\% \\
-\hline
-\end{tabular}
-\end{center}
-\caption{Système proposé avec une transcription enrichie manuelle ou automatique en utilisant une liste de locuteurs du show}
-\label{tab:results_liumni_liste_show}
+\caption{Système proposé avec une transcription enrichie manuelle en utilisant une liste de locuteurs}
+\label{tab:results_belief}
 \end{table}
 
 
-\subsection{Impact de la prise en compte du genre}
 
-Le tableau \ref{tab:results_liumni_sansgenre} présente les mêmes résultats que le tableau \ref{tab:results_liumni} sans utiliser l'information sur le genre des locuteurs. La liste des locuteurs d'ESTER 1 (tous corpus confondus) est utilisée, mais sans prendre en compte le genre du locuteur.
-
-Lorsque le genre n'est pas utilisé pour affiner les décisions, les performances du système se dégradent, que ce soit sur les transcriptions automatiques ou manuelles. Sur les transcriptions manuelles, le taux d'erreur augmente d'environ 3\% en absolu. Sur les transcriptions automatiques, le taux d'erreur augmente très peu sur les corpus de développement, mais augmente de 4\% sur le corpus de test. Le genre des locuteurs étant détecté automatiquement, il est donc soumis à des erreurs \todo{donner le taux d'erreur}. Mais même si cette détection comporte des erreurs, l'utiliser améliore quand même les performances.
-
-\begin{table}[h]
-\begin{center}
-\begin{tabular}{|c|c|c|c|c|c|}
-\cline{3-6}
-\multicolumn{2}{c|}{} & \multicolumn{3}{|c|}{En durée}  & En nb de Locuteur \\ \hline
-\textbf{Trans.} & \textbf{Seg/Class.} & \textbf{R} & \textbf{P} & \textbf{ErrDur} & \textbf{ErrLoc} \\ \hline
-\hline
-\multicolumn{6}{|c|}{Corpus de Développement} \\
-\hline
-\textbf{M} & \textbf{M} & 84,30\% & 90,60\% & 14,55\% & 17,84\% \\ \hline
-\textbf{A} & \textbf{A} & 28,56\% & 54,08\% & 65,65\% & - \\
-\hline
-\hline
-\multicolumn{6}{|c|}{Corpus de Test} \\
-\hline
-\textbf{M} & \textbf{M} & 84,12\% & 93.40\% & 14,68\% & 20,33\% \\ \hline
-\textbf{A} & \textbf{A} & 24,61\% & 58,82\% & 68,78\% & - \\
-\hline
-\end{tabular}
-\end{center}
-\caption{Système proposé avec une transcription enrichie manuelle ou automatique en utilisant une liste de locuteurs, sans prise en compte du genre}
-\label{tab:results_liumni_sansgenre}
-\end{table}
-
-
-\subsection{Système ouvert sans liste de locuteurs et de leur genre}
-
-\ref{tab:results_liumni_sansliste} \ref{tab:results_liumni_genre_prenom}
-
-\begin{table}[h]
-\begin{center}
-\begin{tabular}{|c|c|c|c|c|c|}
-\cline{3-6}
-\multicolumn{2}{c|}{} & \multicolumn{3}{|c|}{En durée}  & En nb de Locuteur \\ \hline
-\textbf{Trans.} & \textbf{Seg/Class.} & \textbf{R} & \textbf{P} & \textbf{ErrDur} & \textbf{ErrLoc} \\ \hline
-\hline
-\multicolumn{6}{|c|}{Corpus de Développement} \\
-\hline
-\textbf{M} & \textbf{M} & 67,23\% & 93,12\% & 30,04\% & 28,63\% \\ \hline
-\textbf{A} & \textbf{A} & 20,26\% & 76,84\% & 72,73\% & - \\
-\hline
-\hline
-\multicolumn{6}{|c|}{Corpus de Test} \\
-\hline
-\textbf{M} & \textbf{M} & 71,46\% & 95,03\% & 26,11\% & 27,80\% \\ \hline
-\textbf{A} & \textbf{A} & 20,60\% & 64,03\% & 72,32\% & - \\
-\hline
-\end{tabular}
-\end{center}
-\caption{Système de base avec une transcription enrichie manuelle ou automatique sans liste de locuteurs et sans genre}
-\label{tab:results_liumni_sansliste}
-\end{table}
-
-\begin{table}[h]
-\begin{center}
-\begin{tabular}{|c|c|c|c|c|c|}
-\cline{3-6}
-\multicolumn{2}{c|}{} & \multicolumn{3}{|c|}{En durée}  & En nb de Locuteur \\ \hline
-\textbf{Trans.} & \textbf{Seg/Class.} & \textbf{R} & \textbf{P} & \textbf{ErrDur} & \textbf{ErrLoc} \\ \hline
-\hline
-\multicolumn{6}{|c|}{Corpus de Développement} \\
-\hline
-\textbf{M} & \textbf{M} & 70,97\% & 97,89\% & 26,55\% & 22,82\% \\ \hline
-\textbf{A} & \textbf{A} & 20,91\% & 80,64\% & 72,10\% & - \\
-\hline
-\hline
-\multicolumn{6}{|c|}{Corpus de Test} \\
-\hline
-\textbf{M} & \textbf{M} & 74,58\% & 97,85\% & 23,23\% & 24,90\% \\ \hline
-\textbf{A} & \textbf{A} & 23,77\% & 74,53\% & 69,40\% & - \\
-\hline
-\end{tabular}
-\end{center}
-\caption{Système proposé avec une transcription enrichie manuelle ou automatique sans liste de locuteurs, et avec prise en compte du genre par le prénom}
-\label{tab:results_liumni_genre_prenom}
-\end{table}
 
 \section{Bilan}
       Les travaux ont beaucoup porté sur la manière d'étiqueter les suivant/précédent/courant/autre => Un papier montre que les SCT > N-grammes. Aller plus loin : améliorer le processus de décision qui vient après ces décisions locales
@@ -1783,12 +1658,162 @@ locuteur $t_{k+1}$ est masculin).}
 \section{Applications et connaissances a priori}
 liste de locuteurs, genre des locuteurs
 
+\subsection{Résultats avec liste de locuteurs globale}
+
+Le tableau \ref{tab:results_liumni} présente les résultats du système sur les corpus de développement et de test, en utilisant des transcriptions totalement manuelles ou totalement automatiques. Le système de détection d'entités nommées utilisé est LIA\_NE, la liste de locuteurs d'ESTER 1 est utilisée pour filtrer les décisions. Le genre des locuteurs est pris en compte via la liste des locuteurs (le genre des locuteurs étant extrait des transcriptions de référence).
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|}
+\cline{3-6}
+\multicolumn{2}{c|}{} & \multicolumn{3}{|c|}{En durée}  & En nb de Locuteur \\ \hline
+\textbf{Trans.} & \textbf{Seg/Class.} & \textbf{R} & \textbf{P} & \textbf{ErrDur} & \textbf{ErrLoc} \\ \hline
+\hline
+\multicolumn{6}{|c|}{Corpus de Développement} \\
+\hline
+\textbf{M} & \textbf{M} & 87,36\% & 95,69\% & 11,67\% & 14,11\% \\ \hline
+\textbf{A} & \textbf{A} & 29,31\% & 59,98\% & 64,49\% & -\% \\
+\hline
+\hline
+\multicolumn{6}{|c|}{Corpus de Test} \\
+\hline
+\textbf{M} & \textbf{M} & 85,99\% & 95,72\% & 12,88\% & 18,26\% \\ \hline
+\textbf{A} & \textbf{A} & 29,48\% & 69,42\% & 64,46\% & -\% \\
+\hline
+\end{tabular}
+\end{center}
+\caption{Système proposé avec une transcription enrichie manuelle ou automatique en utilisant une liste de locuteurs}
+\label{tab:results_liumni}
+\end{table}
+
+\subsection{Résultats avec liste de locuteurs par show}
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|}
+\cline{3-6}
+\multicolumn{2}{c|}{} & \multicolumn{3}{|c|}{En durée}  & En nb de Locuteur \\ \hline
+\textbf{Trans.} & \textbf{Seg/Class.} & \textbf{R} & \textbf{P} & \textbf{ErrDur} & \textbf{ErrLoc} \\ \hline
+\hline
+\multicolumn{6}{|c|}{Corpus de Développement} \\
+\hline
+\textbf{M} & \textbf{M} & 88,67\% & 97,31\% & 10,45\% & 12,45\% \\ \hline
+\textbf{A} & \textbf{A} & 28,80\% & 69,65\% & 64,91\% & -\% \\
+\hline
+\hline
+\multicolumn{6}{|c|}{Corpus de Test} \\
+\hline
+\textbf{M} & \textbf{M} & 86,85\% & 96,56\% & 12,10\% & 17,01\% \\ \hline
+\textbf{A} & \textbf{A} & 28,83\% & 73,77\% & 64,84\% & -\% \\
+\hline
+\end{tabular}
+\end{center}
+\caption{Système proposé avec une transcription enrichie manuelle ou automatique en utilisant une liste de locuteurs du show}
+\label{tab:results_liumni_liste_show}
+\end{table}
+
+
+\subsection{Impact de la prise en compte du genre}
+
+Le tableau \ref{tab:results_liumni_sansgenre} présente les mêmes résultats que le tableau \ref{tab:results_liumni} sans utiliser l'information sur le genre des locuteurs. La liste des locuteurs d'ESTER 1 (tous corpus confondus) est utilisée, mais sans prendre en compte le genre du locuteur.
+
+Lorsque le genre n'est pas utilisé pour affiner les décisions, les performances du système se dégradent, que ce soit sur les transcriptions automatiques ou manuelles. Sur les transcriptions manuelles, le taux d'erreur augmente d'environ 3\% en absolu. Sur les transcriptions automatiques, le taux d'erreur augmente très peu sur les corpus de développement, mais augmente de 4\% sur le corpus de test. Le genre des locuteurs étant détecté automatiquement, il est donc soumis à des erreurs \todo{donner le taux d'erreur}. Mais même si cette détection comporte des erreurs, l'utiliser améliore quand même les performances.
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|}
+\cline{3-6}
+\multicolumn{2}{c|}{} & \multicolumn{3}{|c|}{En durée}  & En nb de Locuteur \\ \hline
+\textbf{Trans.} & \textbf{Seg/Class.} & \textbf{R} & \textbf{P} & \textbf{ErrDur} & \textbf{ErrLoc} \\ \hline
+\hline
+\multicolumn{6}{|c|}{Corpus de Développement} \\
+\hline
+\textbf{M} & \textbf{M} & 84,30\% & 90,60\% & 14,55\% & 17,84\% \\ \hline
+\textbf{A} & \textbf{A} & 28,56\% & 54,08\% & 65,65\% & - \\
+\hline
+\hline
+\multicolumn{6}{|c|}{Corpus de Test} \\
+\hline
+\textbf{M} & \textbf{M} & 84,12\% & 93.40\% & 14,68\% & 20,33\% \\ \hline
+\textbf{A} & \textbf{A} & 24,61\% & 58,82\% & 68,78\% & - \\
+\hline
+\end{tabular}
+\end{center}
+\caption{Système proposé avec une transcription enrichie manuelle ou automatique en utilisant une liste de locuteurs, sans prise en compte du genre}
+\label{tab:results_liumni_sansgenre}
+\end{table}
+
+
+\subsection{Système ouvert sans liste de locuteurs et de leur genre}
+
+\ref{tab:results_liumni_sansliste} \ref{tab:results_liumni_genre_prenom}
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|}
+\cline{3-6}
+\multicolumn{2}{c|}{} & \multicolumn{3}{|c|}{En durée}  & En nb de Locuteur \\ \hline
+\textbf{Trans.} & \textbf{Seg/Class.} & \textbf{R} & \textbf{P} & \textbf{ErrDur} & \textbf{ErrLoc} \\ \hline
+\hline
+\multicolumn{6}{|c|}{Corpus de Développement} \\
+\hline
+\textbf{M} & \textbf{M} & 67,23\% & 93,12\% & 30,04\% & 28,63\% \\ \hline
+\textbf{A} & \textbf{A} & 20,26\% & 76,84\% & 72,73\% & - \\
+\hline
+\hline
+\multicolumn{6}{|c|}{Corpus de Test} \\
+\hline
+\textbf{M} & \textbf{M} & 71,46\% & 95,03\% & 26,11\% & 27,80\% \\ \hline
+\textbf{A} & \textbf{A} & 20,60\% & 64,03\% & 72,32\% & - \\
+\hline
+\end{tabular}
+\end{center}
+\caption{Système de base avec une transcription enrichie manuelle ou automatique sans liste de locuteurs et sans genre}
+\label{tab:results_liumni_sansliste}
+\end{table}
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|}
+\cline{3-6}
+\multicolumn{2}{c|}{} & \multicolumn{3}{|c|}{En durée}  & En nb de Locuteur \\ \hline
+\textbf{Trans.} & \textbf{Seg/Class.} & \textbf{R} & \textbf{P} & \textbf{ErrDur} & \textbf{ErrLoc} \\ \hline
+\hline
+\multicolumn{6}{|c|}{Corpus de Développement} \\
+\hline
+\textbf{M} & \textbf{M} & 70,97\% & 97,89\% & 26,55\% & 22,82\% \\ \hline
+\textbf{A} & \textbf{A} & 20,91\% & 80,64\% & 72,10\% & - \\
+\hline
+\hline
+\multicolumn{6}{|c|}{Corpus de Test} \\
+\hline
+\textbf{M} & \textbf{M} & 74,58\% & 97,85\% & 23,23\% & 24,90\% \\ \hline
+\textbf{A} & \textbf{A} & 23,77\% & 74,53\% & 69,40\% & - \\
+\hline
+\end{tabular}
+\end{center}
+\caption{Système proposé avec une transcription enrichie manuelle ou automatique sans liste de locuteurs, et avec prise en compte du genre par le prénom}
+\label{tab:results_liumni_genre_prenom}
+\end{table}
 
 
 \section{Métriques~: de la pertinence des métriques utilisées}
 
 
 \section{Transcriptions automatiques~: performances et limites}
+
+\subsection{Système de segmentation et de classification automatique du LIUM}
+
+Comme décrit dans \ref{ssec:ral}, la tâche de segmentation et de classification en locuteur consiste à annoter des régions du signal audio. Ces annotations peuvent être de plusieurs types : des étiquettes représentant les différents locuteurs, le genre des locuteurs, le type de canal (radio, studio) ou encore le type d'environnement sonore comme le bruit, la musique, \dots Dans la tâche de segmentation, les étiquettes représentant les locuteurs sont anonymes. Le système du LIUM est entièrement décrit dans \cite{liumspkdiarization}, ce qui suit en donne un court aperçu.
+
+Le système utilisé au LIUM (LIUM\_SpkDiarization) utilise une segmentation basée sur GLR (Generalized Likelihood Ratio) et BIC \cite{Siegler97automaticsegmentation} (Bayesian Information Criterion). Une première passe permet de détecter les points de rupture du signal constituant les frontières des segments. Ces points de rupture sont détectés en utilisant la mesure de vraisemblance GLR calculée (grâce à des GMM à matrice de covariance pleine) sur une fenêtre de 5 secondes tout le long du signal. Lorsque la mesure atteint un maximum dans cette fenêtre de 5 secondes, le système considère que c'est un point de rupture. Une seconde passe est ensuite effectuée afin de fusionner les segments correspondant au même locuteur, du début à la fin de l'enregistrement. La mesure utilisée pour le regroupement est la distance BIC utilisant des matrices de covariance pleines. 
+
+
+L'algorithme utilisé pour regrouper les segments au sein de classes se base sur une classification hiérarchique. Au départ, chaque classe est constituée d'un unique segment, chaque classe étant modélisée avec une GMM à matrice de covariance pleine. La mesure utilisée pour regrouper les classes entre elles, et pour stopper le regroupement est la mesure BIC. Les classes les plus proches sont regroupées tant que la distance BIC entre ces classes est inférieure à 0.
+
+La détection du genre est réalisée grâce à des GMM (avec une diagonale à 128 composantes) pour chacun des quatre combinaisons possibles entre le genre (homme/femme) et le canal (studio/téléphone). Chaque classe est étiquetée en fonction de la GMM qui maximise la vraisemblance avec la classe en question. Chaque modèle a été préalablement appris en utilisant le corpus d'apprentissage de la campagne ESTER.
+
+\subsection{Système de transcription automatique du LIUM}
 
 \subsection{Légende}
 
