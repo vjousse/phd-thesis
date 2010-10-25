@@ -25,7 +25,7 @@
 \minitoc
 \newpage
 
-La reconnaissance automatique de la parole (RAP) a pour but de transcrire sous forme textuelle un signal audio. La RAP est un problème complexe, c'est pourquoi seuls des sous-problèmes ont été résolus à ce jour. Des contraintes sont imposées afin de réduire la complexité du problème en ciblant des applications bien particulières. Un système idéal serait capable de transcrire n'importe quel locuteur (qu'il le connaisse ou non), dans n'importe quel environnement sonore (studio, téléphone, dans la rue, etc.) en utilisant un registre de langage et une locution spontanés. Malheureusement, un tel système n'existe pas et des contraintes doivent lui être ajoutées pour fonctionner. Ces contraintes peuvent être la mise à contribution du locuteur pour apprendre sa voix afin de mieux la reconnaître, ou encore la réduction du nombre de phrases que le système va être capable de reconnaître.
+La reconnaissance automatique de la parole (RAP) a pour but de transcrire sous forme textuelle un signal audio. La RAP est un problème complexe, c'est pourquoi seuls des sous-problèmes ont été résolus à ce jour. Des contraintes sont imposées afin de réduire la complexité du problème en ciblant des applications bien particulières. Un système idéal serait capable de transcrire n'importe quel locuteur (qu'il le connaisse ou non), dans n'importe quel environnement sonore (en studio, au téléphone, dans la rue, etc.) en utilisant un registre de langage et une locution spontanés. Malheureusement, un tel système n'existe pas et des contraintes doivent lui être ajoutées pour fonctionner. Ces contraintes peuvent être la mise à contribution du locuteur pour apprendre sa voix afin de mieux la reconnaître, ou encore la réduction du nombre de phrases que le système va être capable de reconnaître.
 
 Les systèmes de RAP peuvent êtres classés selon plusieurs critères~: 
 
@@ -44,14 +44,14 @@ Les applications de la RAP sont multiples et peuvent aller de la simple commande
 
 \section{Différents types de systèmes}
 
-Les progrès réalisés par les techniques de RAP ont permis aux systèmes d'évoluer et d'être de plus en performants. Des systèmes de commandes vocales ne reconnaissant que de simples mots aux systèmes de transcriptions de journaux d'informations la complexité des SRAP ne cesse d'augmenter. Nous décrivons ici les principaux systèmes mis en place au fil des années.
+Les progrès réalisés par les techniques de RAP ont permis aux systèmes d'évoluer et d'être de plus en performants. Des systèmes de commandes vocales ne reconnaissant que de simples mots aux systèmes de transcriptions de journaux d'informations la complexité des SRAP (Système de Reconnaissance Automatique de la Parole) ne cesse d'augmenter. Nous décrivons ici les principaux systèmes mis en place au fil des années.
 
 \subsection{Commandes vocales}
 
 Les systèmes à commandes vocales sont des systèmes que l'on trouve abondamment dans les systèmes embarqués. Ils vont permettre une interaction entre l'utilisateur et la machine grâce à des commandes vocales. Ces commandes sont de simples mots isolés que l'utilisateur doit prononcer pour interagir avec le système. Ils se caractérisent par une taille de vocabulaire réduite et une indépendance vis-à-vis du locuteur. Les cas d'utilisation sont nombreux et il serait impossible de tous les citer ; en voici un bref aperçu :
 
 \begin{itemize}
-  \item jeux vidéo : la console portable DS de Nintendo embarque un micro pour permettre l'interaction homme/machine grâce à de mots simples.
+  \item jeux vidéo : la console portable DS de Nintendo embarque un micro pour permettre l'interaction homme/machine grâce à des mots simples.
   \item téléphones portables : beaucoup de téléphones récents permettent de naviguer dans l'interface grâce à la voix.
   \item aide aux handicapés : de tels systèmes peuvent pallier à un organe défaillant ou peuvent être utilisés dans des systèmes destinés à la ré\-éducation d'enfants sourds.
 \end{itemize}
@@ -93,7 +93,9 @@ Au milieu des années 90 sont apparues des campagnes d'évaluation ayant pour but 
 
 \label{ssec:trans_broadcast}
 
-Les systèmes de transcription enrichie ont pour but de transcrire des documents audio non préparés en essayant d'extraire le maximum d'informations de l'enregistrement. Ces informations concernent notamment les locuteurs du document mais aussi les zones de musique ou de publicité. On entend par non préparé un document qui n'a pas été produit dans le but d'être transcrit, à la différence des corpus décrits dans la section précédente. Ceci correspond notamment aux enregistrements de journaux radiophoniques ou d'émissions de télévision. Le mode d'élocution n'est pas contraint et la parole peut être préparée (journaliste qui présente les informations) ou spontanée (interview d'un invité). Le vocabulaire utilisé est très grand, il dépasse généralement les 65~000 mots. Ce type de système est complètement indépendant du locuteur et doit pouvoir s'adapter à l'environnement utilisé lors de l'enregistrement (environnement bruité, studio, téléphone, etc.). 
+Les systèmes de transcription enrichie ont pour but de transcrire des documents audio non préparés en essayant d'extraire le maximum d'informations de l'enregistrement. Le signal audio est très riche en informations (méta-données) susceptibles de venir compléter la transcription en mots. Ces méta-données peuvent être de différentes natures comme les frontières des phrases, les informations sur les locuteurs, les zones de musique, de publicité ou encore les hésitations des locuteurs.
+
+On entend par non préparé un document qui n'a pas été produit dans le but d'être transcrit, à la différence des corpus décrits dans la section précédente. Ceci correspond notamment aux enregistrements de journaux radiophoniques, de comptes-rendus de réunions ou d'émissions de télévision. Le mode d'élocution n'est pas contraint et la parole peut être préparée (journaliste qui présente les informations) ou spontanée (interview d'un invité). Le vocabulaire utilisé est très grand, il dépasse généralement les 65~000 mots. Ce type de système est complètement indépendant du locuteur et doit pouvoir s'adapter à l'environnement utilisé lors de l'enregistrement (environnement bruité, studio, téléphone, etc.). 
 
 Un système de transcription enrichie fait intervenir plusieurs modules, dont les deux principaux sont un module de reconnaissance automatique du locuteur et un module de reconnaissance automatique de la parole. Ces modules sont décrits plus en détail dans les sections suivantes.
 
