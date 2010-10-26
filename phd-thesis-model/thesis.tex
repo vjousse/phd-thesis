@@ -103,21 +103,22 @@ Les documents que les systèmes de transcription enrichies sont capables de trait
 
 %Les campagnes d'évaluation se sont adaptées et de nouveaux corpus constitués d'enregistrements de journaux d'informations radiophoniques ont été constitués. Même si ces corpus contiennent beaucoup de parole qui a été préparée et écrite à l'avance par les journalistes, elle est néanmoins convertie à l'oral. À la différence des corpus précédents qui n'étaient constitués que de corpus écrits ensuite lus tel quel. De plus, ces corpus contiennent aussi de la parole plus spontanée, puisque beaucoup d'émissions font intervenir des invités ou interrogent des personnes dans la rue. À noter que ces corpus sont aussi fortement multi-locuteurs. Avec ces nouvelles campagnes d'évaluations, les systèmes sont confrontés à des corpus qui se rapprochent de plus en plus de dialogues complètement spontanés entre plusieurs personnes (même si comme nous l'avons fait remarquer, une partie de la parole est encore relativement préparée).
 
-Aux États-Unis, le DARPA puis le NIST ont organisés des campagnes d'évaluations des systèmes de transcription enrichie (\emph{Rich Transcription, RT}) d'émissions \cite{Graff96the1996} à partir de 1996. En France, c'est la campagne ESTER \cite{Gravier04,Galliano06} organisée par l'AFCP, la DGA et ELRA qui a permis de réaliser les premières évaluations des systèmes de reconnaissance Français sur des journaux d'informations radiophoniques. Une deuxième campagne d'évaluation Française nommée ESTER II \cite{Ester2} a ensuite été menée de 2008 à 2009 de manière à mesurer les progrès des différents systèmes.
-
-La figure \ref{fig:standford2003} \cite{Pallett2003} présente l'évolution des performances des systèmes de reconnaissance de la parole de la fin des années 90 à 2003. Les performances des systèmes de transcription sur des émissions radiophoniques anglaises sont maintenant très bonnes (10~\% de taux d'erreur). On observe aussi des taux similaires sur les campagnes d'évaluation ESTER I et ESTER II. Les défis futurs de tels systèmes portent sur l'adaptation à d'autres langues et à d'autre domaines, mais aussi sur leur capacité à \emph{passer à l'échelle}. En effet, le type de données à traiter évolue de plus en plus (données provenant de plusieurs capteurs, de la vidéo et du son, etc.) et la taille de ces données ne cesse de croître. Un bon exemple est la \emph{Smart Room} NIST \cite{Standford2003} qui génère environ 1Go de données par minute, issues de multiples capteurs. La nécessité de prendre en compte cette problématique devient alors évidente.
-%Cette campagne s'est aussi caractérisée par l'évaluation des systèmes de détection des Entités Nommées.
+Aux États-Unis, le DARPA puis le NIST ont organisés des campagnes d'évaluations des systèmes de transcription enrichie (\emph{Rich Transcription, RT}) \cite{Graff96the1996} à partir de 1996. En France, c'est la campagne ESTER \cite{Gravier04,Galliano06} organisée par l'AFCP, la DGA et ELRA qui a permis de réaliser les premières évaluations des systèmes de reconnaissance Français sur des journaux d'informations radiophoniques. Une deuxième campagne d'évaluation Française nommée ESTER II \cite{Ester2} a ensuite été menée de 2008 à 2009 de manière à mesurer les progrès des différents systèmes.
 
 \begin{figure}[h]
 
 \begin{center}
-\includegraphics[width=0.9\columnwidth]{img/standford2003.png}
+\includegraphics[width=\columnwidth]{img/standford2003.png}
 
 \caption{Évolution des taux d'erreur en reconnaissance de la parole}
 \label{fig:standford2003}
 \end{center}
 
 \end{figure}
+
+
+La figure \ref{fig:standford2003} \cite{Pallett2003} présente l'évolution des performances des systèmes de reconnaissance de la parole de la fin des années 90 à 2003. Les performances des systèmes de transcription sur des émissions radiophoniques anglaises sont maintenant très bonnes (10~\% de taux d'erreur). On observe aussi des taux similaires sur les campagnes d'évaluation ESTER I et ESTER II. Les défis futurs de tels systèmes portent sur l'adaptation à d'autres langues et à d'autre domaines, mais aussi sur leur capacité à \emph{passer à l'échelle}. En effet, le type de données à traiter évolue de plus en plus (données provenant de plusieurs capteurs, de la vidéo et du son, etc.) et la taille de ces données ne cesse de croître. Un bon exemple est la \emph{Smart Room} NIST \cite{Standford2003} qui génère environ 1Go de données par minute, issues de multiples capteurs. La nécessité de prendre en compte cette problématique devient alors évidente.
+%Cette campagne s'est aussi caractérisée par l'évaluation des systèmes de détection des Entités Nommées.
 
 \section{Transcription automatique de la parole}
 \label{ssec:trans_auto}
@@ -160,7 +161,7 @@ Deux types de modèles probabilistes sont utilisés pour la recherche de la séquen
 
 \subsection{Modèles acoustiques}
 
-Il est impossible pour un système de transcription d'exploiter le signal de la parole directement. En effet, il contient bon nombre d'informations qui ne sont pas utiles au décodage de la parole (mais qui le seront pour la reconnaissance du locuteur, cf \ref{ssub:decoupage_regroupement}) et qui peuvent le parasiter : des informations sur le locuteur, sur les conditions d'enregistrement, etc. Le signal de la parole étant très variable et redondant, il nécessite de toute façon des traitements spécifiques avant de pouvoir être exploité. Ces traitements (appelés paramétrisation) vont consister à extraire du signal les paramètres qui sont dépendants de la parole prononcée.
+Il est impossible pour un système de transcription d'exploiter le signal de la parole directement. En effet, il contient bon nombre d'informations qui ne sont pas utiles au décodage de la parole (mais qui le seront pour la reconnaissance du locuteur, cf \ref{ssub:decoupage_regroupement}) et qui peuvent le parasiter. Le signal contient en effet, en plus des informations permettant de décoder les mots, des informations sur les locuteurs, sur les conditions d'enregistrement, etc. Le signal de la parole étant naturellement très variable et redondant, il nécessite de toute façon des traitements spécifiques avant de pouvoir être exploité. Ces traitements (appelés paramétrisation) vont consister à extraire du signal les paramètres qui sont dépendants de la parole prononcée.
 
 Plusieurs techniques de paramétrisation existent, les plus utilisées sont :
 \begin{itemize}
@@ -184,7 +185,7 @@ L'apprentissage de ces modèles acoustiques s'effectue grâce a des données \emph{
 \subsection{Modèles de langage}
 \label{ssection:modele_langage}
 
-Les systèmes de transcription ont besoin de contraintes linguistiques propres à la langue à décoder. Ces contraintes vont êtres utilisées par le système pour guider le décodage dans la sélection d'hypothèses acoustiques concurrentielles. Ces contraintes sont introduites par les modèles de langage dans les systèmes de transcription. Ces modèles sont des modèles probabilistes, et la probabilité d'apparition de la séquence de mots $W$ s'exprime de la façon suivante :
+Les systèmes de transcription ont besoin de contraintes linguistiques propres à la langue à décoder. Ces contraintes vont êtres utilisées par le système pour guider le décodage dans la sélection d'hypothèses acoustiques concurrentielles. Ces contraintes sont introduites par les modèles de langage dans les systèmes de transcription. Ces modèles sont des modèles probabilistes, et la probabilité d'apparition de la séquence de $k$ mots $W^k_1$ s'exprime de la façon suivante :
 
 \begin{equation}
 P(W^k_1) = P(w_1) \prod_{i=2}^{k} P(w_i|h_i)
@@ -223,99 +224,6 @@ La métrique utilisée dans les différentes campagnes (cf. section \ref{ssec:trans
 \end{equation}  
 
 À titre d'exemple, lors de la première campagne ESTER \cite{Galliano05}, le meilleur système (celui du LIMSI) atteignait un taux d'erreur mot de 11,9~\%. L'écart entre les différents systèmes était cependant relativement important, puisque le deuxième système, celui du LIUM, affichait un taux d'erreur mot de 23,6~\%. Lors de la campagne ESTER II \cite{Ester2}, le premier système était toujours le LIMSI avec un taux d'erreur de 12,1~\% . En revanche l'écart avec le système du LIUM s'est réduit puisque son taux d'erreur n'était plus que de 17,8~\%.
-
-
-\section{Transcription enrichie}
-
-\label{sec:trans_enrichie}
-
-Avec les campagnes d'évaluation des systèmes de transcription d'émissions est apparue la notion de transcription enrichie. En effet, les corpus étant constitués d'enregistrements de journaux radiophoniques, d'autres informations que la simple transcription en mots peuvent être extraites des corpus. Par rapport aux corpus de dictée vocale, les documents sont multi-locuteurs. Au sein d'un même enregistrement, des dizaines de locuteurs différents peuvent parler tout au long du fichier. De plus, ces locuteurs peuvent s'exprimer depuis un téléphone ou en studio. Toutes ces informations permettent d'étayer, d'enrichir la transcription. De nouvelles tâches sont donc apparues dans les campagnes permettant d'évaluer l'enrichissement des transcriptions, comme la reconnaissance du locuteur ou encore la détection des entités nommées. La reconnaissance du locuteur est utilisée pour segmenter le document en locuteurs ainsi que pour détecter leur genre ou l'environnement à partir duquel ils s'expriment (studio ou téléphone). La détection des entités nommées est quant à elle utilisée pour étiqueter des groupes de mots particuliers comme les noms de personnes ou encore les lieux.
-
-
-La figure \ref{fig:etapes_transcription_enrichie} décrit les différentes composantes des transcriptions réalisées pour les campagnes de type ESTER. Lors de la réalisation de ces transcriptions, il est possible de distinguer deux grandes parties que nous détaillons ci-dessous. 
-
-\subsection{Segmentation et classification}
-Cette première partie consiste à découper le fichier de manière à obtenir des portions homogènes, c'est à dire concernant le même locuteur et les mêmes conditions d'enregistrement. Ce premier niveau de découpage est communément appelé découpage en segments. Contrairement à ce que l'on pourrait penser, les segments ne représentent généralement pas des phrases, mais plutôt des groupes de souffle : ils commencent et s'arrêtent lorsqu'un silence significatif est détecté. Ce premier découpage est effectué pour des raisons techniques, et notamment pour faciliter la tâche des systèmes de transcription automatique (cf. \ref{ssec:trans_auto}), qui doivent décoder segment par segment pour éviter des problèmes d'explosion combinatoire.
-
-Tous les segments contigus appartenant au même locuteur définissent un tour de parole de ce locuteur. Un même locuteur qui parle à plusieurs endroits d'un enregistrement aura donc plusieurs tours de parole au sein de cet enregistrement. En reconnaissance du locuteur (cf. \ref{ssub:decoupage_regroupement}), on dit que tous les segments (et donc les tours de parole) d'un même locuteur sont regroupés au sein d'une même classe. À chaque locuteur du document correspond donc une classe de locuteur.
-
-Au niveau purement acoustique, il est aussi possible de détecter le genre (masculin ou féminin) du locuteur qui s'exprime \cite{liumspkdiarization}. Cette information peut être ajoutée à la transcription enrichie, comme c'est le cas dans la figure \ref{fig:etapes_transcription_enrichie}.
-
-À noter que pour apprendre et évaluer les systèmes de segmentation et de classification automatiques, des données de références doivent être disponibles. Ces données sont réalisées manuellement par un humain écoutant les enregistrements audios. Il découpe alors le fichier en segments et tours de paroles, puis identifie le nom des différents locuteurs.
-
-\begin{figure}[h]
-
-\begin{center}
-\includegraphics[width=0.9\columnwidth]{img/systeme_transcription_description}
-
-\caption{Les étapes de réalisation d'une transcription enrichie}
-\label{fig:etapes_transcription_enrichie}
-\end{center}
-
-\end{figure}
-
-
-\subsection{Transcription et entités nommées}
-
-La deuxième partie consiste tout simplement à écrire les paroles prononcées par les différents locuteurs afin d'obtenir la transcription en mots du signal. Lorsque cette transcription est réalisée automatiquement, la ponctuation ainsi que les majuscules ne sont pas requises. En revanche, des techniques existent pour rajouter la ponctuation et les majuscules aux transcriptions afin de se rapprocher, tant que faire se peut, d'une transcription réalisée manuellement \cite{Beeferman98cyberpunc,Huang2002}.
-
-Les transcriptions, qui plus est les transcriptions de journaux radiophoniques, contiennent un grand nombre d'entités nommées (noms de personnes, lieux, radios, etc). Des systèmes de détection des entités nommées permettent de les repérer dans les transcriptions (cf. section \ref{ssec:EN}). Ce sont des informations supplémentaires qui vont pouvoir être utilisées en recherche d'informations, ou plus précisément dans le cadre des présents travaux, pour identifier les locuteurs d'un document.
-
-
-%\section{Architecture détaillée}
-
-%Les différentes campagnes d'évaluations des systèmes de RAP actuelles met\-tent l'accent sur la réalisation d'une transcription enrichie (cf. \ref{ssec:trans_broadcast}) via l'extraction d'informations sur les locuteurs ou encore la détection des entités nommées. Lors de la réalisation d'une transcription enrichie, plusieurs systèmes entrent en jeu. Les systèmes de transcription automatique de la parole évidemment, mais aussi des systèmes de détection d'entités nommées et de reconnaissance automatique du locuteur. Afin de situer le contexte des travaux présentés dans cette thèse, ces différents domaines de recherche sont présentés ci-dessous.
-
-
-
-\section{Détection des entités nommées}
-\label{ssec:EN}
-
-%Avec l'avènement d'Internet, la quantité de données textuelles à disposition augmente de jour en jour de façon exponentielle. Comme c'est le cas pour les données audio, ces données sont, à cause de leur quantité, impossible à indexer efficacement par un humain. L'extraction d'informations et le traitement de ces données est pourtant capitale pour bon nombre de scientifiques et d'industriels. 
-
-Les transcriptions produites par les SRAP contiennent un grand nombre d'informations qui sont très coûteuses à indexer manuellement (l'émission, le sujet traité, les personnes concernées, etc.). Ces informations peuvent être extraites automatiquement pour venir enrichir la transcription grâce à des techniques issues du Traitement Automatique des Langues Naturelles (TALN).
-
-Dans le but d'enrichir une transcription, une des étapes est généralement de détecter les entités nommées. Ces entités nommées vont permettre d'extraire un certain nombre d'information des transcriptions, comme les noms de personne, les lieux, les noms d'organisations, etc.
-
-\subsection{Catégorisation}
-
-Par la richesse des informations qu'elles contiennent, les entités nommées (EN) sont des éléments très importants pour les systèmes d'extraction d'information. Dans les années 1980, les campagnes d'évaluation MUC ont permis de définir ce qu'était une tâche de reconnaissance des entités nommées. Pour MUC-6 \cite{MUC6,MUC6results}, les EN sont les noms propres, les acronymes et éventuellement d'autres mots qui rentrent dans les catégories suivantes :
-
-\begin{itemize}
-  \item \emph{Organisation} : regroupe les entreprises, les institutions gouvernementales et les autres organisations ;
-  \item \emph{Person} : regroupe les noms de personnes ou de familles ;
-  \item \emph{Location} : regroupe les noms de lieux politiquement ou géographiquement définis (villes, pays, régions, etc.) ;
-  \item \emph{Time} : regroupe les dates et données temporelles ;
-  \item \emph{Number} : regroupe les données numériques comme les sommes d'argent ou les pourcentages.
-\end{itemize}
-
-Il existe des typologies des EN beaucoup plus complètes que celle des campagnes MUC comme celle de Paik et al. \cite{Paik96} ou de Coates-Stephens \cite{Coates92}. Par exemple, celle de Coates-Stephens définit 8 catégories d'EN :
-\begin{itemize}
-  \item les noms de personnes ;
-  \item les noms de lieux ;
-  \item les noms d'organisations ;
-  \item les noms d'origines (noms d'habitants de pays, de villes, de régions, etc.) ;
-  \item les noms de législations (\emph{loi Évin}), d'indices boursiers (\emph{Nikkei, CAC 40, Dow Jones}) ;
-  \item les noms d'événements (guerres, révolutions, catastrophes, salons, JO, etc.) ;
-  \item les noms d'objets.
-  
-\end{itemize}
-
-Elles couvrent donc les noms propres et des formes linguistiques spécifiques.
-
-\subsection{Les différents types de systèmes}
-
-Selon Poibeau \cite{Poibeau2002} et Sekine et Eriguchi \cite{Sekine2000}, les systèmes de détection des EN peuvent êtres classés en trois grands types :\\
-
-\textbf{Les systèmes fondés sur des règles écrites \og à la main \fg{}}\\
-Dans ces systèmes, le concepteur doit élaborer un ensemble de règles qui seront ensuite utilisées pour détecter les entités nommées. Historiquement, cette technique fût la première utilisée dans le domaine. Bien que depuis la campagne d'évaluation MUC-6, l'apprentissage automatique ait fait son apparition dans ce domaine, les systèmes à base de règles écrites \og à la main \fg{} restent encore très utilisés aujourd'hui.\\
-
-\textbf{Les systèmes à base d'apprentissage automatique}\\
-Ces systèmes utilisent des techniques d'apprentissage automatique pour apprendre un modèle capable d'étiqueter des entités nommées à partir d'un corpus d'apprentissage. Ces travaux sont largement inspirés des techniques utilisées en reconnaissance automatique de la parole, et utilisent diverses techniques d'apprentissage : modèles de Markov cachés, modèle d'entropie maximum, arbres de décision, etc. Le système (LIA\_NE) développé par Béchet au Laboratoire d'Informatique d'Avignon (LIA) pour ESTER2 \cite{Ester2} fait partie de ce type de systèmes.\\ 
-
-\textbf{Les systèmes mixtes}\\
-Ces systèmes utilisent généralement des lexiques initiaux. Parmi ces systèmes, Poibeau \cite{Poibeau2002} distingue deux approches. La première consiste à apprendre automatiquement des règles, puis à utiliser un expert pour les réviser. Dans la seconde, un ensemble de règles de base est constitué par le concepteur, puis étendu (semi-)automatiquement par inférence, afin d'obtenir une meilleure couverture. C'est le cas de Nemesis, le système développé par Fourour \cite{Fourour04} au Laboratoire d'Informatique de Nantes Atlantique (LINA).\\
-
 
 
 \section{Reconnaissance automatique du locuteur}
@@ -417,6 +325,125 @@ La figure \ref{fig:seg_classif} décrit les principes du processus de segmentatio
 \end{figure}
 
 À noter que les classes de locuteur produites sont anonymes. En effet, ce type de système étiquette chacune des classes avec un nom unique, mais dénué de tout sens. Le processus qui consiste à étiqueter ces classes avec le vrai couple prénom/nom du locuteur auquel elles se rapportent est appelé \textbf{identification nommée du locuteur}. C'est à cette tâche que s'intéressent les travaux de cette thèse. 
+
+
+\section{Système de reconnaissance automatique de la parole}
+
+\label{sec:trans_enrichie}
+
+Avec l'évolution des systèmes au fil de années (de la simple reconnaissance de mots isolés à la transcription de journaux d'informations) est apparue la notion de transcription enrichie. En effet, comme décrit dans \ref{ssec:trans_broadcast}, nombre d'informations annexes à la transcription en mots peuvent être extraites du signal.
+
+Par rapport aux systèmes de dictée vocale, les documents utilisés pour la transcription de journaux d'informations sont multi-locuteurs. Au sein d'un même enregistrement, des dizaines de locuteurs différents peuvent parler tout au long du fichier. De plus, ces locuteurs peuvent s'exprimer depuis un téléphone ou en studio. Toutes ces informations permettent d'étayer, d'enrichir la transcription. La reconnaissance du locuteur est utilisée pour segmenter le document en locuteurs ainsi que pour détecter leur genre ou l'environnement à partir duquel ils s'expriment (studio ou téléphone). La détection des entités nommées est quant à elle utilisée pour étiqueter des groupes de mots particuliers comme les noms de personnes ou encore les lieux.
+
+
+La figure \ref{fig:etapes_transcription_enrichie} décrit les différentes composantes des transcriptions produites pour les campagnes de type ESTER. Ces composantes constituent la base de tous les systèmes de transcription actuels. Il est possible de distinguer deux grandes parties que nous détaillons ci-dessous. 
+
+\subsection{Segmentation et classification}
+Cette première partie consiste à découper le fichier de manière à obtenir des portions homogènes, c'est à dire concernant le même locuteur et les mêmes conditions d'enregistrement. Ce premier niveau de découpage est communément appelé découpage en segments. Contrairement à ce que l'on pourrait penser, les segments ne représentent généralement pas des phrases, mais plutôt des groupes de souffle : ils commencent et s'arrêtent lorsqu'un silence significatif est détecté. Ce premier découpage est effectué pour des raisons techniques, et notamment pour faciliter la tâche des systèmes de transcription automatique (cf. \ref{ssec:trans_auto}), qui doivent décoder segment par segment pour éviter des problèmes d'explosion combinatoire.
+
+Tous les segments contigus appartenant au même locuteur définissent un tour de parole de ce locuteur. Un même locuteur qui parle à plusieurs endroits d'un enregistrement aura donc plusieurs tours de parole au sein de cet enregistrement. En reconnaissance du locuteur (cf. \ref{ssub:decoupage_regroupement}), on dit que tous les segments (et donc les tours de parole) d'un même locuteur sont regroupés au sein d'une même classe. À chaque locuteur du document correspond donc une classe de locuteur.
+
+Au niveau purement acoustique, il est aussi possible de détecter le genre (masculin ou féminin) du locuteur qui s'exprime \cite{liumspkdiarization}. Cette information peut être ajoutée à la transcription enrichie, comme c'est le cas dans la figure \ref{fig:etapes_transcription_enrichie}.
+
+À noter que pour apprendre et évaluer les systèmes de segmentation et de classification automatiques, des données de références doivent être disponibles. Ces données sont réalisées manuellement par un humain écoutant les enregistrements audios. Il découpe alors le fichier en segments et tours de paroles, puis identifie le nom des différents locuteurs.
+
+\begin{figure}[h]
+
+\begin{center}
+\includegraphics[width=0.9\columnwidth]{img/systeme_transcription_description}
+
+\caption{Les étapes de réalisation d'une transcription enrichie}
+\label{fig:etapes_transcription_enrichie}
+\end{center}
+
+\end{figure}
+
+
+\subsection{Transcription et entités nommées}
+
+La deuxième partie consiste tout simplement à écrire les paroles prononcées par les différents locuteurs afin d'obtenir la transcription en mots du signal. Lorsque cette transcription est réalisée automatiquement, la ponctuation ainsi que les majuscules ne sont pas requises. En revanche, des techniques existent pour rajouter la ponctuation et les majuscules aux transcriptions afin de se rapprocher, tant que faire se peut, d'une transcription réalisée manuellement \cite{Beeferman98cyberpunc,Huang2002}.
+
+Les transcriptions, qui plus est les transcriptions de journaux radiophoniques, contiennent un grand nombre d'entités nommées (noms de personnes, lieux, radios, etc). Des systèmes de détection des entités nommées permettent de les repérer dans les transcriptions (cf. section suivante). Ce sont des informations supplémentaires qui vont pouvoir être utilisées en recherche d'informations, ou plus précisément dans le cadre des présents travaux, pour identifier les locuteurs d'un document.
+
+
+%\section{Architecture détaillée}
+
+%Les différentes campagnes d'évaluations des systèmes de RAP actuelles met\-tent l'accent sur la réalisation d'une transcription enrichie (cf. \ref{ssec:trans_broadcast}) via l'extraction d'informations sur les locuteurs ou encore la détection des entités nommées. Lors de la réalisation d'une transcription enrichie, plusieurs systèmes entrent en jeu. Les systèmes de transcription automatique de la parole évidemment, mais aussi des systèmes de détection d'entités nommées et de reconnaissance automatique du locuteur. Afin de situer le contexte des travaux présentés dans cette thèse, ces différents domaines de recherche sont présentés ci-dessous.
+
+
+
+\section{Détection des entités nommées}
+\label{ssec:EN}
+
+%Avec l'avènement d'Internet, la quantité de données textuelles à disposition augmente de jour en jour de façon exponentielle. Comme c'est le cas pour les données audio, ces données sont, à cause de leur quantité, impossible à indexer efficacement par un humain. L'extraction d'informations et le traitement de ces données est pourtant capitale pour bon nombre de scientifiques et d'industriels. 
+
+Dans le but d'enrichir une transcription, une des étapes est généralement de détecter les entités nommées. Ces entités nommées vont permettre d'extraire un certain nombre d'information des transcriptions, comme les noms de personne, les lieux, les noms d'organisations, etc.
+
+\subsection{Catégorisation}
+
+Par la richesse des informations qu'elles contiennent, les entités nommées (EN) sont des éléments très importants pour les systèmes d'extraction d'information. Dans les années 1980, les campagnes d'évaluation MUC ont permis de définir ce qu'était une tâche de reconnaissance des entités nommées. Pour MUC-6 \cite{MUC6,MUC6results}, les EN sont les noms propres, les acronymes et éventuellement d'autres mots qui rentrent dans les catégories suivantes :
+
+\begin{itemize}
+  \item \emph{Organisation} : regroupe les entreprises, les institutions gouvernementales et les autres organisations ;
+  \item \emph{Person} : regroupe les noms de personnes ou de familles ;
+  \item \emph{Location} : regroupe les noms de lieux politiquement ou géographiquement définis (villes, pays, régions, etc.) ;
+  \item \emph{Time} : regroupe les dates et données temporelles ;
+  \item \emph{Number} : regroupe les données numériques comme les sommes d'argent ou les pourcentages.
+\end{itemize}
+
+Il existe des typologies des EN beaucoup plus complètes que celle des campagnes MUC comme celle de Paik et al. \cite{Paik96} ou de Coates-Stephens \cite{Coates92}. Par exemple, celle de Coates-Stephens définit 8 catégories d'EN :
+\begin{itemize}
+  \item les noms de personnes ;
+  \item les noms de lieux ;
+  \item les noms d'organisations ;
+  \item les noms d'origines (noms d'habitants de pays, de villes, de régions, etc.) ;
+  \item les noms de législations (\emph{loi Évin}), d'indices boursiers (\emph{Nikkei, CAC 40, Dow Jones}) ;
+  \item les noms d'événements (guerres, révolutions, catastrophes, salons, JO, etc.) ;
+  \item les noms d'objets.
+  
+\end{itemize}
+
+Elles couvrent donc les noms propres et des formes linguistiques spécifiques.
+
+\subsection{Les différents types de systèmes}
+
+Selon Poibeau \cite{Poibeau2002} et Sekine et Eriguchi \cite{Sekine2000}, les systèmes de détection des EN peuvent êtres classés en trois grands types :\\
+
+\textbf{Les systèmes fondés sur des règles écrites \og à la main \fg{}}\\
+Dans ces systèmes, le concepteur doit élaborer un ensemble de règles qui seront ensuite utilisées pour détecter les entités nommées. Historiquement, cette technique fût la première utilisée dans le domaine. Bien que depuis la campagne d'évaluation MUC-6, l'apprentissage automatique ait fait son apparition dans ce domaine, les systèmes à base de règles écrites \og à la main \fg{} restent encore très utilisés aujourd'hui.\\
+
+\textbf{Les systèmes à base d'apprentissage automatique}\\
+Ces systèmes utilisent des techniques d'apprentissage automatique pour apprendre un modèle capable d'étiqueter des entités nommées à partir d'un corpus d'apprentissage. Ces travaux sont largement inspirés des techniques utilisées en reconnaissance automatique de la parole, et utilisent diverses techniques d'apprentissage : modèles de Markov cachés, modèle d'entropie maximum, arbres de décision, etc. Le système (LIA\_NE) développé par Béchet au Laboratoire d'Informatique d'Avignon (LIA) pour ESTER2 \cite{Ester2} fait partie de ce type de systèmes.\\ 
+
+\textbf{Les systèmes mixtes}\\
+Ces systèmes utilisent généralement des lexiques initiaux. Parmi ces systèmes, Poibeau \cite{Poibeau2002} distingue deux approches. La première consiste à apprendre automatiquement des règles, puis à utiliser un expert pour les réviser. Dans la seconde, un ensemble de règles de base est constitué par le concepteur, puis étendu (semi-)automatiquement par inférence, afin d'obtenir une meilleure couverture. C'est le cas de Nemesis, le système développé par Fourour \cite{Fourour04} au Laboratoire d'Informatique de Nantes Atlantique (LINA).\\
+
+
+\subsection{Reconnaissance et découverte des Entités Nommées}
+
+Lors de la reconnaissance des entités nommées, plusieurs types de problèmes doivent être résolus \cite{Fourour04}. Pour exprimer ces problèmes, la terminologie introduite par \cite{Daille00} fondée sur des critères graphiques est utilisée~:
+
+\begin{itemize}
+    \item \textbf{Entités nommées pures}~: les entités nommées d'une seule forme commençant par une majuscule comme\emph{France},\emph{FFF}, \emph{États-Unis}.
+    \item \textbf{Entités nommées composées}~: les entités nommées constituées de plusieurs formes pleines comportant toutes une majuscule comme \emph{Quai Branly}, \emph{Grand Palais}.
+    \item \textbf{Entités nommées mixtes}~: les entités nommées constituées de plusieurs formes qui peuvent ou non commencer par une majuscule, mais dont au moins une est entièrement en minuscules comme \emph{Parti socialiste}, \emph{château de Versailles}.
+\end{itemize}
+
+
+Tout d'abord, la reconnaissance des entités nommées connues est réalisée grâce à la projection de bases lexicales sur le texte à étiqueter. Les systèmes sont alors confrontés au problème de l'ambiguïté des entités nommées pures~: \emph{Paris} est associé à un nom de ville mais peut apparaître au sein d'entités nommées composées ou mixtes. Il peut alors désigner une personne comme le \emph{Comte de Paris}, un nom de rue \emph{rue de Paris} ou encore une société \emph{Paris International}. Même pour ces entités nommées pures, une analyse du contexte est nécessaire pour obtenir une catégorisation correcte.
+
+À ce problème d'ambiguïté viennent s'ajouter les variations que peuvent subir les entités nommées~:les variations graphiques (\emph{Parti Socialiste}, \emph{Parti socialiste}), les sigles, acronymes ou abréviations, (\emph{Société Nationale des Chemins de fer Français} $\rightarrow$ \emph{SNCF}), les métaphores (\emph{l'Everest} $\rightarrow$ \emph{le toit du monde}), etc.
+
+Outre la gestion de ces différents problèmes, les systèmes doivent être capable de découvrir de nouvelles entités nommées qui ne sont pas présentes dans leurs bases lexicales.
+
+Par exemple, les entités nommées mixtes sont par définition constituées d'une ou plusieurs formes contenant une majuscule et de noms communs. Pour ce type d'entités nommées, la difficulté réside dans la délimitation de l'entité nommée~: où se trouvent les bornes gauche et droite de l'entité nommée ?
+
+Pour la délimitation à gauche, le problème est d'inclure ou non les noms communs situés avant la forme comportant une majuscule au sein de l'entité nommée mixte. Ces noms communs peuvent préciser un rôle social (\emph{le premier ministre François Fillon}), des statuts particuliers (\emph{l'exilé Musil}) ou encore une catégorisation géographique.
+
+La délimitation à droite se heurte aux problèmes modification, de la résolution de l'attachement prépositionnel et de la portée de la coordination \cite{Wacholder97}. Par exemple, l'adjectif modifiant une entité nommée comme \emph{fédéral} dans \emph{Allemagne fédérale} constitue une entité nommée mixte, ce qui n'est pas le cas avec \emph{lointain} dans \emph{Chine lointaine}. En plus de cette ambiguïté sur la limite des droites des entités se pose le problème de la sur-composition~: une entité nommée mixte peut contenir une entité nommée d'une autre catégorie (par exemple \emph{Université du Mans}, \emph{Guerre du Vietnam}).
+
+Les systèmes adoptent différentes techniques pour résoudre ces problèmes. Ces techniques font appel à des solutions linguistiques, à des solutions à base d'apprentissage ou à un mixte des deux. Quoiqu'il en soit, la délimitation des entités nommées peut varier en fonction du type d'application auxquelles elles sont destinées. Par exemple, une application cherchant à extraire les prénoms et patronymes d'un document aura besoin d'entités nommées très courtes, ne contenant que les informations recherchées. Dans l'entité nommée mixte \emph{le président Jacques Chirac}, seuls le prénom et le nom lui seront utiles. La recherche de la borne gauche ne devra donc pas englober le nom commun \emph{président}.
+
 
 
 %Toutes ces informations sont utilisées par le système de reconnaissance de la parole de manière à choisir la manière la plus adéquat de traiter chaque type de segment. Le défi réside dans l'apprentissage de modèles acoustiques robustes vis-à-vis des différentes situations acoustiques auxquelles il sera confronté. Pour réaliser cette segmentation, le système va découper le signal en trames (environ 25 ms chacune) puis va étiqueter ces trames en fonction des différentes informations qu'il est capable d'extraire. Le principe général va ensuite consister à calculer des distances entre ces trames de manière à savoir si elles doivent être regroupées au sein du même segment ou pas. Ce principe de calcul de distance sera réutilisé pour regrouper tous les segments d'un enregistrement au sein de la même classe de locuteur.
