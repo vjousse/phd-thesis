@@ -592,23 +592,47 @@ La figure \ref{fig:principe_inl} donne un aperçu de ce que l'identification nomm
 
 \end{figure}
 
+\subsection{Hypothèses}
 
-\subsection{Présence des noms complets}
+Identifier les locuteurs en se basant sur la transcription d'un document audio nécessite que plusieurs hypothèses soient vérifiées~:
 
-\label{ssec:presence_noms_complets}
+\begin{itemize}
 
-À partir du moment où les noms complets des locuteurs sont présents dans la transcription d'un document audio, il semble possible de les exploiter pour identifier les différents intervenants. C'est l'hypothèse de base de toutes les méthodes utilisant la transcription pour réaliser l'identification nommée~: les noms complets des locuteurs du document sont présents dans le document lui même.
+    \item Les locuteurs sont \textbf{annoncés par leurs noms complets} dans le document.
 
-C'est une hypothèse forte, qui permet d'exploiter un grand nombre de documents. Les journaux d'informations (qu'ils soient radiophoniques ou télévisuels) sont par exemple tout à fait adaptés à ce style de techniques. Dans ce type de document, la majorité des locuteurs s'annoncent ou sont annoncés. C'est systématiquement le cas des présentateurs et des invités par exemple. Dans les enregistrements de réunions, les locuteurs sont présentés et se passent la parole : il est donc possible de récupérer leurs noms complets. De manière plus générale, tout type de document où les locuteurs s'annoncent ou sont annoncés vont pouvoir être exploités avec les techniques d'identification nommée basées sur la transcription du signal audio.
 
-Les systèmes d'INL devront donc être capable de transcrire et de détecter ces noms complets à partir du signal pour pouvoir ensuite les exploiter. C'est le travail des systèmes de détection des entités nommées présentés dans la partie \ref{ssec:EN}.
+À partir du moment où les noms complets des locuteurs sont présents dans la transcription d'un document audio, il semble possible de les exploiter pour identifier les différents intervenants. 
 
-Mais disposer de documents dans lesquels les noms complets des locuteurs sont cités n'est pas suffisant, il faut ensuite être capable d'attribuer ces noms complets aux différents intervenants du document. La partie suivante décrit le principe d'attribution commun à toutes les méthodes d'INL basées sur la transcription.
+C'est une hypothèse forte, qui permet d'exploiter un grand nombre de documents. Les journaux d'informations (qu'ils soient radiophoniques ou télévisuels) sont par exemple tout à fait adaptés à ce style de techniques. Dans ce type de document, la majorité des locuteurs s'annoncent ou sont annoncés. C'est systématiquement le cas des présentateurs et des invités par exemple. Dans les enregistrements de réunions, les locuteurs sont présentés et se passent la parole~: il est donc possible de récupérer leurs noms complets. De manière plus générale, tout type de document où les locuteurs s'annoncent ou sont annoncés vont pouvoir être exploités avec les techniques d'identification nommée basées sur la transcription du signal audio.
 
+    \item Les noms complets sont exploitables dans la transcription : ils ont été \textbf{correctement transcrits}.
+
+        Les systèmes d'INL doivent être capable de transcrire correctement les noms complets présents dans l'enregistrement si ils veulent pouvoir les exploiter. Lorsqu'ils sont bien transcrits, c'est ensuite le travail des systèmes de détection des entités nommées (présentés dans la section \ref{ssec:EN}) d'identifier les différents noms complets.
+        
+        Dans le cadre de la mise en place de systèmes automatiques d'INL, cette hypothèse est importante~: la transcription des noms propres est un réel problème pour les systèmes automatique de reconnaissance de la parole. \tocite{ref reco noms propres}.
+
+    \item Le \textbf{contexte lexical} au voisinage d'un nom complet permet de déterminer si ce nom complet est un \textbf{locuteur du document}.
+
+        La dernière hypothèse est d'être capable d'attribuer un nom complet de la transcription à un des locuteurs du document. Pour ce faire, il faut que le contexte lexical de chaque nom complet permette de déterminer si ce nom complet se rapporte à un locuteur du document, et à quel locuteur. C'est ce que la phase d'attribution locale des systèmes d'INL cherche à effectuer.
+\end{itemize}
+
+%\subsection{Présence des noms complets}
+%
+%\label{ssec:presence_noms_complets}
+%
+%À partir du moment où les noms complets des locuteurs sont présents dans la transcription d'un document audio, il semble possible de les exploiter pour identifier les différents intervenants. C'est l'hypothèse de base de toutes les méthodes utilisant la transcription pour réaliser l'identification nommée~: les noms complets des locuteurs du document sont présents dans le document lui même.
+%
+%C'est une hypothèse forte, qui permet d'exploiter un grand nombre de documents. Les journaux d'informations (qu'ils soient radiophoniques ou télévisuels) sont par exemple tout à fait adaptés à ce style de techniques. Dans ce type de document, la majorité des locuteurs s'annoncent ou sont annoncés. C'est systématiquement le cas des présentateurs et des invités par exemple. Dans les enregistrements de réunions, les locuteurs sont présentés et se passent la parole : il est donc possible de récupérer leurs noms complets. De manière plus générale, tout type de document où les locuteurs s'annoncent ou sont annoncés vont pouvoir être exploités avec les techniques d'identification nommée basées sur la transcription du signal audio.
+%
+%Les systèmes d'INL devront donc être capable de transcrire et de détecter ces noms complets à partir du signal pour pouvoir ensuite les exploiter. C'est le travail des systèmes de détection des entités nommées présentés dans la partie \ref{ssec:EN}.
+%
+%Mais disposer de documents dans lesquels les noms complets des locuteurs sont cités n'est pas suffisant, il faut ensuite être capable d'attribuer ces noms complets aux différents intervenants du document. La partie suivante décrit le principe d'attribution commun à toutes les méthodes d'INL basées sur la transcription.
+%
 
 \subsection{Attribution locale}
 \label{ssec:attributions_locales}
-La deuxième hypothèse sur laquelle reposent les techniques utilisant la transcription est qu'il est possible d'exploiter les noms complets contenus dans la transcription pour identifier les locuteurs du document. La technique utilisée par tous les systèmes d'identification nommée à partir de la transcription est la même : attribuer un nom complet détecté dans le document au locuteur qui est en train de parler (tour de parole courant), au locuteur qui parle ensuite (tour de parole suivant) ou au locuteur qui vient de parler (tour de parole précédent). La figure \ref{fig:segment} résume le principe de cette attribution, que l'on doit au LIMSI et Leonardo-Canseco \cite{CansecoRodriguez2005}.
+
+La technique utilisée pour attribuer un nom complet détecté à un des locuteurs du document est commune à tous les systèmes d'INL à partir de la transcription. Ces technique consiste u locuteur qui est en train de parler (tour de parole courant), au locuteur qui parle ensuite (tour de parole suivant) ou au locuteur qui vient de parler (tour de parole précédent). La figure \ref{fig:segment} résume le principe de cette attribution, que l'on doit au LIMSI et Leonardo-Canseco \cite{CansecoRodriguez2005}.
 
 
 \begin{figure}[h]
