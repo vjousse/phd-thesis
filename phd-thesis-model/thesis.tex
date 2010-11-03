@@ -613,7 +613,7 @@ C'est une hypothèse forte, qui permet d'exploiter un grand nombre de documents. 
 
     \item Le \textbf{contexte lexical} au voisinage d'un nom complet permet de déterminer si ce nom complet est un \textbf{locuteur du document}.
 
-        La dernière hypothèse est d'être capable d'attribuer un nom complet de la transcription à un des locuteurs du document. Pour ce faire, il faut que le contexte lexical de chaque nom complet permette de déterminer si ce nom complet se rapporte à un locuteur du document, et à quel locuteur. C'est ce que la phase d'attribution locale des systèmes d'INL cherche à effectuer.
+        La dernière hypothèse est d'être capable d'attribuer un nom complet présent dans la transcription à un des locuteurs du document. Pour ce faire, il faut que le contexte lexical de chaque nom complet permette de déterminer si ce nom complet se rapporte à un locuteur du document, et à quel locuteur. C'est ce que la phase d'attribution locale des systèmes d'INL cherche à effectuer.
 \end{itemize}
 
 %\subsection{Présence des noms complets}
@@ -632,7 +632,7 @@ C'est une hypothèse forte, qui permet d'exploiter un grand nombre de documents. 
 \subsection{Attribution locale}
 \label{ssec:attributions_locales}
 
-La technique utilisée pour attribuer un nom complet détecté à un des locuteurs du document est commune à tous les systèmes d'INL à partir de la transcription. Ces technique consiste u locuteur qui est en train de parler (tour de parole courant), au locuteur qui parle ensuite (tour de parole suivant) ou au locuteur qui vient de parler (tour de parole précédent). La figure \ref{fig:segment} résume le principe de cette attribution, que l'on doit au LIMSI et Leonardo-Canseco \cite{CansecoRodriguez2005}.
+La technique utilisée pour attribuer un nom complet détecté à un des locuteurs du document est commune à tous les systèmes d'INL à partir de la transcription. Cette technique consiste à analyser le contexte lexical d'un nom complet de manière à déterminer si ce nom complet se rapporte à un locuteur qui est en train de parler (tour de parole courant), au locuteur qui parle ensuite (tour de parole suivant) ou au locuteur qui vient de parler (tour de parole précédent). La figure \ref{fig:segment} résume le principe de cette attribution, que l'on doit aux travaux de Leonardo-Canseco \cite{CansecoRodriguez2005}.
 
 
 \begin{figure}[h]
@@ -643,19 +643,19 @@ La technique utilisée pour attribuer un nom complet détecté à un des locuteurs d
 \end{center}
 \end{figure}
 
-Typiquement, un nom complet peut être attribué au locuteur courant lorsque celui-ci s'annonce ou se présente. Par exemple les journalistes ont pour habitude de finir leurs interventions en rappelant leur identité, comme par exemple \emph{\og c'était Paul Dupond en direct de \ldots \fg}. Ici, le nom complet \emph{Paul Dupond} devrait être attribué au locuteur qui a prononcé cette phrase (le locuteur courant). A l'inverse, un locuteur prononçant cette phrase \emph{\og Nous écoutons maintenant, Jean Durand.\fg{}} annonce une personne qui va parler après lui. Le nom complet \emph{Jean Durand} devra donc être attribué au locuteur suivant. Pour finir, une phrase du type \emph{\og Merci Maude Bayeu, nous passons maintenant à la météo \fg} rappelle le locuteur qui vient de s'exprimer juste avant. Le nom complet \emph{Maude Bayeu} sera donc attribué au locuteur précédent.
+Typiquement, un nom complet peut être attribué au locuteur courant lorsque celui-ci s'annonce ou se présente. Par exemple les journalistes ont pour habitude de finir leurs interventions en rappelant leur identité, comme par exemple \emph{\og c'était Paul Dupond en direct de \ldots \fg}. Ici, le nom complet \emph{Paul Dupond} devrait être attribué au locuteur qui a prononcé cette phrase (le locuteur courant). À l'inverse, un locuteur prononçant cette phrase \emph{\og Nous écoutons maintenant, Jean Durand.\fg{}} annonce une personne qui va parler après lui. Le nom complet \emph{Jean Durand} devra donc être attribué au locuteur suivant. Pour finir, une phrase du type \emph{\og Merci Maude Bayeu, nous passons maintenant à la météo \fg} rappelle le locuteur qui vient de s'exprimer juste avant. Le nom complet \emph{Maude Bayeu} sera donc attribué au locuteur précédent.
 
-Un des problèmes que les systèmes d'INL ont a résoudre est d'attribuer un nom complet détecté au tour de parole correspondant (précédent, courant ou suivant) ou, à défaut, de ne pas réaliser d'attribution si le nom complet ne correspond pas au locuteur d'un des tours de parole courant ou contigu. C'est par exemple le cas des noms complets qui ne font pas partie du document (\emph{Jean-Jacques Rousseau} aura par exemple peu de chance d'être un des locuteurs du document) ou qui font référence à des locuteurs présents plus loin dans le fichier. En effet, même si un nom complet détecté correspond bien à un des locuteurs du document, il ne sera pas exploité par ces techniques s'il ne correspond pas à un des locuteurs des tours de parole contigus ou courant. Ce cas est appelé \og autre \fg sur la figure \ref{fig:segment}.
+Un des problèmes que les systèmes d'INL ont a résoudre est d'attribuer un nom complet détecté au tour de parole correspondant (précédent, courant ou suivant) ou, à défaut, de ne pas réaliser d'attribution si le nom complet ne correspond pas au locuteur d'un des tours de parole courant ou contigu. C'est par exemple le cas des noms complets qui ne font pas partie du document (\emph{Jean-Jacques Rousseau} aura par exemple peu de chance d'être un des locuteurs du document) ou qui font référence à des locuteurs présents plus loin dans le document. En effet, même si un nom complet détecté correspond bien à un des locuteurs du document, il ne sera pas exploité par ces techniques s'il ne correspond pas à un des locuteurs des tours de parole contigus ou courant. Ce cas est appelé \og autre \fg sur la figure \ref{fig:segment}.
 
-Ce type d'attribution sera par la suite appelée \og attribution locale \fg. En effet, on attribue ici un nom complet à un des tours de parole contigu au tour de parole où le nom complet a été détecté. Aucune attribution au niveau du fichier entier n'est pour l'instant effectué, seuls les tours de paroles contigus sont concernés. La propagation de ces attributions locales au sein du fichier entier est une étape appelée \og attribution globale \fg.
+Ce type d'attribution sera par la suite appelée \og attribution locale \fg. On attribue ici un nom complet à un des tours de parole contigu au tour de parole où le nom complet a été détecté. Aucune attribution au niveau du document entier n'est pour l'instant effectué, seuls les tours de paroles contigus sont concernés. La propagation de ces attributions locales au sein de l'ensemble des tours de parole est une étape appelée \og attribution globale \fg.
 
-\subsection{Attributions globales}
+\subsection{Attribution globale}
 
 \label{attributions_globales}
 
 Afin de bien comprendre la problématique de l'attribution globale des noms complets, il faut placer les attributions locales dans le contexte d'une transcription enrichie (cf. \ref{sec:trans_enrichie}).
 
-En effet, comme décrit dans la partie précédente, chaque nom complet détecté dans un tour de parole est attribué ou tour de parole courant, précédent ou suivant. Chacun de ces tours de parole appartient à une classe de locuteur dite anonyme, que l'INL chercher à nommer en lui attribuant un et un seul nom complet. Or, plusieurs noms complets peuvent être candidats pour la même classe de locuteur. Comme le montre la figure \ref{fig:decisions_locales_conflit}, il est tout à fait possible que plusieurs noms complets différents soient en conflit au sein d'un même tour de parole. Dans l'exemple, deux noms complets sont possibles pour le tour de parole du locuteur appartenant à classe numéro 2 (LOCUTEUR 2) : Maude Bayeu et Pierre Moscovici.
+En effet, chaque nom complet détecté dans un tour de parole est attribué au tour de parole courant, précédent ou suivant. Chacun de ces tours de parole appartient à un locuteur, que l'INL cherche à nommer en lui attribuant un et un seul nom complet. Or, plusieurs noms complets peuvent être candidats pour le même locuteur. Comme le montre la figure \ref{fig:decisions_locales_conflit}, il est tout à fait possible que plusieurs noms différents soient proposés pour un même locuteur. Dans la figure \ref{fig:decisions_locales_conflit}, deux noms complets sont possibles pour le LOCUTEUR 2~: Maude Bayeu et Pierre Moscovici.
 
 \begin{figure}[h]
 \begin{center}
@@ -665,10 +665,23 @@ En effet, comme décrit dans la partie précédente, chaque nom complet détecté dan
 \end{center}
 \end{figure}
 
-Chaque tour de parole appartenant à une même classe de locuteur, les conflits des tours de parole vont se répercuter au sein de la classe de locuteur. En effet, plusieurs noms complets peuvent être candidats pour la même classe de locuteur, il faudra alors choisir quel nom complet attribuer à cette classe. La figure \ref{fig:processus_entier} montre un exemple du processus global, avec tous les conflits que cela engendre.
+L'attribution du nom complet au locuteur consiste à choisir un nom complet parmi les noms complet obtenus à partir des décisions locales. Cette phase sera nommée \og décision globale \fg.
+
+%Chaque tour de parole appartenant à une même classe de locuteur, les conflits des tours de parole vont se répercuter au sein de la classe de locuteur. En effet, plusieurs noms complets peuvent être candidats pour la même classe de locuteur, il faudra alors choisir quel nom complet attribuer à cette classe. La figure \ref{fig:processus_entier} montre un exemple du processus global, avec tous les conflits que cela engendre.
 
 
-Dans ce processus, à l'étape 1, la transcription est enrichie avec une segmentation et une classification en locuteurs ainsi qu'avec une détection des entités nommées. Chacune des entités nommées de type \emph{PERSONNE} est ensuite attribuée localement au tour de parole correspondant dans l'étape 2. 
+\subsection{Processus d'attribution}
+
+Le processus d'attribution global se résume en quatre principales étapes décrites dans la figure \ref{fig:processus_entier}~:
+
+\begin{itemize}
+    \item Préparation d'une transcription enrichie
+    \item Étape d'attributions locales
+    \item Étape d'attributions globales
+    \item Production d'une transcription avec les locuteurs nommées
+\end{itemize}
+
+Dans l'étape 1, la transcription en mots est enrichie d'une segmentation et d'une classification en locuteurs ainsi que d'un étiquetage des entités nommées. Chacune des entités nommées de type \emph{PERSONNE} est ensuite attribuée localement au tour de parole correspondant dans l'étape 2. 
 
 \begin{figure}[h]
 \begin{center}
