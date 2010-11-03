@@ -593,7 +593,7 @@ La figure \ref{fig:principe_inl} donne un aperçu de ce que l'identification nomm
 \end{figure}
 
 \subsection{Hypothèses}
-
+\label{ssec:hypotheses}
 Identifier les locuteurs en se basant sur la transcription d'un document audio nécessite que plusieurs hypothèses soient vérifiées~:
 
 \begin{itemize}
@@ -700,6 +700,9 @@ Une fois les conflits de la phase d'attribution globale résolus, la dernière éta
 
 Même si les façons de réaliser les différentes étapes différent entre les méthodes d'identification nommée, les principes qui viennent d'être décrits sont communs à toutes. Le traitement d'un fichier audio avec un système d'identification nommée se résume donc aux étapes qui sont décrites dans la figure \ref{fig:fonctionnement_general}.
 
+Deux principales approches ont été étudiées pour l'attribution locale des noms complets, à savoir une approche de type symbolique avec l'utilisation de règles écrites manuellement, et plusieurs approches à base de méthodes statistiques. Nous commençons par décrire la première approche utilisée dans la littérature, à savoir l'approche symbolique. Les méthodes à base de systèmes statistiques sont décrites dans la suite de cette thèse.
+
+
 \begin{figure}
 \begin{center}
 \includegraphics[width=1\columnwidth]{img/fonctionnement_general.pdf}
@@ -712,27 +715,25 @@ Même si les façons de réaliser les différentes étapes différent entre les méthod
 \section{Approche symbolique}
 \label{sub:regles_manuelles}
 
-Deux principaux types approches ont été étudiées pour l'attribution locale des noms complets, à savoir une approche de type symbolique avec l'utilisation de règles écrites à la main, et plusieurs approches à base de méthodes statistiques. Nous décrivons ici la première approche utilisée dans la littérature, à savoir l'approche symbolique. Les méthodes à base de systèmes statistiques sont décrites dans la suite de cette thèse. 
-
+ Les travaux réalisés par le Canseco-Rodriguez \cite{CansecoRodriguez2005,CansecoRodriguez2006} ont été les premiers à montrer que le couple prénom/patronyme d'un locuteur apparaissant dans un contexte lexical donné permettait d'identifier de manière précise l'identité des locuteurs s'exprimant dans les tours de parole contigus. Ces travaux sont à la base de toutes les techniques d'INL, puisque ce sont eux qui ont défini le principe de l'attribution locale décrit en section \ref{ssec:attributions_locales}.
+ 
 \subsection{Règles linguistiques}
 
- Les travaux réalisés par le LIMSI \cite{CansecoRodriguez2005,CansecoRodriguez2006} ont été les premiers à montrer que le couple prénom/patronyme d'un locuteur apparaissant dans un contexte lexical donné permettait d'identifier de manière précise l'identité des locuteurs s'exprimant dans les tours de parole contigus. Ces travaux sont à la base de toutes les techniques d'INL, puisque ce sont eux qui ont défini le principe de l'attribution locale décrit ci-dessus. 
- 
-Ces travaux s'appuient sur l'utilisation de règles linguistiques pour réaliser l'attribution locale des noms complets. L'idée est d'utiliser le contexte linguistique de chaque nom complet pour lui attribuer une des trois étiquettes (\og locuteur précédent \fg, \og locuteur courant \fg ,\og locuteur suivant \fg). Ces règles ont été définies manuellement après analyse d'un corpus de langue anglaise (\emph{Hub-4e}). Ce corpus est un corpus qui a été réalisé manuellement et qui concerne des émissions de radio et de télévisions américaines (ABC, CNN, CSPAN et NPR) enregistrées entre 1993 et 1998. Comme décrit dans \ref{ssec:presence_noms_complets}, ce type de corpus se prête particulièrement à l'utilisation de méthodes d'INL basées sur la transcription.
+Ces travaux s'appuient sur l'utilisation de règles linguistiques pour réaliser l'attribution locale des noms complets. L'idée est d'utiliser le contexte linguistique de chaque nom complet pour lui attribuer une des trois étiquettes (\og locuteur précédent \fg, \og locuteur courant \fg ,\og locuteur suivant \fg). Ces règles ont été définies manuellement après analyse d'un corpus de langue anglaise (\emph{Hub-4e}). Ce corpus est composé de transcriptions manuelles d'émissions de radio et de télévisions américaines (ABC, CNN, CSPAN et NPR) enregistrées entre 1993 et 1998. Comme décrit en section \ref{ssec:hypotheses}, ce type de corpus se prête particulièrement à l'utilisation de méthodes d'INL basées sur la transcription.
 
-Dans le but de réaliser des règles les plus génériques possibles, certains mots du contexte linguistique ont été remplacés par des mots plus génériques appelés concepts. Ces concepts vont permettre de regrouper au sein d'une même graphie plusieurs mots différents. Par exemple, tous les noms lieux sont remplacés par le concept [location]. De ce fait, les deux règles \og reporting from Bagdad \fg et \og reporting from Paris \fg peuvent être scindées en une seule règle \og reporting from [location] \fg. Plusieurs dictionnaires de concepts sont utilisés pour remplacer les mots. Les dictionnaires utilisés sont au nombre de 6 :
+Dans le but de réaliser des règles les plus génériques possibles, certains mots ou groupes de mots ont été regroupés au sein de classes sémantiques. Ces groupes de mots ont ensuite été substitués par leur classe sémantique dans les textes. Par exemple, tous les noms lieux sont remplacés par la classe sémantique [location]. De ce fait, les deux règles \og reporting from Bagdad \fg{} et \og reporting from Paris \fg{} peuvent être scindées en une seule règle \og reporting from [location] \fg. Plusieurs dictionnaires de classes sont utilisés pour remplacer les mots. Les dictionnaires utilisés, majoritairement récupérés à partir d'internet, sont au nombre de 6 :
 
 
 \begin{itemize}
-	\item \textbf{noms complets} (prénom et patronyme) de locuteurs ([name]) : ce dictionnaire contient les noms anglais les plus communs, y compris les personnes célèbres et les personnalités internationales. Ces noms ont été récupérés via des sites internet et complétés par les identités des locuteurs présents dans les transcriptions de référence (tout corpus confondu).
-	\item \textbf{toponymes} [(location]) : ce dictionnaire est constitué des lieux géographiques les plus courants comme les villes, les régions, les états, les monuments... Ils ont été récupérés à partir de journaux en ligne. La plus part se situent aux États-Unis.
+	\item \textbf{noms complets} (prénom et patronyme) de locuteurs ([name]) : ce dictionnaire contient les noms anglais les plus communs, y compris les personnes célèbres et les personnalités internationales. Ce dictionnaire a été complété par des informations trouvées dans les textes à traiter, et notamment par l'identité des différents locuteurs (tous corpus confondus).
+	\item \textbf{toponymes} [(location]) : ce dictionnaire est constitué des lieux géographiques les plus courants comme les villes, les régions, les états, les monuments... Ils ont été récupérés à partir de journaux en ligne. La majorité des lieux se situent aux États-Unis.
 	\item \textbf{noms d'émissions} ([show]) : ce dictionnaire contient le nom des émissions et des radios. Les informations ont été extraites des transcriptions de référence (tous corpus confondus).
-	\item \textbf{professions} ([title]) : ce dictionnaire est composé des titres (Monsieur, Madame, ...), des rangs militaires et des professions. Ils ont été récupérés à partir de sites internet.
-	\item \textbf{mots gérant la communication} : c'est un dictionnaire global incluant une variété de termes utilisés pour gérer la communication. Il contient une sélection des termes les plus fréquemment utilisés pour les remerciements ([thanks]), les salutations ([greet]), les consentements ([agree]), les questions ([quest]), les réflexions personnelles ([reflect]) et les pronoms démonstratifs ([dem]). Cet ensemble de concept a été récupéré via internet.
-  \item \textbf{conjugaisons} : ce dictionnaire contient la liste complète des verbes anglais. Ils sont conjugués et classés comme verbes à l'infinitif ([infverb]), au passé ([pasverb]), au présent ([preverb]) ou au participe ([parverb]). Cette liste a été récupérée via internet.
+	\item \textbf{titres et professions} ([title]) : ce dictionnaire est composé des titres (Monsieur, Madame, ...), des rangs militaires et des professions.
+	\item \textbf{vocabulaire de la communication} : c'est un dictionnaire global incluant une variété de mots et d'expressions utilisés pour gérer la communication. Il contient une sélection des mots les plus fréquemment utilisés pour les remerciements ([thanks]), les salutations ([greet]), les consentements ([agree]), les questions ([quest]), les réflexions personnelles ([reflect]) et les pronoms démonstratifs ([dem]).
+  \item \textbf{flexions} : ce dictionnaire contient la liste complète des verbes anglais. Ils sont conjugués et classés comme verbe à l'infinitif ([infverb]), au passé ([pasverb]), au présent ([preverb]) ou au participe ([parverb]).
 \end{itemize}
 
-À partir du corpus de développement de 150 heures d'enregistrements de radio et de télévision en langue anglaise (corpus Hub-4e), les règles les plus utiles pour déterminer l'identité des locuteurs ont été extraites. Elles sont décrites dans le tableau \ref{table:canseco_regles}. Au final, douze règles sont utilisées pour désigner le locuteur courant, 34 pour le suivant et 6 pour le précédent.
+À partir du corpus de développement de 150 heures d'enregistrements de radio et de télévision en langue anglaise (corpus Hub-4e), les règles les plus fréquentes pour trouver l'identité des locuteurs ont été extraites. Elles sont décrites dans le tableau \ref{table:canseco_regles}. Au final, douze règles sont utilisées pour désigner le locuteur courant, 34 pour le suivant et 6 pour le précédent.
 
 \begin{table}[h]
   \begin{center}
@@ -751,11 +752,11 @@ Dans le but de réaliser des règles les plus génériques possibles, certains mots 
     \end{tabular}
   \end{center}
 
-  \caption{Règles les plus utiles pour déterminer l'identité d'un locuteur sur le corpus de développement}
+  \caption{Règles les plus fréquentes pour déterminer l'identité d'un locuteur sur le corpus de développement}
   \label{table:canseco_regles}    
 \end{table}
 
-En plus de ces règles, d'autres règles comprenant un caractère joker (*) ont été utilisées. Ce caractère va permettre de remplacer n'importe quel mot ou suite de mots, de manière à généraliser encore un peu plus les règles. Des exemples de règles avec joker sont données dans le tableau \ref{table:canseco_joker}.
+À ces règles viennent s'ajouter d'autres mécanismes comme l'utilisation d'un caractère générique (*) permettant de remplacer n'importe quel mot ou suite de mots, de manière à généraliser encore un peu plus les règles. Des exemples de règles avec caractère générique sont données dans le tableau \ref{table:canseco_joker}.
 
 \begin{table}[h]
   \begin{center}
@@ -777,24 +778,24 @@ En plus de ces règles, d'autres règles comprenant un caractère joker (*) ont été
   \label{table:canseco_joker}    
 \end{table}
 
-\subsection{Évaluation}
+\subsection{Corpus et métriques d'évaluation}
 
-L'évaluation a été réalisée sur un corpus de test de 10 heures de données en langue anglaise (corpus Hub-4e, années 1997, 1998 et 1999). Deux types de transcriptions enrichies ont été utilisées : transcriptions manuelles et automatiques. Le taux d'erreur mot pour les transcriptions automatiques est de 18\%, le système utilisé est celui présenté dans \cite{Lamel02lightlysupervised}. 
+L'évaluation a été réalisée sur un corpus de test de 10 heures de données en langue anglaise (corpus Hub-4e, années 1997, 1998 et 1999). Deux types de transcriptions enrichies ont été utilisées : transcriptions manuelles et automatiques. Le taux d'erreur mot pour les transcriptions automatiques est de 18~\%, le système utilisé est celui présenté dans \cite{Lamel02lightlysupervised}. 
 
-Les erreurs réalisées par le système de transcription automatique, et notamment les erreurs de découpage en tours de paroles (produits par le système de segmentation et de classification en locuteur) posent problème pour l'évaluation des règles. En effet, lorsqu'un tour de parole produit par le système automatique correspond à plusieurs tours de paroles la référence, comment considérer la validité de la règle ? Doit-elle être considérée comme bonne, fausse ? Pour répondre à ce problème, deux types de tours de parole ont été pris en compte dans les transcriptions réalisées automatiquement. À savoir les tours de paroles \og purs \fg, c'est à dire les tours de paroles qui correspondent aux tours de parole de la référence et les tours de paroles \og impurs \fg, c'est à dire les tours de paroles qui regroupent en plusieurs tours de parole de la référence (à cause d'une erreur du système de segmentation et de classification). Afin de calculer les erreurs commises par le système, différents cas de figure ont été pris en compte~:
+Les erreurs réalisées par le système de transcription automatique, et notamment les erreurs de découpage en tours de paroles (produits par le système de segmentation et de classification en locuteur), posent problème pour l'évaluation des règles. Lorsqu'un tour de parole produit par le système automatique correspond à plusieurs tours de parole de la référence, il est difficile de décider si la règle doit être considérée comme bonne ou mauvaise. Pour résoudre ce problème, deux types de tours de parole ont été pris en compte dans les transcriptions réalisées automatiquement~: les tours de paroles \og corrects \fg, c'est à dire les tours de paroles qui correspondent aux tours de parole de la référence et les tours de paroles \og bruités \fg, c'est à dire les tours de paroles qui regroupent plusieurs tours de parole de la référence (à cause d'une erreur du système de segmentation et de classification). Les erreurs commises par le système sont ensuite calculées selon différents cas de figure~:
 
 \begin{itemize}
-  \item \textbf{C1} : l'identité extraite de la transcription est associée avec un tour de parole pur et correspond exactement à l'identité indiquée dans la référence (prénom et patronyme).
-  \item \textbf{C2} : l'identité extraite de la transcription est associée avec un tour de parole impur et correspond exactement à une des identités indiquées dans la référence (prénom et patronyme).
-  \item \textbf{C3} : l'identité extraite de la transcription est associée avec un tour de parole pur et correspond partiellement à l'identité indiquée dans la référence.
-  \item \textbf{C4} : l'identité extraite de la transcription est associée avec un tour de parole impur et correspond partiellement à une des identités indiquées dans la référence.
-  \item \textbf{Undef} : la règle correspond a un locuteur inconnu dans la référence (ces cas sont exclus des résultats de test)
-  \item \textbf{False id} : Aucun des cas ci-dessus ne s'applique, c'est donc une erreur d'association avec un tour de parole.
+  \item \textbf{Identité correcte, tour correct} (C1) : l'identité extraite de la transcription est associée avec un tour de parole correct et correspond exactement à l'identité indiquée dans la référence (prénom et patronyme).
+  \item \textbf{Identité correcte, tour bruité} (C2) : l'identité extraite de la transcription est associée avec un tour de parole bruité et correspond exactement à une des identités indiquées dans la référence (prénom et patronyme).
+  \item \textbf{Identité partielle, tour correct} (C3) : l'identité extraite de la transcription est associée avec un tour de parole correct et correspond partiellement à l'identité indiquée dans la référence.
+  \item \textbf{Identité partielle, tour bruité} (C4) : l'identité extraite de la transcription est associée avec un tour de parole bruité et correspond partiellement à une des identités indiquées dans la référence.
+  \item \textbf{Indéfini} : la règle correspond à un locuteur inconnu dans la référence (ces cas sont exclus des résultats de test)
+  \item \textbf{Mauvaise identification} : Aucun des cas ci-dessus ne s'applique, c'est donc une erreur d'association avec un tour de parole.
 \end{itemize}
 
 \subsection{Résultats}
 
-Le tableau \ref{tab:results_canseco} résume les résultats sur les transcriptions manuelles et automatiques. Sur le corpus d'évaluation avec les transcriptions manuelles, les règles identifiant le locuteur courant sont les plus fiables (aucune fausse identification), tandis que les règles identifiant le locuteur précédent (43,1\% de fausse identification) et suivant (20,2\% de fausse identification) présentent des taux d'erreur plus élevés. Cette tendance ce confirme avec l'utilisation de transcription automatiques, les règles de type \og courant \fg représentent 8,0\% des erreurs, les règles de type \og suivant \fg 19,0\% des erreurs et les règles de type \og précédent \fg 50,0\% des erreurs. Le taux d'erreur global des règles sur le corpus de test avec les transcriptions manuelles est d'environ 13\%, contre environ 18\% pour les transcriptions automatiques. 
+Le tableau \ref{tab:results_canseco} résume les résultats sur les transcriptions manuelles et automatiques. Sur le corpus de test avec les transcriptions manuelles, les règles identifiant le locuteur courant sont les plus fiables (aucune fausse identification), tandis que les règles identifiant le locuteur précédent (43,1~\% de fausse identification) et suivant (20,2~\% de fausse identification) présentent un taux d'erreur plus élevé. Cette tendance se confirme avec l'utilisation de transcriptions automatiques, les règles de type \og courant \fg{} représentent 8,0~\% des erreurs, les règles de type \og suivant \fg{} 19,0~\% des erreurs et les règles de type \og précédent \fg{} 50,0~\% des erreurs. Le taux d'erreur global des règles sur le corpus de test avec les transcriptions manuelles est d'environ 13~\%, contre environ 18~\% pour les transcriptions automatiques. 
 
 
 \begin{table}[h]
@@ -811,8 +812,8 @@ Le tableau \ref{tab:results_canseco} résume les résultats sur les transcriptions
       \emph{c2} & - & - & - & 2 (1,7\%) & 3 (4,8\%) & - \\
       \emph{c3} & 7 (5,0\%) & 22 (24,8\%) & 18 (40,9\%) & 7 (6,2\%) & 10 (15,9\%) & 11 (29,0\%) \\
       \emph{c4} & - & - & - & - & - & - \\
-      \emph{\#False id} & - & 16 (20,2\%) & 19 (43,1\%) & 9 (8,0\%) & 12 (19,0\%) & 19 (50,0\%) \\
-      \emph{\#undef.} & - & 3 & 1 & - & 2 & 1 \\ \hline
+      \emph{\#Mau. id.} & - & 16 (20,2\%) & 19 (43,1\%) & 9 (8,0\%) & 12 (19,0\%) & 19 (50,0\%) \\
+      \emph{\#Indéfini} & - & 3 & 1 & - & 2 & 1 \\ \hline
       \emph{Total} & 122 & 91 & 45 & 112 & 65 & 39 \\
       \hline
       \hline
@@ -828,7 +829,7 @@ Le tableau \ref{tab:results_canseco} résume les résultats sur les transcriptions
 
 Ces travaux démontrent qu'identifier les locuteurs d'un document à partir de sa transcription est possible. En revanche, ils nécessitent un traitement manuel du corpus~: les règles et les dictionnaires de concepts sont réalisés par un humain. Le temps de mise en place de telles règles peut être long suivant la quantité de corpus à analyser et demande une expertise du domaine pour pouvoir être réalisée. De plus, le passage d'un corpus à un autre est fastidieux~: il faut réécrire le jeu de règles pour l'utiliser sur des documents d'une autre langue ou provenant d'autres types d'émissions.
 
-De plus, ces travaux ne traitent pas de l'attribution globale des noms complets mais uniquement de l'utilisation des règles locales. Ce problème d'attribution globale est abordé dans les différentes approches statistiques décrites ci-dessous.
+De plus, ces travaux ne traitent pas de l'attribution globale des noms complets mais uniquement de l'utilisation des règles locales. Ce problème d'attribution globale est abordé dans les différentes approches statistiques dans la section qui suit.
 
 
 \section{Approche statistique : N-grammes}
