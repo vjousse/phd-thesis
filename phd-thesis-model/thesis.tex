@@ -827,9 +827,9 @@ Le tableau \ref{tab:results_canseco} résume les résultats sur les transcriptions
 
 
 
-Ces travaux démontrent qu'identifier les locuteurs d'un document à partir de sa transcription est possible. En revanche, ils nécessitent un traitement manuel du corpus~: les règles et les dictionnaires de concepts sont réalisés par un humain. Le temps de mise en place de telles règles peut être long suivant la quantité de corpus à analyser et demande une expertise du domaine pour pouvoir être réalisée. De plus, le passage d'un corpus à un autre est fastidieux~: il faut réécrire le jeu de règles pour l'utiliser sur des documents d'une autre langue ou provenant d'autres types d'émissions.
+Ces travaux pionniers démontrent qu'identifier les locuteurs d'un document à partir de sa transcription est possible. En revanche, ils ne prennent pas en compte les possibilités offertes par les techniques d'apprentissage automatique~: les corpus nécessitent des traitements manuels. Le temps de mise en place de telles règles peut être long suivant la quantité de corpus à analyser et demande une expertise du domaine pour pouvoir être réalisée. De plus, le passage d'un corpus à un autre est fastidieux~: il faut réécrire le jeu de règles pour l'utiliser sur des documents d'une autre langue ou provenant d'autres types d'émissions.
 
-De plus, ces travaux ne traitent pas de l'attribution globale des noms complets mais uniquement de l'utilisation des règles locales. Ce problème d'attribution globale est abordé dans les différentes approches statistiques dans la section qui suit.
+Ces travaux ne traitent pas de l'attribution globale des noms complets mais uniquement de l'utilisation des règles locales. Ce problème d'attribution globale est abordé dans les différentes approches statistiques dans la section qui suit.
 
 
 \section{Approche statistique : N-grammes}
@@ -837,44 +837,47 @@ De plus, ces travaux ne traitent pas de l'attribution globale des noms complets 
 \label{sub:regles_statistiques}
 
 
-Suite aux travaux de Canseco (2005), le laboratoire de l'Université de Cambridge s'est intéressé à l'identification nommée du locuteur \cite{Tranter06}. Les travaux de Cambridge consistent à automatiser l'apprentissage des règles linguistiques et à mesurer l'impact de leur système d'identification nommée sur des données provenant de systèmes automatiques (classification en locuteur et transcription automatiques).
+Suite aux travaux de Canseco-Rodriguez (2005), le laboratoire de l'Université de Cambridge s'est intéressé à l'identification nommée du locuteur \cite{Tranter06}. Leurs travaux consistent à automatiser l'apprentissage des règles linguistiques et à mesurer l'impact de leur système d'identification nommée sur des données provenant de systèmes automatiques (classification en locuteur et transcription automatiques).
 
 \subsection{Utilisation de N-grammes}
 \label{Tranter}
-\begin{figure}[h]
-\begin{center}
-\includegraphics[width=1\columnwidth]{img/n_gram_tranter.pdf}
-\caption{Exemple de n-grammes}
-\label{fig:tranter_n_gram}
-\end{center}
-\end{figure}
 
-À la différence des précédents travaux, Cambridge utilise des N-grammes pour modéliser les règles linguistiques (cf. figure \ref{fig:tranter_n_gram}). Comme décrit dans \ref{ssection:modele_langage}, les N-grammes sont des outils très utilisés en modélisation du langage, ceux utilisés par Cambridge vont de 2 à 5 mots. Ils sont obtenus via un corpus d'apprentissage dans lequel la liste des personnes (leurs noms complets) intervenant dans les enregistrements est connue à l'avance. Les occurrences de ces noms complets sont détectées grâce à cette liste et les N-grammes sont appris en utilisant le contexte du nom complet détecté (une fenêtre de cinq mots incluant le nom complet est utilisée). Chaque N-gramme apparaissant plus d'un certain nombre de fois (cinq dans le cas de ces travaux) est considéré comme une règle de prédiction et est donc retenu comme règle linguistique.
+%\begin{figure}[h]
+%\begin{center}
+%\includegraphics[width=1\columnwidth]{img/n_gram_tranter.pdf}
+%\caption{Exemple de n-grammes}
+%\label{fig:tranter_n_gram}
+%\end{center}
+%\end{figure}
 
-Toutes les règles précédemment apprises sont utilisées sur le corpus de test. Lorsqu'une règle avec une probabilité $p_1$ est déclenchée et suggère un nom $n_1$ pour une classe de locuteur $s_a$, le score pour l'hypothèse $s_a = n_1$ est incrémenté.
+À la différence des précédents travaux, Cambridge utilise des N-grammes pour modéliser les règles linguistiques. Ils sont obtenus via un corpus d'apprentissage dans lequel la liste des personnes (leurs noms complets) intervenant dans les enregistrements est connue à l'avance. Les occurrences de ces noms complets sont détectées grâce à cette liste. 
+
+Le contexte lexical de chaque nom complet locuteur du document est analysé. Une fenêtre glissante est utilisée sur ce contexte lexical~: sa taille varie de 2 à 5 mots (en incluant le nom complet). Pour chaque contexte lexical, le système va générer un ensemble de N-grammes (de 2 à 5-grammes) et va leur assigner une probabilité de désigner de manière correcte le locuteur suivant, courant ou précédent. Un N-gramme (avec un minimum de 2 mots et un maximum de 5) est appris pour chaque glissement de la fenêtre. Chaque N-gramme apparaissant plus d'un certain nombre de fois (cinq dans le cas de ces travaux) est considéré comme une règle de prédiction et est donc retenu comme règle linguistique.
+
+Toutes les règles précédemment apprises sont utilisées sur le corpus de test. Lorsqu'une règle avec une probabilité $p_1$ est déclenchée et suggère un nom $n_1$ pour un locuteur $s_a$, le score pour l'hypothèse $s_a = n_1$ est incrémenté.
 Lorsque deux règles sont déclenchées pour le même nom de locuteur, leurs probabilités sont combinées en utilisant la formule :
 \begin{equation}\mathbf{}
   p_{1+2}=1 - (1-p_1)(1-p_2)
 \label{eq:sl}
 \end{equation}
 
-Comme dans les précédents travaux de Canseco (2005), Tranter (2006) utilise des concepts pour généraliser les règles. Ces concepts sont issus des données d'apprentissage et ont été complétés avec d'autres sources (journaux écrits notamment). Ces concepts sont les suivants : GOODBYE, HELLO, OKAY, THANKS, LOCATION, PERSON, PERSON'S, SHOW, SHOW'S and TITLE. Ils regroupent ceux utilisés par Canseco, la concept [agree] devient OKAY, [greet] devient THANKS, ... En revanche là où Tranter différencie HELLO et GOODBYE, Canseco les regroupait au sein d'un même concept [comm]. De plus, Tranter n'utilise pas le concept [quest] et les verbes.
+Comme dans les précédents travaux de Canseco (2005), Tranter (2006) utilise des classes sémantiques pour généraliser les règles. Ces classes sont issues des données d'apprentissage et ont été complétées avec d'autres sources (journaux écrits notamment). Ces classes sont les suivantes : GOODBYE, HELLO, OKAY, THANKS, LOCATION, PERSON, PERSON'S, SHOW, SHOW'S and TITLE. Ils regroupent ceux utilisés par Canseco, la concept [agree] devient OKAY, [greet] devient THANKS, etc. En revanche là où Tranter différencie HELLO et GOODBYE, Canseco les regroupait au sein d'un même concept [comm]. De plus, Tranter n'utilise pas la catégorie [quest] et les verbes.
 
 \subsection{Corpus}
 
-Le corpus d'apprentissage utilisé contient environ 70 heures d'enregistrements de journaux d'informations en langue anglaise provenant du corpus Hub-4 de 1996/1997 (corpus utilisé en partie par Canseco). Ce corpus a été transcrit manuellement et les identités de chacun des locuteurs ont été renseignées (quand cela était possible). De plus, les erreurs de transcription correspondant à des locuteurs du document ont été corrigées. Le corpus de développement correspond à celui utilisé pour la campagne RT-04 \cite{NIST2004} et se compose de 12 documents enregistrés en février 2001 et de novembre à décembre 2003. Le corpus d'évaluation correspond aussi à celui de la campagne RT-04, soit 12 émissions enregistrées en décembre 2003.
+Le corpus d'apprentissage utilisé contient environ 70 heures d'enregistrements de journaux d'informations en langue anglaise provenant du corpus Hub-4 de 1996/1997. Ce corpus a été transcrit manuellement et les locuteurs identifiés (quand cela était possible). De plus, les erreurs de transcription des noms complets (mauvaise orthographe du prénom ou du nom) de locuteurs intervenant dans document ont été corrigées. Le corpus de développement correspond à celui utilisé pour la campagne RT-04 \cite{NIST2004} et se compose de 12 documents enregistrés en février 2001 et de novembre à décembre 2003. Le corpus d'évaluation correspond aussi à celui de la campagne RT-04, soit 12 émissions enregistrées en décembre 2003.
 
-\subsection{Performance}
+\subsection{Évaluation}
 
-Afin de tester le système mis en place, ces travaux examinent les locuteurs de la référence pour évaluer la difficulté de la tâche. En effet, 3 cas différents pour ces locuteurs sont possibles :
+Afin de tester le système mis en place, les locuteurs de la référence sont comparés aux locuteurs de l'hypothèse générée. Trois cas différents pour ces locuteurs sont possibles :
 
 \begin{itemize}
-  \item \textbf{D}isponible~: le nom complet du locuteur de la référence est connu et est présent à l'identique dans la transcription de l'émission.
-  \item \textbf{I}ndisponible~: le nom complet du locuteur de la référence est connu mais n'est pas présent à l'identique dans la transcription de l'émission. Ceci peut être du à plusieurs choses~: des personnes dont les noms sont cités dans d'autres émissions, l'utilisation de synonymes demandant une connaissance du contexte (le président = Bill Clinton) ou encore l'utilisation de tournures demandant un traitement supplémentaire (John Smith et sa femme Judy = Judy Smith).
-  \item \textbf{N}on-nommé~: le nom complet du locuteur de la référence n'est pas connu.
+  \item Disponible~: le nom complet du locuteur de la référence est connu et est présent à l'identique dans la transcription de l'émission~;
+  \item Indisponible~: le nom complet du locuteur de la référence est connu mais n'est pas présent à l'identique dans la transcription de l'émission. Plusieurs cas de figure sont possibles~: des personnes dont les noms sont cités dans d'autres émissions, l'utilisation de synonymes demandant une connaissance du contexte (le président = Bill Clinton) ou encore l'utilisation de tournures demandant un traitement supplémentaire (John Smith et sa femme Judy = Judy Smith)~;
+  \item Non-nommé~: le locuteur n'a pu être nommé dans la référence.
 \end{itemize}
 
-À la différence de Canseco, ces travaux ne prennent pas en compte les noms partiels, c'est à dire les cas où uniquement le prénom ou le nom correspond à l'identité de la référence. Le nom complet associé par le système d'INL à une classe de locuteur doit correspondre exactement au nom renseigné dans la transcription. Le tableau \ref{tab:results_tranter_perf} présente les résultats sur les différents corpus. 
+À la différence des travaux de Canseco-Rodiguez, ces travaux ne prennent pas en compte les noms partiels, c'est à dire les identifications à l'aide d'un seul nom ou prénom. Le nom complet associé par le système d'INL à un locuteur doit correspondre exactement au nom renseigné dans la transcription. Le tableau \ref{tab:results_tranter_perf} présente les résultats sur les différents corpus. 
 
 \begin{table}[h]
   \begin{center}
@@ -882,11 +885,11 @@ Afin de tester le système mis en place, ces travaux examinent les locuteurs de l
     \small
     \begin{tabular}{|c||c|c|c||c|c|}
       \hline
-      Données & D & I & N & Temps total (h) & Nombre d'occurrences \\ \hline
-      Apprentissage & 79,3\% & 4,0\% & 16,8\% & 148,2\% & 6912 \\
-      Développement & 78,2\% & 8,8\% & 13,0\% & 4,3\% & 195 \\
-      Évaluation & 76,8\% & 12,9\% & 10,3\% & 4,2\% & 206 \\ \hline
-      Évaluation (srap) & 47,3\% & 42,5\% & 10,3\% & 4,2\% & 138 \\
+      Données & D & I & N & Nombre d'occurrences \\ \hline
+      Apprentissage & 79,3\% & 4,0\% & 16,8\% & 6912 \\
+      Développement & 78,2\% & 8,8\% & 13,0\% & 195 \\
+      Évaluation & 76,8\% & 12,9\% & 10,3\% & 206 \\ \hline
+      Évaluation (srap) & 47,3\% & 42,5\% & 10,3\% & 138 \\
       \hline
 
       \hline
@@ -896,11 +899,11 @@ Afin de tester le système mis en place, ces travaux examinent les locuteurs de l
   \label{tab:results_tranter_perf}
 \end{table}
 
-La quantité de noms complets disponibles à partir de la transcription reste aux alentours de 78\%. L'utilisation de transcriptions automatiques multiplie par 3 les noms complets non disponibles dans la transcription. Cela est du aux nombreuses erreurs de transcription des noms complets. 
+La quantité de noms complets disponibles à partir de la transcription reste aux alentours de 78~\%. L'utilisation de transcriptions automatiques multiplie par trois les noms complets non disponibles dans la transcription. Cela est du aux nombreuses erreurs de transcription des noms complets. 
 
-\subsection{Métrique}
+\subsection{Métrique d'évaluation}
 
-Dans ces travaux plusieurs cas possibles sont étudiés lors de la comparaison entre la référence et les hypothèses fournies par le système d'INL :
+Dans ces travaux plusieurs cas possibles sont étudiés lors de la comparaison entre la référence et les hypothèses fournies par le système d'INL:
 
 \begin{itemize}
   \item Correct ($C$)~: le système propose une identité correspondant à celle indiquée dans la référence ;
@@ -910,6 +913,8 @@ Dans ces travaux plusieurs cas possibles sont étudiés lors de la comparaison ent
   \item Inconnu ($U$)~: le système ne propose pas d'identité et la référence ne contient pas d'identité.
 \end{itemize}
 
+Ces comparaisons se basent sur les opérations élémentaires permettant de comparer deux chaînes de caractères.
+
 Une mesure de Précision et de Rappel peut être définie à partir des 5 cas d'erreur~:
 \begin{equation}
 	\label{eq:PR}
@@ -918,13 +923,18 @@ Une mesure de Précision et de Rappel peut être définie à partir des 5 cas d'erre
 
 %Dans tous les précédents articles \cite{Tranter06,Esteve07,Chengyuan07} traitant de l'identification nommée du locuteur, les résultats sont présentés sous la forme de mesures de précision et de rappel.
 
-Ces valeurs peuvent être complétées par un taux d'erreur $Err$ global. Ce taux s'inspire du calcul du $WER$ utilisé pour l'évaluation de la transcription. Il a l'avantage de mesurer la qualité des résultats du système d'identification nommée en une seule valeur, facilitant les comparaisons entre les systèmes par rapport aux mesures de précision et de rappel.
+Ces valeurs peuvent être complétées par un taux d'erreur $E$ global. Ce taux s'inspire du calcul du $WER$ utilisé pour l'évaluation de la transcription. Il a l'avantage de mesurer la qualité des résultats du système d'identification nommée en une seule valeur, facilitant les comparaisons entre les systèmes par rapport aux mesures de précision et de rappel.
 \begin{equation}
 	\label{eq:PR}
-	Err = \frac{S+I+D}{S+I+D+C+U} \ \ ;
+	E = \frac{S+I+D}{S+I+D+C+U} \ \ ;
 \end{equation}
 
-À noter que ces métriques sont utilisés pour mesurer les performances en terme de durée.
+À noter que ces métriques sont utilisées pour mesurer les performances en terme de durée. Une autre possibilité aurait été de mesurer les performances en terme de nombre de locuteurs correctement étiquetés.
+
+Pour une évaluation en durée, dans le cas où un locuteur parlant 90\% du temps est correctement nommé et que les six autres locuteurs parlant seulement 10\% du temps ne le sont pas, le système présentera un taux d'erreur de 10\%. 
+Pour une évaluation en terme de nombre de locuteurs, dans le même cas de figure, le système aura un taux d'erreur de 87,5\%.
+
+D'un point de vue applicatif, la métrique exprimée en durée est préférable si les locuteurs considérés comme importants correspondent aux locuteurs s'exprimant beaucoup. En revanche, si l'application cherche à nommer le plus possible de locuteurs, il est plus intéressant d'évaluer les performances en terme de nombre de locuteurs.
 
 \subsection{Résultats}
 
