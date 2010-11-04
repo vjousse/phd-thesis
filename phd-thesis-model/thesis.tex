@@ -558,9 +558,41 @@ Disposer des noms complets des intervenants d'un document audio peut être utilis
 
 Les récentes campagnes d'évaluation des systèmes de reconnaissance automatique de la parole (cf. \ref{ssec:trans_broadcast}) s'intéressent à l'enrichissement de la transcription (cf. \ref{sec:trans_enrichie}) par diverses informations comme les entités nommées ou encore les informations sur les locuteurs du document. Cette transcription contient notamment une segmentation et une classification en locuteurs (cf. \ref{ssub:decoupage_regroupement}) qui permettent de délimiter les différentes interventions dans l'enregistrement. En revanche, les informations fournies par le processus de segmentation et de classification en locuteur ne permettent pas d'identifier les locuteurs du document par leur prénom et patronyme. Les locuteurs sont uniquement identifiés par des labels anonymes du type \emph{Locuteur1}, \emph{Locuteur2}. L'INL s'inscrit dans l'enrichissement de la transcription en permettant de remplacer ces labels anonymes par le prénom et le nom des locuteurs. Ce couple prénom/patronyme sera par la suite désigné comme étant le \textbf{nom complet} du locuteur.
 
-Afin de pouvoir attribuer aux locuteurs d'un document leurs noms complets, il faut obtenir leurs prénoms et patronymes. Deux principales approches sont possibles : disposer d'informations a priori sur les locuteurs comme dans le cas du suivi de locuteur (cf. \ref{ssec:sl}) ou utiliser les informations fournies par le document lui même pour déterminer l'identité des locuteurs. Nous commençons par présenter la première approche avant de nous intéresser plus longuement à la deuxième approche qui constitue le c\oe{}ur de cette thèse.
+Afin d'évaluer les différents systèmes d'INL, une même métrique est utilisée. Nous commençons par décrire cette métrique commune avant de présenter les différents systèmes par la suite.
 
 %Contrairement à la reconnaissance de la parole et aux tâches de reconnaissance du locuteur présentées dans le chapitre précédent, l'identification nommée de locuteurs est un domaine de recherche relativement récent. En effet, ce sont les travaux du LIMSI et plus particulièrement de Leonardo Canseco-Rodriguez \cite{CansecoRodriguez2005}, qui ont été les premiers à s'intéresser à l'identification nommée du locuteur utilisant la transcription enrichie (réalisée manuellement) d'enregistrements radiophoniques.
+
+\section{Métrique d'évaluation}
+
+L'évaluation va consister à comparer les noms complets des locuteurs des transcriptions de référence aux locuteurs proposés par le système d'INL. Ces comparaisons se basent sur les opérations élémentaires permettant de comparer deux chaînes de caractères. Plusieurs cas possibles sont étudiés lors de la comparaison entre la référence et les hypothèses fournies par le système d'INL:
+
+\begin{itemize}
+  \item Correct ($C$)~: le système propose une identité correspondant à celle indiquée dans la référence ;
+  \item Substitution ($S$)~: le système propose une identité différente de l'identité présente dans la référence ;
+  \item Insertion ($I$)~: le système propose une identité alors que le locuteur n'est pas identifié dans la référence ;
+  \item Suppression ($D$) : le système ne propose pas d'identité alors que le locuteur est identifié dans la référence ;
+  \item Inconnu ($U$)~: le système ne propose pas d'identité et la référence ne contient pas d'identité.
+\end{itemize}
+
+
+
+Une mesure de Précision et de Rappel peut être définie à partir des 5 cas d'erreur~:
+\begin{equation}
+	\label{eq:PR}
+	P = \frac{C}{C+S+I} \ \ ; \ \ R = \frac{C}{C+S+D}
+\end{equation}
+
+%Dans tous les précédents articles \cite{Tranter06,Esteve07,Chengyuan07} traitant de l'identification nommée du locuteur, les résultats sont présentés sous la forme de mesures de précision et de rappel.
+
+Ces valeurs peuvent être complétées par un taux d'erreur $E$ global. Ce taux s'inspire du calcul du $WER$ utilisé pour l'évaluation de la transcription. Il a l'avantage de mesurer la qualité des résultats du système d'identification nommée en une seule valeur, facilitant les comparaisons entre les systèmes par rapport aux mesures de précision et de rappel.
+\begin{equation}
+	\label{eq:PR}
+	E = \frac{S+I+D}{S+I+D+C+U} \ \ ;
+\end{equation}
+
+À noter que tous les résultats sont exprimés en terme du durée : plus les locuteurs s'exprimant de manière conséquente sont détectés, plus les résultats sont élevés~: le nombre de locuteurs correctement nommés n'est pas pris en compte. En section \ref{sec:metrique} les différentes métriques d'évaluation sont approfondies.
+
+Afin de pouvoir attribuer aux locuteurs d'un document leurs noms complets, il faut obtenir leurs prénoms et patronymes. Deux principales approches sont possibles : disposer d'informations a priori sur les locuteurs comme dans le cas du suivi de locuteur (cf. \ref{ssec:sl}) ou utiliser les informations fournies par le document lui même pour déterminer l'identité des locuteurs. Nous commençons par présenter la première approche avant de nous intéresser plus longuement à la deuxième approche qui constitue le c\oe{}ur de cette thèse.
 
 \section{Utilisation de connaissances a priori}
 \label{sub:suivi_locuteur}
@@ -901,35 +933,6 @@ Afin de tester le système mis en place, les locuteurs de la référence sont compa
 
 La quantité de noms complets disponibles à partir de la transcription reste aux alentours de 78~\%. L'utilisation de transcriptions automatiques multiplie par trois les noms complets non disponibles dans la transcription. Cela est du aux nombreuses erreurs de transcription des noms complets. 
 
-\subsection{Métrique d'évaluation}
-
-Dans ces travaux plusieurs cas possibles sont étudiés lors de la comparaison entre la référence et les hypothèses fournies par le système d'INL:
-
-\begin{itemize}
-  \item Correct ($C$)~: le système propose une identité correspondant à celle indiquée dans la référence ;
-  \item Substitution ($S$)~: le système propose une identité différente de l'identité présente dans la référence ;
-  \item Insertion ($I$)~: le système propose une identité alors que le locuteur n'est pas identifié dans la référence ;
-  \item Suppression ($D$) : le système ne propose pas d'identité alors que le locuteur est identifié dans la référence ;
-  \item Inconnu ($U$)~: le système ne propose pas d'identité et la référence ne contient pas d'identité.
-\end{itemize}
-
-Ces comparaisons se basent sur les opérations élémentaires permettant de comparer deux chaînes de caractères.
-
-Une mesure de Précision et de Rappel peut être définie à partir des 5 cas d'erreur~:
-\begin{equation}
-	\label{eq:PR}
-	P = \frac{C}{C+S+I} \ \ ; \ \ R = \frac{C}{C+S+D}
-\end{equation}
-
-%Dans tous les précédents articles \cite{Tranter06,Esteve07,Chengyuan07} traitant de l'identification nommée du locuteur, les résultats sont présentés sous la forme de mesures de précision et de rappel.
-
-Ces valeurs peuvent être complétées par un taux d'erreur $E$ global. Ce taux s'inspire du calcul du $WER$ utilisé pour l'évaluation de la transcription. Il a l'avantage de mesurer la qualité des résultats du système d'identification nommée en une seule valeur, facilitant les comparaisons entre les systèmes par rapport aux mesures de précision et de rappel.
-\begin{equation}
-	\label{eq:PR}
-	E = \frac{S+I+D}{S+I+D+C+U} \ \ ;
-\end{equation}
-
-À noter que tous les résultats sont exprimés en terme du durée : plus les locuteurs s'exprimant de manière conséquente sont détectés, plus les résultats sont élevés~: le nombre de locuteurs correctement nommés n'est pas pris en compte. En section \ref{sec:metrique} les différentes métriques d'évaluation sont approfondies.
 
 \subsection{Résultats}
 
