@@ -728,7 +728,7 @@ Dans le but de réaliser des règles les plus génériques possibles, certains mots 
 	\item \textbf{noms complets} (prénom et patronyme) de locuteurs ([name]) : ce dictionnaire contient les noms anglais les plus communs, y compris les personnes célèbres et les personnalités internationales. Ce dictionnaire a été complété par des informations trouvées dans les textes à traiter, et notamment par l'identité des différents locuteurs (tous corpus confondus).
 	\item \textbf{toponymes} [(location]) : ce dictionnaire est constitué des lieux géographiques les plus courants comme les villes, les régions, les états, les monuments... Ils ont été récupérés à partir de journaux en ligne. La majorité des lieux se situent aux États-Unis.
 	\item \textbf{noms d'émissions} ([show]) : ce dictionnaire contient le nom des émissions et des radios. Les informations ont été extraites des transcriptions de référence (tous corpus confondus).
-	\item \textbf{titres et professions} ([title]) : ce dictionnaire est composé des titres (Monsieur, Madame, ...), des rangs militaires et des professions.
+	\item \textbf{titres} ([title]) : ce dictionnaire est composé des titres (Monsieur, Madame, ...), des rangs militaires et des professions.
 	\item \textbf{vocabulaire de la communication} : c'est un dictionnaire global incluant une variété de mots et d'expressions utilisés pour gérer la communication. Il contient une sélection des mots les plus fréquemment utilisés pour les remerciements ([thanks]), les salutations ([greet]), les consentements ([agree]), les questions ([quest]), les réflexions personnelles ([reflect]) et les pronoms démonstratifs ([dem]).
   \item \textbf{flexions} : ce dictionnaire contient la liste complète des verbes anglais. Ils sont conjugués et classés comme verbe à l'infinitif ([infverb]), au passé ([pasverb]), au présent ([preverb]) ou au participe ([parverb]).
 \end{itemize}
@@ -795,7 +795,7 @@ Les erreurs réalisées par le système de transcription automatique, et notamment 
 
 \subsection{Résultats}
 
-Le tableau \ref{tab:results_canseco} résume les résultats sur les transcriptions manuelles et automatiques. Sur le corpus de test avec les transcriptions manuelles, les règles identifiant le locuteur courant sont les plus fiables (aucune fausse identification), tandis que les règles identifiant le locuteur précédent (43,1~\% de fausse identification) et suivant (20,2~\% de fausse identification) présentent un taux d'erreur plus élevé. Cette tendance se confirme avec l'utilisation de transcriptions automatiques, les règles de type \og courant \fg{} représentent 8,0~\% des erreurs, les règles de type \og suivant \fg{} 19,0~\% des erreurs et les règles de type \og précédent \fg{} 50,0~\% des erreurs. Le taux d'erreur global des règles sur le corpus de test avec les transcriptions manuelles est d'environ 13~\%, contre environ 18~\% pour les transcriptions automatiques. 
+Le tableau \ref{tab:results_canseco} résume les résultats obtenus sur les transcriptions manuelles et automatiques. Sur le corpus de test avec les transcriptions manuelles, les règles identifiant le locuteur courant sont les plus fiables (aucune fausse identification), tandis que les règles identifiant le locuteur précédent (43,1~\% de fausse identification) et suivant (20,2~\% de fausse identification) présentent un taux d'erreur plus élevé. Cette tendance se confirme avec l'utilisation de transcriptions automatiques, les règles de type \og courant \fg{} représentent 8,0~\% des erreurs, les règles de type \og suivant \fg{} 19,0~\% des erreurs et les règles de type \og précédent \fg{} 50,0~\% des erreurs. Le taux d'erreur global des règles sur le corpus de test avec les transcriptions manuelles est d'environ 13~\%, contre environ 18~\% pour les transcriptions automatiques. 
 
 
 \begin{table}[h]
@@ -929,17 +929,12 @@ Ces valeurs peuvent être complétées par un taux d'erreur $E$ global. Ce taux s'i
 	E = \frac{S+I+D}{S+I+D+C+U} \ \ ;
 \end{equation}
 
-À noter que ces métriques sont utilisées pour mesurer les performances en terme de durée. Une autre possibilité aurait été de mesurer les performances en terme de nombre de locuteurs correctement étiquetés.
-
-Pour une évaluation en durée, dans le cas où un locuteur parlant 90\% du temps est correctement nommé et que les six autres locuteurs parlant seulement 10\% du temps ne le sont pas, le système présentera un taux d'erreur de 10\%. 
-Pour une évaluation en terme de nombre de locuteurs, dans le même cas de figure, le système aura un taux d'erreur de 87,5\%.
-
-D'un point de vue applicatif, la métrique exprimée en durée est préférable si les locuteurs considérés comme importants correspondent aux locuteurs s'exprimant beaucoup. En revanche, si l'application cherche à nommer le plus possible de locuteurs, il est plus intéressant d'évaluer les performances en terme de nombre de locuteurs.
+À noter que tous les résultats sont exprimés en terme du durée : plus les locuteurs s'exprimant de manière conséquente sont détectés, plus les résultats sont élevés~: le nombre de locuteurs correctement nommés n'est pas pris en compte. En section \ref{sec:metrique} les différentes métriques d'évaluation sont approfondies.
 
 \subsection{Résultats}
 
-La figure \ref{fig:resultats_tranter} donne les différents résultats en fonction du type de transcription utilisée (\emph{srap} : transcription automatique, \emph{aseg} : segmentation et classification automatiques) et de l'usage des concepts ou non. 
-Ces résultats montrent que l'utilisation de catégories pour généraliser les mots présents dans les règles apporte un gain significatif, que ce soit sur des transcriptions manuelles ou des transcriptions automatiques. Sur des transcriptions réalisées manuellement et sur le corpus de développement, à 95 \% de précision le rappel est de 60 \%. Sur les données d'évaluation, le rappel chute à 38 \% pour la même précision. Le tableau \ref{table:resultats_tranter} donne le rappel maximum obtenu sur chaque type de transcription (automatiques ou manuelles), ainsi que le rappel à 95\% de précision.
+La figure \ref{fig:resultats_tranter} donne les différents résultats en fonction du type de transcription utilisée (\emph{srap} : transcription automatique, \emph{aseg} : segmentation et classification automatiques) et de l'usage des classes sémantiques ou non. 
+Ces résultats montrent que l'utilisation de classes sémantiques pour généraliser les mots présents dans les règles apporte un gain significatif, que ce soit sur des transcriptions manuelles ou des transcriptions automatiques. Sur des transcriptions réalisées manuellement et sur le corpus de développement, à 95 \% de précision le rappel est de 60 \%. Sur les données d'évaluation, le rappel chute à 38 \% pour la même précision. Le tableau \ref{table:resultats_tranter} donne le rappel maximum obtenu sur chaque type de transcription (automatiques ou manuelles), ainsi que le rappel à 95\% de précision.
 
 \begin{table}[h]
   \begin{center}
@@ -966,12 +961,13 @@ Ces résultats montrent que l'utilisation de catégories pour généraliser les mots
 \end{center}
 \end{figure}
 
-Le taux d'erreur (DER : Diarization Error Rate) du système de segmentation/classification utilisé est de 6,9 \%. Le taux d'erreur du système de transcription (WER : Word Error Rate) est quant à lui de 12,6 \%. L'utilisation de transcriptions automatiques n'affecte pas le rappel à 95 \% de précision mais le rappel maximum possible (en faisant baisser la précision) passe de 64 \% à 44 \%. L'utilisation de transcriptions et de segmentations automatiques fait chuter le rappel à 26 \% (pour 95 \% de précision) et fait aussi chuter le rappel maximum possible à 34 \%.
-À noter que tous les résultats sont exprimés en terme du durée : plus les locuteurs s'exprimant de manière conséquente sont détectés, plus les résultats sont élevés : le nombre de locuteurs correctement nommés n'est pas pris en compte. Voir la section \ref{sec:metrique} pour plus de détails sur les différentes métriques d'évaluation.
+Le taux d'erreur (DER : Diarization Error Rate \cite{TranterReynolds2006}) du système de segmentation/classification utilisé est de 6,9 \%. Le taux d'erreur du système de transcription (WER : Word Error Rate \cite{mccowan-rr-04-73}) est quant à lui de 12,6 \%. L'utilisation de transcriptions automatiques n'affecte pas le rappel à 95 \% de précision mais le rappel maximum possible (en faisant baisser la précision) passe de 64 \% à 44 \%. L'utilisation de transcriptions et de segmentations automatiques fait chuter le rappel à 26 \% (pour 95 \% de précision) et fait aussi chuter le rappel maximum possible à 34 \%.
 
 
-La méthode à base de N-grammes permet d'automatiser l'apprentissage des règles que Canseco avait définies à la main. Une propagation relativement simple des scores est effectuée au sein des classes de locuteurs : les différents scores obtenus pour un locuteur $n_1$ et une classe de locuteur $s_a$ sont cumulés. Les tests réalisés montrent de bonnes performances sur des données manuelles, mais de beaucoup moins bonnes sur les données automatiques alors que les systèmes automatiques de transcription et de segmentation sont très performants.
-L'étiquetage des noms complets est réalisé grâce à une liste de locuteurs et l'étiquetage des autres catégories est réalisé à partir des données de l'apprentissage étiquetées manuellement. Afin de se rapprocher d'une utilisation "réelle" de l'identification nommée il est possible d'utiliser un détecteur d'entités nommées pour automatiser cet étiquetage. De plus, la propagation des scores au niveau des classes de locuteur et les problèmes concernant l'attribution d'un seul nom complet à une classe de locuteur soulevés dans \ref{attributions_globales} n'ont été étudiés que succintement. En , une solution rudimentaire a été mise en place, qui consiste simplement à additionner les différents scores.
+
+La méthode à base de N-grammes sur fenêtre glissante permet d'automatiser l'apprentissage des règles que Canseco-Rodriguez avait définies à la main. Une propagation relativement simple des scores est effectuée au sein des classes de locuteurs~: les différents scores obtenus pour un locuteur $n_1$ et une classe de locuteur $s_a$ sont cumulés. Les tests réalisés montrent de bonnes performances sur des données manuelles, mais aussi leurs limites sur les données automatiques, alors que les systèmes automatiques de transcription et de segmentation sont très performants.
+
+La détection des noms complets dans la transcription est réalisée grâce à une liste de locuteurs et la détection des autres classes sémantiques est réalisée à partir des données de l'apprentissage étiquetées manuellement. Afin de se rapprocher d'une utilisation "réelle" de l'identification nommée, il est possible d'utiliser un détecteur d'entités nommées pour automatiser cet étiquetage. De plus, la propagation des scores au niveau des classes de locuteur et les problèmes concernant l'attribution d'un seul nom complet à une classe de locuteur soulevés dans \ref{attributions_globales} n'ont été étudiés que succintement. Une solution rudimentaire a été mise en place, qui consiste simplement à additionner les différents scores.
 
 
 \section{Approche statistique : modèle d'entropie maximum}
