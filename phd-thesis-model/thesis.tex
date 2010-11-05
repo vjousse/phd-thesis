@@ -1043,13 +1043,13 @@ La méthode à base de N-grammes sur fenêtre glissante permet d'automatiser l'appr
 \section{Approche statistique : arbre de classification sémantique}
 \label{sec:sys_id_lium}
 
-Le LIUM \cite{MauclairOdyssey06,Esteve07} a mis en place un système d'INL basé sur un arbre de classification sémantique pour les attributions locales \cite{Kuhn1995} et sur un détecteur automatique d'entités nommées pour identifier les noms complets dans la transcription. L'utilisation de ces deux systèmes automatiques et d'un processus de décision permet au système du LIUM de fonctionner de manière entièrement automatique pour identifier les locuteurs d'un document.
+Le LIUM \cite{MauclairOdyssey06,Esteve07} a proposé une alternative au modèle N-gramme en mettant en place un système d'INL basé sur un arbre de classification sémantique. Cet arbre est utilisé pour les attributions locales \cite{Kuhn1995} ainsi qu'un détecteur automatique d'entités nommées pour identifier les noms complets dans la transcription. Ces travaux sont les premiers à utiliser un détecteur d'entités nommées pour cette tâche. L'utilisation de ces deux systèmes automatiques et d'un processus de décision permet au système du LIUM de fonctionner de manière entièrement automatique pour identifier les locuteurs d'un document.
 
 \subsection{Détection des entités nommées}
 
-Le système de détection des entités nommées (EN) a été mis en place afin de participer à une partie expérimentale de la campagne d'évaluation ESTER I \cite{Galliano05} sur la détection des EN. C'est un système à base de règles. Quelques règles ont été inférées à partir du corpus d'apprentissage d'ESTER I et d'autres ont été développées manuellement (pour, par exemple, réaliser une grammaire pour détecter les dates). De plus, des listes de prénoms, de patronymes, de villes, de pays, etc. ont été ajoutées à la base de connaissances du système.
+Le système de détection des entités nommées (EN) a été mis en place lors de la campagne d'évaluation ESTER I \cite{Galliano05} sur la détection des EN. C'est un système à base de règles. Quelques règles ont été inférées à partir du corpus d'apprentissage d'ESTER I et d'autres ont été développées manuellement (pour, par exemple, réaliser une grammaire pour détecter les dates). De plus, des listes de prénoms, de patronymes, de villes, de pays, etc. ont été ajoutées à la base de connaissances du système.
 
-La liste des EN choisie pour la campagne ESTER I se compose de 8 catégories principales qui sont : les personnes, les lieux, les organisations, les groupes socio-politiques, les montants, les informations temporelles, les produits et les aménagements. Pour son système d'INL, le LIUM n'a retenu que 5 de ces catégories : les personnes, les lieux, les organisations les groupes socio-politiques et les informations temporelles \cite{Esteve07}. Les résultats sur le corpus de développement de la campagne ESTER I sont présentés dans le tableau \ref{table:resultats_ne_lium} en terme de précision et de rappel. La tâche de détection des entités nommées n'était qu'expérimentale dans ESTER I, il n'y a donc pas eu d'évaluation finale.
+La liste des EN choisie pour la campagne ESTER I se compose de 8 catégories principales qui sont : les personnes, les lieux, les organisations, les groupes socio-politiques, les montants, les informations temporelles, les produits et les aménagements. Pour son système d'INL, le LIUM n'a retenu que 5 de ces catégories : les personnes, les lieux, les organisations les groupes socio-politiques et les informations temporelles \cite{Esteve07}. Les résultats sur le corpus de développement de la campagne ESTER I sont présentés dans le tableau \ref{table:resultats_ne_lium} en terme de précision et de rappel.
 
 \begin{table}[h]
   \begin{center}
@@ -1075,19 +1075,19 @@ La liste des EN choisie pour la campagne ESTER I se compose de 8 catégories prin
   \label{table:resultats_ne_lium}
 \end{table}
 
-Afin de généraliser la transcription dans le cadre de l'INL, lorsqu'une EN est détectée, la suite de mots correspondant est remplacée par le type de l'EN dans la transcription. Les traitements effectués sur la transcription sont décrits dans la figure \ref{fig:pre_traitement}.
+Comme pour les autres systèmes d'INL, lorsqu'une EN est détectée, la suite de mots correspondant est remplacée par le type de l'EN dans la transcription.
 
-\begin{figure}
-\begin{center}
-\includegraphics[width=1\columnwidth]{img/pre_traitement.pdf}
-\caption{Pré-traitement su signal audio}
-\label{fig:pre_traitement}
-\end{center}
-\end{figure}
+%\begin{figure}
+%\begin{center}
+%\includegraphics[width=1\columnwidth]{img/pre_traitement.pdf}
+%\caption{Pré-traitement su signal audio}
+%\label{fig:pre_traitement}
+%\end{center}
+%\end{figure}
 
 \subsection{Attributions}
 
-Les arbres de classification sémantiques (SCT - Semantic Classification Tree) sont des arbres de décision binaire s'appuyant sur des patrons linguistiques comme paramètres de décision pour classer les échantillons. Dans le cadre de l'identification nommée, ils sont utilisés par le LIUM pour réaliser l'attribution locale des étiquettes \og{}précédent\fg{}, \og{}courant\fg{} et \og{}suivant\fg{} décrites dans la section \ref{ssec:attributions_locales}. Ces arbres sont activés sur le contexte lexical gauche et droit de chaque nom complet détecté par le système d'EN. Au maximum cinq mots à gauche et cinq mots à droite sont gardés pour l'apprentissage et l'utilisation de l'arbre. Le SCT va attribuer une probabilité à chaque étiquette possible pour un nom complet détecté dans la transcription. La figure \ref{fig:sct} donne un exemple d'arbre de classification utilisé par le LIUM. Les détails sur l'apprentissage de l'arbre sont décrits dans \cite{MauclairOdyssey06}.
+Les arbres de classification sémantiques (SCT - Semantic Classification Tree) sont des arbres de décision binaire s'appuyant sur des patrons linguistiques comme paramètres de décision pour classer les échantillons. Dans le cadre de l'identification nommée, ils sont utilisés pour réaliser l'attribution locale des étiquettes \og{}précédent\fg{}, \og{}courant\fg{} et \og{}suivant\fg{}. Ces arbres sont activés sur le contexte lexical gauche et droit de chaque nom complet détecté par le système d'EN. Au maximum cinq mots à gauche et cinq mots à droite sont gardés pour l'apprentissage et l'utilisation de l'arbre. Le SCT attribue une probabilité à chaque étiquette possible pour un nom complet détecté dans la transcription. La figure \ref{fig:sct} donne un exemple d'arbre de classification. Les détails sur l'apprentissage de l'arbre sont décrits dans \cite{MauclairOdyssey06}.
 
 \begin{figure}[h]
 \begin{center}
@@ -1097,9 +1097,9 @@ Les arbres de classification sémantiques (SCT - Semantic Classification Tree) so
 \end{center}
 \end{figure}
 
-Dans les travaux du LIUM, seule l'étiquette avec la plus grande probabilité est prise en compte, les autres probabilités sont ignorées. Lorsque deux décisions du SCT attribuent le même nom complet à une classe de locuteur anonyme, chacune des probabilités est additionnée. On obtient alors, pour chaque nom complet candidat pour nommer une classe anonyme, un score qui peut être utilisé pour prendre une décision.
+Seule l'étiquette avec la plus grande probabilité est prise en compte, les autres probabilités sont ignorées. Lorsque deux décisions du SCT attribuent le même nom complet à un locuteur, les probabilités sont additionnées. On obtient alors, pour chaque nom complet candidat pour nommer un locuteur, un score qui peut être utilisé pour prendre une décision.
 
-Dans l'exemple de la figure \ref{fig:attrib_locale_lium}, le tour de parole correspondant à la classe de locuteur \emph{LOCU2} se voit affecter deux fois le nom complet \emph{Maude Bayeu}. Dans ce cas, le nom complet \emph{Maude Bayeu} aura pour score 1,22. À noter que par les sommes qu'il réalise, le LIUM ne peut par la suite plus parler de probabilités.
+Dans l'exemple de la figure \ref{fig:attrib_locale_lium}, le tour de parole correspondant au locuteur numéro 2 (abbrégé LOCU 2 dans la figure) \emph{LOCU2} se voit affecter deux fois le nom complet \emph{Maude Bayeu}. Dans ce cas, le nom complet \emph{Maude Bayeu} aura pour score 1,22. À noter que puisque les probabilités de l'arbre sont additionnées, il n'est plus possible par la suite de parler probabilités, mais uniquement de scores.
 
 \begin{figure}[h]
 \begin{center}
