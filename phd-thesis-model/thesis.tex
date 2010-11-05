@@ -1047,6 +1047,8 @@ Le LIUM \cite{MauclairOdyssey06,Esteve07} a proposé une alternative au modèle N-
 
 \subsection{Détection des entités nommées}
 
+\label{sec:en_lium}
+
 Le système de détection des entités nommées (EN) a été mis en place lors de la campagne d'évaluation ESTER I \cite{Galliano05} sur la détection des EN. C'est un système à base de règles. Quelques règles ont été inférées à partir du corpus d'apprentissage d'ESTER I et d'autres ont été développées manuellement (pour, par exemple, réaliser une grammaire pour détecter les dates). De plus, des listes de prénoms, de patronymes, de villes, de pays, etc. ont été ajoutées à la base de connaissances du système.
 
 La liste des EN choisie pour la campagne ESTER I se compose de 8 catégories principales qui sont : les personnes, les lieux, les organisations, les groupes socio-politiques, les montants, les informations temporelles, les produits et les aménagements. Pour son système d'INL, le LIUM n'a retenu que 5 de ces catégories : les personnes, les lieux, les organisations les groupes socio-politiques et les informations temporelles \cite{Esteve07}. Les résultats sur le corpus de développement de la campagne ESTER I sont présentés dans le tableau \ref{table:resultats_ne_lium} en terme de précision et de rappel.
@@ -1109,13 +1111,13 @@ Dans l'exemple de la figure \ref{fig:attrib_locale_lium}, le tour de parole corr
 \end{center}
 \end{figure}
 
-Lors du processus d'attribution globale, le nom complet avec le plus grand score pour une classe donnée est attribué à cette classe. Chaque classe de locuteur est traitée indépendamment de l'autre, c'est à dire que rien n'empêche le système d'attribuer le même nom de locuteur à deux classes différentes. Chose qui, si la segmentation et la classification ne sont pas remises en causes, ne devrait pas pouvoir arriver.
+Lors du processus d'attribution globale, le nom complet avec le plus grand score pour une classe donnée est attribué à cette classe. Chaque classe de locuteur est traitée indépendamment de l'autre, c'est à dire que rien n'empêche le système d'attribuer le même nom de locuteur à deux classes différentes. Si la segmentation et la classification sont considérées comme correctes, ce cas de figure devrait être impossible.
 
 \subsection{Expériences et résultats}
 
-Le système a été évalué sur des données provenant de la campagne d'évaluation des systèmes de transcriptions en français ESTER I \cite{Galliano05}. Ces données regroupent six radios différentes et correspondent à 81 heures d'enregistrements pour le corpus d'apprentissage (150 émissions), 12,5 heures pour le corpus de développement (26 émissions) et 10 heures pour le corpus de test (18 émissions). Le corpus de test a été enregistré 15 mois après les autres corpus et contient 2 radios qui ne sont pas présentes dans les corpus de développement et d'apprentissage. Toutes ces données ont été étiquetés en entités nommées grâce au système décrit plus haut.
+Le système a été évalué sur des données provenant de la campagne d'évaluation des systèmes de transcriptions en français ESTER I \cite{Galliano05}. Ces données regroupent six radios différentes et correspondent à 81 heures d'enregistrements pour le corpus d'apprentissage (150 émissions), 12,5 heures pour le corpus de développement (26 émissions) et 10 heures pour le corpus de test (18 émissions). Toutes ces données ont été étiquetées en entités nommées grâce au système décrit en section \ref{sec:en_lium}.
 
-La métrique utilisée pour évaluer ce système est la même que celle utilisée par Tranter dans \ref{Tranter}. Ce système a d'ailleurs été comparé à celui de Tranter dans \cite{Esteve07}. Il a été évalué sur des données segmentées et transcrites manuellement, et sur des données segmentées manuellement mais transcrites automatiquement. Ces transcriptions automatiques sont celles fournies par le LIMSI lors de la campagne ESTER I. Les résultats sont exprimés en terme de précision et de rappel dans les figures \ref{fig:results_yannick_manu} et \ref{fig:results_yannick_auto}. Le système de Tranter à base de N-grammes sert de comparaison.
+Ce système a été comparé à celui de Tranter dans \cite{Esteve07}. Il a été évalué sur des données segmentées et transcrites manuellement, et sur des données segmentées manuellement mais transcrites automatiquement. Ces transcriptions automatiques sont celles fournies par le LIMSI lors de la campagne ESTER I et présentent un taux d'erreur mots de 11,9~\%. Les résultats sont exprimés en terme de précision et de rappel dans les figures \ref{fig:results_yannick_manu} et \ref{fig:results_yannick_auto}. Le système de Tranter à base de N-grammes sert de comparaison.
 
 
 \begin{figure}[h]
@@ -1135,7 +1137,7 @@ La métrique utilisée pour évaluer ce système est la même que celle utilisée par 
 \end{center}
 \end{figure}
 
-Sur des transcriptions manuelles les deux systèmes font presque jeu égal. En revanche, sur des transcriptions automatiques, le système à base de SCT est clairement plus performant.
+Sur des transcriptions manuelles les deux systèmes font presque jeu égal~: à 95~\% de précision le rappel est légèrement inférieur à 40~\%. En revanche, sur des transcriptions automatiques, le système à base de SCT est plus performant~: les N-grammes atteignent une précision maximum de 91~\% pour un rappel de 28~\% quand le système à base de SCT obtient un rappel de presque 40~\% à 95~\% de précision.
 
 \section{Bilan}
 
