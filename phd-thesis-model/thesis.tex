@@ -1139,6 +1139,8 @@ Sur des transcriptions manuelles les deux systèmes font presque jeu égal~: à 95~
 
 \section{Bilan}
 
+\label{bilaninl}
+
 Les travaux sur l'identification nommée du locuteur utilisant la transcription enrichie du signal sont relativement récents puisque les premiers travaux menés par Canseco-Rodriguez datent de 2004. Ces travaux reposent tous sur les mêmes hypothèses de base, à savoir que les locuteurs s'annoncent dans le document lui même, que leurs noms ont bien été transcrit et que le contexte lexical permet de déterminer s'il se rapporte au locuteur qui parle actuellement, à celui qui va parler juste après, ou à celui qui a parlé juste avant.
 
 Canseco-Rodriguez a démontré que lorsqu'un locuteur était annoncé dans le document, il était possible, via son contexte lexical, de décider s'il désignait le locuteur précédent, courant ou suivant. Les travaux de Tranter et Microsoft ont montré que la majorité des locuteurs s'annoncent et que le rappel maximum qu'il est possible d'atteindre se situe entre 78~\% et 83~\%, en fonction des corpus. Deux des principales hypothèses ont donc été vérifiées. En revanche, la troisième hypothèse majeure, à savoir que les noms complets des locuteurs ont bien été transcrits n'a été qu'assez peu étudiée.
@@ -1154,20 +1156,22 @@ Pour finir l'hypothèse concernant la correcte transcription des noms complets da
 %Les travaux du LIUM ont été les seuls à utiliser un système automatique de détection des entités nommées. Dans le but d'automatiser le plus possible le processus, l'utilisation d'un tel système est indispensable. De plus, l'affectation des étiquettes \og précédent \fg{}, \og courant \fg{} et \og suivant \fg{} a beaucoup été étudiée dans la littérature. En revanche, le processus de propagation de ces étiquettes au niveau des classes de locuteur et la résolution des conflits n'a pas été étudiée jusqu'ici. Pour finir, beaucoup de travaux ont été conduits sur des transcriptions partiellement ou totalement manuelles ; un travail sur des transcriptions entièrement automatiques est à réaliser.
 
 
-\chapter{LIUM\_NI : Un système d'INL par analyse conjointe du signal et de sa transcription}
+\chapter{MILES\_NI : Un système d'INL par analyse conjointe du signal et de sa transcription}
 \minitoc
 \newpage
 
-\label{chap:liumni}
+\label{chap:milesni}
 
-Cette thèse fait suite aux travaux déjà menés au Laboratoire d'Informatique de l'Université du Maine (LIUM) sur l'INL décrits dans \ref{sec:sys_id_lium}. En effet, dans \cite{Esteve07} il a été démontré que le système à base de SCT était plus performant sur des transcriptions automatiques que le système à base de N-grammes. Les travaux réalisés dans la présente thèse utilisent donc un SCT pour réaliser les attributions locales.
+Les travaux déjà effectués sur l'INL ont permis de prouver l'efficacité de l'approche utilisant la transcription du signal audio. Comme décrit dans la section \ref{bilaninl}, des progrès restent à réaliser pour automatiser le processus, notamment dans la détection des noms complets et des classes sémantiques. De plus, les travaux ont majoritairement étudié les techniques d'attribution locale (règles linguistiques, N-grammes, arbre de classification), mais peu de travaux sur le processus d'attribution globale ont été menés.
 
-Nous commençons par décrire le système de détection des entités nommées, puis nous décrirons ensuite l'arbre de classification sémantique utilisé pour réaliser les attributions locales. Nous finirons par expliquer le processus d'attribution globale basé sur la théorie des fonctions de croyance avant de présenter les résultats du système.
+Dans cette thèse, nous commençons par décrire le système de détection des entités nommées utilisé, puis nous décrirons ensuite l'arbre de classification sémantique mise en \oe{}uvre pour réaliser les attributions locales. Nous finirons par expliquer le processus d'attribution globale basé sur la théorie des fonctions de croyance avant de présenter les résultats du système. Ces travaux font suite à ceux déjà menés au LIUM (cf. section \ref{sec:sys_id_lium}). 
 
 %Le laboratoire d'informatique de l'université du Maine (LIUM) a présenté ses travaux sur l'identification nommée du locuteur dans \cite{MauclairOdyssey06} et \cite{Esteve07}.
 %Les travaux du LIUM \cite{MauclairOdyssey06} ont été publiés en même temps que ceux de l'Université de Cambridge. Ils font aussi suite aux premiers travaux de Canseco. Le LIUM utilise un arbre de classification sémantique (SCT - Semantic Classification Tree \cite{Kuhn1995}) pour déterminer les règles linguistiques à utiliser pour attribuer l'étiquette \og suivant \fg{}, \og précédent \fg{} ou \og courant \fg{} à un nom complet détecté dans la transcription. Ces règles linguistiques sont basées sur des expressions régulières construites autour des noms complets détectés. Ce système ayant servi de base aux travaux présentés ici, il est plus longuement présenté dans la section qui lui est consacrée \label{sec:sys_id_lium}.
 
 \section{Détection des entités nommées}
+
+Une des étapes fondamentales d'un système d'INL est la détection des noms complets et des différentes classes sémantiques dans la transcription. Dans le but d'automatiser au maximum les systèmes d'INL, cette phase doit être réalisée automatiquement. Les systèmes de détection des entités nommées répondent parfaitement à ce besoin~: les entités nommées de type personne vont permettre de détecter les noms complets dans la transcription, les autres entités nommées vont servir de classes sémantiques pour généraliser la transcription.
 
 Dans le but de réaliser un système d'INL fonctionnant sur des transcriptions réalisées par un SRAP, il faut tout d'abord disposer d'un système de détection des EN performant sur les transcriptions automatiques. La campagne d'évaluation Ester 2 \cite{Ester2} comprenait une tâche d'évaluation des systèmes de détection des entités nommées sur des transcriptions aussi bien manuelles qu'automatiques. La liste des entités nommées à étiqueter pour la campagne Ester 2 est la suivante~: les personnes, les lieux, les organisations, les productions humaines (moyens de transports, récompenses, oeuvres artistiques, ...), les montants, le temps et les fonctions (politiques, administratives, ...). Plusieurs laboratoires universitaires français ont participé à cette tâche comme le LINA, le LIMSI, le LIA, le LI (Tours) ou encore le LSIS. Deux entreprises privées ont aussi participé à l'évaluation~: Synapse et Xerox. La mesure utilisée pour l'évaluation est le Slot Error Rate (SER) décrit dans \cite{SER}.
 
@@ -1632,7 +1636,7 @@ Les noms complets des locuteurs sont présents dans la transcription, et ils est 
 %%%% DERNIER CHAPITRE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\chapter{LIUM\_NI : avancées et limites}
+\chapter{MILES\_NI : avancées et limites}
 
 \minitoc
 \newpage
