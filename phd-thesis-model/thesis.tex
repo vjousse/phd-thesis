@@ -1217,19 +1217,30 @@ Les noms complets étiquetés via le système de détection d'EN sont utilisés comme
 Les arbres de classification sémantiques sont des types particuliers d'arbre de décision binaire. Ils sont beaucoup utilisés dans le traitement du langage naturel, comme pour des systèmes de compréhension \cite{Kuhn1995} ou des détecteurs de noms propres inconnus \cite{Bechet2000}. Dans le cadre de l'identification nommée, ils sont utilisés pour réaliser l'attribution locale des étiquettes \og{}précédent\fg{}, \og{}courant\fg{} et \og{}suivante\fg{} décrites dans la section \ref{ssec:attributions_locales}.
 
 \subsection{Arbre de classification sémantique}
-Les SCTs sont des arbres de décision binaire s'appuyant sur des patrons linguistiques comme paramètres de décision pour classer les échantillons. Un arbre de décision binaire \cite{Breiman84,Cornejols02} est un classificateur à $n$ classes. Chaque n\oe{}ud de l'arbre est composé d'une question de type \emph{oui/non}, d'un sous-arbre \emph{oui} et d'un sous-arbre \emph{non}. Chaque feuille de ces sous-arbres est étiquetée avec une classe.
+Les SCTs sont des arbres de décision binaire s'appuyant sur des patrons linguistiques comme paramètres de décision pour classer les échantillons. Un arbre de décision binaire \cite{Breiman84,Cornejols02} est un classificateur à $n$ classes. Chaque n\oe{}ud de l'arbre est composé d'une question de type \emph{oui/non}, d'un sous-arbre \emph{oui} et d'un sous-arbre \emph{non}. Chaque feuille de ces sous-arbres est associée à une distribution de probabilité sur toutes les classes possibles. La figure \label{fig:exemple_sct} donne un exemple de SCT.
 
-Les questions utilisées par les SCT pour classer les échantillons sont des expressions régulières. Les SCT apprennent ces expressions régulières à partir de corpus annotés avec les classes correspondantes. L'apprentissage et la sélection de ces questions est réalisée de manière entièrement automatique~:
-
-Prenons l'exemple d'un arbre de décision binaire permettant de classer les phrases selon le fait qu'elles parlent ou non de l'identification nommée. Les deux classes possibles sont \emph{INL} et \emph{NOTINL}. Si une phrase contient les termes \og{}identification\fg{} et \og{}nommée\fg{} elle sera alors considérée comme appartenant à la classe \emph{INL}, sinon elle sera classée comme \emph{NOTINL}. L'arbre présenté dans la figure \ref{fig:arbre_binaire} modélise ce cas de figure.
 
 \begin{figure}[h]
 \begin{center}
-\includegraphics[width=0.7\columnwidth]{img/arbre_binaire.pdf}
-\caption{Exemple d'arbre de décision binaire permettant de classer une phrase X}
-\label{fig:arbre_binaire}
+\includegraphics[width=0.7\columnwidth]{img/sct.pdf}
+\caption{Exemple d'arbre de classification sémantique}
+\label{fig:exemple_sct}
 \end{center}
 \end{figure}
+
+Les questions utilisées par les SCT pour classer les échantillons sont des expressions régulières. Les SCT apprennent ces expressions régulières à partir de corpus annotés avec les classes correspondantes. L'apprentissage et la sélection de ces questions est réalisée de manière entièrement automatique~: n'importe quel mot du corpus d'apprentissage peut apparaître dans une question. 
+
+
+
+%Prenons l'exemple d'un arbre de décision binaire permettant de classer les phrases selon le fait qu'elles parlent ou non de l'identification nommée. Les deux classes possibles sont \emph{INL} et \emph{NOTINL}. Si une phrase contient les termes \og{}identification\fg{} et \og{}nommée\fg{} elle sera alors considérée comme appartenant à la classe \emph{INL}, sinon elle sera classée comme \emph{NOTINL}. L'arbre présenté dans la figure \ref{fig:arbre_binaire} modélise ce cas de figure.
+
+%\begin{figure}[h]
+%\begin{center}
+%\includegraphics[width=0.7\columnwidth]{img/arbre_binaire.pdf}
+%\caption{Exemple d'arbre de décision binaire permettant de classer une phrase X}
+%\label{fig:arbre_binaire}
+%\end{center}
+%\end{figure}
 
 %le nom détecté parmi les étiquettes previous, current, next et other. Les SCTs reposent sur l'utilisation d'expressions régulières. Afin d'être analysés par le SCT, des couples sont créés comprenant une occurrence de nom complet ainsi que son contexte lexical. Le but est de classer ces couples avec les 4 étiquettes previous, current, next et other (voir les feuilles de la figure 7.2) en utilisant les expressions régulières.
 
@@ -1237,9 +1248,17 @@ Prenons l'exemple d'un arbre de décision binaire permettant de classer les phras
 
 \label{sct_apprentissage}
 
-Dans les SCTs, les n\oe{}uds de l'arbre sont des expressions régulières construites lors de la phase d'apprentissage. Pendant le processus de construction du SCT, chaque n\oe{}ud est associé à une expression régulière contenant des mots et des caractères spéciaux (\emph{<}, \emph{>} et \emph{+}). Le < (respectivement >) se rapporte au commencement (respectivement la fin) d'une intervention d'un locuteur tandis que + se rapporte à n'importe quelle suite de mots. Par exemple, l'expression régulière \emph{< + de + >} correspond à chaque intervention contenant le mot \emph{de}, alors que \emph{< + en direct + de + >} correspond à chaque intervention contenant les mots \emph{en direct} et \emph{de} apparaissant dans cet ordre. 
-%La figure \ref{fig:sct} montre une petite partie d'un tel arbre de classification avec un exemple de probabilités attribuées à chaque étiquette.
+Dans les SCTs, les n\oe{}uds de l'arbre sont des expressions régulières construites lors de la phase d'apprentissage. Pendant le processus de construction du SCT, chaque n\oe{}ud est associé à une expression régulière contenant des mots et des caractères spéciaux (\emph{<}, \emph{>} et \emph{+}). Le < (respectivement >) se rapporte au commencement (respectivement la fin) d'une intervention d'un locuteur tandis que + se rapporte à n'importe quelle suite de mots. Par exemple, l'expression régulière \emph{< + de + >} correspond à chaque intervention contenant le mot \emph{de}, alors que \emph{< + en direct + de + >} correspond à chaque intervention contenant les mots \emph{en direct} et \emph{de} apparaissant dans cet ordre.  
 
+En plus de ces expressions régulières, les questions de l'arbre  peuvent porter sur des informations plus globales. Dans les travaux de cette thèse, la position du nom complet détecté au sein du tour de parole est ajoutée. La position correspond aux situations où le nom complet apparaît au début (dix premiers mots), au milieu ou à la fin (dix derniers mots) d'un tour de parole. Une autre question globale permet de savoir si le tour de parole est considéré comme très court, à savoir plus petit que le contexte lexical utilisé par l'arbre (cinq mots à gauche du nom complet, cinq mots à droite). La figure \ref{fig:extrait_sct} montre un exemple d'arbre appris automatiquement pour l'INL.
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=\columnwidth]{img/extrait_sct.pdf}
+\caption{Extrait d'un arbre de classification sémantique appris automatiquement pour l'INL}
+\label{fig:extrait_sct}
+\end{center}
+\end{figure}
 
 Le processus de construction du SCT doit choisir pour chaque n\oe{}ud l'expression régulière qui réduit au minimum un critère d'impureté. Ici le critère utilisé est le critère de Gini (se référer à \cite{Breiman84} pour de plus amples détails). Un autre critère communément utilisé est l'entropie de Shannon \cite{Shannon}.
 
