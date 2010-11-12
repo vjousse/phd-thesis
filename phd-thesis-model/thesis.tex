@@ -69,11 +69,15 @@ Les systèmes de compréhension vont permettre un dialogue contraint avec une mach
 
 Bien que peu naturelles, ces restrictions syntaxiques et sémantiques sont viables si l'application est bien ciblée sur un domaine particulier. Les applications choisies pour ce type de systèmes le sont d'ailleurs en conséquence. Elles se limitent généralement à l'interrogation d'une base de données, de standards téléphoniques automatisés pour des renseignements météo ou des réservations de places.
 
-Ces systèmes ont connu un important essor avec le lancement de projets financés par la DARPA (\emph{Defense Advanced Research Projects Agency}) aux États-Unis dans les années 1970 \cite{Klatt1977}. Plusieurs laboratoires participent aux projets DARPA comment CMU, MIT, BBN, SRI ou encore Bell Labs. Par exemple, le système SPHINX développé au CMU utilise un vocabulaire d'environ mille mots (issus du corpus \og Resource Management Database \fg{} \cite{Pri88}); ce système a notamment le mérite de permettre aux locuteurs une parole continue et ne nécessite pas d'apprentissage préalable du locuteur à reconnaître. Le taux de reconnaissance sur les mots est excellent, il est de l'ordre de 96 \% \cite{Lee1990}.
+Ces systèmes ont connu un important essor avec le lancement de projets financés par la DARPA (\emph{Defense Advanced Research Projects Agency}) aux États-Unis dans les années 1970 \cite{Klatt1977}. Plusieurs laboratoires participent aux projets DARPA comment CMU, MIT, BBN, SRI ou encore Bell Labs. 
 
-En France, la recherche s'est orientée vers des systèmes capables de gommer les erreurs de reconnaissance. En effet, même avec des erreurs de décodage du signal sonore, il est souvent possible de comprendre le sens d'une phrase. Ces erreurs de \og bas niveau \fg{} pourraient être récupérées grâce à des systèmes de plus haut niveau. C'est dans cette optique qu'ont été conçus les systèmes KEAL au CNET \cite{MercierKeal}, Esole au LIMSI \cite{Tubach}, Myrtille au CRIN \cite{Pierrel82} et Arial au CERFIA \cite{Perennou82}.
+Les différents systèmes développés ainsi que les approches proposées sont passées en revue dans \cite{SpokenDemori}.
 
-Les différents systèmes développés ainsi que les approches proposées depuis sont passées en revue dans \cite{SpokenDemori}.
+Depuis, de nombreux projets se sont intéressés aux systèmes de compréhension. C'est le cas de la campagne d'évaluation française MEDIA 2006 (Méthodologie d'Evaluation automatique de la compréhension hors et en contexte du DIAlogue) et des travaux qui en ont découlé au sein du projet PORT-MEDIA \cite{LehuenParser,favre2010esr}. Un projet européen (LUNA) est actuellement en cours sur ces problématiques\footnote{\url{http://www.ist-luna.eu/}}.
+%Par exemple, le système SPHINX développé au CMU utilise un vocabulaire d'environ mille mots (issus du corpus \og Resource Management Database \fg{} \cite{Pri88}); ce système a notamment le mérite de permettre aux locuteurs une parole continue et ne nécessite pas d'apprentissage préalable du locuteur à reconnaître. Le taux de reconnaissance sur les mots est excellent, il est de l'ordre de 96 \% \cite{Lee1990}.
+
+%En France, la recherche s'est orientée vers des systèmes capables de gommer les erreurs de reconnaissance. En effet, même avec des erreurs de décodage du signal sonore, il est souvent possible de comprendre le sens d'une phrase. Ces erreurs de \og bas niveau \fg{} pourraient être récupérées grâce à des systèmes de plus haut niveau. C'est dans cette optique qu'ont été conçus les systèmes KEAL au CNET \cite{MercierKeal}, Esole au LIMSI \cite{Tubach}, Myrtille au CRIN \cite{Pierrel82} et Arial au CERFIA \cite{Perennou82}.
+
 
 \subsection{Systèmes de dictée automatique}
 
@@ -639,7 +643,7 @@ C'est une hypothèse forte, qui permet d'exploiter un grand nombre de documents. 
 
         Les systèmes d'INL doivent être capable de transcrire correctement les noms complets présents dans l'enregistrement si ils veulent pouvoir les exploiter. Lorsqu'ils sont bien transcrits, c'est ensuite le travail des systèmes de détection des entités nommées (présentés dans la section \ref{ssec:EN}) d'identifier les différents noms complets.
         
-        Dans le cadre de la mise en place de systèmes automatiques d'INL, cette hypothèse est importante~: la transcription des noms propres est un réel problème pour les systèmes automatique de reconnaissance de la parole. \tocite{ref reco noms propres}.
+        Dans le cadre de la mise en place de systèmes automatiques d'INL, cette hypothèse est importante~: la transcription des noms propres est un réel problème pour les systèmes automatique de reconnaissance de la parole puisque, généralement, ils ne font pas partie du vocabulaire du SRAP \cite{Bechet2000}.
 
     \item Le \textbf{contexte lexical} au voisinage d'un nom complet permet de déterminer si ce nom complet est un \textbf{locuteur du document}.
 
