@@ -810,7 +810,7 @@ Dans le but de réaliser des règles les plus génériques possibles, certains mots 
 
 \label{sec:metriques_canseco}
 
-L'évaluation a été réalisée sur un corpus de test de 10 heures de données en langue anglaise (corpus Hub-4e, années 1997, 1998 et 1999). Deux types de transcriptions enrichies ont été utilisées : transcriptions manuelles et automatiques. Le taux d'erreur mot pour les transcriptions automatiques est de 18~\%, le système utilisé est celui présenté dans \cite{Lamel02lightlysupervised}. 
+L'évaluation des règles d'attribution locale a été réalisée sur un corpus de test de 10 heures de données en langue anglaise (corpus Hub-4e, années 1997, 1998 et 1999). Deux types de transcriptions enrichies ont été utilisées~: transcriptions manuelles et automatiques. Le taux d'erreur mot pour les transcriptions automatiques est de 18~\%, le système utilisé est celui présenté dans \cite{Lamel02lightlysupervised}. 
 
 Les erreurs réalisées par le système de transcription automatique, et notamment les erreurs de découpage en tours de paroles (produits par le système de segmentation et de classification en locuteur), posent problème pour l'évaluation des règles. Lorsqu'un tour de parole produit par le système automatique correspond à plusieurs tours de parole de la référence, il est difficile de décider si le résultat de la règle doit être considéré comme bon ou mauvais. Pour résoudre ce problème, deux types de tours de parole ont été pris en compte dans les transcriptions réalisées automatiquement~: les tours de paroles \og corrects \fg, c'est à dire les tours de paroles qui correspondent aux tours de parole de la référence et les tours de paroles \og bruités \fg, c'est à dire les tours de paroles qui regroupent plusieurs tours de parole de la référence (à cause d'une erreur du système de segmentation et de classification). Les erreurs commises par le système sont ensuite calculées selon différents cas de figure~:
 
@@ -825,41 +825,60 @@ Les erreurs réalisées par le système de transcription automatique, et notamment 
 
 \subsection{Résultats}
 
-Le tableau \ref{tab:results_canseco} résume les résultats obtenus sur les transcriptions manuelles et automatiques. Sur le corpus de test avec les transcriptions manuelles, les règles identifiant le locuteur courant sont les plus fiables (aucune fausse identification), tandis que les règles identifiant le locuteur précédent (43,1~\% de fausse identification) et suivant (20,2~\% de fausse identification) présentent un taux d'erreur plus élevé. Cette tendance se confirme avec l'utilisation de transcriptions automatiques, les règles de type \og courant \fg{} représentent 8,0~\% des erreurs, les règles de type \og suivant \fg{} 19,0~\% des erreurs et les règles de type \og précédent \fg{} 50,0~\% des erreurs. Le taux d'erreur global des règles sur le corpus de test avec les transcriptions manuelles est d'environ 13~\%, contre environ 18~\% pour les transcriptions automatiques. 
+Les tableaux \ref{tab:results_canseco_manu} et \ref{tab:results_canseco_auto} résument les résultats obtenus sur les transcriptions manuelles et automatiques. Sur le corpus de test avec les transcriptions manuelles, les règles identifiant le locuteur courant sont les plus fiables (aucune fausse identification), tandis que les règles identifiant le locuteur précédent (43,1~\% de fausse identification) et suivant (20,2~\% de fausse identification) présentent un taux d'erreur plus élevé. Cette tendance se confirme avec l'utilisation de transcriptions automatiques, les règles de type \og courant \fg{} représentent 8,0~\% des erreurs, les règles de type \og suivant \fg{} 19,0~\% des erreurs et les règles de type \og précédent \fg{} 50,0~\% des erreurs. Le taux d'erreur global des règles sur le corpus de test avec les transcriptions manuelles est d'environ 13~\%, contre environ 18~\% pour les transcriptions automatiques. 
 
 
 \begin{table}[h]
   \begin{center}
 
     \small
-    \begin{tabularx}{\linewidth}{cccc|ccc}
+    \begin{tabular}{|cccc|}
       %\cline{3-6}
       \hline
-      \hline
-      & \multicolumn{3}{c|}{Transcriptions manuelles}  & \multicolumn{3}{c}{Transcriptions automatiques} \\ 
-      & \emph{courant} & \emph{suivant} & \emph{précédent} & \emph{courant} & \emph{suivant} & \emph{précédent} \\ \hline 
-      \emph{c1} & 115 (95,0\%) & 50 (55,0\%) & 7 (16,0\%) & 94 (84,0\%) & 38 (60,3\%) & 8 (21,0\%) \\ 
-      \emph{c2} & - & - & - & 2 (1,7\%) & 3 (4,8\%) & - \\
-      \emph{c3} & 7 (5,0\%) & 22 (24,8\%) & 18 (40,9\%) & 7 (6,2\%) & 10 (15,9\%) & 11 (29,0\%) \\
-      \emph{c4} & - & - & - & - & - & - \\
-      \emph{\#Mau. id.} & - & 16 (20,2\%) & 19 (43,1\%) & 9 (8,0\%) & 12 (19,0\%) & 19 (50,0\%) \\
-      \emph{\#Indéfini} & - & 3 & 1 & - & 2 & 1 \\ \hline
-      \emph{Total} & 122 & 91 & 45 & 112 & 65 & 39 \\
-      \hline
+      & \emph{courant} & \emph{suivant} & \emph{précédent}\\ \hline 
+      \emph{Id. correcte, tour correct} & 115 (95,0 \%) & 50 (55,0 \%) & 7 (16,0 \%) \\ 
+      \emph{Id. correcte, tour bruité} & - & - & - \\
+      \emph{Id. partielle, tour correct} & 7 (5,0 \%) & 22 (24,8 \%) & 18 (40,9 \%) \\
+      \emph{Id. partielle, tour bruité} & - & - & - \\
+      \emph{\#Mauvaise identité} & - & 16 (20,2 \%) & 19 (43,1 \%)\\
+      \emph{\#Indéfini} & - & 3 & 1 \\ \hline
+      \emph{Total} & 122 & 91 & 45 \\
       \hline
 
       \hline
-    \end{tabularx}
+    \end{tabular}
   \end{center}
-  \caption{Taux d'erreur des règles manuelles sur les transcriptions manuelles et automatiques (corpus d'évaluation 97-98-99 Hub-4e)}
-  \label{tab:results_canseco}
+  \caption{Taux d'erreur des règles manuelles sur les transcriptions manuelles (corpus d'évaluation 97-98-99 Hub-4e)}
+  \label{tab:results_canseco_manu}
 \end{table}
 
+\begin{table}[h]
+  \begin{center}
 
+    \small
+    \begin{tabular}{|cccc|}
+      %\cline{3-6}
+      \hline
+      & \emph{courant} & \emph{suivant} & \emph{précédent} \\ \hline 
+      \emph{Id. correcte, tour correct} & 94 (84,0\%) & 38 (60,3\%) & 8 (21,0\%) \\ 
+      \emph{Id. correcte, tour bruité} & 2 (1,7\%) & 3 (4,8\%) & - \\
+      \emph{Id. partielle, tour correct} & 7 (6,2\%) & 10 (15,9\%) & 11 (29,0\%) \\
+      \emph{Id. partielle, tour bruité} & - & - & -\\
+      \emph{\#Mauvaise identité} & 9 (8,0\%) & 12 (19,0\%) & 19 (50,0\%) \\
+      \emph{\#Indéfini} & - & 2 & 1 \\ \hline
+      \emph{Total} & 112 & 65 & 39 \\
+      \hline
+
+      \hline
+    \end{tabular}
+  \end{center}
+  \caption{Taux d'erreur des règles manuelles sur les transcriptions automatiques (corpus d'évaluation 97-98-99 Hub-4e)}
+  \label{tab:results_canseco_auto}
+\end{table}
 
 Ces travaux pionniers démontrent qu'identifier les locuteurs d'un document à partir de sa transcription est possible. En revanche, ils ne prennent pas en compte les possibilités offertes par les techniques d'apprentissage automatique~: les corpus nécessitent des traitements manuels. Le temps de mise en place de telles règles peut être long suivant la quantité de corpus à analyser et demande une expertise du domaine pour pouvoir être réalisée. De plus, le passage d'un corpus à un autre est fastidieux~: il faut réécrire le jeu de règles pour l'utiliser sur des documents d'une autre langue ou provenant d'autres types d'émissions.
 
-Ces travaux ne traitent pas de l'attribution globale des noms complets mais uniquement de l'utilisation des règles locales. Ce problème d'attribution globale est abordé dans les différentes approches statistiques dans la section qui suit.
+Ces travaux traitent de l'attribution locale des noms complets. Aucun processus global permettant de répercuter ces décisions au sein du document entier n'a été mis en \oe{}uvre. Ce problème d'attribution globale est abordé dans les différentes approches statistiques dans la section qui suit.
 
 
 \section{Approche statistique : N-grammes}
@@ -880,11 +899,11 @@ Suite aux travaux de Canseco-Rodriguez (2005), le laboratoire de l'Université de
 %\end{center}
 %\end{figure}
 
-À la différence des précédents travaux, Cambridge utilise des N-grammes pour modéliser les règles linguistiques. Ils sont obtenus via un corpus d'apprentissage dans lequel la liste des personnes (leurs noms complets) intervenant dans les enregistrements est connue à l'avance. Les occurrences de ces noms complets sont détectées grâce à cette liste. 
+Cambridge utilise des N-grammes pour modéliser les règles linguistiques. Ils sont obtenus via un corpus d'apprentissage dans lequel la liste des personnes (leurs noms complets) intervenant dans les enregistrements est connue à l'avance. Les occurrences de ces noms complets sont détectées grâce à cette liste. 
 
 Le contexte lexical de chaque nom complet locuteur du document est analysé. Une fenêtre glissante est utilisée sur ce contexte lexical~: sa taille varie de 2 à 5 mots (en incluant le nom complet). Pour chaque contexte lexical, le système va générer un ensemble de N-grammes (de 2 à 5-grammes) et va leur assigner une probabilité de désigner de manière correcte le locuteur suivant, courant ou précédent. Un N-gramme (avec un minimum de 2 mots et un maximum de 5) est appris pour chaque glissement de la fenêtre. Chaque N-gramme apparaissant plus d'un certain nombre de fois (cinq dans le cas de ces travaux) est considéré comme une règle de prédiction et est donc retenu comme règle linguistique.
 
-Comme dans les précédents travaux de Canseco-Rodriguez (2005), Tranter (2006) utilise des classes sémantiques pour généraliser les règles. Ces classes sont issues des données d'apprentissage et ont été complétées avec d'autres sources (journaux écrits notamment). Ces classes sont les suivantes : GOODBYE, HELLO, OKAY, THANKS, LOCATION, PERSON, PERSON'S, SHOW, SHOW'S and TITLE. Ils regroupent ceux utilisés par Canseco, la concept [agree] devient OKAY, [greet] devient THANKS, etc. En revanche là où Tranter différencie HELLO et GOODBYE, Canseco-Rodriguez les regroupait au sein d'un même concept [comm]. De plus, Tranter n'utilise pas la catégorie [quest] et les verbes.
+Comme dans les précédents travaux de Canseco-Rodriguez (2005), Tranter (2006) utilise des classes sémantiques pour généraliser les règles. Ces classes sont issues des données d'apprentissage et ont été complétées avec d'autres sources (journaux écrits notamment). Ces classes regroupent celles utilisées par Canseco-Rodriguez, avec quelques différences. Là où Tranter différencie HELLO et GOODBYE, Canseco-Rodriguez les regroupait au sein d'un même concept [comm]. De plus, Tranter n'utilise pas la catégorie [quest] et les verbes.
 
 \subsection{Attribution globale}
 
