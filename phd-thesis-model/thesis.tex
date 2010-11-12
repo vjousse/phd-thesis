@@ -556,7 +556,7 @@ L'identification nommée du locuteur (INL) consiste à nommer les locuteurs d'un d
 
 \section{Applications}
 
-Disposer des noms complets des intervenants d'un document audio peut être utilisé à des fins de recherche d'informations. En effet, les bases de données audio et vidéo ne cessent de croître avec la numérisation massive des documents audiovisuels. Ainsi, les besoins en indexation et recherche automatiques croissent de la même manière. Par exemple en France, l'Institut National de l'Audiovisuel (INA) a lancé un plan de sauvegarde et de numérisation de ses différents documents en 1999. Ce plan a pour but de numériser plusieurs millions d'heures d'enregistrements de radio et de télévision. Il doit permettre de ne pas perdre les données qu'elles contiennent à cause de l'obsolescence des supports. Suite au lancement de ce plan de sauvegarde, de nombreux travaux ont été menés à l'INA sur l'indexation automatique des documents \cite{Veneau2001,Allauzen2003,Joly2004,Poli2007}. L'utilisation de l'INL pour ce type de bases de données pourrait apporter un réel plus pour l'indexation. Elle permettrait par exemple de faciliter la recherche des différents intervenants dans les documents indexés ou encore de remplir automatiquement les grilles de programmes avec le nom des intervenants.
+Disposer des noms complets des intervenants d'un document audio peut être utilisé à des fins de recherche d'informations. En effet, les bases de données audio et vidéo ne cessent de croître avec la numérisation massive des documents audiovisuels. Ainsi, les besoins en indexation et recherche automatiques croissent de la même manière. Par exemple en France, l'Institut National de l'Audiovisuel (INA) a lancé un plan de sauvegarde et de numérisation de ses différents documents en 1999. Ce plan a pour but de numériser plusieurs millions d'heures d'enregistrements de radio et de télévision. Suite au lancement de ce plan de sauvegarde, de nombreux travaux ont été menés à l'INA sur l'indexation automatique des documents \cite{Veneau2001,Allauzen2003,Joly2004,Poli2007}. L'utilisation de l'INL pour ce type de bases de données pourrait apporter un réel plus pour l'indexation. Elle permettrait par exemple de faciliter la recherche des différents intervenants dans les documents indexés ou encore de remplir automatiquement les grilles de programmes avec le nom des intervenants.
 
 Les récentes campagnes d'évaluation des systèmes de reconnaissance automatique de la parole (cf. \ref{ssec:trans_broadcast}) s'intéressent à l'enrichissement de la transcription (cf. \ref{sec:trans_enrichie}) par diverses informations comme les entités nommées ou encore les informations sur les locuteurs du document. Cette transcription contient notamment une segmentation et une classification en locuteurs (cf. \ref{ssub:decoupage_regroupement}) qui permettent de délimiter les différentes interventions dans l'enregistrement. En revanche, les informations fournies par le processus de segmentation et de classification en locuteur ne permettent pas d'identifier les locuteurs du document par leur prénom et patronyme. Les locuteurs sont uniquement identifiés par des labels anonymes du type \emph{Locuteur1}, \emph{Locuteur2}. L'INL s'inscrit dans l'enrichissement de la transcription en permettant de remplacer ces labels anonymes par le prénom et le nom des locuteurs. Ce couple prénom/patronyme sera par la suite désigné comme étant le \textbf{nom complet} du locuteur.
 
@@ -566,7 +566,9 @@ Afin d'évaluer les différents systèmes d'INL, une même métrique est utilisée. No
 
 \section{Métrique d'évaluation}
 
-L'évaluation va consister à comparer les noms complets des locuteurs des transcriptions de référence aux locuteurs proposés par le système d'INL. Ces comparaisons se basent sur les opérations élémentaires permettant de comparer deux chaînes de caractères. Plusieurs cas possibles sont étudiés lors de la comparaison entre la référence et les hypothèses fournies par le système d'INL:
+\label{sec:metriques}
+
+L'évaluation proposée dans \cite{Tranter06} va consister à comparer les noms complets des locuteurs des transcriptions de référence aux locuteurs proposés par le système d'INL. Ces comparaisons se basent sur les opérations élémentaires permettant de comparer deux chaînes de caractères. Plusieurs cas possibles sont étudiés lors de la comparaison entre la référence et les hypothèses fournies par le système d'INL:
 
 \begin{itemize}
   \item Correct ($C$)~: le système propose une identité correspondant à celle indiquée dans la référence ;
@@ -585,14 +587,6 @@ Une mesure de Précision et de Rappel peut être définie à partir des 5 cas d'erre
 \end{equation}
 
 %Dans tous les précédents articles \cite{Tranter06,Esteve07,Chengyuan07} traitant de l'identification nommée du locuteur, les résultats sont présentés sous la forme de mesures de précision et de rappel.
-
-Ces valeurs peuvent être complétées par un taux d'erreur $E$ global. Ce taux s'inspire du calcul du $WER$ utilisé pour l'évaluation de la transcription. Il a l'avantage de mesurer la qualité des résultats du système d'identification nommée en une seule valeur, facilitant les comparaisons entre les systèmes par rapport aux mesures de précision et de rappel.
-\begin{equation}
-	\label{eq:PR}
-	E = \frac{S+I+D}{S+I+D+C+U} \ \ ;
-\end{equation}
-
-À noter que tous les résultats sont exprimés en terme du durée : plus les locuteurs s'exprimant de manière conséquente sont détectés, plus les résultats sont élevés~: le nombre de locuteurs correctement nommés n'est pas pris en compte. En section \ref{sec:metrique} les différentes métriques d'évaluation sont approfondies.
 
 Afin de pouvoir attribuer aux locuteurs d'un document leurs noms complets, il faut obtenir leurs prénoms et patronymes. Deux principales approches sont possibles : disposer d'informations a priori sur les locuteurs comme dans le cas du suivi de locuteur (cf. \ref{ssec:sl}) ou utiliser les informations fournies par le document lui même pour déterminer l'identité des locuteurs. Nous commençons par présenter la première approche avant de nous intéresser plus longuement à la deuxième approche qui constitue le c\oe{}ur de cette thèse.
 
@@ -647,7 +641,7 @@ C'est une hypothèse forte, qui permet d'exploiter un grand nombre de documents. 
 
     \item Le \textbf{contexte lexical} au voisinage d'un nom complet permet de déterminer si ce nom complet est un \textbf{locuteur du document}.
 
-        La dernière hypothèse est d'être capable d'attribuer un nom complet présent dans la transcription à un des locuteurs du document. Pour ce faire, il faut que le contexte lexical de chaque nom complet permette de déterminer si ce nom complet se rapporte à un locuteur du document, et à quel locuteur. C'est ce que la phase d'attribution locale des systèmes d'INL cherche à effectuer.
+        La dernière hypothèse est d'être capable d'attribuer un nom complet présent dans la transcription à un des locuteurs du document. Pour ce faire, il faut que le contexte lexical de chaque nom complet permette de déterminer si ce nom complet se rapporte à un locuteur du document, et à quel locuteur.
 \end{itemize}
 
 %\subsection{Présence des noms complets}
@@ -679,7 +673,7 @@ La technique utilisée pour attribuer un nom complet détecté à un des locuteurs d
 
 Typiquement, un nom complet peut être attribué au locuteur courant lorsque celui-ci s'annonce ou se présente. Par exemple les journalistes ont pour habitude de finir leurs interventions en rappelant leur identité, comme par exemple \emph{\og c'était Paul Dupond en direct de \ldots \fg}. Ici, le nom complet \emph{Paul Dupond} devrait être attribué au locuteur qui a prononcé cette phrase (le locuteur courant). À l'inverse, un locuteur prononçant cette phrase \emph{\og Nous écoutons maintenant, Jean Durand.\fg{}} annonce une personne qui va parler après lui. Le nom complet \emph{Jean Durand} devra donc être attribué au locuteur suivant. Pour finir, une phrase du type \emph{\og Merci Maude Bayeu, nous passons maintenant à la météo \fg{}} rappelle le locuteur qui vient de s'exprimer juste avant. Le nom complet \emph{Maude Bayeu} sera donc attribué au locuteur précédent.
 
-Un des problèmes que les systèmes d'INL ont a résoudre est d'attribuer un nom complet détecté au tour de parole correspondant (précédent, courant ou suivant) ou, à défaut, de ne pas réaliser d'attribution si le nom complet ne correspond pas au locuteur d'un des tours de parole courant ou contigu. C'est par exemple le cas des noms complets qui ne font pas partie du document (\emph{Jean-Jacques Rousseau} aura par exemple peu de chance d'être un des locuteurs du document) ou qui font référence à des locuteurs présents plus loin dans le document. En effet, même si un nom complet détecté correspond bien à un des locuteurs du document, il ne sera pas exploité par ces techniques s'il ne correspond pas à un des locuteurs des tours de parole contigus ou courant. Ce cas est appelé \og autre \fg{} sur la figure \ref{fig:segment}.
+Certains noms complets ne désignent pas des locuteurs du document. Par exemple, \emph{Jean-Jacques Rousseau} aura peu de chance d'être un des intervenants du document. D'autres noms complets font bien référence à des locuteurs du document, mais ces locuteurs ne s'expriment pas dans un des tours de parole contigus. Ces cas sont appelés \og autre \fg{} sur la figure \ref{fig:segment}.
 
 Ce type d'attribution sera par la suite appelée \og attribution locale \fg. On attribue ici un nom complet à un des tours de parole contigu au tour de parole où le nom complet a été détecté. Aucune attribution au niveau du document entier n'est pour l'instant effectué, seuls les tours de paroles contigus sont concernés. La propagation de ces attributions locales au sein de l'ensemble des tours de parole est une étape appelée \og attribution globale \fg.
 
@@ -689,7 +683,7 @@ Ce type d'attribution sera par la suite appelée \og attribution locale \fg. On a
 
 Afin de bien comprendre la problématique de l'attribution globale des noms complets, il faut placer les attributions locales dans le contexte d'une transcription enrichie (cf. \ref{sec:trans_enrichie}).
 
-En effet, chaque nom complet détecté dans un tour de parole est attribué au tour de parole courant, précédent ou suivant. Chacun de ces tours de parole appartient à un locuteur, que l'INL cherche à nommer en lui attribuant un et un seul nom complet. Or, plusieurs noms complets peuvent être candidats pour le même locuteur. Comme le montre la figure \ref{fig:decisions_locales_conflit}, il est tout à fait possible que plusieurs noms différents soient proposés pour un même locuteur. Dans la figure \ref{fig:decisions_locales_conflit}, deux noms complets sont possibles pour le LOCUTEUR 2~: Maude Bayeu et Pierre Moscovici.
+Chaque nom complet détecté dans un tour de parole est attribué au tour de parole courant, précédent ou suivant. Chacun de ces tours de parole appartient à un locuteur, que l'INL cherche à nommer en lui attribuant un et un seul nom complet. Or, plusieurs noms complets peuvent être candidats pour le même locuteur. Il est tout à fait possible que plusieurs noms différents soient proposés pour un même locuteur. Par exemple, dans la figure \ref{fig:decisions_locales_conflit}, deux noms complets sont possibles pour le LOCUTEUR 2~: Maude Bayeu et Pierre Moscovici.
 
 \begin{figure}[h]
 \begin{center}
@@ -706,13 +700,13 @@ L'attribution du nom complet au locuteur consiste à choisir un nom complet parmi
 
 \subsection{Processus d'attribution}
 
-Le processus d'attribution global se résume en quatre principales étapes décrites dans la figure \ref{fig:processus_entier}~:
+Le processus d'INL se résume en quatre principales étapes décrites dans la figure \ref{fig:processus_entier}~:
 
 \begin{itemize}
-    \item Préparation d'une transcription enrichie
-    \item Étape d'attributions locales
-    \item Étape d'attributions globales
-    \item Production d'une transcription avec les locuteurs nommées
+    \item préparation d'une transcription enrichie,
+    \item attributions locales,
+    \item attributions globales,
+    \item production d'une transcription avec les locuteurs nommées.
 \end{itemize}
 
 Dans l'étape 1, la transcription en mots est enrichie d'une segmentation et d'une classification en locuteurs ainsi que d'un étiquetage des entités nommées. Chacune des entités nommées de type \emph{PERSONNE} est ensuite attribuée localement au tour de parole correspondant dans l'étape 2. 
@@ -725,16 +719,16 @@ Dans l'étape 1, la transcription en mots est enrichie d'une segmentation et d'un
 \end{center}
 \end{figure}
 
-Par exemple, le nom complet \emph{C} est attribué aux tours de parole 5 et 11, qui correspondent respectivement à deux classes de locuteur différentes (classe du locuteur 3 et classe du locuteur 1). Un nom complet ne pouvant être attribué qu'à une classe de locuteur, \emph{C} se retrouve donc en conflit entre la classe du locuteur 3 et la classe du locuteur 1. Le nom \emph{B} quant à lui se retrouve aussi en conflit, puisqu'il est attribué aux tours de parole 1 et 8 qui appartiennent respectivement à la classe du locuteur 1 et à la classe du locuteur 2.
+Par exemple, le nom complet \emph{C} est attribué aux tours de parole 5 et 11, qui correspondent respectivement à deux locuteurs différents (locuteur 3 et locuteur 1). Un nom complet ne pouvant être attribué qu'à un locuteur, \emph{C} se retrouve donc en conflit entre le locuteur 3 et le locuteur 1. Le nom \emph{B} quant à lui se retrouve aussi en conflit, puisqu'il est attribué aux tours de parole 1 et 8 qui appartiennent respectivement au locuteur 1 et au locuteur 2.
 
-À l'issue de cette seconde étape, plusieurs noms complets sont donc possibles pour une même classe de locuteur : la classe du locuteur 1 peut être nommée avec \emph{A},\emph{B} ou \emph{C}, la classe du locuteur 2 avec \emph{A} ou \emph{B} et la classe du locuteur 3 avec \emph{C}. En revanche les classes de locuteur 4 et 5 n'ont pas de candidats possibles. Les méthodes d'INL utilisent un processus de décision (lors de l'étape 3) permettant de régler les conflits entre ces attributions globales afin de nommer chaque classe avec un et un seul nom complet.
+À l'issue de cette seconde étape, plusieurs noms complets sont donc candidats pour un même locuteur : le locuteur 1 peut être nommé avec \emph{A}, \emph{B} ou \emph{C}, le locuteur 2 avec \emph{A} ou \emph{B} et le locuteur 3 avec \emph{C}. En revanche les locuteurs 4 et 5 n'ont pas de candidats possibles. Les méthodes d'INL utilisent un processus de décision (lors de l'étape 3) permettant de régler les conflits entre ces attributions globales afin de nommer chaque locuteur avec un et un seul nom complet.
 
-Une fois les conflits de la phase d'attribution globale résolus, la dernière étape consiste à répartir au sein du fichier les différentes décisions. 
+Une fois les conflits de la phase d'attribution globale résolus, la dernière étape consiste à produire une transcription enrichie avec les identités des locuteurs choisies.
 
 
-Même si les façons de réaliser les différentes étapes différent entre les méthodes d'identification nommée, les principes qui viennent d'être décrits sont communs à toutes. Le traitement d'un fichier audio avec un système d'identification nommée se résume donc aux étapes qui sont décrites dans la figure \ref{fig:fonctionnement_general}.
+Même si les façons de réaliser les étapes différent entre les méthodes d'identification nommée, les principes qui viennent d'être décrits sont communs à toutes. Le traitement d'un enregistrement audio avec un système d'identification nommée se résume aux étapes qui sont décrites dans la figure \ref{fig:fonctionnement_general}.
 
-Deux principales approches ont été étudiées pour l'attribution locale des noms complets, à savoir une approche de type symbolique avec l'utilisation de règles écrites manuellement, et plusieurs approches à base de méthodes statistiques. Nous commençons par décrire la première approche utilisée dans la littérature, à savoir l'approche symbolique. Les méthodes à base de systèmes statistiques sont décrites dans la suite de cette thèse.
+Deux principales approches sont proposées dans la littérature pour l'attribution locale des noms complets, à savoir une approche de type symbolique avec l'utilisation de règles écrites manuellement, et plusieurs approches à base de méthodes statistiques. Nous commençons par décrire la première approche. Les méthodes à base de systèmes statistiques sont décrites par la suite.
 
 
 \begin{figure}
@@ -749,18 +743,18 @@ Deux principales approches ont été étudiées pour l'attribution locale des noms c
 \section{Approche symbolique}
 \label{sub:regles_manuelles}
 
- Les travaux réalisés par le Canseco-Rodriguez \cite{CansecoRodriguez2005,CansecoRodriguez2006} ont été les premiers à montrer que le couple prénom/patronyme d'un locuteur apparaissant dans un contexte lexical donné permettait d'identifier de manière précise l'identité des locuteurs s'exprimant dans les tours de parole contigus. Ces travaux sont à la base de toutes les techniques d'INL, puisque ce sont eux qui ont défini le principe de l'attribution locale décrit en section \ref{ssec:attributions_locales}.
+ Les travaux réalisés par le Canseco-Rodriguez \cite{CansecoRodriguez2005,CansecoRodriguez2006} ont été les premiers à montrer que le couple prénom/patronyme d'un locuteur apparaissant dans un contexte lexical donné permettait d'identifier de manière précise l'identité des locuteurs s'exprimant dans les tours de parole contigus. Ces travaux sont à la base de toutes les techniques d'INL, ils ont en particulier défini le principe de l'attribution locale décrit en section \ref{ssec:attributions_locales}.
  
 \subsection{Règles linguistiques}
 
-Ces travaux s'appuient sur l'utilisation de règles linguistiques pour réaliser l'attribution locale des noms complets. L'idée est d'utiliser le contexte linguistique de chaque nom complet pour lui attribuer une des trois étiquettes (\og locuteur précédent \fg, \og locuteur courant \fg ,\og locuteur suivant \fg). Ces règles ont été définies manuellement après analyse d'un corpus de langue anglaise (\emph{Hub-4e}). Ce corpus est composé de transcriptions manuelles d'émissions de radio et de télévisions américaines (ABC, CNN, CSPAN et NPR) enregistrées entre 1993 et 1998. Comme décrit en section \ref{ssec:hypotheses}, ce type de corpus se prête particulièrement à l'utilisation de méthodes d'INL basées sur la transcription.
+Ces travaux s'appuient sur l'utilisation de règles linguistiques pour réaliser l'attribution locale des noms complets. L'idée est d'utiliser le contexte linguistique de chaque nom complet pour lui attribuer une des trois étiquettes (\og locuteur précédent \fg, \og locuteur courant \fg ,\og locuteur suivant \fg). Ces règles ont été définies manuellement après analyse d'un corpus de langue anglaise (\emph{Hub-4e}\footnote{Disponible via LDC~: \url{http://www.ldc.upenn.edu/}}). Ce corpus est composé de transcriptions manuelles d'émissions de radio et de télévisions américaines (ABC, CNN, CSPAN et NPR) enregistrées entre 1993 et 1998.
 
-Dans le but de réaliser des règles les plus génériques possibles, certains mots ou groupes de mots ont été regroupés au sein de classes sémantiques. Ces groupes de mots ont ensuite été substitués par leur classe sémantique dans les textes. Par exemple, tous les noms lieux sont remplacés par la classe sémantique [location]. De ce fait, les deux règles \og reporting from Bagdad \fg{} et \og reporting from Paris \fg{} peuvent être scindées en une seule règle \og reporting from [location] \fg. Plusieurs dictionnaires de classes sont utilisés pour remplacer les mots. Les dictionnaires utilisés, majoritairement récupérés à partir d'internet, sont au nombre de 6 :
+Dans le but de réaliser des règles les plus génériques possibles, certains mots ou groupes de mots ont été regroupés au sein de classes sémantiques. Ces groupes de mots ont ensuite été substitués par leur classe sémantique dans les textes. Par exemple, tous les noms de lieux sont remplacés par le nom de leur classe sémantique [location]. De ce fait, les deux règles \og reporting from Bagdad \fg{} et \og reporting from Paris \fg{} peuvent être fusionnées en une seule règle \og reporting from [location] \fg. Plusieurs dictionnaires de classes sont utilisés pour remplacer les mots. Les dictionnaires utilisés, construits à partir d'informations extraites d'internet, sont au nombre de 6 :
 
 
 \begin{itemize}
 	\item \textbf{noms complets} (prénom et patronyme) de locuteurs ([name]) : ce dictionnaire contient les noms anglais les plus communs, y compris les personnes célèbres et les personnalités internationales. Ce dictionnaire a été complété par des informations trouvées dans les textes à traiter, et notamment par l'identité des différents locuteurs (tous corpus confondus).
-	\item \textbf{toponymes} [(location]) : ce dictionnaire est constitué des lieux géographiques les plus courants comme les villes, les régions, les états, les monuments... Ils ont été récupérés à partir de journaux en ligne. La majorité des lieux se situent aux États-Unis.
+	\item \textbf{toponymes} [(location]) : ce dictionnaire est constitué des lieux géographiques les plus courants comme les villes, les régions, les états, les monuments...
 	\item \textbf{noms d'émissions} ([show]) : ce dictionnaire contient le nom des émissions et des radios. Les informations ont été extraites des transcriptions de référence (tous corpus confondus).
 	\item \textbf{titres} ([title]) : ce dictionnaire est composé des titres (Monsieur, Madame, ...), des rangs militaires et des professions.
 	\item \textbf{vocabulaire de la communication} : c'est un dictionnaire global incluant une variété de mots et d'expressions utilisés pour gérer la communication. Il contient une sélection des mots les plus fréquemment utilisés pour les remerciements ([thanks]), les salutations ([greet]), les consentements ([agree]), les questions ([quest]), les réflexions personnelles ([reflect]) et les pronoms démonstratifs ([dem]).
@@ -790,7 +784,7 @@ Dans le but de réaliser des règles les plus génériques possibles, certains mots 
   \label{table:canseco_regles}    
 \end{table}
 
-À ces règles viennent s'ajouter d'autres mécanismes comme l'utilisation d'un caractère générique (*) permettant de remplacer n'importe quel mot ou suite de mots, de manière à généraliser encore un peu plus les règles. Des exemples de règles avec caractère générique sont données dans le tableau \ref{table:canseco_joker}.
+À ces règles viennent s'ajouter d'autres mécanismes comme l'utilisation d'un caractère générique (*) permettant de remplacer n'importe quel mot ou suite de mots, de manière à généraliser les règles. Des exemples de règles avec caractère générique sont données dans le tableau \ref{table:canseco_joker}.
 
 \begin{table}[h]
   \begin{center}
@@ -812,19 +806,19 @@ Dans le but de réaliser des règles les plus génériques possibles, certains mots 
   \label{table:canseco_joker}    
 \end{table}
 
-\subsection{Corpus et métriques d'évaluation}
+\subsection{Expériences et métriques d'évaluation}
 
-\label{sec:metriques}
+\label{sec:metriques_canseco}
 
 L'évaluation a été réalisée sur un corpus de test de 10 heures de données en langue anglaise (corpus Hub-4e, années 1997, 1998 et 1999). Deux types de transcriptions enrichies ont été utilisées : transcriptions manuelles et automatiques. Le taux d'erreur mot pour les transcriptions automatiques est de 18~\%, le système utilisé est celui présenté dans \cite{Lamel02lightlysupervised}. 
 
-Les erreurs réalisées par le système de transcription automatique, et notamment les erreurs de découpage en tours de paroles (produits par le système de segmentation et de classification en locuteur), posent problème pour l'évaluation des règles. Lorsqu'un tour de parole produit par le système automatique correspond à plusieurs tours de parole de la référence, il est difficile de décider si la règle doit être considérée comme bonne ou mauvaise. Pour résoudre ce problème, deux types de tours de parole ont été pris en compte dans les transcriptions réalisées automatiquement~: les tours de paroles \og corrects \fg, c'est à dire les tours de paroles qui correspondent aux tours de parole de la référence et les tours de paroles \og bruités \fg, c'est à dire les tours de paroles qui regroupent plusieurs tours de parole de la référence (à cause d'une erreur du système de segmentation et de classification). Les erreurs commises par le système sont ensuite calculées selon différents cas de figure~:
+Les erreurs réalisées par le système de transcription automatique, et notamment les erreurs de découpage en tours de paroles (produits par le système de segmentation et de classification en locuteur), posent problème pour l'évaluation des règles. Lorsqu'un tour de parole produit par le système automatique correspond à plusieurs tours de parole de la référence, il est difficile de décider si le résultat de la règle doit être considéré comme bon ou mauvais. Pour résoudre ce problème, deux types de tours de parole ont été pris en compte dans les transcriptions réalisées automatiquement~: les tours de paroles \og corrects \fg, c'est à dire les tours de paroles qui correspondent aux tours de parole de la référence et les tours de paroles \og bruités \fg, c'est à dire les tours de paroles qui regroupent plusieurs tours de parole de la référence (à cause d'une erreur du système de segmentation et de classification). Les erreurs commises par le système sont ensuite calculées selon différents cas de figure~:
 
 \begin{itemize}
-  \item \textbf{Identité correcte, tour correct} (C1) : l'identité extraite de la transcription est associée avec un tour de parole correct et correspond exactement à l'identité indiquée dans la référence (prénom et patronyme).
-  \item \textbf{Identité correcte, tour bruité} (C2) : l'identité extraite de la transcription est associée avec un tour de parole bruité et correspond exactement à une des identités indiquées dans la référence (prénom et patronyme).
-  \item \textbf{Identité partielle, tour correct} (C3) : l'identité extraite de la transcription est associée avec un tour de parole correct et correspond partiellement à l'identité indiquée dans la référence.
-  \item \textbf{Identité partielle, tour bruité} (C4) : l'identité extraite de la transcription est associée avec un tour de parole bruité et correspond partiellement à une des identités indiquées dans la référence.
+  \item \textbf{Identité correcte, tour correct} : l'identité extraite de la transcription est associée avec un tour de parole correct et correspond exactement à l'identité indiquée dans la référence (prénom et patronyme).
+  \item \textbf{Identité correcte, tour bruité} : l'identité extraite de la transcription est associée avec un tour de parole bruité et correspond exactement à une des identités indiquées dans la référence (prénom et patronyme).
+  \item \textbf{Identité partielle, tour correct} : l'identité extraite de la transcription est associée avec un tour de parole correct et correspond partiellement à l'identité indiquée dans la référence.
+  \item \textbf{Identité partielle, tour bruité} : l'identité extraite de la transcription est associée avec un tour de parole bruité et correspond partiellement à une des identités indiquées dans la référence.
   \item \textbf{Indéfini} : la règle correspond à un locuteur inconnu dans la référence (ces cas sont exclus des résultats de test)
   \item \textbf{Mauvaise identification} : Aucun des cas ci-dessus ne s'applique, c'est donc une erreur d'association avec un tour de parole.
 \end{itemize}
