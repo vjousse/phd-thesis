@@ -1311,18 +1311,22 @@ Le processus arrête de séparer un n\oe{}ud de l'arbre lorsque l'impureté d'un n\
 
 %Pour pourvoir être utilisé par le SCT, un document doit être préparé de la même manière que le corpus ayant servi à l'apprentissage de l'arbre. Tout corpus soumis à l'arbre de classification devra donc être pré-traité comme décrit dans la section précédente. Ensuite, pour chaque nom complet détecté, un contexte lexical n'incluant pas plus de 10 mots est conservé. C'est sur ces portions de texte contenant un nom complet que l'arbre est utilisé. Il permet, pour chaque nom complet étiqueté par le détecteur d'entités nommées, d'attribuer une probabilité pour chaque étiquette possible~: \og{}locuteur précédent\fg{}, \og{}locuteur courant\fg{} ou \og{}locuteur suivant\fg{}. La figure \ref{fig:sct} donne un exemple de probabilités obtenues pour chaque étiquette.
 
-Le SCT ne choisit pas une étiquette parmi les quatre possibles, mais attribue une probabilité à chacune des étiquettes. Dans les travaux présentés dans cette thèse, les probabilités affectées à toutes les étiquettes sont prises en compte. En effet, nous estimons que même si une étiquette a une probabilité supérieure aux autres, l'information attribuée aux autres étiquettes par l'arbre doit être prise en compte.
+Le SCT ne choisit pas une étiquette parmi les quatre possibles, mais attribue une probabilité à chacune des étiquettes. Dans les travaux présentés dans cette thèse, les probabilités affectées à toutes les étiquettes sont prises en compte. En effet, nous estimons que même si une étiquette a une probabilité supérieure aux autres, l'information attribuée aux autres étiquettes par l'arbre doit être prise en compte. 
 
-Imaginons la répartition des masses de probabilités suivante pour un nom complet : courant 0,31, précédent 0,28, suivant 0,30, autre 0.11. Décider que le nom complet désigne le locuteur courant car c'est l'étiquette qui a la plus forte probabilité occulte complètement le fait que l'arbre est très incertain sur ces étiquettes. En effet, le conflit entre les différentes étiquettes est très élevé, et l'arbre affecte presque autant de croyance aux étiquettes courant, précédent et suivant. L'enjeu d'un processus d'attributions globales est de pouvoir prendre en compte ces croyances et incertitudes au sein des classes de locuteurs à nommer. Dans cette thèse, la théorie des fonctions de croyances est utilisée pour résoudre ce problème.
+Imaginons la répartition des masses de probabilités suivante pour un nom complet : courant 0,31, précédent 0,28, suivant 0,30, autre 0.11. Décider que le nom complet désigne le locuteur courant car c'est l'étiquette qui a la plus forte probabilité occulte complètement le fait que l'arbre est très incertain sur ces étiquettes. En effet, le conflit entre les différentes étiquettes est très élevé, et l'arbre affecte presque autant de croyance aux étiquettes courant, précédent et suivant.
+
+Chacune de ces probabilités, ainsi que le nom complet concerné, est affectée au locuteur à nommer correspondant (le suivant, le courant ou le précédent). Chaque locuteur se retrouve alors avec un ensemble de noms complets (couplés avec les probabilités issues de l'arbre) qui représentent les candidats potentiels.
+
+L'enjeu d'un processus d'attribution globale est de décider quel nom complet candidat correspond le mieux pour nommer un locuteur. Ce processus doit pouvoir prendre en compte les différentes croyances et incertitudes au sein des locuteurs à nommer. Dans cette thèse, la théorie des fonctions de croyances est utilisée pour résoudre ce problème.
 
 
-\section{Attributions globales~: processus de décision et fonctions de croyances pour l'INL}
+\section{Attribution globale~: processus de décision et fonctions de croyance pour l'INL}
 
 \label{sec:fct_croyances}
 
-La section \ref{attributions_globales} décrit toutes les difficultés auxquelles la phase d'attribution globale a à faire face. Une de ces principales difficultés est de résoudre les conflits qui apparaissent à la suite de la phase d'attributions locales (c'est à dire plusieurs candidats possibles pour une même classe de locuteur anonyme). Ces conflits sont dus à des connaissances imparfaites provenant de l'arbre de décision. 
+La section \ref{attributions_globales} décrit toutes les difficultés auxquelles la phase d'attribution globale a à faire face. Une de ces principales difficultés est de résoudre les conflits qui apparaissent à la suite de la phase d'attributions locales (c'est à dire plusieurs candidats possibles pour un même locuteur à nommer). Ces conflits sont dus à des connaissances imparfaites provenant de l'arbre de décision. 
 
-En effet, il arrive couramment que l'arbre de décision se trompe et désigne un locuteur comme étant par exemple le locuteur suivant (en lui affectant une forte probabilité), alors qu'il ne l'est pas. La théorie des fonctions de croyance va permettre de modéliser ces connaissances et ces incertitudes de manière à faciliter la phase d'attribution globale.
+En effet, il arrive que l'arbre de décision se trompe et désigne un locuteur comme étant, par exemple, le locuteur suivant (en lui affectant une forte probabilité), alors qu'il ne l'est pas. La théorie des fonctions de croyance va permettre, dans un même formalisme, de modéliser ces connaissances et ces incertitudes de manière à les utiliser lors de la phase d'attribution globale.
 
 \subsection{Formalisme et notations}
 
@@ -1332,60 +1336,10 @@ Tout d'abord, il convient d'expliciter les différentes notations qui seront util
 
  Soit $\mathcal{E}=\{e_1,\ldots, e_I\}$ correspondant à l'ensemble des noms complets candidats pour nommer un locuteur. L'ensemble $\mathcal{O}=\{o_1,\ldots, o_J\}$ correspond aux occurrences successives des noms complets détectés dans les transcriptions, $\mathcal{T}=\{t_1,\ldots, t_K\}$ désigne l'ensemble des tours de parole dans l'ordre chronologique, et $\mathcal{C}=\{c_1,\ldots, c_L\}$ l'ensemble des locuteurs à nommer.  Le but est donc d'attribuer un nom complet issu de $\mathcal{E}$ aux locuteurs de $\mathcal{C}$. Chaque locuteur $c_l$ peut intervenir une ou plusieurs fois dans une émission, ce qui correspond donc à un ou plusieurs tours de parole: $c_l=\{ t \in {\cal T} \;| c_l\ \mbox{est le locuteur de } t\}$. Chaque tour de parole appartient à un et un seul locuteur, c'est-à-dire que les tours de parole sont successifs et ne peuvent être simultanés. Pour chaque occurrence d'un nom complet $o_j$ (pour $j= 1,\ldots, J$) détecté dans un tour de parole $t_k$, on désigne par $P(o_j,t_k)$ la probabilité (obtenue grâce à l'arbre de classification sémantique) que $o_j$ soit le locuteur du tour de parole $t_k$. Ainsi, $P(o_j,t_{k-1})$ et $P(o_j,t_{k+1})$ représentent la probabilité que $o_j$ soit le locuteur du tour respectivement précédent et suivant celui où il a été détecté. Par hypothèse, la probabilité que $o_j$ soit un autre locuteur est donc: $$1 -\displaystyle\sum_{r \in \{-1,0,1\}} P(o_j,t_{k+r})$$
 
-\subsection{Prise en compte du genre}
-\label{sec:genre}
-Les travaux présentés dans cette thèse prennent en compte le genre des locuteurs pour filtrer les probabilités $P(o_j,t_k)$ données par l'arbre de classification sémantique. En effet, pour chaque classe, cette caractéristique est disponible car, d'une part, elle est déterminée de manière automatique lors des phases de segmentation et de classification (avec un taux d'erreur inférieur à 5 \% sur des données ESTER 1 phase II), d'autre part, les genres des noms complets extraits de la transcription peuvent être déterminés à travers celui de leur prénom associé. La comparaison de ces deux informations, obtenues de deux manières différentes, nous permet d'affiner le processus de décision. En cas d'incohérence, le couple prénom et patronyme n'est pas retenu et il est supprimé de la liste des candidats potentiels. Cependant, pour le cas des prénoms ambigus comme \og Dominique \fg, l'entité nommée sera conservée. 
 
-Pour avoir la connaissance relative aux genres des prénoms, nous utilisons une base de données extraite du Web composée d'environ 20~000 prénoms. \`A chaque prénom est associé le nombre de fois où il a été attribué au genre féminin et au genre masculin depuis 1900 en France. Cette base de données ne semble pas exempte d'erreur~: par exemple le prénom \og Vincent \fg{} apparaît 227180 fois comme prénom masculin et 373 fois comme prénom féminin. Le genre retenu correspondra au genre majoritaire. Si ce dernier a une fréquence inférieure à 75 \%, alors le genre est considéré comme indéterminé.
+\subsection{Fonctions de croyance}
 
-Au niveau du processus de décision qui suit, le filtre suivant est appliqué: 
-%CJ OK
-%TAL
-si le genre de l'occurrence $o_j$ (et donc du nom complet $e_i$ correspondant) et celui du tour de parole (et donc de la classe $c_l$ à laquelle il appartient) sont différents, les scores $P(o_j,t_r)$ ne sont pas pris en compte lors du processus de décision.
-%TAL
-%si le genre de l'occurrence $o_j$ (et donc du nom complet $e_i$ correspondant) et celui du tour de parole (et donc de la classe de locuteur $c_l$ à laquelle il appartient) sont différents, les probabilités $P(o_j,t_r)$ de la formule \eqref{eq:sl} ne sont pas prises en compte lors du calcul des scores. 
-%Soit $g(e_i)$ et $g(t_r)$ les genres (féminin, masculin ou indéterminé) d'un nom complet $e_i$ (ou d'un tour de parole $t_r$), alors : $(o_j= e_i, \: t_{r}(o_j) \in c_l \mbox{ et } g(e_i)\neq g(c_l)) \Rightarrow  P(o_j,t_{r})=0.$
-
-
-
-\subsection{Processus de décision}
-
-\label{sec:decision}
-
-Le but du processus de décision est d'assigner un nom complet $e_i$ à un locuteur $c_l$ donné. Pour ce faire, il faut pouvoir disposer d'une information (pour chaque $e_i$ d'un locuteur $c_l$) permettant de comparer ce candidat aux autres.candidats possibles pour $c_l$. Dans cette thèse, nous utilisons un score probabiliste obtenu grâce aux fonctions de croyances. Nous décrivons dans X la manière dont ce score est obtenu. Par la suite, $\mbox{SC}_l(e_i)$ désignera le score du nom complet candidat $e_i$ pour la classe de locuteur $c_l$.
-
-Une fois ce score obtenu, il faut ensuite attribuer à chaque locuteur $c_l$ un nom complet $e_i$.  Soit $f: \mathcal{C}\rightarrow \mathcal{E}$ la fonction d'assignation des noms complets aux  locuteurs. Les locuteurs étant censés être tous différents, une caractéristique importante que l'on voudrait imposer pour $f$ est l'injectivité: $f(c_l)=f(c_l') \Rightarrow c_l=c_l'$. Chaque nom complet ne peut être attribué à plus d'un locuteur. Bien sûr, certains noms complets peuvent rester non attribués et inversement, certains locuteurs peuvent rester sans étiquette. 
-
-L'algorithme utilisé est le suivant: tous les noms complets possibles sont pris en compte {\it a priori} et triés en fonction de leur score $\mbox{SC}_l(e_i)$. Premièrement, le nom complet avec le score maximum (noté $e_i^*$) est choisi, et si plusieurs locuteurs sont associés au même $e_i^*$, alors ce nom complet sera assigné au locuteur dont le score $SC_l(e_i^*)$ est maximum. Ensuite, tous les noms complets choisis sont supprimés de la liste relative aux locuteurs qui n'ont pas encore été nommés. Lors de l'itération suivante, les noms complets restants sont examinés de la même manière pour les locuteurs restants et ainsi de suite, jusqu'à ce que tous les locuteurs soient nommés ou que la liste des noms complets à attribuer soit vide. Le tableau \ref{tab:examplecomb1} montre un exemple de décision. Jacques Derrida étant choisi pour $c_{15}$ lors de la première itération, il ne peut donc pas être affecté à $c_{13}$ et $c_{14}$ lors de la deuxième itération. $c_{13}$ et $c_{14}$ sont alors nommés avec d'autres candidats potentiels.
-
-%----------------------
-\begin{table}[htbp]
-\caption{Exemple du processus de décision avec deux itérations
-(décision en gras, scores entre parenthèses).}
-\begin{center}
-{\small
-\begin{tabular}{|c c c |} \hline
-     Locuteur & $e_i^*$  (1ère itération)&    2ème itération      \\ \hline
-    $c_{13}$ &J. Derrida ($0,10$) &  \textbf{N. Demorand }($0,25$)             \\
-    $c_{14}$   &J. Derrida ($0,82$) & \textbf{A. Adler} (0,56) \\
-    $c_{15}$ &\textbf{J. Derrida} ($0.95$) & - \\
-     $c_{16}$ &\textbf{O. Duhamel } ($1.00$) & -  \\
-     % $c_{17}$ &\textbf{Marc Kravetz} (0.94) & Jacques Derrida  (0.33) \\
-\hline
-\end{tabular}
-}
-\end{center}
-
-%\caption{}
- \label{tab:examplecomb1}
-
-\end{table}
-
-Toute la difficulté du processus de décision réside dans le calcul de ce score $\mbox{SC}_l(e_i)$. C'est en effet sur lui que va s'appuyer la décision d'attribution finale. Il doit permettre de refléter les probabilités de l'arbre tout en prenant en compte l'importance des conflits qui peuvent apparaître au sein d'une classe. La théorie des fonctions de croyance permettant de modéliser la croyance et l'incertiude, c'est elle qui est utilisée dans cette thèse pour obtenir les scores $\mbox{SC}_l(e_i)$.
-
-\subsection{Fonctions de croyances}
-
-Dans cette thèse, l'interprétation proposée par Smets est adoptée~: le modèle des croyances transférables \cite{smets94}. Le but de ce modèle est de déterminer la croyance concernant différentes propositions, à partir d'un ensemble d'informations disponibles. Soit ${\cal E}$ un ensemble fini, appelé cadre de discernement de l'expérience. La représentation de l'incertitude se fait grâce au concept de la fonction de croyance, définie comme une fonction $m$ de $2^{\cal E}$ dans $[0,1]$ telle que:
+Dans cette thèse, le modèle des croyances transférables proposé par \cite{smets94} est adopté. Le but de ce modèle est de déterminer la croyance concernant différentes propositions, à partir d'un ensemble d'informations disponibles. Soit ${\cal E}$ un ensemble fini, appelé cadre de discernement de l'expérience. La représentation de l'incertitude se fait grâce au concept de la fonction de croyance, définie comme une fonction $m$ de $2^{\cal E}$ dans $[0,1]$ telle que:
 \begin{equation}
 \sum_{A\subseteq {\cal E}} m(A)=1.
 \end{equation} 
@@ -1404,7 +1358,7 @@ m({\cal E}) = 1-w
 
 L'ignorance totale est représentée par la fonction de croyance vide telle que $m(\Omega)=1$. Si tous les éléments focaux de $m$ sont des singletons, $m$ devient alors une mesure de probabilité (dite masse bayésienne).
 
-La théorie des croyances possède plusieurs outils d'agrégation permettant de combiner des fonctions de croyance définies sur un même cadre de discernement \cite{smets94}. En particulier, la combinaison de deux structures $m_1$ et $m_2$ définies de façon ``indépendante" sur $\cal E$ utilisant l'opérateur binaire conjonctif non normalisé $\cap$ définit une fonction résultante $m'$ par la formule suivante \cite{smets94}:
+La théorie des croyances possède plusieurs outils d'agrégation permettant de combiner des fonctions de croyance définies sur un même cadre de discernement \cite{smets94}. En particulier, la combinaison de deux structures $m_1$ et $m_2$, définies de façon ``indépendante" sur $\cal E$ utilisant l'opérateur binaire conjonctif non normalisé $\cap$, définit une fonction résultante $m'$ par la formule suivante \cite{smets94}:
 
 \begin{equation} \label{eq:comb_Dempster}
 \forall A\subseteq {\cal E}, \; m'(A)=\sum_{B \cap C =
@@ -1438,10 +1392,8 @@ Une fonction de croyance $m$ décrit l'état d'une croyance sur un phénomène. Une 
  $\delta_A(\omega)=1$ si $\omega \in A$ et $\delta_A(\omega)=0$ si $\omega \notin A$ .
 
 \subsection{Définition des masses de croyance}
-
-Comme décrit dans \ref{attributions_globales}, plusieurs occurrences correspondant à des noms complets différents peuvent être détectées. Plusieurs noms complets sont donc en compétition ou en conflit en tant que locuteur courant potentiel (ou précédent, ou suivant).
-
-On s'intéresse à un tour $t_k$ appartenant au locuteur $c_l$ et ayant $n_k$ occurrences. Soient $n_{k+r}$, le nombre d'occurrences tours précédent ($r=-1$) et suivant ($r=1$) de ce tour. Soient $\{o_{j,r}^k\},$ avec $ r=-1,0,1$ et $j=1,\ldots, n_{k+r}$, les occurrences de noms complets détectés dans ces trois tours. Chaque occurrence $o_{j,r}^k$, correspondant à une étiquette $e_i$, représente une certaine information sur le locuteur du tour $t_k$ qui peut être décrite par une masse de croyance $m^{jr}_{t_k}$ sur $\cal E$ à support simple, focalisée sur $e_i$ et $\cal E$:
+\label{sec:masse_croyance}
+On s'intéresse à un tour $t_k$ prononcé par le locuteur $c_l$. $n_k$ occurrences de noms complets ont été attribuées à ce tour de parole par l'arbre de classification. Soient $n_{k+r}$, le nombre d'occurrences provenant d'une attribution de type \emph{locuteur précédent} ($r=-1$) et \emph{locuteur suivant} ($r=1$). Soient $\{o_{j,r}^k\},$ avec $ r=-1,0,1$ et $j=1,\ldots, n_{k+r}$, les occurrences de noms complets détectés dans ces trois tours. Chaque occurrence $o_{j,r}^k$, correspondant à une étiquette $e_i$, représente une information particulière sur le locuteur potentiel du tour $t_k$ qui peut être décrite par une masse de croyance $m^{jr}_{t_k}$ sur $\cal E$ à support simple, focalisée sur $e_i$ et $\cal E$:
 
 %\begin{equation}\label{eq:putaindequationcruciale}
     %\left\{\begin{array}{c}
@@ -1491,7 +1443,7 @@ On s'intéresse à un tour $t_k$ appartenant au locuteur $c_l$ et ayant $n_k$ occu
 %----------------
 
 \subsection{Combinaison par tour de parole et par locuteur}
-
+\label{sec:combinaison}
 La première étape de la combinaison consiste à agréger les informations au sein d'un tour de parole donné. La combinaison des $n_{k-1}+n_k+n_{k+1}$ masses ciblées sur le tour $t_k$ et obtenues par l'équation \ref{eq:putaindequationcruciale} peut se faire par la règle conjonctive de Dempster {\it non normalisée} (cf. équations \ref{eq:comb_Dempster}- \ref{eq:combindetail}), afin d'assurer l'associativité et la commutativité de la combinaison: on obtient une masse de croyance $m_{t_k}$ sur l'identité du locuteur du tour $t_k$, définie par 
 
 \begin{equation} \label{eq:massetour}
@@ -1518,7 +1470,7 @@ et la masse de croyance normalisée $M^*_{l}$ correspondante.
 
 \subsection{Règle de décision}
 
-La méthode exposée en section \ref{sec:decision} est utilisée comme base pour la décision d'affectation. Les masses de croyance $M_l$ sont transformées en une probabilité pignistique $P_{M_l}$ (cf. équation \ref{eq:pig}) et la règle $\mathbf{R}$ suivante est utilisée :
+Les masses de croyance $M_l$ sont transformées en une probabilité pignistique $P_{M_l}$ (cf. équation \ref{eq:pig}) et la règle $\mathbf{R}$ suivante est utilisée :
 
     \begin{equation}\label{eq:maxcroyance}
         \begin{array}{c}
@@ -1527,9 +1479,13 @@ La méthode exposée en section \ref{sec:decision} est utilisée comme base pour la
         \end{array}
     \end{equation}
 
-Ensuite, comme certains noms complets sont attribués lors de cette première étape à plusieurs locuteurs différents, il faut là encore réorganiser le partage des noms complets entre les locuteurs anonymes. Le processus de décision proposé en \ref{sec:decision} est appliqué, en remplaçant les scores $\mbox{SC}_l$ par les probabilités pignistiques $P_{M_l}$. 
+Certains noms complets sont attribués lors de cette première étape à plusieurs locuteurs différents, il faut réorganiser le partage des noms complets entre les locuteurs. Le processus de décision proposé en \ref{sec:decision} est appliqué.
 
-En reprenant l'exemple proposé en \ref{sec:decision}, le nom complet ``Jacques Derrida" est là encore assigné aux départ aux trois locuteurs $c_{13}$, $c_{14}$ et $c_{15}$ (cf. tableau \ref{tab:examplecombdempster}). Mais finalement,``Jacques Derrida" est également assigné à $c_{15}$, car c'est pour ce locuteur qu'il obtient la plus grande probabilité pignistique.
+%En reprenant l'exemple proposé en \ref{sec:decision}, le nom complet ``Jacques Derrida" est là encore assigné aux départ aux trois locuteurs $c_{13}$, $c_{14}$ et $c_{15}$ (cf. tableau \ref{tab:examplecombdempster}). Mais finalement,``Jacques Derrida" est également assigné à $c_{15}$, car c'est pour ce locuteur qu'il obtient la plus grande probabilité pignistique.
+
+
+
+
 %----------------------
 %\begin{table}[htbp]
 %\caption{Décision avec deux itérations (décision en gras,
@@ -1552,6 +1508,57 @@ En reprenant l'exemple proposé en \ref{sec:decision}, le nom complet ``Jacques D
 % \label{tab:examplecombdempster}
 %
 %\end{table}
+
+
+\subsection{Processus de décision}
+
+\label{sec:decision}
+
+\todo{Décrire et utiliser l'algorithme hongrois}
+
+Soit $f: \mathcal{C}\rightarrow \mathcal{E}$ la fonction d'assignation des noms complets aux  locuteurs. Les locuteurs étant censés être tous différents, une caractéristique importante que l'on voudrait imposer pour $f$ est l'injectivité: $f(c_l)=f(c_l') \Rightarrow c_l=c_l'$. Chaque nom complet ne peut être attribué à plus d'un locuteur. Bien sûr, certains noms complets peuvent rester non attribués et inversement, certains locuteurs peuvent rester sans étiquette. 
+
+L'algorithme utilisé est le suivant: tous les noms complets possibles sont pris en compte {\it a priori} et triés en fonction de leur probabilité pignistique $P_{M_l}(e_i)$. Premièrement, le nom complet avec la probabilité maximum (noté $e_i^*$) est choisi, et si plusieurs locuteurs sont associés au même $e_i^*$, alors ce nom complet sera assigné au locuteur dont la probabilité $P_{M_l}(e_i^*)$ est maximale. Ensuite, tous les noms complets choisis sont supprimés de la liste relative aux locuteurs qui n'ont pas encore été nommés. Lors de l'itération suivante, les noms complets restants sont examinés de la même manière pour les locuteurs restants et ainsi de suite, jusqu'à ce que tous les locuteurs soient nommés ou que la liste des noms complets à attribuer soit vide. Le tableau \ref{tab:examplecomb1} montre un exemple de décision. Jacques Derrida étant choisi pour $c_{15}$ lors de la première itération, il ne peut donc pas être affecté à $c_{13}$ et $c_{14}$ lors de la deuxième itération. $c_{13}$ et $c_{14}$ sont alors nommés avec d'autres candidats potentiels.
+
+%----------------------
+\begin{table}[htbp]
+\caption{Exemple du processus de décision avec deux itérations
+(décision en gras, scores entre parenthèses).}
+\begin{center}
+{\small
+\begin{tabular}{|c c c |} \hline
+     Locuteur & $e_i^*$  (1ère itération)&    2ème itération      \\ \hline
+    $c_{13}$ &J. Derrida ($0,10$) &  \textbf{N. Demorand }($0,25$)             \\
+    $c_{14}$   &J. Derrida ($0,82$) & \textbf{A. Adler} (0,56) \\
+    $c_{15}$ &\textbf{J. Derrida} ($0.95$) & - \\
+     $c_{16}$ &\textbf{O. Duhamel } ($1.00$) & -  \\
+     % $c_{17}$ &\textbf{Marc Kravetz} (0.94) & Jacques Derrida  (0.33) \\
+\hline
+\end{tabular}
+}
+\end{center}
+
+%\caption{}
+ \label{tab:examplecomb1}
+
+\end{table}
+
+
+
+\subsection{Prise en compte du genre}
+\label{sec:genre}
+Les travaux présentés dans cette thèse prennent en compte le genre des locuteurs pour filtrer les probabilités $P(o_j,t_k)$ données par l'arbre de classification sémantique. En effet, pour chaque classe, cette caractéristique est disponible car, d'une part, elle est déterminée de manière automatique lors des phases de segmentation et de classification (avec un taux d'erreur inférieur à 5 \% sur des données ESTER 1 phase II), d'autre part, les genres des noms complets extraits de la transcription peuvent être déterminés à travers celui de leur prénom associé. La comparaison de ces deux informations, obtenues de deux manières différentes, nous permet d'affiner le processus de décision. En cas d'incohérence, le couple prénom et patronyme n'est pas retenu et il est supprimé de la liste des candidats potentiels. Cependant, pour le cas des prénoms ambigus comme \og Dominique \fg, l'entité nommée sera conservée. 
+
+Pour avoir la connaissance relative aux genres des prénoms, nous utilisons une base de données extraite du Web composée d'environ 20~000 prénoms. \`A chaque prénom est associé le nombre de fois où il a été attribué au genre féminin et au genre masculin depuis 1900 en France. Cette base de données ne semble pas exempte d'erreur~: par exemple le prénom \og Vincent \fg{} apparaît 227180 fois comme prénom masculin et 373 fois comme prénom féminin. Le genre retenu correspondra au genre majoritaire. Si ce dernier a une fréquence inférieure à 75 \%, alors le genre est considéré comme indéterminé.
+
+Au niveau de la définition des masses de croyance présentée en section \ref{sec:masse_croyance}, le filtre suivant est appliqué: 
+%CJ OK
+%TAL
+si le genre de l'occurrence $o_j$ (et donc du nom complet $e_i$ correspondant) et celui du tour de parole (et donc de la classe $c_l$ à laquelle il appartient) sont différents, les scores $P(o_j,t_r)$ sont ignorés.
+%TAL
+%si le genre de l'occurrence $o_j$ (et donc du nom complet $e_i$ correspondant) et celui du tour de parole (et donc de la classe de locuteur $c_l$ à laquelle il appartient) sont différents, les probabilités $P(o_j,t_r)$ de la formule \eqref{eq:sl} ne sont pas prises en compte lors du calcul des scores. 
+%Soit $g(e_i)$ et $g(t_r)$ les genres (féminin, masculin ou indéterminé) d'un nom complet $e_i$ (ou d'un tour de parole $t_r$), alors : $(o_j= e_i, \: t_{r}(o_j) \in c_l \mbox{ et } g(e_i)\neq g(c_l)) \Rightarrow  P(o_j,t_{r})=0.$
+
 
 
 \section{Évaluation du système proposé}
