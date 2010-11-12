@@ -913,23 +913,25 @@ Nous commençons par décrire le premier processus mis en place par Tranter avant 
 
 \subsubsection{Combinaison des règles linguistiques}
 
-Toutes les règles précédemment apprises sont utilisées sur le corpus de test. Lorsqu'une règle avec une probabilité $p_1$ est déclenchée et suggère un nom $n_1$ pour un locuteur $s_a$, le score pour l'hypothèse $s_a = n_1$ est incrémenté.
+Toutes les règles précédemment apprises sont utilisées sur le corpus de test. Lorsqu'une règle avec une probabilité $p_1$ est déclenchée et suggère un nom complet $n_1$ pour un locuteur $s_a$, le score pour l'hypothèse $s_a = n_1$ est incrémenté.
 Lorsque deux règles sont déclenchées pour le même nom de locuteur, leurs probabilités sont combinées en utilisant la formule :
 \begin{equation}\mathbf{}
   p_{1+2}=1 - (1-p_1)(1-p_2)
 \label{eq:sl}
 \end{equation}
 
+Pour déterminer la probabilité d'attribuer un nom complet $n$ à un locuteur $s$, un ensemble de règles (N-grammes) applicables $\mathcal{R}(n)$ est déterminé. L'équation \ref{eq:sl} peut être généralisée de cette manière :
+
+\begin{equation}\mathbf{}
+  P(n|s) = 1 - \prod_{r\in \mathcal{R}(s)}(1-p_r)
+\label{eq:sl_new}
+\end{equation}
+
 \subsubsection{Modèle d'entropie maximum}
 
 Les travaux de \cite{Chengyuan07} proposent de remplacer la combinaison présentée dans la formule \ref{eq:sl} par un modèle d'entropie maximum \cite{BergerEntropie96}. Cette approche permet de représenter les différentes règles au sein d'un modèle statistique et d'y ajouter des connaissances supplémentaires.
 
-Pour déterminer la probabilité d'attribuer un nom complet $n$ à un locuteur $s$, un ensemble de règles (N-grammes) applicables $\mathcal{R}(n)$ est tout d'abord déterminé. La combinaison de Tranter (cf. équation \ref{eq:sl}) peut être réécrite de cette manière :
 
-\begin{equation}\mathbf{}
-  P(n|s) \propto 1 - \prod_{r\in \mathcal{R}(s)}(1-p_r)
-\label{eq:sl_new}
-\end{equation}
 
 Le modèle d'entropie maximum proposé s'exprime de la manière suivante :
 
