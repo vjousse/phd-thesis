@@ -931,8 +931,6 @@ Pour déterminer la probabilité d'attribuer un nom complet $n$ à un locuteur $s$,
 
 Les travaux de \cite{Chengyuan07} proposent de remplacer la combinaison présentée dans la formule \ref{eq:sl} par un modèle d'entropie maximum \cite{BergerEntropie96}. Cette approche permet de représenter les différentes règles au sein d'un modèle statistique et d'y ajouter des connaissances supplémentaires.
 
-
-
 Le modèle d'entropie maximum proposé s'exprime de la manière suivante :
 
 \begin{equation}\mathbf{}
@@ -944,6 +942,16 @@ Les N-grammes sont utilisés comme attributs (\emph{features}) $f_k(n,s)$ du modè
 Conjointement au N-grammes, d'autres attributs sont utilisés par le modèle d'entropie. 
 
 Une des première connaissances ajoutée est le genre des locuteurs. Un attribut modélisant la correspondance du genre du prénom du nom complet avec le genre du tour de parole est ajouté au modèle.  Des modèles acoustiques des voix des locuteurs cibles (lorsqu'il sont disponibles) sont eux ajoutés comme attributs. Ces modèles sont appris sur les échantillons de voix des locuteurs cibles via des mélanges de Gaussiennes à 192 composantes. De plus, la position du nom complet au sein de l'enregistrement est pris en compte (avant le premier tour de parole du locuteur désigné, après le dernier tour de parole du locuteur, etc.).
+
+\subsubsection{Décision}
+
+Pour attribuer un nom complet à un locuteur, il faut pouvoir choisir parmi les différents candidats possibles. Ce choix est effectué en prenant le nom complet candidat $n^*$ qui a la probabilité maximale pour le locuteur $s$ donné. Pour ce faire, la formule \ref{eq:decision_ngrammes} est utilisée~:
+\begin{equation}\mathbf{}
+  n^* = \operatorname{arg\,max}_n P(n|s) \mbox{ si } P(n^*|s) > \alpha
+\label{eq:decision_ngrammes}
+\end{equation}
+
+Un seuil $\alpha$ est utilisé pour filtrer les décisions.
 
 \subsection{Corpus}
 
