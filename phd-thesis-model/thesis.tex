@@ -810,6 +810,8 @@ Dans le but de réaliser des règles les plus génériques possibles, certains mots 
 
 \subsection{Corpus et métriques d'évaluation}
 
+\label{sec:metriques}
+
 L'évaluation a été réalisée sur un corpus de test de 10 heures de données en langue anglaise (corpus Hub-4e, années 1997, 1998 et 1999). Deux types de transcriptions enrichies ont été utilisées : transcriptions manuelles et automatiques. Le taux d'erreur mot pour les transcriptions automatiques est de 18~\%, le système utilisé est celui présenté dans \cite{Lamel02lightlysupervised}. 
 
 Les erreurs réalisées par le système de transcription automatique, et notamment les erreurs de découpage en tours de paroles (produits par le système de segmentation et de classification en locuteur), posent problème pour l'évaluation des règles. Lorsqu'un tour de parole produit par le système automatique correspond à plusieurs tours de parole de la référence, il est difficile de décider si la règle doit être considérée comme bonne ou mauvaise. Pour résoudre ce problème, deux types de tours de parole ont été pris en compte dans les transcriptions réalisées automatiquement~: les tours de paroles \og corrects \fg, c'est à dire les tours de paroles qui correspondent aux tours de parole de la référence et les tours de paroles \og bruités \fg, c'est à dire les tours de paroles qui regroupent plusieurs tours de parole de la référence (à cause d'une erreur du système de segmentation et de classification). Les erreurs commises par le système sont ensuite calculées selon différents cas de figure~:
@@ -1171,20 +1173,20 @@ Dans cette thèse, nous commençons par décrire le système de détection des entité
 
 \section{Détection des entités nommées}
 
-Une des étapes fondamentales d'un système d'INL est la détection des noms complets et des différentes classes sémantiques dans la transcription. Dans le but d'automatiser au maximum les systèmes d'INL, cette phase doit être réalisée automatiquement. Les systèmes de détection des entités nommées répondent parfaitement à ce besoin~: les entités nommées de type personne vont permettre de détecter les noms complets dans la transcription, les autres entités nommées vont servir de classes sémantiques pour généraliser la transcription.
+Une des étapes fondamentales de tout système d'INL basé sur la transcription est la détection des noms complets et des différentes classes sémantiques. Dans le but d'automatiser au maximum les systèmes d'INL, cette phase peut être réalisée à l'aide de systèmes de détection des entités nommées. Les entités nommées de type \emph{personne} vont pouvoir être exploitées pour extraire les noms complets de la transcription, les autres entités nommées vont servir de classes sémantiques pour généraliser la transcription.
 
 \subsection{La campagne d'évaluation Ester 2}
 
-En 2010, lors de la campagne d'évaluation Ester 2 \cite{Ester2}, une tâche d'évaluation des systèmes de détection des entités nommées a été proposée. Cette tâche a permis d'évaluer les différents systèmes de détection des entités nommées sur des transcriptions manuelles, mais aussi sur des transcription automatiques provenant de SRAP. Plusieurs laboratoires universitaires français ont participé à cette tâche comme le LINA, le LIMSI, le LIA, le LI (Tours) ou encore le LSIS. Deux entreprises privées ont aussi participé à l'évaluation~: Synapse et Xerox.
+En 2010, lors de la campagne d'évaluation Ester 2 \cite{Ester2}, une tâche d'évaluation des systèmes de détection des entités nommées a été proposée. Cette tâche a permis d'évaluer les différents systèmes de détection des entités nommées sur des transcriptions manuelles, mais aussi sur des transcriptions automatiques provenant de SRAP. Plusieurs laboratoires universitaires français ont participé à cette tâche comme le LINA, le LIMSI, le LIA, le LI (Tours) ou encore le LSIS. Deux entreprises privées ont aussi participé à l'évaluation~: Synapse et Xerox.
 
-La mesure utilisée pour l'évaluation est le Slot Error Rate (SER) décrit dans \cite{SER}. La liste des entités nommées à étiqueter pour la campagne Ester 2 est la suivante~: les personnes, les lieux, les organisations, les productions humaines (moyens de transports, récompenses, oeuvres artistiques, ...), les montants, le temps et les fonctions (politiques, administratives, ...).
+La mesure utilisée pour l'évaluation est le Slot Error Rate (SER) décrit dans \cite{SER}. La liste des entités nommées à étiqueter pour la campagne Ester 2 est la suivante~: les personnes, les lieux, les organisations, les productions humaines (moyens de transports, récompenses, \oe{}uvres artistiques, ...), les montants, le temps et les fonctions (politiques, administratives, ...).
 
 Sur des transcriptions réalisées manuellement, Synapse et Xerox ont (de loin) les systèmes le plus performants avec un SER inférieur à 10~\%. Le troisième système est celui du LIA (LIA\_NE) qui obtient un SER de 23,9~\%. En revanche, sur des transcriptions réalisées automatiquement, c'est LIA\_NE qui arrive en première position avec un taux d'erreur de 43,4~\% sur les transcriptions du LIMSI qui affichent un taux d'erreur mot (WER) de 12,1~\% (soit le meilleur système de la campagne d'évaluation Ester 2). D'autres tests ont été réalisés avec des transcriptions contenant plus d'erreurs (17,83~\% et 26,09\% de WER)~: LIA\_NE obtient systématiquement les meilleurs performances. Les résultats sont présentés dans le tableau \ref{tab:ne_ester2}.
 
 \begin{table}[h]
 \begin{center}
 \includegraphics[width=\columnwidth]{img/ne_ester2.pdf}
-\caption{Performances de chaque participant à la tâche de détection des entités nommées de la campagne Ester 2. Les résultats sont donnés en terme de Slot Error Rate (\%S), Rappel (\%R) et Précision (\%P)}
+\caption{Performances de chaque participant à la tâche de détection des entités nommées de la campagne Ester 2 \cite{Ester2}. Les résultats sont donnés en terme de Slot Error Rate (\%S), Rappel (\%R) et Précision (\%P)}
 \label{tab:ne_ester2}
 \end{center}
 \end{table}
@@ -1192,11 +1194,11 @@ Sur des transcriptions réalisées manuellement, Synapse et Xerox ont (de loin) le
 
 \subsection{LIA\_NE}
 
-LIA\_NE \cite{bechetc-icassp10} étant le système le plus performant sur des transcriptions automatiques, c'est tout naturellement qu'il a été choisi comme détecteur d'entités nommées pour les travaux de cette thèse. LIA\_NE a la particularité d'avoir été conçu spécifiquement pour être utilisé sur des sorties de transcriptions automatiques. Ces transcriptions ont des caractéristiques qui peuvent mettre à défaut les systèmes de détection d'EN prévus pour être utilisés sur des textes écrits tels que les livres ou les journaux. 
+Dans l'optique d'automatiser au maximum les systèmes d'INL, ils doivent être capable de se baser sur des transcriptions réalisées automatiquement. LIA\_NE \cite{bechetc-icassp10} étant le système le plus performant sur des transcriptions automatiques lors de la campagne Ester 2, il a été choisi comme détecteur d'entités nommées pour les travaux de cette thèse. LIA\_NE a la particularité d'avoir été conçu spécifiquement pour être utilisé sur des sorties de transcriptions automatiques. Ces transcriptions ont des caractéristiques qui peuvent mettre à défaut les systèmes de détection d'EN prévus pour être utilisés sur des textes écrits tels que les livres ou les journaux.
 
-Les transcriptions automatiques proviennent de documents audio qui contiennent de la parole plus ou moins spontanée, et qui sont soumis à des phénomènes propres à la parole orale comme les disfluences ou les faux départs. Ces transcriptions ne sont pas parfaites et contiennent des erreurs commises par le système de reconnaissance automatique de la parole. La ponctuation et les majuscules sont généralement absents des transcriptions. Même si des modules de post-traitement existent pour les remettre, ils sont eux aussi sujets à erreurs. De plus, les transcriptions automatiques ne contiennent que des mots qui appartiennent au dictionnaire du SRAP alors que les EN sont essentiellement composées de noms propres pour lesquels il est très difficile d'obtenir une liste exhaustive. 
+Les transcriptions automatiques proviennent de documents audio qui contien\-nent de la parole plus ou moins spontanée, et qui sont soumis à des phénomènes propres à la parole orale comme les disfluences ou les faux départs. Ces transcriptions ne sont pas parfaites et contiennent des erreurs commises par le système de reconnaissance automatique de la parole. La ponctuation et les majuscules sont généralement absents des transcriptions. Même si des modules de post-traitement existent pour les remettre, ils sont eux aussi sujets à erreurs. De plus, les transcriptions automatiques ne contiennent que des mots qui appartiennent au dictionnaire du SRAP alors que les EN sont essentiellement composées de noms propres pour lesquels il est très difficile d'obtenir une liste exhaustive. 
 
-LIA\_NE utilise tout d'abord un processus génératif grâce à un étiqueteur basé sur des HMM (Hidden Markov Model) qui permet d'annoter le document avec les parties du discours et des étiquettes sémantiques (personne, organisation, lieu, produit). Ensuite un processus discriminatif basé sur les CRF \cite{CRFNE} (Conditional Random Field) est utilisé pour effectivement récupérer les entités nommées 
+LIA\_NE utilise tout d'abord un processus génératif grâce à un étiqueteur basé sur des HMM (\emph{Hidden Markov Model}) qui permet d'annoter le document avec les parties du discours et des classes sémantiques (personne, organisation, lieu, produit). Ensuite un processus discriminatif basé sur les CRF \cite{CRFNE} (\emph{Conditional Random Field}) est utilisé pour effectivement récupérer les entités nommées 
 
 Afin d'apprendre les caratéristiques de ce modèle CRF, LIA\_NE repose sur la collecte d'un maximum de connaissances (de manière non supervisée) sur les entrées du dictionnaire du SRAP. Pour ce faire, LIA\_NE utilise deux méthodes~:
 \begin{itemize}
@@ -1205,32 +1207,40 @@ Afin d'apprendre les caratéristiques de ce modèle CRF, LIA\_NE repose sur la col
 \end{itemize}
 
 
+Les 7 catégories d'entités nommées utilisées pour Ester 2 ont été gardées comme classes sémantiques. Nous discuterons dans X\tocite{citer chap 5 EN} de l'apport de cette méthode pour l'identification nommée du locuteur, par rapport à une approche plus classique à base de règles manuelles prévues pour être utilisées sur des corpus écrits.
 
-Comme décrit dans le tableau \ref{tab:ne_ester2}, cette approche ayant obtenue les meilleurs résultats lors de la dernière campagne d'évaluation Ester 2, c'est tout naturellement qu'elle a été utilisée pour les travaux de cette thèse. Les 7 catégories d'entités nommées utilisées pour Ester 2 ont été gardées comme classes sémantiques. Nous discuterons dans X de l'apport de cette méthode pour l'identification nommée du locuteur, par rapport à une approche plus classique à base de règles manuelles prévues pour être utilisées sur des corpus écrits.
-
-\todo{COntexte epac}
 
 \section{Attributions locales : arbre de classification sémantique}
 
-La phase de détection des entités nommées va ensuite permettre d'attribuer chaque entité nommée de type \emph{personne} au locuteur courant ou aux locuteurs contigus du tour de parole dans lequel l'EN a été étiquetée. Cette phase d'attribution locale est effectuée grâce à un arbre de classification sémantique (SCT - Semantic Classification Tree).
+Les noms complets étiquetés via le système de détection d'EN sont utilisés comme point de départ pour la phase d'attribution locale. Cette phase est réalisée grâce à un arbre de classification sémantique (SCT - \emph{Semantic Classification Tree}).
 
-Les arbres de classification sémantiques  sont souvent utilisés dans le traitement du langage naturel. Par exemple, ils sont employés pour des systèmes de dialogue \cite{Kuhn1995}, pour l'estimation de modèles de langage hiérarchiques n-grammes \cite{Esteve2001}, ou pour la détection de noms propres inconnus \cite{Bechet2000}. Les SCTs sont des arbres de décision binaire s'appuyant sur des patrons linguistiques comme paramètres de décision pour classer les échantillons. Dans le cadre de l'identification nommée, ils sont utilisés pour réaliser l'attribution locale des étiquettes \og{}précédent\fg{}, \og{}courant\fg{} et \og{}suivante\fg{} décrites dans la section \ref{ssec:attributions_locales}.
+Les arbres de classification sémantiques sont des types particuliers d'arbre de décision binaire. Ils sont beaucoup utilisés dans le traitement du langage naturel, comme pour des systèmes de compréhension \cite{Kuhn1995} ou des détecteurs de noms propres inconnus \cite{Bechet2000}. Dans le cadre de l'identification nommée, ils sont utilisés pour réaliser l'attribution locale des étiquettes \og{}précédent\fg{}, \og{}courant\fg{} et \og{}suivante\fg{} décrites dans la section \ref{ssec:attributions_locales}. Le fonctionnement et l'apprentissage des SCTs sont décrits de manière exhaustive dans \cite{KuhnPHD}. 
 
-\subsection{Arbre de décision binaire}
+\subsection{Arbre de classification sémantique}
+Les SCTs sont des arbres de décision binaire s'appuyant sur des patrons linguistiques comme paramètres de décision pour classer les échantillons. Un arbre de décision binaire \cite{Breiman84,Cornejols02} est un classificateur à $n$ classes. Chaque n\oe{}ud de l'arbre est composé d'une question de type \emph{oui/non}, d'un sous-arbre \emph{oui} et d'un sous-arbre \emph{non}. Chaque feuille de ces sous-arbres est associée à une distribution de probabilité sur toutes les classes possibles. Un exemple de SCT est donné dans la figure \ref{fig:exemple_sct}.
 
-Là où les autres travaux utilisent des règles réalisées manuellement (cf. section \ref{sub:regles_manuelles}) ou des N-grammes (\ref{sub:regles_statistiques}), les travaux de cette thèse utilisent un type particulier d'arbre binaire, à savoir un arbre de classification sémantique.
-
-Un arbre de décision binaire \cite{Breiman84,Cornejols02} est un type de classificateur qui va permettre d'affecter des classes à un échantillon grâce à une suite de décisions binaires de type oui/non. Les n\oe{}uds de l'arbre sont des tests auquel l'échantillon sera soumis, en fonction du résultat du test (oui ou non) l'échantillon sera ensuite testé sur la branche correspondante. Si cette branche ne contient qu'une feuille, alors elle correspond aux classes à attribuer. Si cette branche est un sous-arbre contenant d'autres tests, ils sont effectués jusqu'à atteindre une feuille de l'arbre.
-
-Prenons l'exemple d'un arbre de décision binaire permettant de classer les phrases selon le fait qu'elles parlent ou non de l'identification nommée. Les deux classes possibles sont \emph{INL} et \emph{NOTINL}. Si une phrase contient les termes \og{}identification\fg{} et \og{}nommée\fg{} elle sera alors considérée comme appartenant à la classe \emph{INL}, sinon elle sera classée comme \emph{NOTINL}. L'arbre présenté dans la figure \ref{fig:arbre_binaire} modélise ce cas de figure.
 
 \begin{figure}[h]
 \begin{center}
-\includegraphics[width=0.7\columnwidth]{img/arbre_binaire.pdf}
-\caption{Exemple d'arbre de décision binaire permettant de classer une phrase X}
-\label{fig:arbre_binaire}
+\includegraphics[width=0.7\columnwidth]{img/sct.pdf}
+\caption{Exemple d'arbre de classification sémantique}
+\label{fig:exemple_sct}
 \end{center}
 \end{figure}
+
+Les questions utilisées par les SCT pour classer les échantillons sont des expressions régulières. Les SCT apprennent ces expressions régulières à partir de corpus annotés avec les classes correspondantes. L'apprentissage et la sélection de ces questions est réalisée de manière entièrement automatique~: n'importe quel mot du corpus d'apprentissage peut apparaître dans une question. 
+
+
+
+%Prenons l'exemple d'un arbre de décision binaire permettant de classer les phrases selon le fait qu'elles parlent ou non de l'identification nommée. Les deux classes possibles sont \emph{INL} et \emph{NOTINL}. Si une phrase contient les termes \og{}identification\fg{} et \og{}nommée\fg{} elle sera alors considérée comme appartenant à la classe \emph{INL}, sinon elle sera classée comme \emph{NOTINL}. L'arbre présenté dans la figure \ref{fig:arbre_binaire} modélise ce cas de figure.
+
+%\begin{figure}[h]
+%\begin{center}
+%\includegraphics[width=0.7\columnwidth]{img/arbre_binaire.pdf}
+%\caption{Exemple d'arbre de décision binaire permettant de classer une phrase X}
+%\label{fig:arbre_binaire}
+%\end{center}
+%\end{figure}
 
 %le nom détecté parmi les étiquettes previous, current, next et other. Les SCTs reposent sur l'utilisation d'expressions régulières. Afin d'être analysés par le SCT, des couples sont créés comprenant une occurrence de nom complet ainsi que son contexte lexical. Le but est de classer ces couples avec les 4 étiquettes previous, current, next et other (voir les feuilles de la figure 7.2) en utilisant les expressions régulières.
 
@@ -1238,47 +1248,85 @@ Prenons l'exemple d'un arbre de décision binaire permettant de classer les phras
 
 \label{sct_apprentissage}
 
-Dans les SCTs, les n\oe{}uds de l'arbre sont des expressions régulières construites lors de la phase d'apprentissage. Pendant le processus de construction du SCT, chaque n\oe{}ud est associé à une expression régulière contenant des mots et des caractères spéciaux (\emph{<}, \emph{>} et \emph{+}). Le < (respectivement >) se rapporte au commencement (respectivement la fin) d'une intervention d'un locuteur tandis que + se rapporte à n'importe quelle suite de mots. Par exemple, l'expression régulière \emph{< + de + >} correspond à chaque intervention contenant le mot \emph{de}, alors que \emph{< + en direct + de + >} correspond à chaque intervention contenant les mots \emph{en direct} et \emph{de} apparaissant dans cet ordre. 
-%La figure \ref{fig:sct} montre une petite partie d'un tel arbre de classification avec un exemple de probabilités attribuées à chaque étiquette.
+Afin de construire un arbre de classification sémantique, plusieurs éléments sont nécessaires~: un corpus d'apprentissage annoté, un ensemble de questions, un critère de séparation et une condition d'arrêt. Nous décrivons ces différents éléments ci-dessous.
 
-
-Le processus de construction du SCT doit choisir pour chaque n\oe{}ud l'expression régulière qui réduit au minimum un critère d'impureté. Ici le critère utilisé est le critère de Gini (se référer à \cite{Breiman84} pour de plus amples détails). Un autre critère communément utilisé est l'entropie de Shannon \cite{Shannon}.
-
-Pour chaque niveau dans l'arbre, ce processus de construction ajoute un mot à l'expression régulière courante. Le critère d'impureté permet d'évaluer le degré de déterminisme associé à un n\oe{}ud : plus le critère d'impureté est bas, plus la classification est déterministe. Le fonctionnement et l'apprentissage des SCTs sont décrits de manière exhaustive dans \cite{KuhnPHD}.
+\subsubsection{Corpus d'apprentissage}
 
 Afin de préparer le corpus d'apprentissage pour construire l'arbre, plusieurs traitement sont réalisés sur le corpus~:
 
 \begin{itemize}
-    \item Le corpus est traité via le détecteur d'entités nommées décrit à la section précédente. Les mots composants les entités nommées retenues sont remplacées par leur type dans la transcription.
-    \item L'arbre de classification sémantique apprend les expressions régulières grâce aux mots présents dans les contextes lexicaux gauche et droite de chaque nom complet détecté. Un maximum de 10 mots autour du nom complet détecté a été gardé~: au plus 5 mots à gauche et 5 mots à droite. Le nombre de mots à garder a été déterminé grâce au corpus de développement.
-    \item Les transcriptions de référence utilisées pour l'apprentissage contiennent plus d'informations que celles produites par un système de transcription automatique. Les transcriptions sont donc normalisées afin de se rapprocher au maximum de celles qu'un système de transcription automatique peut fournir. Par exemple, la ponctuation et les majuscules ont été retirées.
+    \item Le corpus est traité via le détecteur d'entités nommées LIA\_NE. Les mots composants les entités nommées retenues sont remplacés par la classe sémantique correspondante dans la transcription.
+    \item Les transcriptions de référence utilisées pour l'apprentissage contiennent plus d'informations que celles produites par un système de transcription automatique. Les transcriptions sont donc normalisées afin de se rapprocher au maximum de celles fournies par un système de transcription automatique. Par exemple, la ponctuation et les majuscules ont été retirées.
     \item Les articles considérés comme non porteurs de sens (\textit{l', le, la, les, un, une, uns}) ont été éliminés du contexte analysé. En revanche, les mots comme \textit{de, dans, à} ont été gardés puisqu'ils peuvent potentiellement concerner une information importante comme un lieu, une radio ou une émission.
     \item L'arbre a besoin de savoir si un nom complet détecté correspond au locuteur suivant, précédent ou courant pour pouvoir réaliser son apprentissage. Cette phase d'étiquetage de chaque nom complet est réalisée automatiquement en comparant le nom complet détecté aux noms complets des locuteurs suivant, précédent et courant. Cette phase d'étiquetage n'est pas vérifiée manuellement, il est supposé que les étiquettes sont correctes.
 \end{itemize}
 
-En complément des expressions régulières, l'arbre peut intégrer des questions globales. Le système proposé par le LIUM utilise la position du nom complet dans le tour de parole comme question globale. La position correspond aux situations où le nom complet apparaît au début (dix premiers mots, soit la taille du contexte lexical), au milieu ou à la fin (dix derniers mots) d'un tour de parole. Une autre question globale permet de savoir si le tour de parole est considéré comme très court, à savoir plus petit que le contexte lexical utilisé par l'arbre (cinq mots à gauche du nom complet, cinq mots à droite).
+
+L'arbre de classification sémantique apprend les expressions régulières grâce aux mots présents dans les contextes lexicaux gauche et droite de chaque nom complet détecté. Un maximum de 10 mots autour du nom complet détecté a été gardé~: au plus 5 mots à gauche et 5 mots à droite. Le nombre de mots à garder a été déterminé grâce au corpus de développement.
+
+
+\subsubsection{Ensemble de questions}
+
+Pendant le processus de construction du SCT, chaque n\oe{}ud est associé à une expression régulière contenant des mots et des caractères spéciaux (\emph{<}, \emph{>} et \emph{+}). Le < (respectivement >) se rapporte au commencement (respectivement la fin) d'une intervention d'un locuteur tandis que + se rapporte à n'importe quelle suite de mots. Par exemple, l'expression régulière \emph{< + de + >} correspond à chaque intervention contenant le mot \emph{de}, alors que \emph{< + en direct + de + >} correspond à chaque intervention contenant les mots \emph{en direct} et \emph{de} apparaissant dans cet ordre.  
+
+En plus de ces expressions régulières, les questions de l'arbre  peuvent porter sur des informations plus globales. Comme proposé dans \cite{Esteve07}, la position du nom complet détecté au sein du tour de parole est ajoutée. La position correspond aux situations où le nom complet apparaît au début (dix premiers mots), au milieu ou à la fin (dix derniers mots) d'un tour de parole. Une autre question globale permet de savoir si le tour de parole est considéré comme très court, à savoir plus petit que le contexte lexical utilisé par l'arbre (cinq mots à gauche du nom complet, cinq mots à droite). La figure \ref{fig:extrait_sct} montre un exemple d'arbre appris automatiquement pour l'INL.
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=\columnwidth]{img/extrait_sct.pdf}
+\caption{Extrait d'un arbre de classification sémantique appris automatiquement pour l'INL}
+\label{fig:extrait_sct}
+\end{center}
+\end{figure}
+
+\subsubsection{Critère de séparation}
+
+Le processus de construction du SCT doit choisir pour chaque n\oe{}ud l'expression régulière qui réduit au minimum un critère d'impureté. Ici le critère utilisé est le critère de Gini \cite{Breiman84}. La meilleure question (ici la meilleure expression régulière) est celle qui présente la plus grande chute d'\emph{impureté} entre le n\oe{}ud et ses enfants. Si les deux sous-arbres fils d'un n\oe{}ud $T$ sont appelés $T_{oui}$ et $T_{non}$ la chute d'impureté $\Delta I$ est définie par la formule \ref{eq:gini}~:
+
+\begin{equation} \label{eq:gini}
+    \Delta I = I(T) - \frac{|T_{oui}|}{|T|} I (T_{oui}) - \frac{|T_{non}|}{|T|} I(T_{non})
+\end{equation}
+
+L'impureté d'un n\oe{}ud $t$ avec $i$ et $j$ recouvrant l'ensemble des classes est calculé avec la formule \ref{eq:impurity} :
+
+\begin{equation} \label{eq:impurity}
+    I(t) = \sum_{i \ne j} p(i|t)p(j|t)
+\end{equation}
+
+où $p(i|t)$ est estimé avec la fréquence des exemples étiquetés avec la classe $i$ dans $t$.
+
+La question associée à un n\oe{}ud $t$ sera la question qui maximise $\Delta I$
+
+\subsubsection{Condition d'arrêt}
+
+Le processus arrête de séparer un n\oe{}ud de l'arbre lorsque l'impureté d'un n\oe{}ud est sous un certain seuil ou lorsque le nombre d'exemples restant dans un n\oe{}ud est égal à 1.
+
+
+%Pour chaque niveau dans l'arbre, ce processus de construction ajoute un mot à l'expression régulière courante. Le critère d'impureté permet d'évaluer le degré de déterminisme associé à un n\oe{}ud : plus le critère d'impureté est bas, plus la classification est déterministe.
 
 
 \subsection{Étiquetage et attributions locales}
 
-Les arbres de classification sémantique intègrent dans chaque n\oe ud une expression régulière. La suite d'expressions régulières activées depuis la racine jusqu'à une feuille de l'arbre permet de classifier les contextes lexicaux suivant les quatre étiquettes décrites précédemment. 
+%Les arbres de classification sémantique intègrent dans chaque n\oe ud une expression régulière. La suite d'expressions régulières activées depuis la racine jusqu'à une feuille de l'arbre permet de classifier les contextes lexicaux suivant les quatre étiquettes décrites précédemment. 
 
-Pour pourvoir être utilisé par le SCT, un document doit être préparé de la même manière que le corpus ayant servi à l'apprentissage de l'arbre. Tout corpus soumis à l'arbre de classification devra donc être pré-traité comme décrit dans la section précédente. Ensuite, pour chaque nom complet détecté, un contexte lexical n'incluant pas plus de 10 mots est conservé. C'est sur ces portions de texte contenant un nom complet que l'arbre est utilisé. Il permet, pour chaque nom complet étiqueté par le détecteur d'entités nommées, d'attribuer une probabilité pour chaque étiquette possible~: \og{}locuteur précédent\fg{}, \og{}locuteur courant\fg{} ou \og{}locuteur suivant\fg{}. La figure \ref{fig:sct} donne un exemple de probabilités obtenues pour chaque étiquette.
+%Pour pourvoir être utilisé par le SCT, un document doit être préparé de la même manière que le corpus ayant servi à l'apprentissage de l'arbre. Tout corpus soumis à l'arbre de classification devra donc être pré-traité comme décrit dans la section précédente. Ensuite, pour chaque nom complet détecté, un contexte lexical n'incluant pas plus de 10 mots est conservé. C'est sur ces portions de texte contenant un nom complet que l'arbre est utilisé. Il permet, pour chaque nom complet étiqueté par le détecteur d'entités nommées, d'attribuer une probabilité pour chaque étiquette possible~: \og{}locuteur précédent\fg{}, \og{}locuteur courant\fg{} ou \og{}locuteur suivant\fg{}. La figure \ref{fig:sct} donne un exemple de probabilités obtenues pour chaque étiquette.
 
-À noter que le SCT ne choisit pas une étiquette parmi les quatre possibles, mais attribue une probabilité à chacune des étiquettes. Dans les travaux présentés dans cette thèse, les probabilités affectées à toutes les étiquettes sont prises en compte. En effet, nous estimons que même si une étiquette a une probabilité supérieure aux autres, cela ne signifie pas nécessairement que c'est la bonne étiquette et que l'on ne doit prendre en compte que cette dernière. 
+Le SCT ne choisit pas une étiquette parmi les quatre possibles, mais attribue une probabilité à chacune des étiquettes. Dans les travaux présentés dans cette thèse, les probabilités affectées à toutes les étiquettes sont prises en compte. En effet, nous estimons que même si une étiquette a une probabilité supérieure aux autres, l'information attribuée aux autres étiquettes par l'arbre doit être prise en compte. 
 
-Imaginons la répartition des masses de probabilités suivante pour un nom complet : courant 0,31, précédent 0,28, suivant 0,30, autre 0.11. Décider que le nom complet désigne le locuteur courant car c'est l'étiquette qui a la plus forte probabilité occulte complètement le fait que l'arbre est très incertain sur ces étiquettes. En effet, le conflit entre les différentes étiquettes est très élevé, et l'arbre affecte quasiment autant de croyance aux étiquettes courant, précédent et suivant. L'enjeu d'un processus d'attributions globales est de pouvoir prendre en compte ces croyances et incertitudes au sein des classes de locuteurs à nommer. Dans cette thèse, la théorie des fonctions de croyances est utilisée pour résoudre ce problème.
+Imaginons la répartition des masses de probabilités suivante pour un nom complet : courant 0,31, précédent 0,28, suivant 0,30, autre 0.11. Décider que le nom complet désigne le locuteur courant car c'est l'étiquette qui a la plus forte probabilité occulte complètement le fait que l'arbre est très incertain sur ces étiquettes. En effet, le conflit entre les différentes étiquettes est très élevé, et l'arbre affecte presque autant de croyance aux étiquettes courant, précédent et suivant.
+
+Chacune de ces probabilités, ainsi que le nom complet concerné, est affectée au locuteur à nommer correspondant (le suivant, le courant ou le précédent). Chaque locuteur se retrouve alors avec un ensemble de noms complets (couplés avec les probabilités issues de l'arbre) qui représentent les candidats potentiels.
+
+L'enjeu d'un processus d'attribution globale est de décider quel nom complet candidat correspond le mieux pour nommer un locuteur. Ce processus doit pouvoir prendre en compte les différentes croyances et incertitudes au sein des locuteurs à nommer. Dans cette thèse, la théorie des fonctions de croyances est utilisée pour résoudre ce problème.
 
 
-\todo{Prise en compte du genre}
-
-\section{Attributions globales~: processus de décision et fonctions de croyances pour l'INL}
+\section{Attribution globale~: processus de décision et fonctions de croyance pour l'INL}
 
 \label{sec:fct_croyances}
 
-La section \ref{attributions_globales} décrit toutes les difficultés auxquelles la phase d'attribution globale a à faire face. Une de ces principales difficultés est de résoudre les conflits qui apparaissent à la suite de la phase d'attributions locales (c'est à dire plusieurs candidats possibles pour une même classe de locuteur anonyme). Ces conflits sont dus à des connaissances imparfaites provenant de l'arbre de décision. 
+La section \ref{attributions_globales} décrit toutes les difficultés auxquelles la phase d'attribution globale a à faire face. Une de ces principales difficultés est de résoudre les conflits qui apparaissent à la suite de la phase d'attributions locales (c'est à dire plusieurs candidats possibles pour un même locuteur à nommer). Ces conflits sont dus à des connaissances imparfaites provenant de l'arbre de décision. 
 
-En effet, il arrive couramment que l'arbre de décision se trompe et désigne un locuteur comme étant par exemple le locuteur suivant (en lui affectant une forte probabilité), alors qu'il ne l'est pas. La théorie des fonctions de croyance va permettre de modéliser ces connaissances et ces incertitudes de manière à faciliter la phase d'attribution globale.
+En effet, il arrive que l'arbre de décision se trompe et désigne un locuteur comme étant, par exemple, le locuteur suivant (en lui affectant une forte probabilité), alors qu'il ne l'est pas. La théorie des fonctions de croyance va permettre, dans un même formalisme, de modéliser ces connaissances et ces incertitudes de manière à les utiliser lors de la phase d'attribution globale.
 
 \subsection{Formalisme et notations}
 
@@ -1288,60 +1336,10 @@ Tout d'abord, il convient d'expliciter les différentes notations qui seront util
 
  Soit $\mathcal{E}=\{e_1,\ldots, e_I\}$ correspondant à l'ensemble des noms complets candidats pour nommer un locuteur. L'ensemble $\mathcal{O}=\{o_1,\ldots, o_J\}$ correspond aux occurrences successives des noms complets détectés dans les transcriptions, $\mathcal{T}=\{t_1,\ldots, t_K\}$ désigne l'ensemble des tours de parole dans l'ordre chronologique, et $\mathcal{C}=\{c_1,\ldots, c_L\}$ l'ensemble des locuteurs à nommer.  Le but est donc d'attribuer un nom complet issu de $\mathcal{E}$ aux locuteurs de $\mathcal{C}$. Chaque locuteur $c_l$ peut intervenir une ou plusieurs fois dans une émission, ce qui correspond donc à un ou plusieurs tours de parole: $c_l=\{ t \in {\cal T} \;| c_l\ \mbox{est le locuteur de } t\}$. Chaque tour de parole appartient à un et un seul locuteur, c'est-à-dire que les tours de parole sont successifs et ne peuvent être simultanés. Pour chaque occurrence d'un nom complet $o_j$ (pour $j= 1,\ldots, J$) détecté dans un tour de parole $t_k$, on désigne par $P(o_j,t_k)$ la probabilité (obtenue grâce à l'arbre de classification sémantique) que $o_j$ soit le locuteur du tour de parole $t_k$. Ainsi, $P(o_j,t_{k-1})$ et $P(o_j,t_{k+1})$ représentent la probabilité que $o_j$ soit le locuteur du tour respectivement précédent et suivant celui où il a été détecté. Par hypothèse, la probabilité que $o_j$ soit un autre locuteur est donc: $$1 -\displaystyle\sum_{r \in \{-1,0,1\}} P(o_j,t_{k+r})$$
 
-\subsection{Prise en compte du genre}
-\label{sec:genre}
-Les travaux présentés dans cette thèse prennent en compte le genre des locuteurs pour filtrer les probabilités $P(o_j,t_k)$ données par l'arbre de classification sémantique. En effet, pour chaque classe, cette caractéristique est disponible car, d'une part, elle est déterminée de manière automatique lors des phases de segmentation et de classification (avec un taux d'erreur inférieur à 5 \% sur des données ESTER 1 phase II), d'autre part, les genres des noms complets extraits de la transcription peuvent être déterminés à travers celui de leur prénom associé. La comparaison de ces deux informations, obtenues de deux manières différentes, nous permet d'affiner le processus de décision. En cas d'incohérence, le couple prénom et patronyme n'est pas retenu et il est supprimé de la liste des candidats potentiels. Cependant, pour le cas des prénoms ambigus comme \og Dominique \fg, l'entité nommée sera conservée. 
 
-Pour avoir la connaissance relative aux genres des prénoms, nous utilisons une base de données extraite du Web composée d'environ 20~000 prénoms. \`A chaque prénom est associé le nombre de fois où il a été attribué au genre féminin et au genre masculin depuis 1900 en France. Cette base de données ne semble pas exempte d'erreur~: par exemple le prénom \og Vincent \fg{} apparaît 227180 fois comme prénom masculin et 373 fois comme prénom féminin. Le genre retenu correspondra au genre majoritaire. Si ce dernier a une fréquence inférieure à 75 \%, alors le genre est considéré comme indéterminé.
+\subsection{Fonctions de croyance}
 
-Au niveau du processus de décision qui suit, le filtre suivant est appliqué: 
-%CJ OK
-%TAL
-si le genre de l'occurrence $o_j$ (et donc du nom complet $e_i$ correspondant) et celui du tour de parole (et donc de la classe $c_l$ à laquelle il appartient) sont différents, les scores $P(o_j,t_r)$ ne sont pas pris en compte lors du processus de décision.
-%TAL
-%si le genre de l'occurrence $o_j$ (et donc du nom complet $e_i$ correspondant) et celui du tour de parole (et donc de la classe de locuteur $c_l$ à laquelle il appartient) sont différents, les probabilités $P(o_j,t_r)$ de la formule \eqref{eq:sl} ne sont pas prises en compte lors du calcul des scores. 
-%Soit $g(e_i)$ et $g(t_r)$ les genres (féminin, masculin ou indéterminé) d'un nom complet $e_i$ (ou d'un tour de parole $t_r$), alors : $(o_j= e_i, \: t_{r}(o_j) \in c_l \mbox{ et } g(e_i)\neq g(c_l)) \Rightarrow  P(o_j,t_{r})=0.$
-
-
-
-\subsection{Processus de décision}
-
-\label{sec:decision}
-
-Le but du processus de décision est d'assigner un nom complet $e_i$ à un locuteur $c_l$ donné. Pour ce faire, il faut pouvoir disposer d'une information (pour chaque $e_i$ d'un locuteur $c_l$) permettant de comparer ce candidat aux autres.candidats possibles pour $c_l$. Dans cette thèse, nous utilisons un score probabiliste obtenu grâce aux fonctions de croyances. Nous décrivons dans X la manière dont ce score est obtenu. Par la suite, $\mbox{SC}_l(e_i)$ désignera le score du nom complet candidat $e_i$ pour la classe de locuteur $c_l$.
-
-Une fois ce score obtenu, il faut ensuite attribuer à chaque locuteur $c_l$ un nom complet $e_i$.  Soit $f: \mathcal{C}\rightarrow \mathcal{E}$ la fonction d'assignation des noms complets aux  locuteurs. Les locuteurs étant censés être tous différents, une caractéristique importante que l'on voudrait imposer pour $f$ est l'injectivité: $f(c_l)=f(c_l') \Rightarrow c_l=c_l'$. Chaque nom complet ne peut être attribué à plus d'un locuteur. Bien sûr, certains noms complets peuvent rester non attribués et inversement, certains locuteurs peuvent rester sans étiquette. 
-
-L'algorithme utilisé est le suivant: tous les noms complets possibles sont pris en compte {\it a priori} et triés en fonction de leur score $\mbox{SC}_l(e_i)$. Premièrement, le nom complet avec le score maximum (noté $e_i^*$) est choisi, et si plusieurs locuteurs sont associés au même $e_i^*$, alors ce nom complet sera assigné au locuteur dont le score $SC_l(e_i^*)$ est maximum. Ensuite, tous les noms complets choisis sont supprimés de la liste relative aux locuteurs qui n'ont pas encore été nommés. Lors de l'itération suivante, les noms complets restants sont examinés de la même manière pour les locuteurs restants et ainsi de suite, jusqu'à ce que tous les locuteurs soient nommés ou que la liste des noms complets à attribuer soit vide. Le tableau \ref{tab:examplecomb1} montre un exemple de décision. Jacques Derrida étant choisi pour $c_{15}$ lors de la première itération, il ne peut donc pas être affecté à $c_{13}$ et $c_{14}$ lors de la deuxième itération. $c_{13}$ et $c_{14}$ sont alors nommés avec d'autres candidats potentiels.
-
-%----------------------
-\begin{table}[htbp]
-\caption{Exemple du processus de décision avec deux itérations
-(décision en gras, scores entre parenthèses).}
-\begin{center}
-{\small
-\begin{tabular}{|c c c |} \hline
-     Locuteur & $e_i^*$  (1ère itération)&    2ème itération      \\ \hline
-    $c_{13}$ &J. Derrida ($0,10$) &  \textbf{N. Demorand }($0,25$)             \\
-    $c_{14}$   &J. Derrida ($0,82$) & \textbf{A. Adler} (0,56) \\
-    $c_{15}$ &\textbf{J. Derrida} ($0.95$) & - \\
-     $c_{16}$ &\textbf{O. Duhamel } ($1.00$) & -  \\
-     % $c_{17}$ &\textbf{Marc Kravetz} (0.94) & Jacques Derrida  (0.33) \\
-\hline
-\end{tabular}
-}
-\end{center}
-
-%\caption{}
- \label{tab:examplecomb1}
-
-\end{table}
-
-Toute la difficulté du processus de décision réside dans le calcul de ce score $\mbox{SC}_l(e_i)$. C'est en effet sur lui que va s'appuyer la décision d'attribution finale. Il doit permettre de refléter les probabilités de l'arbre tout en prenant en compte l'importance des conflits qui peuvent apparaître au sein d'une classe. La théorie des fonctions de croyance permettant de modéliser la croyance et l'incertiude, c'est elle qui est utilisée dans cette thèse pour obtenir les scores $\mbox{SC}_l(e_i)$.
-
-\subsection{Fonctions de croyances}
-
-Dans cette thèse, l'interprétation proposée par Smets est adoptée~: le modèle des croyances transférables \cite{smets94}. Le but de ce modèle est de déterminer la croyance concernant différentes propositions, à partir d'un ensemble d'informations disponibles. Soit ${\cal E}$ un ensemble fini, appelé cadre de discernement de l'expérience. La représentation de l'incertitude se fait grâce au concept de la fonction de croyance, définie comme une fonction $m$ de $2^{\cal E}$ dans $[0,1]$ telle que:
+Dans cette thèse, le modèle des croyances transférables proposé par \cite{smets94} est adopté. Le but de ce modèle est de déterminer la croyance concernant différentes propositions, à partir d'un ensemble d'informations disponibles. Soit ${\cal E}$ un ensemble fini, appelé cadre de discernement de l'expérience. La représentation de l'incertitude se fait grâce au concept de la fonction de croyance, définie comme une fonction $m$ de $2^{\cal E}$ dans $[0,1]$ telle que:
 \begin{equation}
 \sum_{A\subseteq {\cal E}} m(A)=1.
 \end{equation} 
@@ -1360,7 +1358,7 @@ m({\cal E}) = 1-w
 
 L'ignorance totale est représentée par la fonction de croyance vide telle que $m(\Omega)=1$. Si tous les éléments focaux de $m$ sont des singletons, $m$ devient alors une mesure de probabilité (dite masse bayésienne).
 
-La théorie des croyances possède plusieurs outils d'agrégation permettant de combiner des fonctions de croyance définies sur un même cadre de discernement \cite{smets94}. En particulier, la combinaison de deux structures $m_1$ et $m_2$ définies de façon ``indépendante" sur $\cal E$ utilisant l'opérateur binaire conjonctif non normalisé $\cap$ définit une fonction résultante $m'$ par la formule suivante \cite{smets94}:
+La théorie des croyances possède plusieurs outils d'agrégation permettant de combiner des fonctions de croyance définies sur un même cadre de discernement \cite{smets94}. En particulier, la combinaison de deux structures $m_1$ et $m_2$, définies de façon ``indépendante" sur $\cal E$ utilisant l'opérateur binaire conjonctif non normalisé $\cap$, définit une fonction résultante $m'$ par la formule suivante \cite{smets94}:
 
 \begin{equation} \label{eq:comb_Dempster}
 \forall A\subseteq {\cal E}, \; m'(A)=\sum_{B \cap C =
@@ -1394,10 +1392,8 @@ Une fonction de croyance $m$ décrit l'état d'une croyance sur un phénomène. Une 
  $\delta_A(\omega)=1$ si $\omega \in A$ et $\delta_A(\omega)=0$ si $\omega \notin A$ .
 
 \subsection{Définition des masses de croyance}
-
-Comme décrit dans \ref{attributions_globales}, plusieurs occurrences correspondant à des noms complets différents peuvent être détectées. Plusieurs noms complets sont donc en compétition ou en conflit en tant que locuteur courant potentiel (ou précédent, ou suivant).
-
-On s'intéresse à un tour $t_k$ appartenant au locuteur $c_l$ et ayant $n_k$ occurrences. Soient $n_{k+r}$, le nombre d'occurrences tours précédent ($r=-1$) et suivant ($r=1$) de ce tour. Soient $\{o_{j,r}^k\},$ avec $ r=-1,0,1$ et $j=1,\ldots, n_{k+r}$, les occurrences de noms complets détectés dans ces trois tours. Chaque occurrence $o_{j,r}^k$, correspondant à une étiquette $e_i$, représente une certaine information sur le locuteur du tour $t_k$ qui peut être décrite par une masse de croyance $m^{jr}_{t_k}$ sur $\cal E$ à support simple, focalisée sur $e_i$ et $\cal E$:
+\label{sec:masse_croyance}
+On s'intéresse à un tour $t_k$ prononcé par le locuteur $c_l$. $n_k$ occurrences de noms complets ont été attribuées à ce tour de parole par l'arbre de classification. Soient $n_{k+r}$, le nombre d'occurrences provenant d'une attribution de type \emph{locuteur précédent} ($r=-1$) et \emph{locuteur suivant} ($r=1$). Soient $\{o_{j,r}^k\},$ avec $ r=-1,0,1$ et $j=1,\ldots, n_{k+r}$, les occurrences de noms complets détectés dans ces trois tours. Chaque occurrence $o_{j,r}^k$, correspondant à une étiquette $e_i$, représente une information particulière sur le locuteur potentiel du tour $t_k$ qui peut être décrite par une masse de croyance $m^{jr}_{t_k}$ sur $\cal E$ à support simple, focalisée sur $e_i$ et $\cal E$:
 
 %\begin{equation}\label{eq:putaindequationcruciale}
     %\left\{\begin{array}{c}
@@ -1447,7 +1443,7 @@ On s'intéresse à un tour $t_k$ appartenant au locuteur $c_l$ et ayant $n_k$ occu
 %----------------
 
 \subsection{Combinaison par tour de parole et par locuteur}
-
+\label{sec:combinaison}
 La première étape de la combinaison consiste à agréger les informations au sein d'un tour de parole donné. La combinaison des $n_{k-1}+n_k+n_{k+1}$ masses ciblées sur le tour $t_k$ et obtenues par l'équation \ref{eq:putaindequationcruciale} peut se faire par la règle conjonctive de Dempster {\it non normalisée} (cf. équations \ref{eq:comb_Dempster}- \ref{eq:combindetail}), afin d'assurer l'associativité et la commutativité de la combinaison: on obtient une masse de croyance $m_{t_k}$ sur l'identité du locuteur du tour $t_k$, définie par 
 
 \begin{equation} \label{eq:massetour}
@@ -1474,7 +1470,7 @@ et la masse de croyance normalisée $M^*_{l}$ correspondante.
 
 \subsection{Règle de décision}
 
-La méthode exposée en section \ref{sec:decision} est utilisée comme base pour la décision d'affectation. Les masses de croyance $M_l$ sont transformées en une probabilité pignistique $P_{M_l}$ (cf. équation \ref{eq:pig}) et la règle $\mathbf{R}$ suivante est utilisée :
+Les masses de croyance $M_l$ sont transformées en une probabilité pignistique $P_{M_l}$ (cf. équation \ref{eq:pig}) et la règle $\mathbf{R}$ suivante est utilisée :
 
     \begin{equation}\label{eq:maxcroyance}
         \begin{array}{c}
@@ -1483,9 +1479,13 @@ La méthode exposée en section \ref{sec:decision} est utilisée comme base pour la
         \end{array}
     \end{equation}
 
-Ensuite, comme certains noms complets sont attribués lors de cette première étape à plusieurs locuteurs différents, il faut là encore réorganiser le partage des noms complets entre les locuteurs anonymes. Le processus de décision proposé en \ref{sec:decision} est appliqué, en remplaçant les scores $\mbox{SC}_l$ par les probabilités pignistiques $P_{M_l}$. 
+Certains noms complets sont attribués lors de cette première étape à plusieurs locuteurs différents, il faut réorganiser le partage des noms complets entre les locuteurs. Le processus de décision proposé en \ref{sec:decision} est appliqué.
 
-En reprenant l'exemple proposé en \ref{sec:decision}, le nom complet ``Jacques Derrida" est là encore assigné aux départ aux trois locuteurs $c_{13}$, $c_{14}$ et $c_{15}$ (cf. tableau \ref{tab:examplecombdempster}). Mais finalement,``Jacques Derrida" est également assigné à $c_{15}$, car c'est pour ce locuteur qu'il obtient la plus grande probabilité pignistique.
+%En reprenant l'exemple proposé en \ref{sec:decision}, le nom complet ``Jacques Derrida" est là encore assigné aux départ aux trois locuteurs $c_{13}$, $c_{14}$ et $c_{15}$ (cf. tableau \ref{tab:examplecombdempster}). Mais finalement,``Jacques Derrida" est également assigné à $c_{15}$, car c'est pour ce locuteur qu'il obtient la plus grande probabilité pignistique.
+
+
+
+
 %----------------------
 %\begin{table}[htbp]
 %\caption{Décision avec deux itérations (décision en gras,
@@ -1508,6 +1508,57 @@ En reprenant l'exemple proposé en \ref{sec:decision}, le nom complet ``Jacques D
 % \label{tab:examplecombdempster}
 %
 %\end{table}
+
+
+\subsection{Processus de décision}
+
+\label{sec:decision}
+
+\todo{Décrire et utiliser l'algorithme hongrois}
+
+Soit $f: \mathcal{C}\rightarrow \mathcal{E}$ la fonction d'assignation des noms complets aux  locuteurs. Les locuteurs étant censés être tous différents, une caractéristique importante que l'on voudrait imposer pour $f$ est l'injectivité: $f(c_l)=f(c_l') \Rightarrow c_l=c_l'$. Chaque nom complet ne peut être attribué à plus d'un locuteur. Bien sûr, certains noms complets peuvent rester non attribués et inversement, certains locuteurs peuvent rester sans étiquette. 
+
+L'algorithme utilisé est le suivant: tous les noms complets possibles sont pris en compte {\it a priori} et triés en fonction de leur probabilité pignistique $P_{M_l}(e_i)$. Premièrement, le nom complet avec la probabilité maximum (noté $e_i^*$) est choisi, et si plusieurs locuteurs sont associés au même $e_i^*$, alors ce nom complet sera assigné au locuteur dont la probabilité $P_{M_l}(e_i^*)$ est maximale. Ensuite, tous les noms complets choisis sont supprimés de la liste relative aux locuteurs qui n'ont pas encore été nommés. Lors de l'itération suivante, les noms complets restants sont examinés de la même manière pour les locuteurs restants et ainsi de suite, jusqu'à ce que tous les locuteurs soient nommés ou que la liste des noms complets à attribuer soit vide. Le tableau \ref{tab:examplecomb1} montre un exemple de décision. Jacques Derrida étant choisi pour $c_{15}$ lors de la première itération, il ne peut donc pas être affecté à $c_{13}$ et $c_{14}$ lors de la deuxième itération. $c_{13}$ et $c_{14}$ sont alors nommés avec d'autres candidats potentiels.
+
+%----------------------
+\begin{table}[htbp]
+\caption{Exemple du processus de décision avec deux itérations
+(décision en gras, scores entre parenthèses).}
+\begin{center}
+{\small
+\begin{tabular}{|c c c |} \hline
+     Locuteur & $e_i^*$  (1ère itération)&    2ème itération      \\ \hline
+    $c_{13}$ &J. Derrida ($0,10$) &  \textbf{N. Demorand }($0,25$)             \\
+    $c_{14}$   &J. Derrida ($0,82$) & \textbf{A. Adler} (0,56) \\
+    $c_{15}$ &\textbf{J. Derrida} ($0.95$) & - \\
+     $c_{16}$ &\textbf{O. Duhamel } ($1.00$) & -  \\
+     % $c_{17}$ &\textbf{Marc Kravetz} (0.94) & Jacques Derrida  (0.33) \\
+\hline
+\end{tabular}
+}
+\end{center}
+
+%\caption{}
+ \label{tab:examplecomb1}
+
+\end{table}
+
+
+
+\subsection{Prise en compte du genre}
+\label{sec:genre}
+Les travaux présentés dans cette thèse prennent en compte le genre des locuteurs pour filtrer les probabilités $P(o_j,t_k)$ données par l'arbre de classification sémantique. En effet, pour chaque classe, cette caractéristique est disponible car, d'une part, elle est déterminée de manière automatique lors des phases de segmentation et de classification (avec un taux d'erreur inférieur à 5 \% sur des données ESTER 1 phase II), d'autre part, les genres des noms complets extraits de la transcription peuvent être déterminés à travers celui de leur prénom associé. La comparaison de ces deux informations, obtenues de deux manières différentes, nous permet d'affiner le processus de décision. En cas d'incohérence, le couple prénom et patronyme n'est pas retenu et il est supprimé de la liste des candidats potentiels. Cependant, pour le cas des prénoms ambigus comme \og Dominique \fg, l'entité nommée sera conservée. 
+
+Pour avoir la connaissance relative aux genres des prénoms, nous utilisons une base de données extraite du Web composée d'environ 20~000 prénoms. \`A chaque prénom est associé le nombre de fois où il a été attribué au genre féminin et au genre masculin depuis 1900 en France. Cette base de données ne semble pas exempte d'erreur~: par exemple le prénom \og Vincent \fg{} apparaît 227180 fois comme prénom masculin et 373 fois comme prénom féminin. Le genre retenu correspondra au genre majoritaire. Si ce dernier a une fréquence inférieure à 75 \%, alors le genre est considéré comme indéterminé.
+
+Au niveau de la définition des masses de croyance présentée en section \ref{sec:masse_croyance}, le filtre suivant est appliqué: 
+%CJ OK
+%TAL
+si le genre de l'occurrence $o_j$ (et donc du nom complet $e_i$ correspondant) et celui du tour de parole (et donc de la classe $c_l$ à laquelle il appartient) sont différents, les scores $P(o_j,t_r)$ sont ignorés.
+%TAL
+%si le genre de l'occurrence $o_j$ (et donc du nom complet $e_i$ correspondant) et celui du tour de parole (et donc de la classe de locuteur $c_l$ à laquelle il appartient) sont différents, les probabilités $P(o_j,t_r)$ de la formule \eqref{eq:sl} ne sont pas prises en compte lors du calcul des scores. 
+%Soit $g(e_i)$ et $g(t_r)$ les genres (féminin, masculin ou indéterminé) d'un nom complet $e_i$ (ou d'un tour de parole $t_r$), alors : $(o_j= e_i, \: t_{r}(o_j) \in c_l \mbox{ et } g(e_i)\neq g(c_l)) \Rightarrow  P(o_j,t_{r})=0.$
+
 
 
 \section{Évaluation du système proposé}
@@ -1564,27 +1615,7 @@ Le tableau~\ref{corp_stat}  montre la répartition \textit{a priori} des quatre é
 %
 \subsection{Métriques utilisées}
 
-\label{sec:metrique}
-
-Un système d'identification nommée est évalué en comparant l'hypothèse générée par celui-ci à la référence distribuée avec le corpus. Cette comparaison met en évidence 5 cas d'erreur ou de succès possibles relatifs aux situations suivantes~:
-\begin{itemize}
-\item l'identité proposée est correcte ($C_1$)~: le système propose une identité correspondant à celle indiquée dans la référence ;
-\item erreur de substitution ($S$)~: le système propose une identité différente de l'identité présente dans la référence ;
-\item erreur de suppression ($D$) : le système ne propose pas d'identité alors que le locuteur est identifié dans la référence ;
-\item erreur d'insertion ($I$)~: le système propose une identité alors que le locuteur n'est pas identifié dans la référence ;
-\item il n'y a pas d'identité ($C_2$)~: le système ne propose pas d'identité et la référence ne contient pas d'identité.
-\end{itemize}
-
-
-Une mesure de Précision et de Rappel peut être définie à partir des 5 cas d'erreur~:
-\begin{equation}
-	\label{eq:PR}
-	P = \frac{C_1}{C_1+S+I} \ \ ; \ \ R = \frac{C_1}{C_1+S+D}
-\end{equation}
-
-%Dans tous les précédents articles \cite{Tranter06,Esteve07,Chengyuan07} traitant de l'identification nommée du locuteur, les résultats sont présentés sous la forme de mesures de précision et de rappel.
-
-Comme il a été proposé dans \cite{Tranter06}, ces valeurs peuvent être complétées par un taux d'erreur $Err$ global également calculé à partir de ces 5 erreurs. Ce taux s'inspire du calcul du WER utilisé pour l'évaluation de la transcription. Il a l'avantage de mesurer la qualité des résultats du système d'identification nommée en une seule valeur, facilitant les comparaisons entre les systèmes par rapport aux mesures de précision et de rappel.
+Les métriques utilisées dans les expériences (Rappel et Précision) sont celles définies dans la section \ref{sec:metriques}. Comme il a été proposé dans \cite{Tranter06}, ces valeurs peuvent être complétées par un taux d'erreur $Err$ global également calculé à partir de ces 5 erreurs. Ce taux s'inspire du calcul du \emph{WER} utilisé pour l'évaluation de la transcription. Il a l'avantage de mesurer la qualité des résultats du système d'identification nommée en une seule valeur, facilitant les comparaisons entre les systèmes par rapport aux mesures de précision et de rappel.
 \begin{equation}
 	\label{eq:PR}
 	Err = \frac{S+I+D}{S+I+D+C_2+C_1} \ \ ;
