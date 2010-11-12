@@ -810,6 +810,8 @@ Dans le but de réaliser des règles les plus génériques possibles, certains mots 
 
 \subsection{Corpus et métriques d'évaluation}
 
+\label{sec:metriques}
+
 L'évaluation a été réalisée sur un corpus de test de 10 heures de données en langue anglaise (corpus Hub-4e, années 1997, 1998 et 1999). Deux types de transcriptions enrichies ont été utilisées : transcriptions manuelles et automatiques. Le taux d'erreur mot pour les transcriptions automatiques est de 18~\%, le système utilisé est celui présenté dans \cite{Lamel02lightlysupervised}. 
 
 Les erreurs réalisées par le système de transcription automatique, et notamment les erreurs de découpage en tours de paroles (produits par le système de segmentation et de classification en locuteur), posent problème pour l'évaluation des règles. Lorsqu'un tour de parole produit par le système automatique correspond à plusieurs tours de parole de la référence, il est difficile de décider si la règle doit être considérée comme bonne ou mauvaise. Pour résoudre ce problème, deux types de tours de parole ont été pris en compte dans les transcriptions réalisées automatiquement~: les tours de paroles \og corrects \fg, c'est à dire les tours de paroles qui correspondent aux tours de parole de la référence et les tours de paroles \og bruités \fg, c'est à dire les tours de paroles qui regroupent plusieurs tours de parole de la référence (à cause d'une erreur du système de segmentation et de classification). Les erreurs commises par le système sont ensuite calculées selon différents cas de figure~:
@@ -1171,7 +1173,7 @@ Dans cette thèse, nous commençons par décrire le système de détection des entité
 
 \section{Détection des entités nommées}
 
-Une des étapes fondamentales d'un système d'INL est la détection des noms complets et des différentes classes sémantiques dans la transcription. Dans le but d'automatiser au maximum les systèmes d'INL, cette phase doit être réalisée automatiquement. Les systèmes de détection des entités nommées répondent parfaitement à ce besoin~: les entités nommées de type personne vont permettre de détecter les noms complets dans la transcription, les autres entités nommées vont servir de classes sémantiques pour généraliser la transcription.
+Une des étapes fondamentales de tout système d'INL basé sur la transcription est la détection des noms complets et des différentes classes sémantiques. Dans le but d'automatiser au maximum les systèmes d'INL, cette phase peut être réalisée à l'aide de systèmes de détection des entités nommées. Les entités nommées de type \emph{personne} vont pouvoir être exploitées pour extraire les noms complets de la transcription, les autres entités nommées vont servir de classes sémantiques pour généraliser la transcription.
 
 \subsection{La campagne d'évaluation Ester 2}
 
@@ -1184,7 +1186,7 @@ Sur des transcriptions réalisées manuellement, Synapse et Xerox ont (de loin) le
 \begin{table}[h]
 \begin{center}
 \includegraphics[width=\columnwidth]{img/ne_ester2.pdf}
-\caption{Performances de chaque participant à la tâche de détection des entités nommées de la campagne Ester 2. Les résultats sont donnés en terme de Slot Error Rate (\%S), Rappel (\%R) et Précision (\%P)}
+\caption{Performances de chaque participant à la tâche de détection des entités nommées de la campagne Ester 2 \cite{Ester2}. Les résultats sont donnés en terme de Slot Error Rate (\%S), Rappel (\%R) et Précision (\%P)}
 \label{tab:ne_ester2}
 \end{center}
 \end{table}
@@ -1194,7 +1196,7 @@ Sur des transcriptions réalisées manuellement, Synapse et Xerox ont (de loin) le
 
 Dans l'optique d'automatiser au maximum les systèmes d'INL, ils doivent être capable de se baser sur des transcriptions réalisées automatiquement. LIA\_NE \cite{bechetc-icassp10} étant le système le plus performant sur des transcriptions automatiques lors de la campagne Ester 2, il a été choisi comme détecteur d'entités nommées pour les travaux de cette thèse. LIA\_NE a la particularité d'avoir été conçu spécifiquement pour être utilisé sur des sorties de transcriptions automatiques. Ces transcriptions ont des caractéristiques qui peuvent mettre à défaut les systèmes de détection d'EN prévus pour être utilisés sur des textes écrits tels que les livres ou les journaux.
 
-Les transcriptions automatiques proviennent de documents audio qui contiennent de la parole plus ou moins spontanée, et qui sont soumis à des phénomènes propres à la parole orale comme les disfluences ou les faux départs. Ces transcriptions ne sont pas parfaites et contiennent des erreurs commises par le système de reconnaissance automatique de la parole. La ponctuation et les majuscules sont généralement absents des transcriptions. Même si des modules de post-traitement existent pour les remettre, ils sont eux aussi sujets à erreurs. De plus, les transcriptions automatiques ne contiennent que des mots qui appartiennent au dictionnaire du SRAP alors que les EN sont essentiellement composées de noms propres pour lesquels il est très difficile d'obtenir une liste exhaustive. 
+Les transcriptions automatiques proviennent de documents audio qui contien\-nent de la parole plus ou moins spontanée, et qui sont soumis à des phénomènes propres à la parole orale comme les disfluences ou les faux départs. Ces transcriptions ne sont pas parfaites et contiennent des erreurs commises par le système de reconnaissance automatique de la parole. La ponctuation et les majuscules sont généralement absents des transcriptions. Même si des modules de post-traitement existent pour les remettre, ils sont eux aussi sujets à erreurs. De plus, les transcriptions automatiques ne contiennent que des mots qui appartiennent au dictionnaire du SRAP alors que les EN sont essentiellement composées de noms propres pour lesquels il est très difficile d'obtenir une liste exhaustive. 
 
 LIA\_NE utilise tout d'abord un processus génératif grâce à un étiqueteur basé sur des HMM (\emph{Hidden Markov Model}) qui permet d'annoter le document avec les parties du discours et des classes sémantiques (personne, organisation, lieu, produit). Ensuite un processus discriminatif basé sur les CRF \cite{CRFNE} (\emph{Conditional Random Field}) est utilisé pour effectivement récupérer les entités nommées 
 
@@ -1205,10 +1207,8 @@ Afin d'apprendre les caratéristiques de ce modèle CRF, LIA\_NE repose sur la col
 \end{itemize}
 
 
-
 Les 7 catégories d'entités nommées utilisées pour Ester 2 ont été gardées comme classes sémantiques. Nous discuterons dans X\tocite{citer chap 5 EN} de l'apport de cette méthode pour l'identification nommée du locuteur, par rapport à une approche plus classique à base de règles manuelles prévues pour être utilisées sur des corpus écrits.
 
-\subsection{Projet ANR EPAC}
 
 \section{Attributions locales : arbre de classification sémantique}
 
@@ -1615,27 +1615,7 @@ Le tableau~\ref{corp_stat}  montre la répartition \textit{a priori} des quatre é
 %
 \subsection{Métriques utilisées}
 
-\label{sec:metrique}
-
-Un système d'identification nommée est évalué en comparant l'hypothèse générée par celui-ci à la référence distribuée avec le corpus. Cette comparaison met en évidence 5 cas d'erreur ou de succès possibles relatifs aux situations suivantes~:
-\begin{itemize}
-\item l'identité proposée est correcte ($C_1$)~: le système propose une identité correspondant à celle indiquée dans la référence ;
-\item erreur de substitution ($S$)~: le système propose une identité différente de l'identité présente dans la référence ;
-\item erreur de suppression ($D$) : le système ne propose pas d'identité alors que le locuteur est identifié dans la référence ;
-\item erreur d'insertion ($I$)~: le système propose une identité alors que le locuteur n'est pas identifié dans la référence ;
-\item il n'y a pas d'identité ($C_2$)~: le système ne propose pas d'identité et la référence ne contient pas d'identité.
-\end{itemize}
-
-
-Une mesure de Précision et de Rappel peut être définie à partir des 5 cas d'erreur~:
-\begin{equation}
-	\label{eq:PR}
-	P = \frac{C_1}{C_1+S+I} \ \ ; \ \ R = \frac{C_1}{C_1+S+D}
-\end{equation}
-
-%Dans tous les précédents articles \cite{Tranter06,Esteve07,Chengyuan07} traitant de l'identification nommée du locuteur, les résultats sont présentés sous la forme de mesures de précision et de rappel.
-
-Comme il a été proposé dans \cite{Tranter06}, ces valeurs peuvent être complétées par un taux d'erreur $Err$ global également calculé à partir de ces 5 erreurs. Ce taux s'inspire du calcul du WER utilisé pour l'évaluation de la transcription. Il a l'avantage de mesurer la qualité des résultats du système d'identification nommée en une seule valeur, facilitant les comparaisons entre les systèmes par rapport aux mesures de précision et de rappel.
+Les métriques utilisées dans les expériences (Rappel et Précision) sont celles définies dans la section \ref{sec:metriques}. Comme il a été proposé dans \cite{Tranter06}, ces valeurs peuvent être complétées par un taux d'erreur $Err$ global également calculé à partir de ces 5 erreurs. Ce taux s'inspire du calcul du \emph{WER} utilisé pour l'évaluation de la transcription. Il a l'avantage de mesurer la qualité des résultats du système d'identification nommée en une seule valeur, facilitant les comparaisons entre les systèmes par rapport aux mesures de précision et de rappel.
 \begin{equation}
 	\label{eq:PR}
 	Err = \frac{S+I+D}{S+I+D+C_2+C_1} \ \ ;
