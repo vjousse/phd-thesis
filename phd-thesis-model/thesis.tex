@@ -1494,18 +1494,18 @@ M_{l} =\displaystyle \bigcap_{t_k \in c_l} m_{t_k}
 et la masse de croyance normalisée $M^*_{l}$ correspondante.
 
 
-\subsection{Règle de décision}
-
-Les masses de croyance $M_l$ sont transformées en une probabilité pignistique $P_{M_l}$ (cf. équation \ref{eq:pig}) et la règle $\mathbf{R}$ suivante est utilisée :
-
-    \begin{equation}\label{eq:maxcroyance}
-        \begin{array}{c}
-            \forall c_l \in \mathcal{C}\setminus \mathcal{D},  \displaystyle e_i^*=\arg \max_{e_i \in \mathcal{E}} \mbox P_{M_l}(e_i) \Rightarrow f(c_l)=e_i^*\\
-            \forall c_l \in \mathcal{D}, f(c_l)= \mbox{Anonyme} \\
-        \end{array}
-    \end{equation}
-
-Certains noms complets sont attribués lors de cette première étape à plusieurs locuteurs différents, il faut réorganiser le partage des noms complets entre les locuteurs. Le processus de décision proposé en \ref{sec:decision} est appliqué.
+%\subsection{Règle de décision}
+%
+%Les masses de croyance $M_l$ sont transformées en une probabilité pignistique $P_{M_l}$ (cf. équation \ref{eq:pig}) et la règle $\mathbf{R}$ suivante est utilisée :
+%
+%    \begin{equation}\label{eq:maxcroyance}
+%        \begin{array}{c}
+%            \forall c_l \in \mathcal{C}\setminus \mathcal{D},  \displaystyle e_i^*=\arg \max_{e_i \in \mathcal{E}} \mbox P_{M_l}(e_i) \Rightarrow f(c_l)=e_i^*\\
+%            \forall c_l \in \mathcal{D}, f(c_l)= \mbox{Anonyme} \\
+%        \end{array}
+%    \end{equation}
+%
+%Certains noms complets sont attribués lors de cette première étape à plusieurs locuteurs différents, il faut réorganiser le partage des noms complets entre les locuteurs. Le processus de décision proposé en \ref{sec:decision} est appliqué.
 
 %En reprenant l'exemple proposé en \ref{sec:decision}, le nom complet ``Jacques Derrida" est là encore assigné aux départ aux trois locuteurs $c_{13}$, $c_{14}$ et $c_{15}$ (cf. tableau \ref{tab:examplecombdempster}). Mais finalement,``Jacques Derrida" est également assigné à $c_{15}$, car c'est pour ce locuteur qu'il obtient la plus grande probabilité pignistique.
 
@@ -1540,11 +1540,18 @@ Certains noms complets sont attribués lors de cette première étape à plusieurs l
 
 \label{sec:decision}
 
-\todo{Décrire et utiliser l'algorithme hongrois}
+Grâce au processus décrit en section \ref{sec:combinaison}, chaque locuteur $C_l$ dispose d'une liste de noms complets candidats $e_i$ associés à leurs probabilités pignistiques $P_{M_l}(e_i)$. Le processus de décision doit permettre d'assigner les noms complets aux locuteurs de la manière la plus optimale possible.
 
-Soit $f: \mathcal{C}\rightarrow \mathcal{E}$ la fonction d'assignation des noms complets aux  locuteurs. Les locuteurs étant censés être tous différents, une caractéristique importante que l'on voudrait imposer pour $f$ est l'injectivité: $f(c_l)=f(c_l') \Rightarrow c_l=c_l'$. Chaque nom complet ne peut être attribué à plus d'un locuteur. Bien sûr, certains noms complets peuvent rester non attribués et inversement, certains locuteurs peuvent rester sans étiquette. 
+Soit $f: \mathcal{C}\rightarrow \mathcal{E}$ la fonction d'assignation des noms complets aux  locuteurs. Les locuteurs étant censés être tous différents, une caractéristique importante que l'on voudrait imposer pour $f$ est l'injectivité~: $f(c_l)=f(c_l') \Rightarrow c_l=c_l'$. Chaque nom complet ne peut être attribué à plus d'un locuteur. Bien sûr, certains noms complets peuvent rester non attribués et inversement, certains locuteurs peuvent rester sans étiquette.
 
-L'algorithme utilisé est le suivant: tous les noms complets possibles sont pris en compte {\it a priori} et triés en fonction de leur probabilité pignistique $P_{M_l}(e_i)$. Premièrement, le nom complet avec la probabilité maximum (noté $e_i^*$) est choisi, et si plusieurs locuteurs sont associés au même $e_i^*$, alors ce nom complet sera assigné au locuteur dont la probabilité $P_{M_l}(e_i^*)$ est maximale. Ensuite, tous les noms complets choisis sont supprimés de la liste relative aux locuteurs qui n'ont pas encore été nommés. Lors de l'itération suivante, les noms complets restants sont examinés de la même manière pour les locuteurs restants et ainsi de suite, jusqu'à ce que tous les locuteurs soient nommés ou que la liste des noms complets à attribuer soit vide. Le tableau \ref{tab:examplecomb1} montre un exemple de décision. Jacques Derrida étant choisi pour $c_{15}$ lors de la première itération, il ne peut donc pas être affecté à $c_{13}$ et $c_{14}$ lors de la deuxième itération. $c_{13}$ et $c_{14}$ sont alors nommés avec d'autres candidats potentiels.
+Ce type d'assignation est un problème classique en recherche opérationnelle \cite{Burkard09}. Un des algorithmes les plus utilisés pour résoudre ce problème est \og{} l'algorithme de Kuhn-Munkres \cite{MunkresJames} \fg{}, aussi appelé \og{} algorithme Hongrois \fg{}. Il consiste à trouver le chemin optimal qui maximise (ou minimise) un certain coût. La fonction de coût utilisée est la suivante~:
+
+\begin{equation}
+	\label{eq:Munkres}
+	C(e_1,...,e_I) = \displaystyle\sum_{l=1}^{L} P_{M_l}(e_i)
+\end{equation}
+
+%L'algorithme utilisé est le suivant: tous les noms complets possibles sont pris en compte {\it a priori} et triés en fonction de leur probabilité pignistique $P_{M_l}(e_i)$. Premièrement, le nom complet avec la probabilité maximum (noté $e_i^*$) est choisi, et si plusieurs locuteurs sont associés au même $e_i^*$, alors ce nom complet sera assigné au locuteur dont la probabilité $P_{M_l}(e_i^*)$ est maximale. Ensuite, tous les noms complets choisis sont supprimés de la liste relative aux locuteurs qui n'ont pas encore été nommés. Lors de l'itération suivante, les noms complets restants sont examinés de la même manière pour les locuteurs restants et ainsi de suite, jusqu'à ce que tous les locuteurs soient nommés ou que la liste des noms complets à attribuer soit vide. Le tableau \ref{tab:examplecomb1} montre un exemple de décision. Jacques Derrida étant choisi pour $c_{15}$ lors de la première itération, il ne peut donc pas être affecté à $c_{13}$ et $c_{14}$ lors de la deuxième itération. $c_{13}$ et $c_{14}$ sont alors nommés avec d'autres candidats potentiels.
 
 %----------------------
 \begin{table}[htbp]
