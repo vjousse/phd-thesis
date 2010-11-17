@@ -1551,30 +1551,54 @@ Ce type d'assignation est un problème classique en recherche opérationnelle \cit
 	C(e_1,...,e_I) = \displaystyle\sum_{l=1}^{L} P_{M_l}(e_i)
 \end{equation}
 
-%L'algorithme utilisé est le suivant: tous les noms complets possibles sont pris en compte {\it a priori} et triés en fonction de leur probabilité pignistique $P_{M_l}(e_i)$. Premièrement, le nom complet avec la probabilité maximum (noté $e_i^*$) est choisi, et si plusieurs locuteurs sont associés au même $e_i^*$, alors ce nom complet sera assigné au locuteur dont la probabilité $P_{M_l}(e_i^*)$ est maximale. Ensuite, tous les noms complets choisis sont supprimés de la liste relative aux locuteurs qui n'ont pas encore été nommés. Lors de l'itération suivante, les noms complets restants sont examinés de la même manière pour les locuteurs restants et ainsi de suite, jusqu'à ce que tous les locuteurs soient nommés ou que la liste des noms complets à attribuer soit vide. Le tableau \ref{tab:examplecomb1} montre un exemple de décision. Jacques Derrida étant choisi pour $c_{15}$ lors de la première itération, il ne peut donc pas être affecté à $c_{13}$ et $c_{14}$ lors de la deuxième itération. $c_{13}$ et $c_{14}$ sont alors nommés avec d'autres candidats potentiels.
+Puisque nous utilisons des probabilités, nous chercherons le chemin qui maximise cette fonction de coût.
 
-%----------------------
+La matrice des coûts présentée dans le tableau \ref{tab:exempleMunkres} donne un exemple de problème d'attribution. Dans cet exemple, le document comporte 3 locuteurs $c_1,c_2,c_3$ et 3 noms complets sont candidats. Le chemin qui maximise la la fonction de coût est ici : $0,06+0,05+0,49 = 0,61$. Dans ce cas, le nom complet \emph{Abdelamjid Kadouri} sera attribué à $c_1$, \emph{Aziz Al-Bouazaoui} à $c_2$ et \emph{Mohammed Bellaouchi} à $c_3$.
+
 \begin{table}[htbp]
-\caption{Exemple du processus de décision avec deux itérations
-(décision en gras, scores entre parenthèses).}
+\caption{Exemple de matrice des coûts utilisée pour le processus de décision (algorithme de Kuhn-Munkres)}
 \begin{center}
 {\small
-\begin{tabular}{|c c c |} \hline
-     Locuteur & $e_i^*$  (1ère itération)&    2ème itération      \\ \hline
-    $c_{13}$ &J. Derrida ($0,10$) &  \textbf{N. Demorand }($0,25$)             \\
-    $c_{14}$   &J. Derrida ($0,82$) & \textbf{A. Adler} (0,56) \\
-    $c_{15}$ &\textbf{J. Derrida} ($0.95$) & - \\
-     $c_{16}$ &\textbf{O. Duhamel } ($1.00$) & -  \\
-     % $c_{17}$ &\textbf{Marc Kravetz} (0.94) & Jacques Derrida  (0.33) \\
+\begin{tabular}{|c c c c|} \hline
+    Locuteur $C_l$& \multicolumn{3}{|c|}{Probabilités $P_{M_l}(e_i)$}     \\ \hline
+     & \emph{Abdelamjid Kadouri} & \emph{Mohammed Bellaouchi} & \emph{Aziz Al-Bouazaoui} \\
+    $c_{1}$ &\textbf{0,06} &  $0,34$ & $0,00$             \\
+    $c_{2}$ &$0,01$ & $0,17$ & \textbf{0,05} \\
+    $c_{3}$ &$0.00$ & \textbf{0,49} & $0,02$ \\
 \hline
 \end{tabular}
 }
 \end{center}
 
 %\caption{}
- \label{tab:examplecomb1}
+ \label{tab:exempleMunkres}
 
 \end{table}
+
+%L'algorithme utilisé est le suivant: tous les noms complets possibles sont pris en compte {\it a priori} et triés en fonction de leur probabilité pignistique $P_{M_l}(e_i)$. Premièrement, le nom complet avec la probabilité maximum (noté $e_i^*$) est choisi, et si plusieurs locuteurs sont associés au même $e_i^*$, alors ce nom complet sera assigné au locuteur dont la probabilité $P_{M_l}(e_i^*)$ est maximale. Ensuite, tous les noms complets choisis sont supprimés de la liste relative aux locuteurs qui n'ont pas encore été nommés. Lors de l'itération suivante, les noms complets restants sont examinés de la même manière pour les locuteurs restants et ainsi de suite, jusqu'à ce que tous les locuteurs soient nommés ou que la liste des noms complets à attribuer soit vide. Le tableau \ref{tab:examplecomb1} montre un exemple de décision. Jacques Derrida étant choisi pour $c_{15}$ lors de la première itération, il ne peut donc pas être affecté à $c_{13}$ et $c_{14}$ lors de la deuxième itération. $c_{13}$ et $c_{14}$ sont alors nommés avec d'autres candidats potentiels.
+
+%----------------------
+%\begin{table}[htbp]
+%\caption{Exemple du processus de décision avec deux itérations
+%(décision en gras, scores entre parenthèses).}
+%\begin{center}
+%{\small
+%\begin{tabular}{|c c c |} \hline
+%     Locuteur & $e_i^*$  (1ère itération)&    2ème itération      \\ \hline
+%    $c_{13}$ &J. Derrida ($0,10$) &  \textbf{N. Demorand }($0,25$)             \\
+%    $c_{14}$   &J. Derrida ($0,82$) & \textbf{A. Adler} (0,56) \\
+%    $c_{15}$ &\textbf{J. Derrida} ($0.95$) & - \\
+%     $c_{16}$ &\textbf{O. Duhamel } ($1.00$) & -  \\
+%     % $c_{17}$ &\textbf{Marc Kravetz} (0.94) & Jacques Derrida  (0.33) \\
+%\hline
+%\end{tabular}
+%}
+%\end{center}
+%
+%%\caption{}
+% \label{tab:examplecomb1}
+%
+%\end{table}
 
 
 
