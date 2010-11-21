@@ -32,19 +32,19 @@ Les systèmes de RAP peuvent êtres classés selon plusieurs critères \cite{Danon91
 \begin{itemize}
   \item \textbf{le mode d'élocution} : cela peut être des syllabes ou des mots isolés, des mots connectés entre eux mais avec des pauses artificielles ou alors une parole quasi naturelle, appelée parole continue. 
     
-    À noter que pour la parole continue, la distinction est faite entre la parole dite \og préparée \fg{} et la parole dite \og spontanée \fg{} \cite{Bazillon08}. La parole \og préparée \fg{} est le type de parole qu'aura un journaliste lorsqu'il présente les informations~: les répétitions, les faux départs et autres hésitations du langage parlé y sont peu présentes. La parole \og spontanée \fg{} concerne quant à elle le type de parole utilisée lors des conversations entre plusieurs personnes~: les répétitions, hésitations et autres irrégularités du langage parlé y sont très présentes.
+    À noter que pour la parole continue, la distinction est faite entre la parole dite \og préparée \fg{} et la parole dite \og spontanée \fg{} \cite{Bazillon08}. La parole \og préparée \fg{} est le type de parole qu'aura un journaliste lorsqu'il présente les informations~: les répétitions, les faux départs et autres hésitations du langage parlé y sont peu présents. La parole \og spontanée \fg{} concerne quant à elle le type de parole utilisée lors des conversations entre plusieurs personnes~: les répétitions, hésitations et autres irrégularités du langage parlé y sont très présentes.
 
-  \item \textbf{la taille du vocabulaire} : tous les systèmes ont besoin d'un vocabulaire plus ou moins important. La taille d'un vocabulaire peut être inférieure à 1~000 mots pour les systèmes à petit vocabulaire comme les serveurs vocaux mais peut dépasser les 100~000 mots pour les systèmes de dictée vocale ou de transcription de journaux d'information. En fonction de la taille de ce vocabulaire, différentes couvertures grammaticales sont utilisées. Les systèmes à petit vocabulaire utilisent des grammaires contraintes. En revanche, les systèmes à grands vocabulaires utilisent des modèles de langage (cf. section \ref{ssection:modele_langage}) qui permettent une plus grande couverture grammaticale. 
+  \item \textbf{la taille du vocabulaire} : tous les systèmes ont besoin d'un vocabulaire plus ou moins important. La taille d'un vocabulaire peut être inférieure à 1~000 mots pour les systèmes à petit vocabulaire comme les serveurs vocaux mais peut dépasser les 100~000 mots pour les systèmes de dictée vocale ou de transcription de journaux d'information. En fonction de la taille de ce vocabulaire, différentes couvertures grammaticales sont utilisées. Les systèmes à petit vocabulaire utilisent des grammaires contraintes. En revanche, les systèmes à grand vocabulaire utilisent des modèles de langage (cf. section \ref{ssection:modele_langage}) qui permettent une plus grande couverture grammaticale. 
 
-  \item \textbf{la dépendance (ou non) vis-à-vis des locuteurs} : les serveurs vocaux doivent par exemple être indépendants de la personne qui va l'utiliser, tandis que les systèmes de dictée vocale peuvent se permettre d'être dépendant du locuteur.
-  \item \textbf{l'environnement} protégé ou non : les serveurs vocaux vont devoir être capable de fonctionner dans un environnement bruité (on ne peut connaître à l'avance quel sera l'environnement sonore du locuteur qui interrogera le serveur), en revanche les systèmes de dictée vocale fonctionneront en environnement plus protégé.
+  \item \textbf{la dépendance (ou non) vis-à-vis des locuteurs} : les serveurs vocaux doivent par exemple être indépendants de la personne qui va l'utiliser, tandis que les systèmes de dictée vocale peuvent se permettre d'être dépendants du locuteur.
+  \item \textbf{l'environnement} protégé ou non : les serveurs vocaux doivent pouvoir fonctionner dans un environnement bruité (on ne peut connaître à l'avance quel sera l'environnement sonore du locuteur qui interrogera le serveur), en revanche les systèmes de dictée vocale fonctionneront en environnement plus protégé.
 \end{itemize}
 
 Les applications de la RAP sont multiples et peuvent aller de la simple commande vocale (reconnaissance de mots isolés) à la transcription complète d'une émission de radio en passant par la transcription de réunions. Nous donnons par la suite un aperçu des quatre grands types de systèmes qui existent en reconnaissance de la parole.
 
 \section{Différents types de systèmes}
 
-Les progrès réalisés par les techniques de RAP ont permis aux systèmes d'évoluer et d'être de plus en performants. Des systèmes de commandes vocales ne reconnaissant que de simples mots, aux systèmes de transcriptions de journaux d'informations, la complexité des SRAP (Système de Reconnaissance Automatique de la Parole) ne cesse d'augmenter. Nous décrivons ici les principaux systèmes mis en place au fil des années \cite{Danon91}.
+Les progrès réalisés par les techniques de RAP ont permis aux systèmes d'évoluer et d'être de plus en plus performants. Des systèmes de commandes vocales ne reconnaissant que de simples mots, aux systèmes de transcriptions de journaux d'information, la complexité des SRAP (Système de Reconnaissance Automatique de la Parole) ne cesse d'augmenter. Nous décrivons ici les principaux systèmes mis en place au fil des années \cite{Danon91}.
 
 \subsection{Commandes vocales}
 
@@ -59,19 +59,19 @@ Les systèmes à commandes vocales sont des systèmes que l'on trouve abondamment d
 \label{lexique}
 
 Comme tous les systèmes de RAP, ces systèmes se basent sur un vocabulaire (aussi appelé lexique) préalablement constitué. Ce lexique va définir la liste des mots que le système va être capable de reconnaître. Aucun autre mot que ceux contenus dans le lexique ne pourra être reconnu par le système.
-Bien qu'il soit techniquement possible d'avoir un vocabulaire assez important, il est généralement limité à une centaine de mots. En effet, les personnes se servant de ces systèmes ne sont de toute façon pas capable de mémoriser plus d'une centaine de commandes. À noter que ces mots doivent être contrastés au niveau phonétique de manière à réduire les risques d'ambiguïté lors de la reconnaissance.
+Bien qu'il soit techniquement possible d'avoir un vocabulaire assez important, il est généralement limité à une centaine de mots. En effet, les personnes se servant de ces systèmes ne sont de toute façon pas capables de mémoriser plus d'une centaine de commandes. À noter que ces mots doivent être contrastés au niveau phonétique de manière à réduire les risques d'ambiguïté lors de la reconnaissance.
 
 %Bien que d'autres méthodes aient été employées, comme la comparaison de références par programmation dynamique \cite{Tubach}, les systèmes utilisant des méthodes statistiques sont majoritairement utilisés depuis les années 1980 \cite{Rabiner89}. Certains de ces système utilisent des réseaux neuronaux, mais la plus part ont comme base les Modèles de Markov Cachés \cite{Gagnoulet89} (cf. \ref{ssec:trans_auto}). 
 
 \subsection{Systèmes de compréhension}
 
-Les systèmes de compréhension vont permettre un dialogue contraint avec une machine. L'utilisateur va devoir prononcer une suite de mots-clefs que le système est capable de reconnaître. En plus du système de reconnaissance vocale, un dispositif de compréhension des phrases doit être utilisé afin d'interpréter les phrases et de réagir en conséquence. Comme dans les systèmes à commandes vocales, le vocabulaire est restreint à quelques centaines de mots et le système est indépendant du locuteur. Afin de faciliter la gestion du dialogue par le système, les phrases acceptables se limitent à des schémas grammaticaux simplifiés. La mode d'élocution utilisé est généralement une parole continue et spontanée.
+Les systèmes de compréhension vont permettre un dialogue contraint avec une machine. L'utilisateur va devoir prononcer une suite de mots-clefs que le système est capable de reconnaître. En plus du système de reconnaissance vocale, un dispositif de compréhension des phrases doit être utilisé afin d'interpréter les phrases et de réagir en conséquence. Comme dans les systèmes à commandes vocales, le vocabulaire est restreint à quelques centaines de mots et le système est indépendant du locuteur. Afin de faciliter la gestion du dialogue par le système, les phrases acceptables se limitent à des schémas grammaticaux simplifiés. Le mode d'élocution utilisé est généralement une parole continue et spontanée.
 
-Bien que peu naturelles, ces restrictions syntaxiques et sémantiques sont viables si l'application est bien ciblée sur un domaine particulier. Les applications choisies pour ce type de systèmes le sont d'ailleurs en conséquence. Elles se limitent généralement à l'interrogation d'une base de données, de standards téléphoniques automatisés pour des renseignements météo ou des réservations de places.
+Bien que peu naturelles, ces restrictions syntaxiques et sémantiques sont viables si l'application est bien ciblée sur un domaine particulier. Les applications choisies pour ces systèmes le sont d'ailleurs en conséquence. Elles se limitent généralement à l'interrogation d'une base de données, de standards téléphoniques automatisés pour des renseignements météo ou des réservations de places.
 
-Ces systèmes ont connu un important essor avec le lancement de projets financés par la DARPA (\emph{Defense Advanced Research Projects Agency}) aux États-Unis dans les années 1970 \cite{Klatt1977}. Plusieurs laboratoires participent aux projets DARPA comment CMU, MIT, BBN, SRI ou encore Bell Labs. 
+Ces systèmes ont connu un important essor avec le lancement de projets financés par la DARPA (\emph{Defense Advanced Research Projects Agency}) aux États-Unis dans les années 1970 \cite{Klatt1977}. Plusieurs laboratoires participent aux projets DARPA comme CMU, MIT, BBN, SRI ou encore Bell Labs. 
 
-Les différents systèmes développés ainsi que les approches proposées sont passées en revue dans \cite{SpokenDemori}.
+Les différents systèmes développés ainsi que les approches proposées sont passés en revue dans \cite{SpokenDemori}.
 
 Depuis, de nombreux projets se sont intéressés aux systèmes de compréhension. C'est le cas de la campagne d'évaluation française MEDIA 2006 (Méthodologie d'Evaluation automatique de la compréhension hors et en contexte du DIAlogue) et des travaux qui en ont découlé au sein du projet PORT-MEDIA \cite{LehuenParser,favre2010esr}. Un projet européen (LUNA) est actuellement en cours sur ces problématiques\footnote{\url{http://www.ist-luna.eu/}}.
 %Par exemple, le système SPHINX développé au CMU utilise un vocabulaire d'environ mille mots (issus du corpus \og Resource Management Database \fg{} \cite{Pri88}); ce système a notamment le mérite de permettre aux locuteurs une parole continue et ne nécessite pas d'apprentissage préalable du locuteur à reconnaître. Le taux de reconnaissance sur les mots est excellent, il est de l'ordre de 96 \% \cite{Lee1990}.
@@ -81,7 +81,7 @@ Depuis, de nombreux projets se sont intéressés aux systèmes de compréhension. C'
 
 \subsection{Systèmes de dictée automatique}
 
-Les systèmes de dictée automatique ont pour but de transcrire un texte dicté par un locuteur de la façon la plus fidèle possible. Comme pourrait le faire une secrétaire, le texte transcrit doit respecter les règles orthographiques et grammaticales propres à la langue concernée. La compréhension du texte à transcrire n'est pas requise, et c'est d'ailleurs ce qui amène les erreurs les plus perturbantes pour l'utilisateur. En effet, les systèmes de dictée automatique ne sont pas capable de distinguer les différents sens d'un même mot.
+Les systèmes de dictée automatique ont pour but de transcrire un texte dicté par un locuteur de la façon la plus fidèle possible. Comme pourrait le faire une secrétaire, le texte transcrit doit respecter les règles orthographiques et grammaticales propres à la langue concernée. La compréhension du texte à transcrire n'est pas requise, et c'est d'ailleurs ce qui amène les erreurs les plus perturbantes pour l'utilisateur. En effet, les systèmes de dictée automatique ne sont pas capables de distinguer les différents sens d'un même mot.
 
 
 Ce type de système se trouve à la charnière entre l'oral et l'écrit. En effet, même si l'interaction avec le système se fait grâce à la voix, le registre de langue utilisé sera plus proche du registre écrit. Ces systèmes sont souvent utilisés pour transcrire des rapports, des comptes-rendus ou rédiger des lettres. Quoiqu'il en soit, la personne est consciente qu'elle s'adresse à un ordinateur et adaptera donc sa locution en conséquence. De plus, les tournures agrammaticales ou les hésitations seront beaucoup moins nombreuses que dans un dialogue spontané entre deux personnes. La complexité est donc moindre que s'il fallait retranscrire un dialogue tel quel. 
@@ -99,7 +99,7 @@ Au milieu des années 90 sont apparues des campagnes d'évaluation ayant pour but 
 
 \label{ssec:trans_broadcast}
 
-Les systèmes de transcription grand vocabulaire ont pour but de transcrire des documents audio non préparés en essayant d'extraire le maximum d'informations de l'enregistrement. Le signal audio est très riche en informations (méta-données) susceptibles de venir compléter la transcription en mots. Ces méta-données peuvent être de différentes natures comme les frontières des phrases, les informations sur les locuteurs, les zones de musique, de publicité ou encore les hésitations des locuteurs.
+Les systèmes de transcription grand vocabulaire ont pour but de transcrire des documents audio non préparés en extrayant le maximum d'informations de l'enregistrement. Le signal audio est très riche en informations (méta-données) susceptibles de venir compléter la transcription en mots. Ces méta-données peuvent être de différentes natures comme les frontières des phrases, les informations sur les locuteurs, les zones de musique, de publicité ou encore les hésitations des locuteurs.
 
 Un système de transcription grand vocabulaire est composé d'un module qui va permettre d'obtenir la transcription en mots du signal ainsi que d'autres modules qui vont extraire les méta-données disponibles dans le signal audio. Les modules permettant d'extraire les méta-données sont diverses, comme les modules issus de la reconnaissance automatique du locuteur (modules de segmentation et de classification en locuteurs).
 
@@ -109,7 +109,7 @@ Les documents que les systèmes de transcription grand vocabulaire sont capables 
 
 %Les campagnes d'évaluation se sont adaptées et de nouveaux corpus constitués d'enregistrements de journaux d'informations radiophoniques ont été constitués. Même si ces corpus contiennent beaucoup de parole qui a été préparée et écrite à l'avance par les journalistes, elle est néanmoins convertie à l'oral. À la différence des corpus précédents qui n'étaient constitués que de corpus écrits ensuite lus tel quel. De plus, ces corpus contiennent aussi de la parole plus spontanée, puisque beaucoup d'émissions font intervenir des invités ou interrogent des personnes dans la rue. À noter que ces corpus sont aussi fortement multi-locuteurs. Avec ces nouvelles campagnes d'évaluations, les systèmes sont confrontés à des corpus qui se rapprochent de plus en plus de dialogues complètement spontanés entre plusieurs personnes (même si comme nous l'avons fait remarquer, une partie de la parole est encore relativement préparée).
 
-Aux États-Unis, le DARPA puis le NIST ont organisés des campagnes d'évaluations des systèmes de transcription enrichie (\emph{Rich Transcription, RT}) \cite{Graff96the1996} à partir de 1996. En France, c'est la campagne ESTER \cite{Gravier04,Galliano06} organisée par l'AFCP, la DGA et ELRA qui a permis de réaliser les premières évaluations des systèmes de reconnaissance Français sur des journaux d'informations radiophoniques. Une deuxième campagne d'évaluation Française nommée ESTER II \cite{Ester2} a ensuite été menée de 2008 à 2009 de manière à mesurer les progrès des différents systèmes.
+Aux États-Unis, le DARPA puis le NIST ont organisé des campagnes d'évaluations des systèmes de transcription enrichie (\emph{Rich Transcription, RT}) \cite{Graff96the1996} à partir de 1996. En France, c'est la campagne ESTER \cite{Gravier04,Galliano06} organisée par l'AFCP, la DGA et ELRA qui a permis de réaliser les premières évaluations des systèmes de reconnaissance français sur des journaux d'informations radiophoniques. Une deuxième campagne d'évaluation française nommée ESTER II \cite{Ester2} a ensuite été menée de 2008 à 2009 de manière à mesurer les progrès des différents systèmes.
 
 \begin{figure}[h]
 
@@ -123,13 +123,13 @@ Aux États-Unis, le DARPA puis le NIST ont organisés des campagnes d'évaluations 
 \end{figure}
 
 
-La figure \ref{fig:standford2003} \cite{Pallett2003} présente l'évolution des performances des systèmes de reconnaissance de la parole de la fin des années 90 à 2003. Les performances des systèmes de transcription sur des émissions radiophoniques anglaises sont maintenant très bonnes (10~\% de taux d'erreur). On observe aussi des taux similaires sur les campagnes d'évaluation ESTER I et ESTER II. Les défis futurs de tels systèmes portent sur l'adaptation à d'autres langues et à d'autre domaines, mais aussi sur leur capacité à \emph{passer à l'échelle}. En effet, le type de données à traiter évolue de plus en plus (données provenant de plusieurs capteurs, de la vidéo et du son, etc.) et la taille de ces données ne cesse de croître. Un bon exemple est la \emph{Smart Room} NIST \cite{Standford2003} qui génère environ 1Go de données par minute, issues de multiples capteurs. La nécessité de prendre en compte cette problématique devient alors évidente.
+La figure \ref{fig:standford2003} \cite{Pallett2003} présente l'évolution des performances des systèmes de reconnaissance de la parole de la fin des années 90 à 2003. Les performances des systèmes de transcription sur des émissions radiophoniques anglaises sont maintenant très bonnes (10~\% de taux d'erreur). On observe aussi des taux similaires sur les campagnes d'évaluation ESTER I et ESTER II. Les défis futurs de tels systèmes portent sur l'adaptation à d'autres langues et à d'autres domaines, mais aussi sur leur capacité à \emph{passer à l'échelle}. En effet, le type de données à traiter évolue de plus en plus (données provenant de plusieurs capteurs, de la vidéo et du son, etc.) et la taille de ces données ne cesse de croître. Un bon exemple est la \emph{Smart Room} NIST \cite{Standford2003} qui génère environ 1 Go de données par minute, issues de multiples capteurs. La nécessité de prendre en compte cette problématique devient alors évidente.
 %Cette campagne s'est aussi caractérisée par l'évaluation des systèmes de détection des Entités Nommées.
 
 \section{Transcription automatique de la parole}
 \label{ssec:trans_auto}
 
-Les techniques de transcription automatique de la parole sont au c\oe{}ur du processus de production d'une transcription~: ce sont elles qui vont permettre de fournir le texte correspondant aux paroles prononcées. Les travaux présentés dans cette thèse s'appuient sur ces techniques, il convient donc de les décrire en détail ici. 
+Les techniques de transcription automatique de la parole sont au c\oe{}ur du processus de production d'une transcription~: ce sont elles qui vont permettre de fournir le texte correspondant aux paroles prononcées.% Les travaux présentés dans cette thèse s'appuient sur ces techniques, il convient donc de les décrire en détail ici. 
 
 
 Les systèmes de transcription automatique de la parole utilisés actuellement sont des systèmes fondés sur des méthodes statistiques. Ces fondements ont été élaborés par Jelinek et ses collègues chez IBM \cite{Jelinek1976}, au milieu des années 1970. La figure \ref{fig:principes_srap} donne un aperçu du fonctionnement actuel d'un système de transcription automatique de la parole. 
@@ -139,7 +139,7 @@ Les systèmes de transcription automatique de la parole utilisés actuellement son
 \begin{center}
 \includegraphics[width=0.9\columnwidth]{img/sys_rap}
 
-\caption{Principes généraux d'un système de Reconnaissance Automatique de la Parole (SRAP)}
+\caption{Principes généraux d'un système de reconnaissance automatique de la parole (SRAP)}
 \label{fig:principes_srap}
 \end{center}
 
@@ -167,7 +167,7 @@ Deux types de modèles probabilistes sont utilisés pour la recherche de la séquen
 
 \subsection{Modèles acoustiques}
 
-Il est impossible pour un système de transcription d'exploiter le signal de la parole directement. En effet, il contient bon nombre d'informations qui ne sont pas utiles au décodage de la parole (mais qui le seront pour la reconnaissance du locuteur, cf \ref{ssub:decoupage_regroupement}) et qui peuvent le parasiter. Le signal contient en effet, en plus des informations permettant de décoder les mots, des informations sur les locuteurs, sur les conditions d'enregistrement, etc. Le signal de la parole étant naturellement très variable et redondant, il nécessite de toute façon des traitements spécifiques avant de pouvoir être exploité. Ces traitements (appelés paramétrisation) vont consister à extraire du signal les paramètres qui sont dépendants de la parole prononcée.
+Il est impossible pour un système de transcription d'exploiter le signal de la parole directement. En effet, il contient bon nombre d'informations qui ne sont pas utiles au décodage de la parole (mais qui le seront pour la reconnaissance du locuteur, cf \ref{ssub:decoupage_regroupement}) et qui peuvent le parasiter. Le signal contient, en plus des informations permettant de décoder les mots, des informations sur les locuteurs, sur les conditions d'enregistrement, etc. Le signal de la parole étant naturellement très variable et redondant, il nécessite de toute façon des traitements spécifiques avant de pouvoir être exploité. Ces traitements (appelés paramétrisation) vont consister à extraire du signal les paramètres qui sont dépendants de la parole prononcée.
 
 Plusieurs techniques de paramétrisation existent, les deux plus utilisées sont :
 \begin{itemize}
@@ -177,7 +177,7 @@ Plusieurs techniques de paramétrisation existent, les deux plus utilisées sont :
 
 Le signal de la parole est modélisable par un ensemble d'unités acoustiques, qui peuvent être considérées comme des sons élémentaires de la langue. Classiquement, l'unité choisie est le phonème. Le phonème est la plus petite unité discrète ou distinctive d'un mot, auquel elle peut faire perdre son sens par substitution. Par exemple, \emph{"chou"} et \emph{"pou"} se distinguent par leurs phonèmes initiaux. Dans le cadre des systèmes de transcription de la parole actuels, ces unités acoustiques sont modélisées par des Modèles de Markov Cachés (MMC) \cite{Rabiner89}. 
 
-L'apprentissage de ces modèles acoustiques s'effectue grâce a des données \emph{a priori} annotées. Cet apprentissage permet d'obtenir une modélisation du message de la parole. Différentes techniques d'apprentissage et d'adaptation sont utilisées, parmi les plus connues figurent notamment :
+L'apprentissage de ces modèles acoustiques s'effectue grâce à des données \emph{a priori} annotées. Cet apprentissage permet d'obtenir une modélisation du message de la parole. Différentes techniques d'apprentissage et d'adaptation sont utilisées, parmi les plus connues figurent notamment :
 
 \begin{itemize}
   \item l'apprentissage par maximum de vraisemblance (\emph{Maximum Likelihood : ML}) avec l'algorithme EM \cite{Dempster77maximumlikelihood} (\emph{Expectation/Maximisation}), 
@@ -220,20 +220,20 @@ En effet, ces modèles de langage sont capables d'attribuer une probabilité à des
 
 \subsection{Évaluation}
 
-La métrique utilisée dans les différentes campagnes (cf. section \ref{ssec:trans_broadcast}) pour évaluer les transcription est le taux d'erreur mot (WER -- Word Error Rate). Pour calculer ce taux d'erreur, la meilleure hypothèse de transcription du système est alignée avec les transcriptions réalisées manuellement (transcriptions dites de référence). Trois types d'erreurs sont alors possibles. Lorsqu'un mot apparaît dans l'hypothèse de reconnaissance alors qu'il n'y a aucun mot correspondant dans la référence, il s'agit d'une insertion. Si, au contraire, il y avait un mot dans la référence et que ce mot n'apparaît pas dans l'hypothèse, nous parlons de suppression. Quand un mot de la référence est remplacé par un autre mot lors du décodage, c'est une substitution. Le taux d'erreur est ensuite déterminé par la formule \ref{eq:wer}. 
+La métrique utilisée dans les différentes campagnes (cf. section \ref{ssec:trans_broadcast}) pour évaluer les transcriptions est le taux d'erreur mot \cite{mccowan-rr-04-73}, aussi appelé WER (Word Error Rate). Pour calculer ce taux d'erreur, la meilleure hypothèse de transcription du système est alignée avec les transcriptions réalisées manuellement (transcriptions dites de référence). Trois types d'erreurs sont alors possibles. Lorsqu'un mot apparaît dans l'hypothèse de reconnaissance alors qu'il n'y a aucun mot correspondant dans la référence, il s'agit d'une insertion. Si, au contraire, il y avait un mot dans la référence et que ce mot n'apparaît pas dans l'hypothèse, nous parlons de suppression. Quand un mot de la référence est remplacé par un autre mot lors du décodage, c'est une substitution. Le taux d'erreur est ensuite déterminé par la formule \ref{eq:wer}. 
 
 \begin{equation}\mathbf{}
   WER=\frac{\mathrm{nb.~insertions + nb.~suppressions + nb.~substitutions}}{\mathrm{nombre~de~mots~de~la~r\acute ef\acute erence}}
 \label{eq:wer}
 \end{equation}  
 
-À titre d'exemple, lors de la première campagne ESTER \cite{Galliano05}, le meilleur système (celui du LIMSI) atteignait un taux d'erreur mot de 11,9~\%. L'écart entre les différents systèmes était cependant relativement important, puisque le deuxième système, celui du LIUM, affichait un taux d'erreur mot de 23,6~\%. Lors de la campagne ESTER II \cite{Ester2}, le premier système était toujours le LIMSI avec un taux d'erreur de 12,1~\% . En revanche l'écart avec le système du LIUM s'est réduit puisque son taux d'erreur n'était plus que de 17,8~\%.
+À titre d'exemple, lors de la première campagne ESTER \cite{Galliano05}, le meilleur système (celui du LIMSI) atteignait un taux d'erreur mot de 11,9~\%. L'écart entre les différents systèmes était cependant relativement important, puisque le deuxième système, celui du LIUM, affichait un taux d'erreur mot de 23,6~\%. Lors de la campagne ESTER II \cite{Ester2}, le système le plus performant était toujours celui du LIMSI avec un taux d'erreur de 12,1~\% . En revanche l'écart avec le système du LIUM s'est réduit puisque son taux d'erreur n'était plus que de 17,8~\%.
 
 
 \section{Reconnaissance automatique du locuteur}
 \label{sec:ral}
 
-La Reconnaissance Automatique du Locuteur (RAL) regroupe un ensemble de méthodes capables d'extraire les caractéristiques vocales propres à chaque individu à partir d'un document audio. La RAL joue un rôle important dans l'enrichissement d'une transcription, puisqu'elle va permettre d'apporter des informations sur les différents locuteurs du document.
+La reconnaissance automatique du locuteur (RAL) regroupe un ensemble de méthodes capables d'extraire les caractéristiques vocales propres à chaque individu à partir d'un document audio. La RAL joue un rôle important dans l'enrichissement d'une transcription, puisqu'elle va permettre d'apporter des informations sur les différents locuteurs du document.
   
 
 \subsection{Caractéristiques et variabilité}
@@ -245,12 +245,12 @@ Une question importante est celle de la variabilité des caractéristiques mesurée
 
 \subsection{Applications}
 
-Des serveurs vocaux aux terminaux mobiles en passant par les dispositifs de sécurité, la RAL est utilisée dans de nombreux domaines. Certains serveurs vocaux l'utilisent notamment pour détecter le genre du locuteur qui s'exprime. Par exemple, grâce à la plateforme MISTRAL, la société Calistel \cite{MeignierMistral} propose de router les appels provenant de locuteurs masculins vers des opératrices féminines et inversement, afin d'obtenir un taux de satisfaction des appels plus important. Mais les applications de la RAL les plus connues sont certainement celles qui concernent la biométrie. 
+Des serveurs vocaux aux terminaux mobiles, en passant par les dispositifs de sécurité, la RAL est utilisée dans de nombreux domaines. Certains serveurs vocaux l'utilisent notamment pour détecter le genre du locuteur qui s'exprime. Par exemple, grâce à la plateforme MISTRAL, la société Calistel \cite{MeignierMistral} propose de rediriger les appels provenant de locuteurs masculins vers des opératrices féminines et inversement, afin d'obtenir un taux de satisfaction des appels plus important. Mais les applications de la RAL les plus connues sont certainement celles qui concernent la biométrie. 
 
 Dans les applications biométriques, un système de RAL va essayer de reconnaître, grâce à sa voix, un locuteur qui cherche à s'identifier auprès d'un terminal. Même si ces systèmes donnent de bons résultats, ils ne sont pas parfaits. Les systèmes à l'état de l'art comme MISTRAL ont un taux d'erreur aux alentours de 5~\% \cite{MeignierMistral}. Ils ne peuvent donc pas être considérés comme aussi sûr que les empreintes digitales et doivent être utilisés avec prudence à des fins judiciaires par exemple \cite{Boe99, Bonastre2003}. En revanche, avec l'arrivée des terminaux mobiles dans la vie de tous les jours, la RAL s'invite avec succès dans les téléphones portables de dernière génération \cite{Larcher_JEP10}.
 
 
-L'utilisation de la RAL dans les applications que nous venons de citer peut se découper en quatre grandes catégories décrites ci-dessous. Ces catégories sont d'ailleurs sujet à évaluation dans les différentes campagnes comme NIST \cite{Alvin04nistspeaker} et ESTER \cite{Gravier04}.
+L'utilisation de la RAL dans les applications que nous venons de citer peut se découper en quatre grandes catégories décrites ci-dessous. Ces catégories sont d'ailleurs sujet à évaluation dans les différentes campagnes comme NIST \cite{Alvin04nistspeaker} et ESTER \cite{Gravier04,Ester2}.
 
 %En plus de la difficulté à différencier deux locuteurs différents, la RAL est aussi confrontée à des problèmes intra-locuteurs. En effet, la voix d'un locuteur peut fortement varier d'un enregistrement à l'autre. Le niveau de fatigue, l'émotion, le contexte d'enregistrement ou encore l'âge d'un locuteur sont autant de variations qui peuvent venir perturber la RAL. Mais la biométrie n'est pas la seule application possible, de par ses caractéristiques, la RAL est utilisée dans bien d'autres domaines.
 
@@ -314,7 +314,6 @@ La figure \ref{fig:seg_classif} décrit les principes généraux du processus de se
   \item La \textbf{paramétrisation} va extraire les caractéristiques acoustiques du document audio. Ces caractéristiques seront représentées via des vecteurs acoustiques qui pourront ensuite être exploités par les autres phases du processus.
   \item La \textbf{segmentation} va s'attacher à trouver des points de ruptures, des frontières, au sein de l'enregistrement. Ces frontières peuvent être de différentes natures : changement de locuteur, changement de canal de transmission (studio, téléphone), présence d'un long silence, musique, etc. Les portions de signal entre ces différentes frontières sont appelées segments. Ces segments contiennent des données homogènes : même locuteur, même canal de transmission.
   \item La \textbf{classification} groupe les segments locuteur par locuteur jusqu'à découvrir le nombre de classes correspondant au nombre de locuteurs intervenant dans le document. Chaque classe contient à la fin de la classification l'ensemble des segments prononcés par un locuteur. La classe définit alors l'intervention du locuteur dans le document.
-  \item La \textbf{resegmentation} affine les frontières des segments. Dans cette étape, le document est de nouveau découpé en segments en fonction des données contenues dans les classes.
 \end{itemize}
 
 \begin{figure}[h]
@@ -335,9 +334,9 @@ La figure \ref{fig:seg_classif} décrit les principes généraux du processus de se
 
 \label{sec:trans_enrichie}
 
-Avec l'évolution des systèmes au fil de années (de la simple reconnaissance de mots isolés à la transcription de journaux d'informations) est apparue la notion de transcription enrichie. En effet, comme décrit dans \ref{ssec:trans_broadcast}, nombre d'informations annexes à la transcription en mots peuvent être extraites du signal.
+Avec l'évolution des systèmes au fil des années (de la simple reconnaissance de mots isolés à la transcription de journaux d'informations) est apparue la notion de transcription enrichie. En effet, comme décrit dans \ref{ssec:trans_broadcast}, nombre d'informations annexes à la transcription en mots peuvent être extraites du signal.
 
-Par rapport aux systèmes de dictée vocale, les documents utilisés pour la transcription de journaux d'informations sont multi-locuteurs. Au sein d'un même enregistrement, des dizaines de locuteurs différents peuvent parler tout au long du fichier. De plus, ces locuteurs peuvent s'exprimer depuis un téléphone ou en studio. Toutes ces informations permettent d'étayer, d'enrichir la transcription. La reconnaissance du locuteur est utilisée pour segmenter le document en locuteurs ainsi que pour détecter leur genre ou l'environnement à partir duquel ils s'expriment (studio ou téléphone). La détection des entités nommées est quant à elle utilisée pour étiqueter des groupes de mots particuliers comme les noms de personnes ou encore les lieux.
+Par rapport aux systèmes de dictée vocale, les documents utilisés pour la production de transcription enrichie sont fréquemment multi-locuteurs. Au sein d'un même enregistrement, des dizaines de locuteurs différents peuvent parler tout au long du fichier. De plus, ces locuteurs peuvent s'exprimer depuis un téléphone ou en studio. Toutes ces informations permettent d'étayer, d'enrichir la transcription. La reconnaissance du locuteur est utilisée pour segmenter le document en locuteurs ainsi que pour détecter leur genre ou l'environnement à partir duquel ils s'expriment (studio ou téléphone). La détection des entités nommées est quant à elle utilisée pour étiqueter des groupes de mots particuliers comme les noms de personnes ou encore les lieux.
 
 
 La figure \ref{fig:etapes_transcription_enrichie} décrit les différentes composantes des transcriptions produites pour les campagnes de type ESTER. Ces composantes constituent la base de tous les systèmes de transcription actuels. Il est possible de distinguer deux grandes parties que nous détaillons ci-dessous. 
@@ -365,7 +364,7 @@ Au niveau purement acoustique, il est aussi possible de détecter le genre (mascu
 
 La deuxième partie consiste tout simplement à écrire les paroles prononcées par les différents locuteurs afin d'obtenir la transcription en mots du signal. Lorsque cette transcription est réalisée automatiquement, la ponctuation ainsi que les majuscules ne sont pas requises. En revanche, des techniques existent pour rajouter la ponctuation et les majuscules aux transcriptions afin de se rapprocher, tant que faire se peut, d'une transcription réalisée manuellement \cite{Beeferman98cyberpunc,Huang2002}.
 
-Les transcriptions, qui plus est les transcriptions de journaux radiophoniques, contiennent un grand nombre d'entités nommées (noms de personnes, lieux, radios, etc). Des systèmes de détection des entités nommées permettent de les repérer dans les transcriptions (cf. section suivante). Ce sont des informations supplémentaires qui vont pouvoir être utilisées en recherche d'informations, ou plus précisément dans le cadre des présents travaux, pour identifier les locuteurs d'un document.
+Les transcriptions, comme celles de journaux d'information par exemple, contiennent un grand nombre d'entités nommées (noms de personnes, lieux, radios, etc). Ce sont des informations supplémentaires qui vont pouvoir être utilisées en recherche d'informations, ou plus précisément dans le cadre des présents travaux, pour identifier les locuteurs d'un document. Des systèmes permettent de détecter ces entités nommées, ils sont décrits dans la section suivante.
 
 
 %\section{Architecture détaillée}
@@ -379,7 +378,7 @@ Les transcriptions, qui plus est les transcriptions de journaux radiophoniques, 
 
 %Avec l'avènement d'Internet, la quantité de données textuelles à disposition augmente de jour en jour de façon exponentielle. Comme c'est le cas pour les données audio, ces données sont, à cause de leur quantité, impossible à indexer efficacement par un humain. L'extraction d'informations et le traitement de ces données est pourtant capitale pour bon nombre de scientifiques et d'industriels. 
 
-Dans le but d'enrichir une transcription, une des étapes est généralement de détecter les entités nommées. Ces entités nommées vont permettre d'extraire un certain nombre d'information des transcriptions, comme les noms de personne, les lieux, les noms d'organisations, etc.
+Dans le but d'enrichir une transcription, une des étapes est généralement de détecter les entités nommées. Ces entités nommées vont permettre d'extraire un certain nombre d'informations des transcriptions, comme les noms de personnes, les lieux, les noms d'organisations, etc.
 
 \subsection{Catégorisation}
 
@@ -418,7 +417,7 @@ Dans ces systèmes, le concepteur doit élaborer un ensemble de règles qui seront 
 Ces systèmes utilisent des techniques d'apprentissage automatique pour apprendre un modèle capable d'étiqueter des entités nommées à partir d'un corpus d'apprentissage. Ces travaux sont largement inspirés des techniques utilisées en reconnaissance automatique de la parole, et utilisent diverses techniques d'apprentissage : modèles de Markov cachés, modèle d'entropie maximum, arbres de décision, etc. Le système (LIA\_NE) développé par Béchet \cite{bechetc-icassp10} au Laboratoire d'Informatique d'Avignon (LIA) pour ESTER2 \cite{Ester2} fait partie de ce type de systèmes.\\ 
 
 \textbf{Les systèmes mixtes}\\
-Ces systèmes utilisent généralement des lexiques initiaux. Parmi ces systèmes, Poibeau \cite{Poibeau2002} distingue deux approches. La première consiste à apprendre automatiquement des règles, puis à utiliser un expert pour les réviser. Dans la seconde, un ensemble de règles de base est constitué par le concepteur, puis étendu (semi-)automatiquement par inférence, afin d'obtenir une meilleure couverture. Par exemple, Nemesis le système développé par Fourour \cite{Fourour04} au Laboratoire d'Informatique de Nantes Atlantique (LINA), fait partie de ces systèmes.\\
+Ces systèmes utilisent généralement des lexiques initiaux. Parmi ces systèmes, Poibeau \cite{Poibeau2002} distingue deux approches. La première consiste à apprendre automatiquement des règles, puis à utiliser un expert pour les réviser. Dans la seconde, un ensemble de règles de base est constitué par le concepteur, puis étendu (semi-)automatiquement par inférence, afin d'obtenir une meilleure couverture. Par exemple, Nemesis, développé par Fourour \cite{Fourour04} au Laboratoire d'Informatique de Nantes Atlantique (LINA), fait partie de ces systèmes.\\
 
 
 \subsection{Reconnaissance et découverte des Entités Nommées}
@@ -434,7 +433,7 @@ Lors de la reconnaissance des entités nommées, plusieurs types de problèmes doiv
 
 Tout d'abord, la reconnaissance des entités nommées connues est réalisée grâce à la projection de bases lexicales sur le texte à étiqueter. Les systèmes sont alors confrontés au problème de l'ambiguïté des entités nommées pures~: \emph{Paris} est associé à un nom de ville mais peut apparaître au sein d'entités nommées composées ou mixtes. Il peut alors désigner une personne comme le \emph{Comte de Paris}, un nom de rue \emph{rue de Paris} ou encore une société \emph{Paris International}. Même pour ces entités nommées pures, une analyse du contexte est nécessaire pour obtenir une catégorisation correcte.
 
-À ce problème d'ambiguïté viennent s'ajouter les variations que peuvent subir les entités nommées~:les variations graphiques (\emph{Parti Socialiste}, \emph{Parti socialiste}), les sigles, acronymes ou abréviations, (\emph{Société Nationale des Chemins de fer Français} $\rightarrow$ \emph{SNCF}), les métaphores (\emph{l'Everest} $\rightarrow$ \emph{le toit du monde}), etc.
+À ce problème d'ambiguïté viennent s'ajouter les variations que peuvent subir les entités nommées~: les variations graphiques (\emph{Parti Socialiste}, \emph{Parti socialiste}), les sigles, acronymes ou abréviations, (\emph{Société Nationale des Chemins de fer Français} $\rightarrow$ \emph{SNCF}), les métaphores (\emph{l'Everest} $\rightarrow$ \emph{le toit du monde}), etc.
 
 Outre la gestion de ces différents problèmes, les systèmes doivent être capable de découvrir de nouvelles entités nommées qui ne sont pas présentes dans leurs bases lexicales.
 
@@ -442,7 +441,7 @@ Par exemple, les entités nommées mixtes sont par définition constituées d'une ou
 
 Pour la délimitation à gauche, le problème est d'inclure ou non les noms communs situés avant la forme comportant une majuscule au sein de l'entité nommée mixte. Ces noms communs peuvent préciser un rôle social (\emph{le premier ministre François Fillon}), des statuts particuliers (\emph{l'exilé Musil}) ou encore une catégorisation géographique.
 
-La délimitation à droite se heurte aux problèmes modification, de la résolution de l'attachement prépositionnel et de la portée de la coordination \cite{Wacholder97}. Par exemple, l'adjectif modifiant une entité nommée comme \emph{fédéral} dans \emph{Allemagne fédérale} constitue une entité nommée mixte, ce qui n'est pas le cas avec \emph{lointain} dans \emph{Chine lointaine}. En plus de cette ambiguïté sur la limite des droites des entités se pose le problème de la sur-composition~: une entité nommée mixte peut contenir une entité nommée d'une autre catégorie (par exemple \emph{Université du Mans}, \emph{Guerre du Vietnam}).
+La délimitation à droite se heurte aux problèmes de la modification, de la résolution de l'attachement prépositionnel et de la portée de la coordination \cite{Wacholder97}. Par exemple, l'adjectif modifiant une entité nommée comme \emph{fédéral} dans \emph{Allemagne fédérale} constitue une entité nommée mixte, ce qui n'est pas le cas avec \emph{lointain} dans \emph{Chine lointaine}. En plus de cette ambiguïté sur la limite des droites des entités se pose le problème de la sur-composition~: une entité nommée mixte peut contenir une entité nommée d'une autre catégorie (par exemple \emph{Université du Mans}, \emph{Guerre du Vietnam}).
 
 Les systèmes adoptent différentes techniques pour résoudre ces problèmes. Ces techniques font appel à des solutions linguistiques, à des solutions à base d'apprentissage ou à un mixte des deux. Quoiqu'il en soit, la délimitation des entités nommées peut varier en fonction du type d'application auxquelles elles sont destinées. Par exemple, une application cherchant à extraire les prénoms et patronymes d'un document aura besoin d'entités nommées très courtes, ne contenant que les informations recherchées. Dans l'entité nommée mixte \emph{le président Jacques Chirac}, seuls le prénom et le nom lui seront utiles. La recherche de la borne gauche ne devra donc pas englober le nom commun \emph{président}.
 
@@ -556,7 +555,7 @@ L'identification nommée du locuteur (INL) consiste à nommer les locuteurs d'un d
 
 \section{Applications}
 
-Disposer des noms complets des intervenants d'un document audio peut être utilisé à des fins de recherche d'informations. En effet, les bases de données audio et vidéo ne cessent de croître avec la numérisation massive des documents audiovisuels. Ainsi, les besoins en indexation et recherche automatiques croissent de la même manière. Par exemple en France, l'Institut National de l'Audiovisuel (INA) a lancé un plan de sauvegarde et de numérisation de ses différents documents en 1999. Ce plan a pour but de numériser plusieurs millions d'heures d'enregistrements de radio et de télévision. Suite au lancement de ce plan de sauvegarde, de nombreux travaux ont été menés à l'INA sur l'indexation automatique des documents \cite{Veneau2001,Allauzen2003,Joly2004,Poli2007}. L'utilisation de l'INL pour ce type de bases de données pourrait apporter un réel plus pour l'indexation. Elle permettrait par exemple de faciliter la recherche des différents intervenants dans les documents indexés ou encore de remplir automatiquement les grilles de programmes avec le nom des intervenants.
+Disposer des noms complets des intervenants d'un document audio peut être utilisé à des fins de recherche d'informations. En effet, les bases de données audio et vidéo ne cessent de croître avec la numérisation massive des documents audiovisuels. Ainsi, les besoins en indexation et recherche automatiques croissent de manière identique. Par exemple en France, l'Institut National de l'Audiovisuel (INA) a lancé un plan de sauvegarde et de numérisation de ses différents documents en 1999. Ce plan a pour but de numériser plusieurs millions d'heures d'enregistrements de radio et de télévision. Suite au lancement de ce plan de sauvegarde, de nombreux travaux ont été menés à l'INA sur l'indexation automatique des documents \cite{Veneau2001,Allauzen2003,Joly2004,Poli2007}. L'utilisation de l'INL pour ce type de bases de données pourrait apporter un réel plus pour l'indexation. Elle permettrait par exemple de faciliter la recherche des différents intervenants dans les documents indexés ou encore de remplir automatiquement les grilles de programmes avec le nom des intervenants.
 
 Les récentes campagnes d'évaluation des systèmes de reconnaissance automatique de la parole (cf. \ref{ssec:trans_broadcast}) s'intéressent à l'enrichissement de la transcription (cf. \ref{sec:trans_enrichie}) par diverses informations comme les entités nommées ou encore les informations sur les locuteurs du document. Cette transcription contient notamment une segmentation et une classification en locuteurs (cf. \ref{ssub:decoupage_regroupement}) qui permettent de délimiter les différentes interventions dans l'enregistrement. En revanche, les informations fournies par le processus de segmentation et de classification en locuteur ne permettent pas d'identifier les locuteurs du document par leur prénom et patronyme. Les locuteurs sont uniquement identifiés par des labels anonymes du type \emph{Locuteur1}, \emph{Locuteur2}. L'INL s'inscrit dans l'enrichissement de la transcription en permettant de remplacer ces labels anonymes par le prénom et le nom des locuteurs. Ce couple prénom/patronyme sera par la suite désigné comme étant le \textbf{nom complet} du locuteur.
 
@@ -595,11 +594,11 @@ Afin de pouvoir attribuer aux locuteurs d'un document leurs noms complets, il fa
 
 Obtenir l'identité d'un locuteur a d'abord été réalisé avec des méthodes purement acoustiques \cite{Bimbot2004}. Le suivi de locuteur (décrit dans le chapitre \ref{sec:ral}) peut être étendu à $n$ locuteurs afin d'identifier tous les locuteurs d'un document. Bien qu'utilisées depuis des années, ces méthodes présentent plusieurs inconvénients.
 
-Tout d'abord, il est nécessaire de connaître les personnes que l'on cherche à identifier. Les systèmes doivent commencer par apprendre des modèles acoustiques correspondant à chaque locuteur du document pour ensuite les associer aux différents intervenants de l'enregistrement traité. Ces systèmes ne peuvent identifier que des personnes dont ils possèdent déjà les modèles. De plus, pour apprendre ce modèle acoustique, une quantité de données suffisante est nécessaire~: plusieurs minutes sont un minimum.
+Tout d'abord, il est nécessaire de connaître les personnes que l'on cherche à identifier. Les systèmes doivent commencer par apprendre des modèles acoustiques correspondant à chaque locuteur du document pour ensuite les associer aux différents intervenants de l'enregistrement traité. Ces systèmes ne peuvent identifier que des personnes dont ils possèdent déjà les modèles. De plus, pour apprendre ces modèles acoustiques, une quantité de données suffisante est nécessaire~: plusieurs minutes sont un minimum.
 
-Enfin, les conditions acoustiques des données d'apprentissage doivent être similaires à celles sur lesquelles le système va chercher à détecter les locuteurs : des données trop éloignées dans le temps (et donc avec une voix qui peut avoir changé) ou des conditions d'enregistrement différentes (studio ou téléphone par exemple) dégraderont les performances d'identification (cf \ref{ssec:carac_variabilite}).
+Enfin, les conditions acoustiques des données d'apprentissage doivent être similaires à celles du document à traiter : des données trop éloignées dans le temps (et donc avec une voix qui peut avoir changé) ou des conditions d'enregistrement différentes (studio ou téléphone par exemple) dégraderont les performances d'identification (cf \ref{ssec:carac_variabilite}).
 
-Dans l'hypothèse d'une utilisation sur des enregistrements de journaux radiophoniques par exemple, il faudrait disposer des enregistrements de tous les locuteurs (présentateurs, invités, intervenants, etc.) en quantité suffisante. S'il semble plausible de pouvoir les obtenir pour les journalistes qui sont souvent présents dans les émissions de radio, il semble beaucoup plus compliquer de les obtenir pour certains invités peu connus ou pour les inconnus interrogés par téléphone. 
+Dans l'hypothèse d'une utilisation sur des enregistrements de journaux radiophoniques par exemple, il faudrait disposer des enregistrements de tous les locuteurs (présentateurs, invités, intervenants, etc.) en quantité suffisante. S'il semble plausible de pouvoir les obtenir pour les journalistes qui sont souvent présents dans les émissions de radio, il semble beaucoup plus compliquer de les obtenir pour certains invités peu célèbres ou pour les inconnus interrogés par téléphone. 
 
 Ces différentes limitations ont motivé les récents travaux ne nécessitant pas de connaissances a priori sur les locuteurs pour réaliser l'identification. Ces travaux se basent sur la transcription du signal audio pour identifier les locuteurs d'un enregistrement. 
 
@@ -614,7 +613,7 @@ La figure \ref{fig:principe_inl} donne un aperçu de ce que l'identification nomm
 \begin{center}
 \includegraphics[width=0.9\columnwidth]{img/discussion_nommee}
 
-\caption{Aperçu global de l'identification nommée du locuteur utilisant la transcription}
+\caption{Aperçu global de l'identification nommée du locuteur utilisant la transcription du signal audio}
 \label{fig:principe_inl}
 \end{center}
 
@@ -637,7 +636,7 @@ C'est une hypothèse forte, qui permet d'exploiter un grand nombre de documents. 
 
         Les systèmes d'INL doivent être capable de transcrire correctement les noms complets présents dans l'enregistrement si ils veulent pouvoir les exploiter. Lorsqu'ils sont bien transcrits, c'est ensuite le travail des systèmes de détection des entités nommées (présentés dans la section \ref{ssec:EN}) d'identifier les différents noms complets.
         
-        Dans le cadre de la mise en place de systèmes automatiques d'INL, cette hypothèse est importante~: la transcription des noms propres est un réel problème pour les systèmes automatique de reconnaissance de la parole puisque, généralement, ils ne font pas partie du vocabulaire du SRAP \cite{Bechet2000}.
+        Dans le cadre de la mise en place de systèmes automatiques d'INL, cette hypothèse est importante~: la transcription des noms propres est un réel problème pour les systèmes automatiques de reconnaissance de la parole puisque, généralement, ils ne font pas partie du vocabulaire du SRAP \cite{Bechet2000}.
 
     \item Le \textbf{contexte lexical} au voisinage d'un nom complet permet de déterminer si ce nom complet est un \textbf{locuteur du document}.
 
@@ -671,11 +670,11 @@ La technique utilisée pour attribuer un nom complet détecté à un des locuteurs d
 \end{center}
 \end{figure}
 
-Typiquement, un nom complet peut être attribué au locuteur courant lorsque celui-ci s'annonce ou se présente. Par exemple les journalistes ont pour habitude de finir leurs interventions en rappelant leur identité, comme par exemple \emph{\og c'était Paul Dupond en direct de \ldots \fg}. Ici, le nom complet \emph{Paul Dupond} devrait être attribué au locuteur qui a prononcé cette phrase (le locuteur courant). À l'inverse, un locuteur prononçant cette phrase \emph{\og Nous écoutons maintenant, Jean Durand.\fg{}} annonce une personne qui va parler après lui. Le nom complet \emph{Jean Durand} devra donc être attribué au locuteur suivant. Pour finir, une phrase du type \emph{\og Merci Maude Bayeu, nous passons maintenant à la météo \fg{}} rappelle le locuteur qui vient de s'exprimer juste avant. Le nom complet \emph{Maude Bayeu} sera donc attribué au locuteur précédent.
+Typiquement, un nom complet peut être attribué au locuteur courant lorsque celui-ci s'annonce ou se présente. Par exemple les journalistes ont pour habitude de finir leurs interventions en rappelant leur identité, comme par exemple \emph{\og c'était Paul Dupond en direct de \ldots \fg}. Ici, le nom complet \emph{Paul Dupond} devrait être attribué au locuteur qui a prononcé cette phrase (le locuteur courant). À l'inverse, un locuteur prononçant cette phrase \emph{\og Nous écoutons maintenant, Jean Durand.\fg{}} annonce une personne qui va parler ensuite. Le nom complet \emph{Jean Durand} devra donc être attribué au locuteur suivant. Pour finir, une phrase du type \emph{\og Merci Maude Bayeu, nous passons maintenant à la météo \fg{}} rappelle le locuteur qui vient de s'exprimer juste avant. Le nom complet \emph{Maude Bayeu} sera donc attribué au locuteur précédent.
 
 Certains noms complets ne désignent pas des locuteurs du document. Par exemple, \emph{Jean-Jacques Rousseau} aura peu de chance d'être un des intervenants du document. D'autres noms complets font bien référence à des locuteurs du document, mais ces locuteurs ne s'expriment pas dans un des tours de parole contigus. Ces cas sont appelés \og autre \fg{} sur la figure \ref{fig:segment}.
 
-Ce type d'attribution sera par la suite appelée \og attribution locale \fg. On attribue ici un nom complet à un des tours de parole contigu au tour de parole où le nom complet a été détecté. Aucune attribution au niveau du document entier n'est pour l'instant effectué, seuls les tours de paroles contigus sont concernés. La propagation de ces attributions locales au sein de l'ensemble des tours de parole est une étape appelée \og attribution globale \fg.
+Ce type d'attribution sera par la suite appelée \og attribution locale \fg. On attribue ici un nom complet à un des tours de parole contigu au tour de parole où le nom complet a été détecté. Aucune attribution au niveau du document entier n'est pour l'instant effectuée, seuls les tours de paroles contigus sont concernés. La propagation de ces attributions locales au sein de l'ensemble des tours de parole est une étape appelée \og attribution globale \fg.
 
 \subsection{Attribution globale}
 
@@ -683,7 +682,7 @@ Ce type d'attribution sera par la suite appelée \og attribution locale \fg. On a
 
 Afin de bien comprendre la problématique de l'attribution globale des noms complets, il faut placer les attributions locales dans le contexte d'une transcription enrichie (cf. \ref{sec:trans_enrichie}).
 
-Chaque nom complet détecté dans un tour de parole est attribué au tour de parole courant, précédent ou suivant. Chacun de ces tours de parole appartient à un locuteur, que l'INL cherche à nommer en lui attribuant un et un seul nom complet. Or, plusieurs noms complets peuvent être candidats pour le même locuteur. Il est tout à fait possible que plusieurs noms différents soient proposés pour un même locuteur. Par exemple, dans la figure \ref{fig:decisions_locales_conflit}, deux noms complets sont possibles pour le LOCUTEUR 2~: Maude Bayeu et Pierre Moscovici.
+Chaque nom complet détecté dans un tour de parole est attribué au tour de parole courant, précédent ou suivant. Chacun de ces tours de parole appartient à un locuteur, que l'INL cherche à nommer en lui attribuant un et un seul nom complet. Or, plusieurs noms complets peuvent être candidats pour le même locuteur. Il est tout à fait possible que plusieurs noms différents soient proposés pour un même locuteur, suite à une erreur du processus d'attribution locale. Par exemple, dans la figure \ref{fig:decisions_locales_conflit}, deux noms complets sont possibles pour le LOCUTEUR 2~: \emph{Maude Bayeu} et \emph{Pierre Moscovici}.
 
 \begin{figure}[h]
 \begin{center}
@@ -726,7 +725,7 @@ Par exemple, le nom complet \emph{C} est attribué aux tours de parole 5 et 11, q
 Une fois les conflits de la phase d'attribution globale résolus, la dernière étape consiste à produire une transcription enrichie avec les identités des locuteurs choisies.
 
 
-Même si les façons de réaliser les étapes différent entre les méthodes d'identification nommée, les principes qui viennent d'être décrits sont communs à toutes. Le traitement d'un enregistrement audio avec un système d'identification nommée se résume aux étapes qui sont décrites dans la figure \ref{fig:fonctionnement_general}.
+Même si les façons de réaliser les étapes diffèrent entre les méthodes d'identification nommée, les principes qui viennent d'être décrits sont communs à toutes. Le traitement d'un enregistrement audio avec un système d'identification nommée se résume aux étapes qui sont décrites dans la figure \ref{fig:fonctionnement_general}.
 
 Deux principales approches sont proposées dans la littérature pour l'attribution locale des noms complets, à savoir une approche de type symbolique avec l'utilisation de règles écrites manuellement, et plusieurs approches à base de méthodes statistiques. Nous commençons par décrire la première approche. Les méthodes à base de systèmes statistiques sont décrites par la suite.
 
@@ -743,17 +742,17 @@ Deux principales approches sont proposées dans la littérature pour l'attribution
 \section{Approche symbolique}
 \label{sub:regles_manuelles}
 
- Les travaux réalisés par le Canseco-Rodriguez \cite{CansecoRodriguez2005,CansecoRodriguez2006} ont été les premiers à montrer que le couple prénom/patronyme d'un locuteur apparaissant dans un contexte lexical donné permettait d'identifier de manière précise l'identité des locuteurs s'exprimant dans les tours de parole contigus. Ces travaux sont à la base de toutes les techniques d'INL, ils ont en particulier défini le principe de l'attribution locale décrit en section \ref{ssec:attributions_locales}.
+ Les travaux réalisés par Canseco-Rodriguez \cite{CansecoRodriguez2005,CansecoRodriguez2006} ont été les premiers à montrer que le couple prénom/patronyme d'un locuteur apparaissant dans un contexte lexical donné permettait d'identifier de manière précise l'identité des locuteurs s'exprimant dans les tours de parole contigus. Ces travaux sont à la base de toutes les techniques d'INL, ils ont en particulier défini le principe de l'attribution locale décrit en section \ref{ssec:attributions_locales}.
  
 \subsection{Règles linguistiques}
 
-Ces travaux s'appuient sur l'utilisation de règles linguistiques pour réaliser l'attribution locale des noms complets. L'idée est d'utiliser le contexte linguistique de chaque nom complet pour lui attribuer une des trois étiquettes (\og locuteur précédent \fg, \og locuteur courant \fg ,\og locuteur suivant \fg). Ces règles ont été définies manuellement après analyse d'un corpus de langue anglaise (\emph{Hub-4e}\footnote{Disponible via LDC~: \url{http://www.ldc.upenn.edu/}}). Ce corpus est composé de transcriptions manuelles d'émissions de radio et de télévisions américaines (ABC, CNN, CSPAN et NPR) enregistrées entre 1993 et 1998.
+Ces travaux s'appuient sur l'utilisation de règles linguistiques pour réaliser l'attribution locale des noms complets. L'idée est d'utiliser le contexte linguistique de chaque nom complet pour lui attribuer une des trois étiquettes~: \og locuteur précédent \fg, \og locuteur courant \fg{} ou \og locuteur suivant \fg. Ces règles ont été définies manuellement après analyse d'un corpus de langue anglaise (\emph{Hub-4e}\footnote{Disponible via LDC~: \url{http://www.ldc.upenn.edu/}}). Ce corpus est composé de transcriptions manuelles d'émissions de radio et de télévisions américaines (ABC, CNN, CSPAN et NPR) enregistrées entre 1993 et 1998.
 
-Dans le but de réaliser des règles les plus génériques possibles, certains mots ou groupes de mots ont été regroupés au sein de classes sémantiques. Ces groupes de mots ont ensuite été substitués par leur classe sémantique dans les textes. Par exemple, tous les noms de lieux sont remplacés par le nom de leur classe sémantique [location]. De ce fait, les deux règles \og reporting from Bagdad \fg{} et \og reporting from Paris \fg{} peuvent être fusionnées en une seule règle \og reporting from [location] \fg. Plusieurs dictionnaires de classes sont utilisés pour remplacer les mots. Les dictionnaires utilisés, construits à partir d'informations extraites d'internet, sont au nombre de 6 :
+Dans le but de réaliser des règles les plus génériques possibles, certains mots ou groupes de mots ont été regroupés au sein de classes sémantiques. Ces groupes de mots ont ensuite été substitués par leur classe sémantique dans les textes. Par exemple, tous les noms de lieux sont remplacés par le nom de leur classe sémantique [location]. De ce fait, les deux règles \emph{\og reporting from Bagdad \fg{}} et \emph{\og reporting from Paris \fg{}} peuvent être fusionnées en une seule règle \emph{\og{} reporting from [location] \fg}. Plusieurs dictionnaires de classes sont utilisés pour remplacer les mots. Les dictionnaires utilisés, construits à partir d'informations extraites d'internet, sont au nombre de 6 :
 
 
 \begin{itemize}
-	\item \textbf{noms complets} (prénom et patronyme) de locuteurs ([name]) : ce dictionnaire contient les noms anglais les plus communs, y compris les personnes célèbres et les personnalités internationales. Ce dictionnaire a été complété par des informations trouvées dans les textes à traiter, et notamment par l'identité des différents locuteurs (tous corpus confondus).
+	\item \textbf{noms complets}, couple prénom/patronyme ([name]) : ce dictionnaire contient les noms de personnes anglaises les plus communs, y compris les personnes célèbres et les personnalités internationales. Ce dictionnaire a été complété par des informations trouvées dans les textes à traiter, et notamment par l'identité des différents locuteurs (tous corpus confondus).
 	\item \textbf{toponymes} [(location]) : ce dictionnaire est constitué des lieux géographiques les plus courants comme les villes, les régions, les états, les monuments...
 	\item \textbf{noms d'émissions} ([show]) : ce dictionnaire contient le nom des émissions et des radios. Les informations ont été extraites des transcriptions de référence (tous corpus confondus).
 	\item \textbf{titres} ([title]) : ce dictionnaire est composé des titres (Monsieur, Madame, ...), des rangs militaires et des professions.
@@ -907,7 +906,7 @@ Comme dans les précédents travaux de Canseco-Rodriguez (2005), Tranter (2006) ut
 
 \subsection{Attribution globale}
 
-Deux processus d'attribution globale ont été étudiés pour cette approche basée sur les N-grammes. Tout d'abord, Tranter a utilisé une combinaison de probabilités pour combiner les règles qui fournissent la même hypothèse. Par la suite, Microsoft \cite{Chengyuan07} a mis en place un modèle d'entropie maximum pour combiner les règles et certaines informations supplémentaires comme le genre des locuteurs.
+Deux processus d'attribution globale ont été étudiés pour cette approche basée sur les N-grammes. Tout d'abord, Tranter a utilisé une combinaison de probabilités pour prendre en compte les règles qui fournissent la même hypothèse. Par la suite, Microsoft \cite{Chengyuan07} a mis en place un modèle d'entropie maximum pour combiner les règles et certaines informations supplémentaires comme le genre des locuteurs.
 
 Nous commençons par décrire le premier processus mis en place par Tranter avant de décrire plus en détail les ajouts réalisés par Chengyuan.
 
@@ -956,7 +955,7 @@ Un seuil $\alpha$ est utilisé pour filtrer les décisions. Lorsque la probabilité
 
 Le corpus d'apprentissage utilisé par Tranter contient environ 70 heures d'enregistrements de journaux d'informations en langue anglaise provenant du corpus Hub-4 de 1996/1997. Ce corpus a été transcrit manuellement et les locuteurs identifiés (quand cela était possible). De plus, les erreurs de transcription des noms complets (mauvaise orthographe du prénom ou du nom) de locuteurs intervenant dans document ont été corrigées. Le corpus de développement correspond à celui utilisé pour la campagne RT-04 \cite{NIST2004} et se compose de 12 documents enregistrés en février 2001 et de novembre à décembre 2003. Le corpus d'évaluation correspond aussi à celui de la campagne RT-04, soit 12 émissions enregistrées en décembre 2003.
 
-À noter que les corpus utilisés par Microsoft pour évaluer le système utilisant le modèle d'entropie maximum correspondent à ceux de Tranter mais avec un découpage légèrement différent.
+À noter que les corpus utilisés par Chengyuan pour évaluer le système utilisant le modèle d'entropie maximum correspondent à ceux de Tranter mais avec un découpage légèrement différent.
 
 \subsection{Analyse des données}
 
@@ -1115,7 +1114,7 @@ Comme pour les autres systèmes d'INL, lorsqu'une EN est détectée, la suite de mo
 
 \subsection{Attributions}
 
-Les arbres de classification sémantiques (SCT - Semantic Classification Tree) sont des arbres de décision binaire s'appuyant sur des patrons linguistiques comme paramètres de décision pour classer les échantillons. Dans le cadre de l'identification nommée, ils sont utilisés pour réaliser l'attribution locale des étiquettes \og{}précédent\fg{}, \og{}courant\fg{} et \og{}suivant\fg{}. Ces arbres sont activés sur le contexte lexical gauche et droit de chaque nom complet détecté par le système d'EN. Au maximum cinq mots à gauche et cinq mots à droite sont gardés pour l'apprentissage et l'utilisation de l'arbre. Le SCT attribue une probabilité à chaque étiquette possible pour un nom complet détecté dans la transcription. La figure \ref{fig:sct} donne un exemple d'arbre de classification. Les détails sur l'apprentissage de l'arbre sont décrits dans \cite{MauclairOdyssey06}.
+Les arbres de classification sémantiques (SCT - Semantic Classification Tree) sont des arbres de décision binaire s'appuyant sur des expressions régulières comme paramètres de décision pour classer les échantillons. Dans le cadre de l'identification nommée, ils sont utilisés pour réaliser l'attribution locale des étiquettes \og{}précédent\fg{}, \og{}courant\fg{} et \og{}suivant\fg{}. Ces arbres sont activés sur le contexte lexical gauche et droit de chaque nom complet détecté par le système d'EN. Au maximum cinq mots à gauche et cinq mots à droite sont gardés pour l'apprentissage et l'utilisation de l'arbre. Le SCT attribue une probabilité à chaque étiquette possible pour un nom complet détecté dans la transcription. La figure \ref{fig:sct} donne un exemple d'arbre de classification. Les détails sur l'apprentissage de l'arbre sont décrits dans \cite{MauclairOdyssey06}.
 
 \begin{figure}[h]
 \begin{center}
@@ -1127,7 +1126,7 @@ Les arbres de classification sémantiques (SCT - Semantic Classification Tree) so
 
 Seule l'étiquette avec la plus grande probabilité est prise en compte, les autres probabilités sont ignorées. Lorsque deux décisions du SCT attribuent le même nom complet à un locuteur, les probabilités sont additionnées. On obtient alors, pour chaque nom complet candidat pour nommer un locuteur, un score qui peut être utilisé pour prendre une décision.
 
-Dans l'exemple de la figure \ref{fig:attrib_locale_lium}, le tour de parole correspondant au locuteur numéro 2 (abbrégé LOCU 2 dans la figure) \emph{LOCU2} se voit affecter deux fois le nom complet \emph{Maude Bayeu}. Dans ce cas, le nom complet \emph{Maude Bayeu} aura pour score 1,22 (0.72 + 0.5).
+Dans l'exemple de la figure \ref{fig:attrib_locale_lium}, le tour de parole correspondant au locuteur numéro 2 (abbrégé \emph{LOCU2} dans la figure) se voit affecter deux fois le nom complet \emph{Maude Bayeu}. Dans ce cas, le nom complet \emph{Maude Bayeu} aura pour score 1,22 (0.72 + 0.5).
 
 \begin{figure}[h]
 \begin{center}
@@ -1137,7 +1136,7 @@ Dans l'exemple de la figure \ref{fig:attrib_locale_lium}, le tour de parole corr
 \end{center}
 \end{figure}
 
-Lors du processus d'attribution globale, le nom complet avec le plus grand score pour une classe donnée est attribué à cette classe. Chaque classe de locuteur est traitée indépendamment de l'autre, c'est à dire que rien n'empêche le système d'attribuer le même nom de locuteur à deux classes différentes. Si la segmentation et la classification sont considérées comme correctes, ce cas de figure devrait être impossible.
+Lors du processus d'attribution globale, le nom complet avec le plus grand score pour un locuteur donné est attribué à ce locuteur. Chaque locuteur est traité indépendamment de l'autre, c'est à dire que rien n'empêche le système d'attribuer le même nom complet à deux locuteurs différents. Si la segmentation et la classification sont considérées comme correctes, ce cas de figure devrait être impossible.
 
 \subsection{Expériences et résultats}
 
@@ -1175,9 +1174,9 @@ Canseco-Rodriguez a montré que lorsqu'un locuteur était annoncé dans le document
 
 Dans le but d'automatiser au maximum les processus d'INL, plusieurs problèmes restent à résoudre. Tout d'abord, il faut disposer d'un détecteur d'entités nommées qui va permettre de s'affranchir des dictionnaires de classes sémantiques et des listes de locuteurs pré-établies utilisées par Canseco-Rodriguez ou encore Tranter. Les travaux du LIUM ont effectué un premier pas en ce sens, mais le détecteur d'entités nommées utilisé reste assez simple.
 
-Le processus d'attribution globale et la gestion des différents conflits qu'il engendre nécessiteraient d'être approfondis. Seuls les travaux de Microsoft ont proposé un modèle d'entropie maximum allant dans ce sens puisqu'il permet de combiner plusieurs informations (le genre, des modèles acoustiques, la position du locuteur dans l'enregistrement) pour renforcer les décisions du modèle N-gramme. Mais les conflits (plusieurs candidats possibles pour un même locuteur, avec éventuellement beaucoup d'incertitude) apparaissant pour nommer un même locuteur n'ont pas été étudiés. À chaque fois, le locuteur ayant la plus haute probabilité (ou le plus haut score pour les travaux du LIUM) est choisi, sans prendre en compte les conflits présents.
+Le processus d'attribution globale et la gestion des différents conflits qu'il engendre nécessiteraient d'être approfondis. Seuls les travaux de Microsoft ont proposé un modèle d'entropie maximum allant dans ce sens puisqu'il permet de combiner plusieurs informations (le genre, des modèles acoustiques, la position du locuteur dans l'enregistrement) pour renforcer les décisions du modèle N-gramme. Mais les conflits (plusieurs candidats possibles pour un même locuteur, avec éventuellement beaucoup d'incertitude) apparaissant pour nommer un même locuteur n'ont pas été étudiés. À chaque fois, le locuteur ayant la plus haute probabilité (ou le plus haut score pour les travaux du LIUM) est choisi, sans prendre en compte l'incertitude et les conflits présents.
 
-Pour finir l'hypothèse concernant la présence des noms complets (correctement transcrits) reste encore à étudier en profondeur, surtout sur des transcriptions réalisées par des SRAP. Tranter et le LIUM ont réalisé des expériences sur des transcriptions automatiques, en constatant que les résultats étaient nettement inférieurs à ceux réalisés sur des transcriptions manuelles. Ces résultats mériteraient d'être approfondis afin de valider cette dernière hypothèse.
+Pour finir l'hypothèse concernant la présence des noms complets (correctement transcrits) reste encore à étudier en profondeur, surtout sur des transcriptions réalisées par des SRAP. Tranter et le LIUM ont réalisé des expériences sur des transcriptions automatiques, en constatant que les résultats étaient nettement inférieurs à ceux obtenus sur des transcriptions manuelles. Ces résultats mériteraient d'être approfondis afin de valider cette dernière hypothèse.
 
 %Deux principaux systèmes statistiques ont suivis les travaux de Canseco, à savoir celui à base de N-grammes de l'université de Cambridge et celui à base d'arbre de classification sémantique (SCT) de l'université du Mans. Les travaux de \cite{Esteve07} ont démontré la supériorité du système à base de SCT par rapport au système à base de N-grammes sur des transcriptions automatiques. Ce type de système étant amené à être majoritairement utilisé sur des transcriptions automatiques, l'utilisation de SCT semble pertinente pour la suite des travaux à mener dans ce domaine. Par rapport à ces systèmes précurseurs, Microsoft a ajouté la prise en compte du genre du locuteur et la prise en compte de la position du nom complet détecté dans l'enregistrement. Ces informations améliorant les performances, il faudra les prendre en compte.
 
