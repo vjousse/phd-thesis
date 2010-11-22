@@ -1246,7 +1246,7 @@ Les noms complets étiquetés via le système de détection d'EN sont utilisés comme
 Les arbres de classification sémantiques sont des types particuliers d'arbre de décision binaire. Ils sont beaucoup utilisés dans le traitement du langage naturel, comme pour des systèmes de compréhension \cite{Kuhn1995} ou des détecteurs de noms propres inconnus \cite{Bechet2000}. Dans le cadre de l'identification nommée, ils sont utilisés pour réaliser l'attribution locale des étiquettes \og{}précédent\fg{}, \og{}courant\fg{} et \og{}suivante\fg{} décrites dans la section \ref{ssec:attributions_locales}. Le fonctionnement et l'apprentissage des SCTs sont décrits de manière exhaustive dans \cite{KuhnPHD}. 
 
 \subsection{Arbre de classification sémantique}
-Les SCTs sont des arbres de décision binaire s'appuyant sur des patrons linguistiques comme paramètres de décision pour classer les échantillons. Un arbre de décision binaire \cite{Breiman84,Cornejols02} est un classificateur à $n$ classes. Chaque n\oe{}ud de l'arbre est composé d'une question de type \emph{oui/non}, d'un sous-arbre \emph{oui} et d'un sous-arbre \emph{non}. Chaque feuille de ces sous-arbres est associée à une distribution de probabilité sur toutes les classes possibles. Un exemple de SCT est donné dans la figure \ref{fig:exemple_sct}.
+Les SCTs sont des arbres de décision binaire s'appuyant sur des expressions régulières comme paramètres de décision pour classer les échantillons. Un arbre de décision binaire \cite{Breiman84,Cornejols02} est un classificateur à $n$ classes. Chaque n\oe{}ud de l'arbre est composé d'une question de type \emph{oui/non}, d'un sous-arbre \emph{oui} et d'un sous-arbre \emph{non}. Chaque feuille de ces sous-arbres est associée à une distribution de probabilité sur toutes les classes possibles. Un exemple de SCT est donné dans la figure \ref{fig:exemple_sct}.
 
 
 \begin{figure}[h]
@@ -1257,7 +1257,7 @@ Les SCTs sont des arbres de décision binaire s'appuyant sur des patrons linguist
 \end{center}
 \end{figure}
 
-Les questions utilisées par les SCT pour classer les échantillons sont des expressions régulières. Les SCT apprennent ces expressions régulières à partir de corpus annotés avec les classes correspondantes. L'apprentissage et la sélection de ces questions est réalisée de manière entièrement automatique~: n'importe quel mot du corpus d'apprentissage peut apparaître dans une question. 
+Les SCT apprennent les expressions régulières à partir de corpus annotés avec les classes correspondantes. L'apprentissage et la sélection de ces questions est réalisée de manière entièrement automatique~: n'importe quel mot du corpus peut apparaître dans une question. 
 
 
 
@@ -1277,28 +1277,30 @@ Les questions utilisées par les SCT pour classer les échantillons sont des expre
 
 \label{sct_apprentissage}
 
-Afin de construire un arbre de classification sémantique, plusieurs éléments sont nécessaires~: un corpus d'apprentissage annoté, un ensemble de questions, un critère de séparation et une condition d'arrêt. Nous décrivons ces différents éléments ci-dessous.
+Pour un arbre de classification sémantique, plusieurs éléments sont nécessaires~: un corpus d'apprentissage annoté, un ensemble de questions, un critère de séparation et une condition d'arrêt. Nous décrivons ces différents éléments ci-dessous.
 
 \subsubsection{Corpus d'apprentissage}
 
-Afin de préparer le corpus d'apprentissage pour construire l'arbre, plusieurs traitement sont réalisés sur le corpus~:
+Le corpus d'apprentissage utilisé est un corpus réalisé manuellement. Pour construire l'arbre, ce corpus doit être préalablement préparé, plusieurs traitement sont alors réalisés~:
 
 \begin{itemize}
     \item Le corpus est traité via le détecteur d'entités nommées LIA\_NE. Les mots composants les entités nommées retenues sont remplacés par la classe sémantique correspondante dans la transcription.
     \item Les transcriptions de référence utilisées pour l'apprentissage contiennent plus d'informations que celles produites par un système de transcription automatique. Les transcriptions sont donc normalisées afin de se rapprocher au maximum de celles fournies par un système de transcription automatique. Par exemple, la ponctuation et les majuscules ont été retirées.
     \item Les articles considérés comme non porteurs de sens (\textit{l', le, la, les, un, une, uns}) ont été éliminés du contexte analysé. En revanche, les mots comme \textit{de, dans, à} ont été gardés puisqu'ils peuvent potentiellement concerner une information importante comme un lieu, une radio ou une émission.
-    \item L'arbre a besoin de savoir si un nom complet détecté correspond au locuteur suivant, précédent ou courant pour pouvoir réaliser son apprentissage. Cette phase d'étiquetage de chaque nom complet est réalisée automatiquement en comparant le nom complet détecté aux noms complets des locuteurs suivant, précédent et courant. Cette phase d'étiquetage n'est pas vérifiée manuellement, il est supposé que les étiquettes sont correctes.
+    \item L'arbre a besoin de savoir si un nom complet détecté correspond au locuteur suivant, précédent ou courant pour pouvoir réaliser son apprentissage. Cette phase d'étiquetage de chaque nom complet est réalisée automatiquement en comparant le nom complet détecté aux noms complets des locuteurs suivant, précédent et courant. Cette phase d'étiquetage n'est pas vérifiée manuellement, il est supposé que les noms des locuteurs indiqués dans les transcription manuelles sont corrects.
 \end{itemize}
 
 
-L'arbre de classification sémantique apprend les expressions régulières grâce aux mots présents dans les contextes lexicaux gauche et droite de chaque nom complet détecté. Un maximum de 10 mots autour du nom complet détecté a été gardé~: au plus 5 mots à gauche et 5 mots à droite. Le nombre de mots à garder a été déterminé grâce au corpus de développement.
+L'arbre de classification sémantique apprend les expressions régulières grâce aux mots présents dans les contextes lexicaux gauche et droite de chaque nom complet détecté. Chaque exemple d'apprentissage est composé d'un maximum de 10 mots autour du nom complet détecté~: au plus 5 mots à gauche et 5 mots à droite. Le nombre de mots à conserver pour chaque exemple a été déterminé grâce au corpus de développement. 
+
+En plus de ces expressions régulières, les questions de l'arbre  peuvent porter sur des informations plus globales. Comme proposé dans \cite{Esteve07}, la position du nom complet détecté au sein du tour de parole est ajoutée. La position correspond aux situations où le nom complet apparaît au début (dix premiers mots), au milieu ou à la fin (dix derniers mots) d'un tour de parole. Une autre question globale permet de savoir si le tour de parole est considéré comme très court, à savoir plus petit que le contexte lexical utilisé par l'arbre (cinq mots à gauche du nom complet, cinq mots à droite).
 
 
 \subsubsection{Ensemble de questions}
 
 Pendant le processus de construction du SCT, chaque n\oe{}ud est associé à une expression régulière contenant des mots et des caractères spéciaux (\emph{<}, \emph{>} et \emph{+}). Le < (respectivement >) se rapporte au commencement (respectivement la fin) d'une intervention d'un locuteur tandis que + se rapporte à n'importe quelle suite de mots. Par exemple, l'expression régulière \emph{< + de + >} correspond à chaque intervention contenant le mot \emph{de}, alors que \emph{< + en direct + de + >} correspond à chaque intervention contenant les mots \emph{en direct} et \emph{de} apparaissant dans cet ordre.  
 
-En plus de ces expressions régulières, les questions de l'arbre  peuvent porter sur des informations plus globales. Comme proposé dans \cite{Esteve07}, la position du nom complet détecté au sein du tour de parole est ajoutée. La position correspond aux situations où le nom complet apparaît au début (dix premiers mots), au milieu ou à la fin (dix derniers mots) d'un tour de parole. Une autre question globale permet de savoir si le tour de parole est considéré comme très court, à savoir plus petit que le contexte lexical utilisé par l'arbre (cinq mots à gauche du nom complet, cinq mots à droite). La figure \ref{fig:extrait_sct} montre un exemple d'arbre appris automatiquement pour l'INL.
+La figure \ref{fig:extrait_sct} montre une partie d'un arbre appris automatiquement pour l'INL. Les questions globales et les expressions régulières utilisées sont indiquées.
 
 \begin{figure}[h]
 \begin{center}
