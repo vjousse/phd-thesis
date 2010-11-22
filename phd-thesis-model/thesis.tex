@@ -1225,10 +1225,14 @@ Les transcriptions automatiques proviennent de documents audio qui contien\-nent
 
 LIA\_NE utilise tout d'abord un processus génératif grâce à un étiqueteur basé sur des HMM (\emph{Hidden Markov Model}) qui permet d'annoter le document avec les parties du discours et des classes sémantiques (personne, organisation, lieu, produit). Une fois le document annoté, un processus discriminatif basé sur les CRF \cite{CRFNE} (\emph{Conditional Random Field}) est utilisé. Ce processus va permettre de détecter les EN à partir des annotations réalisées par l'étiqueteur.
 
-Afin d'apprendre les caractéristiques de ce modèle CRF, un maximum de connaissances sur les entrées du dictionnaire du SRAP est collecté (de manière non supervisée). Ces connaissances seront utilisées lors de la phase d'apprentissage de LIA\_NE. Afin de réaliser ces collectes, deux méthodes sont mises en \oe{}uvre~:
+Afin d'apprendre les caractéristiques de ce modèle CRF, un maximum de connaissances sur les entrées du dictionnaire du SRAP est collecté (de manière non supervisée). Pour réaliser ces collectes, deux méthodes sont mises en \oe{}uvre~:
 \begin{itemize}
-    \item Un processus d'extraction automatique des EN sur de larges corpus de textes. Ce processus utilise un étiqueteur en parties du discours associé à des données étiquetées manuellement en entités nommées. Ils vont permettre d'apprendre un modèle CRF pour ensuite étiqueter automatiquement un corpus de 1,3 giga mots. Ce corpus étiqueté automatiquement sera utilisé pour l'apprentissage du modèle CRF.
-    \item L'extraction automatique de données provenant de l'encyclopédie en ligne Wikipedia. Pour chaque entrée de Wikipedia, un graphe est généré représentant toutes les formes du mot présentes dans Wikipedia. Par exemple, pour \emph{Paris}, 39 formes ont été extraites comme : \emph{Ville Lumière, Ville de Paris, Paname, Capitale de la France, Département de Paris,} etc. Chaque mot et ses différentes formes sont ensuite associées à une des catégories d'EN de la campagne ESTER (\emph{personne, lieu, organisation, produit}). \emph{Paris} (et ses différentes formes) sera par exemple associé à la catégorie \emph{lieu}. Cette association est réalisée grâce aux données d'apprentissage étiquetées manuellement et à des lexiques préalablement constitués au LIA. 
+    \item Un processus d'extraction automatique des EN sur de larges corpus de textes. 
+        
+        Ce processus utilise un étiqueteur en parties du discours associé à des données étiquetées manuellement en entités nommées. Ils vont permettre d'apprendre un modèle CRF pour ensuite étiqueter automatiquement un corpus de 1,3 giga mots. Ce corpus étiqueté automatiquement sera utilisé pour l'apprentissage du modèle CRF.
+    \item L'extraction automatique de données provenant de l'encyclopédie en ligne Wikipedia. 
+        
+        Pour chaque entrée de Wikipedia, un graphe est généré représentant toutes les formes du mot présentes dans Wikipedia. Par exemple, pour \emph{Paris}, 39 formes ont été extraites comme : \emph{Ville Lumière, Ville de Paris, Paname, Capitale de la France, Département de Paris,} etc. Chaque mot et ses différentes formes sont ensuite associés à une des catégories d'EN de la campagne ESTER (\emph{personne, lieu, organisation, produit}). \emph{Paris} et ses différentes formes seront par exemple associés à la catégorie \emph{lieu}. Cette association est réalisée grâce aux données d'apprentissage étiquetées manuellement et à des lexiques préalablement constitués au LIA. 
 \end{itemize}
 
 
