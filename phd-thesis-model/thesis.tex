@@ -1322,18 +1322,13 @@ Si $T$ désigne un n\oe{}ud quelconque, et $f(j|T)$ le pourcentage d'exemples de 
 
 Par exemple, prenons 3 classes $A$, $B$ et $C$. 10 exemples du corpus d'apprentissage arrivent dans un n\oe{}ud $T$. Sur ces 10 exemples, 4 appartiennent à la classe $A$, 3 à la classe $B$ et 2 à la classe $C$. Alors $f(A|T)=0,5$, $f(B|T)=0,3$ et $f(C|T)=0,2$. À partir de ces valeurs et de l'équation \ref{eq:impurity}, nous déduisons que le critère d'impureté de Gini $i(T)$ est égal à $0,62=1-(0,5^2 + 0,3^2 + 0,2^2)$.
 
-Si les deux n\oe{}uds fils d'un n\oe{}ud $T$ sont appelés $T_{oui}$ et $T_{non}$, et le pourcentage d'exemples de $T$, qui seront attribués par une question aux fils $T_{oui}$ et $T_{non}$, sont notés $p_{oui}$ et $p_{non}$ respectivement, la changement d'impureté $\Delta I$ est défini par la formule \ref{eq:gini}~:
+Si les deux n\oe{}uds fils d'un n\oe{}ud $T$ sont appelés $T_{oui}$ et $T_{non}$, et le pourcentage d'exemples de $T$ qui seront attribués aux fils $T_{oui}$ et $T_{non}$, sont notés $p_{oui}$ et $p_{non}$ respectivement, la changement d'impureté $\Delta I$ est défini par la formule \ref{eq:gini}~:
 
 \begin{equation} \label{eq:gini}
-    \Delta I = I(T) - \frac{|T_{oui}|}{|T|} I (T_{oui}) - \frac{|T_{non}|}{|T|} I(T_{non})
+    \Delta I = i(T) - p_{oui} * i(T_{oui}) - p_{non} * i(T_{non})
 \end{equation}
 
-L'impureté d'un n\oe{}ud $t$ avec $i$ et $j$ recouvrant l'ensemble des classes est calculé avec la formule \ref{eq:impurity} :
-
-
-où $p(i|t)$ est estimé avec la fréquence des exemples étiquetés avec la classe $i$ dans $t$.
-
-La question associée à un n\oe{}ud $t$ sera la question qui maximise $\Delta I$
+La question associée à un n\oe{}ud $T$ sera la question qui maximise $\Delta I$.
 
 \subsubsection{Condition d'arrêt}
 
