@@ -1322,17 +1322,21 @@ Si $T$ désigne un n\oe{}ud quelconque, et $f(j|T)$ le pourcentage d'exemples de 
 
 Par exemple, prenons 3 classes $A$, $B$ et $C$. 10 exemples du corpus d'apprentissage arrivent dans un n\oe{}ud $T$. Sur ces 10 exemples, 4 appartiennent à la classe $A$, 3 à la classe $B$ et 2 à la classe $C$. Alors $f(A|T)=0,5$, $f(B|T)=0,3$ et $f(C|T)=0,2$. À partir de ces valeurs et de l'équation \ref{eq:impurity}, nous déduisons que le critère d'impureté de Gini $i(T)$ est égal à $0,62=1-(0,5^2 + 0,3^2 + 0,2^2)$.
 
-Si les deux n\oe{}uds fils d'un n\oe{}ud $T$ sont appelés $T_{oui}$ et $T_{non}$, et le pourcentage d'exemples de $T$ qui seront attribués aux fils $T_{oui}$ et $T_{non}$, sont notés $p_{oui}$ et $p_{non}$ respectivement, la changement d'impureté $\Delta I$ est défini par la formule \ref{eq:gini}~:
+Si les deux n\oe{}uds fils d'un n\oe{}ud $T$ sont appelés $T_{oui}$ et $T_{non}$, et le pourcentage d'exemples de $T$ qui seront attribués aux fils $T_{oui}$ et $T_{non}$, sont notés $p_{oui}$ et $p_{non}$ respectivement, la changement d'impureté $\Delta I$ est défini par la formule suivante~:
 
 \begin{equation} \label{eq:gini}
     \Delta I = i(T) - p_{oui} * i(T_{oui}) - p_{non} * i(T_{non})
 \end{equation}
 
-La question associée à un n\oe{}ud $T$ sera la question qui maximise $\Delta I$.
+La question associée à un n\oe{}ud $T$ sera la question qui maximise $\Delta I$. 
+
+Ce processus de choix des questions est répété pour chaque nouveau n\oe{}ud fils d'un n\oe{}ud $T$ donné. La construction de l'arbre s'arrête lorsque qu'une des conditions d'arrêt décrites ci-dessous est satisfaite.
 
 \subsubsection{Condition d'arrêt}
 
-Le processus arrête de séparer un n\oe{}ud de l'arbre lorsque l'impureté d'un n\oe{}ud est sous un certain seuil ou lorsque le nombre d'exemples restant dans un n\oe{}ud est égal à 1.
+Le processus de construction de l'arbre s'arrête lorsque l'impureté d'un n\oe{}ud est sous un certain seuil ou lorsque le nombre d'exemples restant dans un n\oe{}ud est égal à une limite fixée au préalable. 
+
+Dans notre cas, grâce à des expériences menées sur le corpus de développement, le seuil minimum du critère de Gini a été fixé à 0,01 et le nombre minimum d'exemples à 50.
 
 
 %Pour chaque niveau dans l'arbre, ce processus de construction ajoute un mot à l'expression régulière courante. Le critère d'impureté permet d'évaluer le degré de déterminisme associé à un n\oe{}ud : plus le critère d'impureté est bas, plus la classification est déterministe.
