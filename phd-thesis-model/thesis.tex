@@ -1646,16 +1646,16 @@ si le genre de l'occurrence $o_j$ (et donc du nom complet $e_i$ correspondant) e
 
 \label{corpus}
 
-L'évaluation du système proposé est réalisée à partir d'émissions radiophoniques en français de la campagne ESTER 1 phase II \cite{Galliano06,Gravier04}. La majorité de ces émissions contient essentiellement de la parole lue ou préparée, et peu de parole spontanée~: 15 \% du corpus correspond à des interventions de personnes parlant au téléphone.
+L'évaluation du système proposé est réalisée à partir d'émissions radiophoniques en français de la campagne ESTER 1 phase II \cite{Galliano06,Gravier04} et du projet ANR EPAC \cite{epac}. Les émissions d'ESTER 1 contiennent essentiellement de la parole lue ou préparée, et peu de parole spontanée~: 15 \% du corpus correspond à des interventions de personnes parlant au téléphone. En revanche les émissions du corpus EPAC contiennent plus de parole spontanée~: le projet EPAC se focalisait sur le traitement de la parole conversationnelle.
 
-Les émissions proviennent de cinq radios françaises et de Radio Télévision Marocaine et durent de 10 à 60 min. Elles sont réparties en trois corpus utilisés pour l'apprentissage de l'arbre de classification, le développement et l'évaluation du système. 
-Le corpus de développement a été utilisé pour fixer les différents paramètres du système comme la taille du contexte lexical de l'arbre ou le poids donné aux échantillons lors de l'apprentissage (\textit{cf.} \ref{sct_apprentissage}). 
+Les émissions proviennent de cinq radios françaises et de Radio Télévision Marocaine et durent de 10 à 60 min. Elles sont réparties en trois corpus utilisés pour l'apprentissage de l'arbre de classification, le développement et l'évaluation du système. Le corpus d'apprentissage est celui de la campagne ESTER 1, et le corpus de développement utilisé correspond au corpus test de la campagne ESTER 1. Le corpus de test est constituées de données issues d'EPAC.
+%Le corpus de développement a été utilisé pour fixer les différents paramètres du système comme la taille du contexte lexical de l'arbre ou le poids donné aux échantillons lors de l'apprentissage (\textit{cf.} \ref{sct_apprentissage}). 
 
 Le corpus d'apprentissage contient 76 heures de données (75~095 segments et 7~416 tours de parole) dans lesquels 11~292 noms complets sont détectés. 755 locuteurs différents interviennent dans ce corpus dont 40 qui n'ont pu être nommés. Le corpus de développement contient 30 heures (27~149 segments et 2~931 tours de parole) dans lesquels 4~533 noms complets ont été détectés. 359 locuteurs différents interviennent dans ce corpus dont 38 qui n'ont pu être nommés. Le corpus d'évaluation contient 10 heures (10~335 segments et 1~082 tours de parole) dans lesquels 1~541~noms complets ont été détectés. 213~locuteurs différents interviennent dans ce corpus dont 24 qui n'ont pu être nommés. 26,5 \% de ces locuteurs sont communs au corpus d'apprentissage seul et 28,4 \% sont communs aux corpus d'apprentissage et de développement. Ce découpage correspond au découpage de la campagne d'évaluation officielle ESTER 1 PHASE II 2005.
 
 Les transcriptions fournies avec les corpus ont été créées pour l'évaluation des tâches de segmentation et de classification en locuteurs, ainsi que pour la tâche de transcription. Les références proposées sont d'une grande qualité, les annotateurs ont essayé de nommer le maximum de locuteurs par des identifiants permettant d'en déduire leurs noms complets. Ces noms complets ont été extraits automatiquement et n'ont pas fait l'objet de validation manuelle approfondie. 
 
-Le tableau~\ref{corp_stat}  montre la répartition \textit{a priori} des quatre étiquettes calculée pour le corpus de test. L'étiquette \textit{\og autre \fg } est la plus fréquente et représente 79,5 \% des cas ; vient ensuite l'étiquette \textit{\og tour suivant \fg } avec 16,5 \%, tandis que les deux dernières étiquettes \textit{\og tour précédent \fg } et \textit{\og tour courant \fg } sont les moins fréquentes~: environ 2~\% chacune. 
+Le tableau~\ref{corp_stat}  montre la répartition \textit{a priori} des quatre étiquettes calculée pour le corpus de développement. L'étiquette \textit{\og autre \fg } est la plus fréquente et représente 79,5 \% des cas ; vient ensuite l'étiquette \textit{\og tour suivant \fg } avec 16,5 \%, tandis que les deux dernières étiquettes \textit{\og tour précédent \fg } et \textit{\og tour courant \fg } sont les moins fréquentes~: environ 2~\% chacune. 
 
 \begin{table}
 \begin{center}
@@ -1674,7 +1674,7 @@ Le tableau~\ref{corp_stat}  montre la répartition \textit{a priori} des quatre é
 \hline
 \end{tabular}}
 \end{center}
-\caption{\label{corp_stat}Répartition des étiquettes sur le corpus d'évaluation, statistiques sur les noms complets (fréquence et effectif).}
+\caption{\label{corp_stat}Répartition des étiquettes sur le corpus de développement, statistiques sur les noms complets (fréquence et effectif).}
 \end{table}
 
 
