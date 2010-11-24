@@ -912,17 +912,17 @@ Nous commençons par décrire le premier processus mis en place par Tranter avant 
 
 \subsubsection{Combinaison des règles linguistiques}
 
-Toutes les règles précédemment apprises sont utilisées sur le corpus de test. Lorsqu'une règle avec une probabilité $p_1$ est déclenchée et suggère un nom complet $n_1$ pour un locuteur $s_a$, le score pour l'hypothèse $s_a = n_1$ est incrémenté.
+Toutes les règles précédemment apprises sont utilisées sur le corpus de test. Lorsqu'une règle avec une probabilité $p_1$ est déclenchée et suggère un nom complet $e_1$ pour un locuteur $C_a$, le score pour l'hypothèse $C_a = e_1$ est incrémenté.
 Lorsque deux règles sont déclenchées pour le même nom de locuteur, leurs probabilités sont combinées en utilisant la formule :
 \begin{equation}\mathbf{}
   p_{1+2}=1 - (1-p_1)(1-p_2)
 \label{eq:sl}
 \end{equation}
 
-Pour déterminer la probabilité d'attribuer un nom complet $n$ à un locuteur $s$, un ensemble de règles (N-grammes) applicables $\mathcal{R}(n)$ est déterminé. L'équation \ref{eq:sl} peut être généralisée de cette manière :
+Pour déterminer la probabilité d'attribuer un nom complet $e$ à un locuteur $C$, un ensemble de règles (N-grammes) applicables $\mathcal{R}(e)$ est déterminé. L'équation \ref{eq:sl} peut être généralisée de cette manière :
 
 \begin{equation}\mathbf{}
-  P(n|s) = 1 - \prod_{r\in \mathcal{R}(s)}(1-p_r)
+  P(e|C) = 1 - \prod_{r\in \mathcal{R}(e)}(1-p_r)
 \label{eq:sl_new}
 \end{equation}
 
@@ -933,23 +933,23 @@ Les travaux de \cite{Chengyuan07} proposent de remplacer la combinaison présenté
 Le modèle d'entropie maximum proposé s'exprime de la manière suivante :
 
 \begin{equation}\mathbf{}
-  P(n|s)=\frac{1}{Z_\lambda(s)} \exp(\sum_{k=1}^{F} \lambda_k f_k(n,s))
+  P(e|C)=\frac{1}{Z_\lambda(C)} \exp(\sum_{k=1}^{F} \lambda_k f_k(e,C))
 \label{eq:maxent}
 \end{equation}
 
-Les N-grammes sont utilisés comme attributs $f_k(n,s)$ du modèle d'entropie maximum. $\lambda_k$ représente les paramètres du modèle (multiplicateur de Lagrange) et $Z_\lambda(s)$ est une constante de normalisation qui permet de s'assurer que la somme des probabilités est égale à un. Les paramètres du modèle sont appris en utilisant la méthode dite de \emph{Generalized Iterative Scaling} afin d'optimiser la probabilité \emph{a posteriori} des paramètres $\lambda$ étant donné les données d'apprentissage \cite{Chen2000}. Conjointement aux N-grammes, d'autres attributs sont introduits dans le modèle d'entropie.
+Les N-grammes sont utilisés comme attributs $f_k(e,C)$ du modèle d'entropie maximum. $\lambda_k$ représente les paramètres du modèle (multiplicateur de Lagrange) et $Z_\lambda(C)$ est une constante de normalisation qui permet de s'assurer que la somme des probabilités est égale à un. Les paramètres du modèle sont appris en utilisant la méthode dite de \emph{Generalized Iterative Scaling} afin d'optimiser la probabilité \emph{a posteriori} des paramètres $\lambda$ étant donné les données d'apprentissage \cite{Chen2000}. Conjointement aux N-grammes, d'autres attributs sont introduits dans le modèle d'entropie.
 
 Une des première connaissances ajoutée est le genre des locuteurs. Un attribut modélisant la correspondance du genre du prénom du nom complet avec le genre du tour de parole est ajouté au modèle.  Des modèles acoustiques des voix des locuteurs cibles (lorsqu'il sont disponibles) sont eux ajoutés comme attributs. Ces modèles sont appris sur les échantillons de voix des locuteurs cibles via des mélanges de Gaussiennes à 192 composantes. De plus, la position du nom complet au sein de l'enregistrement est pris en compte (avant le premier tour de parole du locuteur désigné, après le dernier tour de parole du locuteur, etc.).
 
 \subsubsection{Décision}
 
-Pour attribuer un nom complet à un locuteur, il faut pouvoir choisir parmi les différents candidats possibles. Ce choix est effectué en prenant le nom complet candidat $n^*$ qui a la probabilité maximale pour le locuteur $s$ donné. Pour ce faire, la formule \ref{eq:decision_ngrammes} est utilisée~:
+Pour attribuer un nom complet à un locuteur, il faut pouvoir choisir parmi les différents candidats possibles. Ce choix est effectué en prenant le nom complet candidat $e^*$ qui a la probabilité maximale pour le locuteur $C$ donné. Pour ce faire, la formule \ref{eq:decision_ngrammes} est utilisée~:
 \begin{equation}\mathbf{}
-  n^* = \operatorname{arg\,max}_n P(n|s) \mbox{ si } P(n^*|s) > \alpha
+  e^* = \operatorname{arg\,max}_e P(e|C) \mbox{ si } P(e^*|C) > \alpha
 \label{eq:decision_ngrammes}
 \end{equation}
 
-Un seuil $\alpha$ est utilisé pour filtrer les décisions. Lorsque la probabilité est en dessous de la valeur fixée pour $\alpha$, aucune décision n'est prise pour $s$~: le locuteur est considéré comme inconnu.
+Un seuil $\alpha$ est utilisé pour filtrer les décisions. Lorsque la probabilité est en dessous de la valeur fixée pour $\alpha$, aucune décision n'est prise pour $C$~: le locuteur est considéré comme inconnu.
 
 \subsection{Corpus}
 
