@@ -1560,16 +1560,10 @@ Grâce au processus décrit en section \ref{sec:combinaison}, chaque locuteur $C_l
 
 Soit $f: \mathcal{C}\rightarrow \mathcal{E}$ la fonction d'assignation des noms complets aux  locuteurs. Les locuteurs étant censés être tous différents, une caractéristique importante que l'on voudrait imposer pour $f$ est l'injectivité~: $f(c_l)=f(c_l') \Rightarrow c_l=c_l'$. Chaque nom complet ne peut être attribué à plus d'un locuteur. Bien sûr, certains noms complets peuvent rester non attribués et inversement, certains locuteurs peuvent rester sans étiquette.
 
-Ce type d'assignation est un problème classique en recherche opérationnelle \cite{Burkard09}. Un des algorithmes les plus utilisés pour résoudre ce problème est \og{} l'algorithme de Kuhn-Munkres \cite{MunkresJames} \fg{}, aussi appelé \og{} algorithme Hongrois \fg{}. Il consiste à trouver le chemin optimal qui maximise (ou minimise) un certain coût. La fonction de coût utilisée est la suivante~:
+Ce type d'assignation est un problème classique en recherche opérationnelle \cite{Burkard09}. Ce problème est souvent présenté de la manière suivante~: une entreprise dispose de $n$ employés pour réaliser $n$ tâches. Pour chaque tâche, sa réalisation par un employé donné représente un certain coût, le but de l'entreprise étant de minimiser le coût de réalisation des différentes tâches. Il lui faut donc choisir les couples employé/tâche qui minimise le coût global de réalisation.
 
-\begin{equation}
-	\label{eq:Munkres}
-	C(e_1,...,e_I) = \displaystyle\sum_{l=1}^{L} P_{M_l}(e_i)
-\end{equation}
+Dans notre cas, nous disposons de $n$ locuteurs à nommer, et de $m$ noms complets candidats potentiels. À chaque couple locuteur/nom complet correspond une probabilité pignistique, qui représente le bénéfice d'attribuer ce nom complet à ce locuteur. La probabilité des noms complets n'étant pas candidats pour un locuteur donné est fixée à 0. Le tableau \ref{tab:exempleMunkres} donne un exemple de matrice obtenue pour un enregistrement avec 3 locuteurs et 3 noms complets possibles.
 
-Puisque nous utilisons des probabilités, nous chercherons le chemin qui maximise cette fonction de coût.
-
-La matrice des coûts présentée dans le tableau \ref{tab:exempleMunkres} donne un exemple de problème d'attribution. Dans cet exemple, le document comporte 3 locuteurs $c_1,c_2,c_3$ et 3 noms complets sont candidats. Le chemin qui maximise la la fonction de coût est ici : $0,06+0,05+0,49 = 0,61$. Dans ce cas, le nom complet \emph{Abdelamjid Kadouri} sera attribué à $c_1$, \emph{Aziz Al-Bouazaoui} à $c_2$ et \emph{Mohammed Bellaouchi} à $c_3$.
 
 \begin{table}[htbp]
 \caption{Exemple de matrice des coûts utilisée pour le processus de décision (algorithme de Kuhn-Munkres)}
@@ -1590,6 +1584,19 @@ La matrice des coûts présentée dans le tableau \ref{tab:exempleMunkres} donne un
  \label{tab:exempleMunkres}
 
 \end{table}
+
+
+Un des algorithmes parmi les plus utilisés pour résoudre ce problème est \og{} l'algorithme de Kuhn-Munkres \cite{MunkresJames} \fg{}, aussi appelé \og{} algorithme Hongrois \fg{}. Il consiste à trouver le chemin optimal qui minimise un certain coût. La fonction de coût utilisée est la suivante~:
+
+\begin{equation}
+	\label{eq:Munkres}
+	C(e_1,...,e_I) = \displaystyle\sum_{l=1}^{L} P_{M_l}(e_i)
+\end{equation}
+
+Nous utilisons ici une variante de l'algorithme original qui permet d'utiliser des matrices rectangulaires et de maximiser la fonction de coût \cite{NedasHungarian}. Puisque les affectations locuteur/nom complet sont représentées par des probabilités, il est plus intéressant de maximiser le coût de la fonction que de la minimiser.
+
+La matrice des coûts présentée dans le tableau \ref{tab:exempleMunkres} donne un exemple de problème d'attribution. Dans cet exemple, le document comporte 3 locuteurs $c_1,c_2,c_3$ et 3 noms complets sont candidats. Le chemin qui maximise la fonction de coût est ici : $0,06+0,05+0,49 = 0,61$. Dans ce cas, le nom complet \emph{Abdelamjid Kadouri} sera attribué à $c_1$, \emph{Aziz Al-Bouazaoui} à $c_2$ et \emph{Mohammed Bellaouchi} à $c_3$.
+
 
 %L'algorithme utilisé est le suivant: tous les noms complets possibles sont pris en compte {\it a priori} et triés en fonction de leur probabilité pignistique $P_{M_l}(e_i)$. Premièrement, le nom complet avec la probabilité maximum (noté $e_i^*$) est choisi, et si plusieurs locuteurs sont associés au même $e_i^*$, alors ce nom complet sera assigné au locuteur dont la probabilité $P_{M_l}(e_i^*)$ est maximale. Ensuite, tous les noms complets choisis sont supprimés de la liste relative aux locuteurs qui n'ont pas encore été nommés. Lors de l'itération suivante, les noms complets restants sont examinés de la même manière pour les locuteurs restants et ainsi de suite, jusqu'à ce que tous les locuteurs soient nommés ou que la liste des noms complets à attribuer soit vide. Le tableau \ref{tab:examplecomb1} montre un exemple de décision. Jacques Derrida étant choisi pour $c_{15}$ lors de la première itération, il ne peut donc pas être affecté à $c_{13}$ et $c_{14}$ lors de la deuxième itération. $c_{13}$ et $c_{14}$ sont alors nommés avec d'autres candidats potentiels.
 
