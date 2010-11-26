@@ -1713,14 +1713,9 @@ Pour une évaluation en terme de nombre de locuteurs, dans le même cas de figure,
 
 D'un point de vue applicatif, la métrique exprimée en durée est préférable si les locuteurs considérés comme importants correspondent aux locuteurs s'exprimant beaucoup. En revanche, si l'application cherche à nommer le plus possible de locuteurs, il est plus intéressant d'évaluer les performances en terme de nombre de locuteurs.
 
-\subsection{Protocole d'évaluation}
+\subsection{Résultats avec liste de locuteurs globale et prise en compte du genre}
 
-
-
-
-\subsection{Résultats avec liste de locuteurs globale et prise en compte du genre via le prénom}
-
-Le tableau \ref{tab:results_belief} présente les résultats du système sur les corpus de développement et de test, en utilisant des transcriptions totalement manuelles. Le système de détection d'entités nommées utilisé est LIA\_NE, la liste de locuteurs du corpus d'apprentissage ESTER 1 est utilisée pour filtrer les décisions. Le genre des locuteurs est pris en compte via la liste de prénoms décrite dans la section \ref{sec:genre}.
+Le tableau \ref{tab:results_belief} présente les résultats du système sur les corpus de développement et de test, en utilisant des transcriptions totalement manuelles. Le système de détection d'entités nommées utilisé est LIA\_NE, la liste de locuteurs du corpus d'apprentissage, de développement et de test ESTER 1 est utilisée pour filtrer les décisions (ainsi que le genre des locuteurs associé).
 
 \begin{table}[h]
 \begin{center}
@@ -1731,12 +1726,12 @@ Le tableau \ref{tab:results_belief} présente les résultats du système sur les co
 \hline
 \multicolumn{6}{|c|}{Corpus de Développement} \\
 \hline
-\textbf{M} & \textbf{M} & 82,96\% & 92,64\% & 15,76\% & 15,64\% \\ \hline
+\textbf{M} & \textbf{M} & 86,22\% & 94,41\% & 12,75\% & 15,23\% \\ \hline
 \hline
 \hline
 \multicolumn{6}{|c|}{Corpus de Test} \\
 \hline
-\textbf{M} & \textbf{M} & 77,20\% & 93,28\% & 22,80\% & 29,03\% \\ \hline
+\textbf{M} & \textbf{M} & 77,92\% & 95,48\% & 21,02\% & 24,53\% \\ \hline
 \hline
 \end{tabular}
 \end{center}
