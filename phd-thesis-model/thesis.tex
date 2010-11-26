@@ -1653,7 +1653,27 @@ Les émissions proviennent de cinq radios françaises et de Radio Télévision Maroc
 
 Le corpus d'apprentissage contient 76 heures de données (7~420 tours de parole) dans lesquels 12~457 noms complets sont détectés. 755 locuteurs différents interviennent dans ce corpus et 40 n'ont pu être nommés. Le corpus de développement contient 10 heures (1~082 tours de parole) dans lesquels 1~660~noms complets ont été détectés. 211~locuteurs différents interviennent dans ce corpus et 24 n'ont pu être nommés. Le corpus de test contient 10 heures de données (1~194 tours de parole) dans lesquels 1102 noms complets sont détectés. 120 locuteurs différents interviennent dans ce corpus et ils ont tous été nommés. 
 
-Tous les locuteurs du corpus de test ont la particularité d'être nommés. Lorsque seul le prénom ou le nom étaient disponibles ils ont été utilisés pour nommer le locuteur, sinon un titre descriptif a été utilisé~: un passant, un témoin, etc. De plus, des connaissances supplémentaires comme la grille des programmes ont été utilisées lors de la réalisation de la transcription manuelle.
+Tous les locuteurs du corpus de test ont la particularité d'être nommés. Lorsque seul le prénom ou le nom étaient disponibles ils ont été utilisés pour nommer le locuteur, sinon un titre descriptif a été utilisé~: un passant, un témoin, etc. De plus, des connaissances supplémentaires comme la grille des programmes ont été utilisées lors de la réalisation de la transcription manuelle. Le tableau \ref{tab:donnees_xp} résume la composition de ces différents corpus.
+
+
+\begin{table}[h]
+  \begin{center}
+
+    \small
+    \begin{tabular}{|c||c|c|c||c|c|}
+      \hline
+      Corpus & D & I & N & Nombre d'occurrences \\ \hline
+      Apprentissage & 70,68~\% & 10,20~\% & 19,12~\% & 2357 \\
+      Développement & 86,77~\% & 5,89~\% & 7,34~\% & 321 \\
+      Évaluation & 89,33\% & 10,67\% & 0\% & 141 \\ \hline
+      \hline
+
+      \hline
+    \end{tabular}
+  \end{center}
+  \caption{\% de données Disponibles (D), Indisponibles (I) et Non-nommées (N) dans les différents corpus. Cela fixe la limite haute des performances atteignables, puisque les noms complets I ne peuvent être récupérés à partir de la transcription.}
+  \label{tab:donnees_xp}
+\end{table}
 
 %26,5 \% de ces locuteurs sont communs au corpus d'apprentissage seul et 28,4 \% sont communs aux corpus d'apprentissage et de développement. Ce découpage correspond au découpage de la campagne d'évaluation officielle ESTER 1 PHASE II 2005.
 
@@ -1665,7 +1685,7 @@ Le tableau~\ref{corp_stat}  montre la répartition \textit{a priori} des quatre é
 \begin{center}
 {\begin{tabular}{|l|c|}
 \cline{2-2}
-  \multicolumn{1}{c|}{} &  \textbf{\textit{évaluation}}\\ 
+  \multicolumn{1}{c|}{} &  \textbf{\textit{développement}}\\ 
 
  \hline
 \textit{Tour précédent} & 2,0 \% (31) \\
