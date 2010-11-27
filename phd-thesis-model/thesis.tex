@@ -1648,7 +1648,7 @@ si le genre de l'occurrence $o_j$ (et donc du nom complet $e_i$ correspondant) e
 
 L'évaluation du système proposé est réalisée à partir d'émissions radiophoniques en français de la campagne ESTER 1 phase II \cite{Galliano06,Gravier04} et du projet ANR EPAC \cite{epac}. Les émissions d'ESTER 1 contiennent essentiellement de la parole lue ou préparée, et peu de parole spontanée~: 15 \% du corpus correspond à des interventions de personnes parlant au téléphone. En revanche les émissions du corpus EPAC contiennent plus de parole spontanée~: le projet EPAC se focalisait sur le traitement de la parole conversationnelle.
 
-Les émissions proviennent de cinq radios françaises et de Radio Télévision Marocaine et durent de 10 à 60 min. Elles sont réparties en trois corpus utilisés pour l'apprentissage de l'arbre de classification, le développement et l'évaluation du système. Le corpus d'apprentissage est celui de la campagne ESTER 1, et le corpus de développement utilisé correspond au corpus test de la campagne ESTER 1. Le corpus de test est constituées de données issues d'EPAC.
+Les émissions proviennent de cinq radios françaises et de Radio Télévision Marocaine et durent de 10 à 60 min. Elles sont réparties en trois corpus utilisés pour l'apprentissage de l'arbre de classification, le développement et l'évaluation du système. Le corpus d'apprentissage est celui de la campagne ESTER 1, et le corpus de développement utilisé correspond au corpus test de la campagne ESTER 1. Le corpus de test est constitué de données issues d'EPAC.
 %Le corpus de développement a été utilisé pour fixer les différents paramètres du système comme la taille du contexte lexical de l'arbre ou le poids donné aux échantillons lors de l'apprentissage (\textit{cf.} \ref{sct_apprentissage}). 
 
 Le corpus d'apprentissage contient 76 heures de données (7~420 tours de parole) dans lesquels 12~457 noms complets sont détectés. 755 locuteurs différents interviennent dans ce corpus et 40 n'ont pu être nommés. Le corpus de développement contient 10 heures (1~082 tours de parole) dans lesquels 1~660~noms complets ont été détectés. 211~locuteurs différents interviennent dans ce corpus et 24 n'ont pu être nommés. Le corpus de test contient 10 heures de données (1~194 tours de parole) dans lesquels 1102 noms complets sont détectés. 120 locuteurs différents interviennent dans ce corpus et ils ont tous été nommés. 
@@ -1735,8 +1735,9 @@ D'un point de vue applicatif, la métrique exprimée en durée est préférable si le
 
 \subsection{Résultats avec liste de locuteurs globale et prise en compte du genre}
 
-Le tableau \ref{tab:results_belief} présente les résultats du système sur les corpus de développement et de test, en utilisant des transcriptions totalement manuelles. Le système de détection d'entités nommées utilisé est LIA\_NE, la liste de locuteurs du corpus d'apprentissage, de développement et de test ESTER 1 est utilisée pour filtrer les décisions (ainsi que le genre des locuteurs associé).
+\todo{Brief sur les listes de locuteurs, afin de se placer dans la ligne droite des autres travaux, les listes étaient utilisés dans tranter, canseco etc donc on fait pareil, on parlera de leur apport plus loin}
 
+Le tableau \ref{tab:results_belief} présente les résultats du système sur les corpus de développement et de test, en utilisant des transcriptions totalement manuelles. La liste de locuteurs utilisée pour le corpus de développement correspond aux locuteurs du corpus d'apprentissage, de développement et de test de la campagne ESTER 1 (ainsi que le genre associés aux locuteurs). La liste de locuteurs utilisée pour le test est celle du corpus de test EPAC. Les résultats en durée et en nombre de locuteurs sont donnés. 
 \begin{table}[h]
 \begin{center}
 \begin{tabular}{|c|c|c|c|c|c|}
@@ -1759,7 +1760,9 @@ Le tableau \ref{tab:results_belief} présente les résultats du système sur les co
 \label{tab:results_belief}
 \end{table}
 
+Ces résultats sont comparables à ceux donnés dans la figure \ref{fig:results_yannick_manu}~: à 95~\% de précision, le meilleur système obtenait un rappel d'environ 40~\%. Le corpus utilisé dans \ref{fig:results_yannick_manu} correspond au corpus de développement du système présenté. Pour la même précision, le rappel a plus que doublé pour atteindre 86,22~\%. Sur le corpus de test, à 95~\% de précision, le rappel est d'environ 78~\%. 
 
+Ces moindres résultats sur le corpus de test s'expliquent par la composition du corpus décrit dans le tableau \ref{tab:donnees_xp}. En effet, il n'y a aucun locuteur étiqueté comme inconnu dans la référence. Le système doit donc proposer une identité pour chacun des locuteurs, quand bien même le locuteur a été nommé grâce à des informations externes au document, ou alors par un descriptif général comme \emph{un passant} ou \emph{un témoin}. Cela se traduit par un taux de locuteurs Indisponibles dans la traduction deux fois supérieur au corpus de développement.
 
 
 \section{Bilan}
