@@ -550,7 +550,7 @@ Les systèmes adoptent différentes techniques pour résoudre ces problèmes. Ces te
 \chapter{L'identification nommée du locuteur}
 \minitoc
 \newpage
-
+\label{sec:inl}
 L'identification nommée du locuteur (INL) consiste à nommer les locuteurs d'un document audio en leur attribuant un prénom et un patronyme. Ces informations viennent enrichir la transcription et peuvent être utilisées dans plusieurs domaines d'applications. 
 
 \section{Applications}
@@ -1733,11 +1733,11 @@ Pour une évaluation en terme de nombre de locuteurs, dans le même cas de figure,
 
 D'un point de vue applicatif, la métrique exprimée en durée est préférable si les locuteurs considérés comme importants correspondent aux locuteurs s'exprimant beaucoup. En revanche, si l'application cherche à nommer le plus possible de locuteurs, il est plus intéressant d'évaluer les performances en terme de nombre de locuteurs.
 
-\subsection{Résultats avec liste de locuteurs globale et prise en compte du genre}
+\subsection{Résultats}
 
-\todo{Brief sur les listes de locuteurs, afin de se placer dans la ligne droite des autres travaux, les listes étaient utilisés dans tranter, canseco etc donc on fait pareil, on parlera de leur apport plus loin}
+Les systèmes présentés dans le chapitre \ref{sec:inl} utilisent tous une liste de locuteurs potentiels connue à l'avance. Pour les résultats présentés dans cette section, une liste des locuteurs potentiels et de leur genre est aussi utilisée. Cela permet notamment de comparer le système à celui du LIUM présenté dans la section \ref{sec:sys_id_lium}. Les résultats sans cette liste de locuteur seront donnés et discutés dans la section \ref{}. \todo{Référence XP sans liste}
 
-Le tableau \ref{tab:results_belief} présente les résultats du système sur les corpus de développement et de test, en utilisant des transcriptions totalement manuelles. La liste de locuteurs utilisée pour le corpus de développement correspond aux locuteurs du corpus d'apprentissage, de développement et de test de la campagne ESTER 1 (ainsi que le genre associés aux locuteurs). La liste de locuteurs utilisée pour le test est celle du corpus de test EPAC. Les résultats en durée et en nombre de locuteurs sont donnés. 
+Le tableau \ref{tab:results_belief} présente les résultats du système sur les corpus de développement et de test, en utilisant des transcriptions totalement manuelles. La liste de locuteurs utilisée pour le corpus de développement correspond aux locuteurs du corpus d'apprentissage, de développement et de test de la campagne ESTER 1. La liste de locuteurs utilisée pour le test est celle du corpus de test EPAC. Les résultats en durée et en nombre de locuteurs sont donnés. 
 \begin{table}[h]
 \begin{center}
 \begin{tabular}{|c|c|c|c|c|c|}
@@ -1762,14 +1762,14 @@ Le tableau \ref{tab:results_belief} présente les résultats du système sur les co
 
 Ces résultats sont comparables à ceux donnés dans la figure \ref{fig:results_yannick_manu}~: à 95~\% de précision, le meilleur système obtenait un rappel d'environ 40~\%. Le corpus utilisé dans \ref{fig:results_yannick_manu} correspond au corpus de développement du système présenté. Pour la même précision, le rappel a plus que doublé pour atteindre 86,22~\%. Sur le corpus de test, à 95~\% de précision, le rappel est d'environ 78~\%. 
 
-Ces moindres résultats sur le corpus de test s'expliquent par la composition du corpus décrit dans le tableau \ref{tab:donnees_xp}. En effet, il n'y a aucun locuteur étiqueté comme inconnu dans la référence. Le système doit donc proposer une identité pour chacun des locuteurs, quand bien même le locuteur a été nommé grâce à des informations externes au document, ou alors par un descriptif général comme \emph{un passant} ou \emph{un témoin}. Cela se traduit par un taux de locuteurs Indisponibles dans la traduction deux fois supérieur au corpus de développement.
+Les moindres résultats sur le corpus de test s'expliquent par la composition du corpus décrit dans le tableau \ref{tab:donnees_xp}. En effet, il n'y a aucun locuteur étiqueté comme inconnu dans la référence. Le système doit donc proposer une identité pour chacun des locuteurs, quand bien même le locuteur a été nommé grâce à des informations externes au document, ou alors par un descriptif général comme \emph{un passant} ou \emph{un témoin}. Cela se traduit par un taux de locuteurs Indisponibles dans la traduction deux fois supérieur au corpus de développement.
 
 
 \section{Bilan}
-      Les travaux ont beaucoup porté sur la manière d'étiqueter les suivant/précédent/courant/autre => Un papier montre que les SCT > N-grammes. Aller plus loin : améliorer le processus de décision qui vient après ces décisions locales
-      Utiliser une analyse conjointe du signal sonore et du texte pour améliorer les décisions "aveugles" (renforcer les décisions avec le genre des locuteurs)
 
-Les noms complets des locuteurs sont présents dans la transcription, et ils est possible de les affecter à tour de parole contigu
+MILES\_NI est un système d'INL utilisant un détecteur d'entités nommées pour étiqueter les noms complets et les classes sémantiques, un arbre de classification sémantique pour réaliser les attributions locales et la théorie des fonctions de croyances couplée à l'algorithme de Kuhn-Munkres pour le processus d'attribution globale.
+
+L'utilisation des fonctions de croyance pour combiner les croyances et incertitudes de la phase d'attribution locale permet de disposer d'un solide modèle mathématique pour calculer les probabilités d'affectation d'un nom complet à un locuteur. Grâce à l'utilisation de l'algorithme de Kuhn-Munkres, l'assignation des noms complets aux locuteurs est optimale. Ces différentes améliorations donnent de bons résultats, puisque sur le même corpus transcrit manuellement, MILES\_NI obtient un rappel de 86,22~\% à 95~\% de précision, là où le système antérieur à cette thèse obtenait un rappel d'environ 40~\%.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
