@@ -1191,7 +1191,7 @@ Pour finir l'hypothèse concernant la présence des noms complets (correctement tr
 
 Les travaux déjà effectués sur l'INL ont permis de prouver l'efficacité de l'approche utilisant la transcription du signal audio. Comme décrit dans la section \ref{bilaninl}, des progrès restent à réaliser pour automatiser le processus, notamment dans la détection des noms complets et des classes sémantiques. De plus, les travaux ont majoritairement étudié les techniques d'attribution locale (règles linguistiques, N-grammes, arbre de classification), mais peu de travaux sur le processus d'attribution globale ont été menés.
 
-Dans cette thèse, nous commençons par décrire le système de détection des entités nommées utilisé, puis nous décrirons ensuite l'arbre de classification sémantique mise en \oe{}uvre pour réaliser les attributions locales. Nous finirons par expliquer le processus d'attribution globale reposant sur la théorie des fonctions de croyance avant de présenter les résultats du système. Ces travaux font suite à ceux déjà menés au LIUM (cf. section \ref{sec:sys_id_lium}). 
+Dans ce chapitre, nous commençons par décrire le système de détection des entités nommées utilisé, puis nous décrirons ensuite l'arbre de classification sémantique mise en \oe{}uvre pour réaliser les attributions locales. Nous finirons par expliquer le processus d'attribution globale reposant sur la théorie des fonctions de croyance avant de présenter les résultats du système. Ces travaux font suite à ceux déjà menés au LIUM (cf. section \ref{sec:sys_id_lium}). 
 
 %Le laboratoire d'informatique de l'université du Maine (LIUM) a présenté ses travaux sur l'identification nommée du locuteur dans \cite{MauclairOdyssey06} et \cite{Esteve07}.
 %Les travaux du LIUM \cite{MauclairOdyssey06} ont été publiés en même temps que ceux de l'Université de Cambridge. Ils font aussi suite aux premiers travaux de Canseco. Le LIUM utilise un arbre de classification sémantique (SCT - Semantic Classification Tree \cite{Kuhn1995}) pour déterminer les règles linguistiques à utiliser pour attribuer l'étiquette \og suivant \fg{}, \og précédent \fg{} ou \og courant \fg{} à un nom complet détecté dans la transcription. Ces règles linguistiques sont basées sur des expressions régulières construites autour des noms complets détectés. Ce système ayant servi de base aux travaux présentés ici, il est plus longuement présenté dans la section qui lui est consacrée \label{sec:sys_id_lium}.
@@ -1298,7 +1298,7 @@ En plus de ces expressions régulières, les questions de l'arbre  peuvent porter 
 
 \subsubsection{Ensemble de questions}
 
-Pendant le processus de construction du SCT, chaque n\oe{}ud est associé à une expression régulière contenant des mots et des caractères spéciaux (\emph{<}, \emph{>} et \emph{+}). Le < (respectivement >) se rapporte au commencement (respectivement la fin) d'une intervention d'un locuteur tandis que + se rapporte à n'importe quelle suite de mots. Par exemple, l'expression régulière \emph{< + de + >} correspond à chaque intervention contenant le mot \emph{de}, alors que \emph{< + en direct + de + >} correspond à chaque intervention contenant les mots \emph{en direct} et \emph{de} apparaissant dans cet ordre.  
+Pendant le processus de construction du SCT, chaque n\oe{}ud est associé à une expression régulière contenant des mots et des caractères spéciaux (\emph{<}, \emph{>} et \emph{+}). Le < (respectivement >) se rapporte au commencement (respectivement la fin) d'un exemple tandis que + se rapporte à n'importe quelle suite de mots. Ainsi, l'expression régulière \emph{< + de + >} correspond à chaque exemple contenant le mot \emph{de}, alors que \emph{< + en direct + de + >} correspond à chaque exemple contenant les mots \emph{en direct} et \emph{de} apparaissant dans cet ordre.  
 
 La figure \ref{fig:extrait_sct} montre une partie d'un arbre appris automatiquement pour l'INL. Les questions globales et les expressions régulières utilisées sont indiquées.
 
@@ -1314,18 +1314,18 @@ La figure \ref{fig:extrait_sct} montre une partie d'un arbre appris automatiquem
 
 Le processus de construction du SCT doit choisir pour chaque n\oe{}ud une expression régulière. Pour choisir la meilleure expression régulière, le critère d'\emph{impureté} de Gini $i(T)$ d'un n\oe{}ud $T$ \cite{Breiman84} est utilisé. La meilleure question (ici la meilleure expression régulière) est celle qui présente la plus grande diminution d'\emph{impureté} entre le n\oe{}ud $T$ et ses enfants. 
 
-Si $T$ désigne un n\oe{}ud quelconque, et $f(j|T)$ le pourcentage d'exemples de ce n\oe{}ud qui appartiennent à la classe $j$, alors le critère d'impureté de Gini $i(T)$ est défini par~:
+Si $T$ désigne un n\oe{}ud quelconque, et $f(j|T)$ le pourcentage d'exemples de ce n\oe{}ud qui appartiennent à la classe $j$ (dans notre cas, les quatre classes possibles sont \emph{précédent}, \emph{courant}, \emph{suivant} et \emph{autre}), alors le critère d'impureté de Gini $i(T)$ est défini par~:
 
 \begin{equation} \label{eq:impurity}
     i(T) = 1 - \sum_{j} f^2(j|T)
 \end{equation}
 
-Par exemple, prenons 3 classes $A$, $B$ et $C$. 10 exemples du corpus d'apprentissage arrivent dans un n\oe{}ud $T$. Sur ces 10 exemples, 4 appartiennent à la classe $A$, 3 à la classe $B$ et 2 à la classe $C$. Alors $f(A|T)=0,5$, $f(B|T)=0,3$ et $f(C|T)=0,2$. À partir de ces valeurs et de l'équation \ref{eq:impurity}, nous déduisons que le critère d'impureté de Gini $i(T)$ est égal à $0,62=1-(0,5^2 + 0,3^2 + 0,2^2)$.
+Par exemple, prenons les 4 classes $pr\acute{e}c\acute{e}dent$, $courant$, $suivant$ et $autre$. 10 exemples du corpus d'apprentissage arrivent dans un n\oe{}ud $T$. Sur ces 10 exemples, 4 appartiennent à la classe $pr\acute{e}c\acute{e}dent$, 3 à la classe $courant$, 2 à la classe $suivant$ et 0 à la classe $autre$. Alors $f(pr\acute{e}c\acute{e}dent|T)=0,5$, $f(courant|T)=0,3$, $f(suivant|T)=0,2$ et $f(autre|T)=0$. À partir de ces valeurs et de l'équation \ref{eq:impurity}, nous déduisons que le critère d'impureté de Gini $i(T)$ est égal à $0,62=1-(0,5^2 + 0,3^2 + 0,2^2)$.
 
 Si les deux n\oe{}uds fils d'un n\oe{}ud $T$ sont appelés $T_{oui}$ et $T_{non}$, et le pourcentage d'exemples de $T$ qui seront attribués aux fils $T_{oui}$ et $T_{non}$, sont notés $p_{oui}$ et $p_{non}$ respectivement, la changement d'impureté $\Delta I$ est défini par la formule suivante~:
 
 \begin{equation} \label{eq:gini}
-    \Delta I = i(T) - p_{oui} * i(T_{oui}) - p_{non} * i(T_{non})
+    \Delta I = i(T) - p_{oui} \times i(T_{oui}) - p_{non} \times i(T_{non})
 \end{equation}
 
 La question associée à un n\oe{}ud $T$ sera la question qui maximise $\Delta I$. 
@@ -1336,7 +1336,7 @@ Ce processus de choix des questions est répété pour chaque nouveau n\oe{}ud fils
 
 Le processus de construction de l'arbre s'arrête lorsque l'impureté d'un n\oe{}ud est sous un certain seuil ou lorsque le nombre d'exemples restant dans un n\oe{}ud est égal à une limite fixée au préalable. 
 
-Dans notre cas, grâce à des expériences menées sur le corpus de développement, le seuil minimum du critère de Gini a été fixé à 0,01 et le nombre minimum d'exemples à 50.
+Dans notre cas, les expériences menées sur le corpus de développement nous ont permis de fixer le seuil minimum du critère de Gini à 0,01 et le nombre minimum d'exemples à 50.
 
 
 %Pour chaque niveau dans l'arbre, ce processus de construction ajoute un mot à l'expression régulière courante. Le critère d'impureté permet d'évaluer le degré de déterminisme associé à un n\oe{}ud : plus le critère d'impureté est bas, plus la classification est déterministe.
@@ -1348,7 +1348,7 @@ Dans notre cas, grâce à des expériences menées sur le corpus de développement, l
 
 %Pour pourvoir être utilisé par le SCT, un document doit être préparé de la même manière que le corpus ayant servi à l'apprentissage de l'arbre. Tout corpus soumis à l'arbre de classification devra donc être pré-traité comme décrit dans la section précédente. Ensuite, pour chaque nom complet détecté, un contexte lexical n'incluant pas plus de 10 mots est conservé. C'est sur ces portions de texte contenant un nom complet que l'arbre est utilisé. Il permet, pour chaque nom complet étiqueté par le détecteur d'entités nommées, d'attribuer une probabilité pour chaque étiquette possible~: \og{}locuteur précédent\fg{}, \og{}locuteur courant\fg{} ou \og{}locuteur suivant\fg{}. La figure \ref{fig:sct} donne un exemple de probabilités obtenues pour chaque étiquette.
 
-Le SCT ne choisit pas une étiquette parmi les quatre possibles, mais attribue une probabilité à chacune des étiquettes. Une des possibilités retenue dans \cite{MauclairOdyssey06,Esteve07} est de ne retenir que l'étiquette qui a la plus forte probabilité. Le problème de cette approche est qu'elle occulte complètement les informations fournies par les probabilités des autres étiquettes.
+Le SCT ne choisit pas une étiquette parmi les quatre possibles, mais attribue une probabilité à chacune des étiquettes, comme le montre la figure \ref{fig:extrait_sct}. Une des possibilités retenue dans \cite{MauclairOdyssey06,Esteve07} est de ne retenir que l'étiquette qui a la plus forte probabilité. Le problème de cette approche est qu'elle occulte complètement les informations fournies par les probabilités des autres étiquettes.
 
 Dans les travaux présentés dans cette thèse, les probabilités affectées à toutes les étiquettes sont prises en compte. En effet, nous estimons que même si une étiquette a une probabilité supérieure aux autres, l'information attribuée aux autres étiquettes par l'arbre doit être prise en compte.
 
@@ -1365,7 +1365,7 @@ L'enjeu d'un processus d'attribution globale est de décider quel nom complet can
 
 \label{sec:fct_croyances}
 
-La section \ref{attributions_globales} décrit toutes les difficultés auxquelles la phase d'attribution globale a à faire face. Une de ces principales difficultés est de résoudre les conflits qui apparaissent à la suite de la phase d'attributions locales~: lorsqu'il y a plusieurs candidats possibles pour un même locuteur. Les règles apprises par l'arbre de classification peuvent ne pas être assez discrimantes (manque d'exemples d'apprentissage, contexte lexical d'un nom complet imprécis, etc.) ce qui l'amènera à commettre des erreurs. Les conflits au sein d'un locuteur à nommer proviennent de ces erreurs.
+Une de ces principales difficultés de la phase d'attribution globale (cf. \ref{attributions_globales}) est de résoudre les conflits qui apparaissent à la suite de la phase d'attribution locale~: lorsqu'il y a plusieurs candidats possibles pour un même locuteur. Les règles apprises par l'arbre de classification peuvent ne pas être assez discrimantes (manque d'exemples d'apprentissage, contexte lexical d'un nom complet imprécis, etc.) ce qui l'amènera à commettre des erreurs. Les conflits au sein d'un locuteur à nommer proviennent de ces erreurs.
 
 Il arrive que l'arbre de décision se trompe et désigne un locuteur comme étant, par exemple, le locuteur suivant (en lui affectant une forte probabilité), alors qu'il ne l'est pas. La théorie des fonctions de croyance va permettre, dans un même formalisme, de modéliser ces connaissances et ces incertitudes de manière à les utiliser lors de la phase d'attribution globale.
 
@@ -1586,7 +1586,7 @@ Dans notre cas, nous disposons de $n$ locuteurs à nommer, et de $m$ noms complet
 \end{table}
 
 
-Un des algorithmes parmi les plus utilisés pour résoudre ce problème est \og{} l'algorithme de Kuhn-Munkres \cite{MunkresJames} \fg{}, aussi appelé \og{} algorithme Hongrois \fg{}. Il consiste à trouver le chemin optimal qui minimise un certain coût. La fonction de coût utilisée est la suivante~:
+Un des algorithmes parmi les plus utilisés pour résoudre ce problème est \og{} l'algorithme de Kuhn-Munkres \cite{MunkresJames} \fg{}, aussi appelé \og{} algorithme Hongrois \fg{}. Il consiste à trouver les associations optimales qui minimisent un certain coût. La fonction de coût utilisée est la suivante~:
 
 \begin{equation}
 	\label{eq:Munkres}
@@ -1595,7 +1595,7 @@ Un des algorithmes parmi les plus utilisés pour résoudre ce problème est \og{} l
 
 Nous utilisons ici une variante de l'algorithme original qui permet d'utiliser des matrices rectangulaires et de maximiser la fonction de coût \cite{NedasHungarian}. Puisque les affectations locuteur/nom complet sont représentées par des probabilités, il est plus intéressant de maximiser le coût de la fonction que de la minimiser.
 
-La matrice des coûts présentée dans le tableau \ref{tab:exempleMunkres} donne un exemple de problème d'attribution. Dans cet exemple, le document comporte 3 locuteurs $c_1,c_2,c_3$ et 3 noms complets sont candidats. Le chemin qui maximise la fonction de coût est ici : $0,06+0,05+0,49 = 0,61$. Dans ce cas, le nom complet \emph{Abdelamjid Kadouri} sera attribué à $c_1$, \emph{Aziz Al-Bouazaoui} à $c_2$ et \emph{Mohammed Bellaouchi} à $c_3$.
+La matrice des coûts présentée dans le tableau \ref{tab:exempleMunkres} donne un exemple de problème d'attribution. Dans cet exemple, le document comporte 3 locuteurs $c_1,c_2,c_3$ et 3 noms complets sont candidats. Dans ce cas, le nom complet \emph{Abdelamjid Kadouri} sera attribué à $c_1$, \emph{Aziz Al-Bouazaoui} à $c_2$ et \emph{Mohammed Bellaouchi} à $c_3$. Ce sont en effet les associations qui maximisent la fonction de coût : $0,06+0,05+0,49 = 0,61$. 
 
 
 %L'algorithme utilisé est le suivant: tous les noms complets possibles sont pris en compte {\it a priori} et triés en fonction de leur probabilité pignistique $P_{M_l}(e_i)$. Premièrement, le nom complet avec la probabilité maximum (noté $e_i^*$) est choisi, et si plusieurs locuteurs sont associés au même $e_i^*$, alors ce nom complet sera assigné au locuteur dont la probabilité $P_{M_l}(e_i^*)$ est maximale. Ensuite, tous les noms complets choisis sont supprimés de la liste relative aux locuteurs qui n'ont pas encore été nommés. Lors de l'itération suivante, les noms complets restants sont examinés de la même manière pour les locuteurs restants et ainsi de suite, jusqu'à ce que tous les locuteurs soient nommés ou que la liste des noms complets à attribuer soit vide. Le tableau \ref{tab:examplecomb1} montre un exemple de décision. Jacques Derrida étant choisi pour $c_{15}$ lors de la première itération, il ne peut donc pas être affecté à $c_{13}$ et $c_{14}$ lors de la deuxième itération. $c_{13}$ et $c_{14}$ sont alors nommés avec d'autres candidats potentiels.
