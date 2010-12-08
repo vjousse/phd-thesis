@@ -1627,9 +1627,9 @@ La matrice des coûts présentée dans le tableau \ref{tab:exempleMunkres} donne un
 
 \subsection{Prise en compte du genre}
 \label{sec:genre}
-Les travaux présentés dans cette thèse prennent en compte le genre des locuteurs pour filtrer les probabilités $P(o_j,t_k)$ données par l'arbre de classification sémantique. En effet, pour chaque classe, cette caractéristique est disponible car, d'une part, elle est déterminée de manière automatique lors des phases de segmentation et de classification (avec un taux d'erreur inférieur à 5 \% sur des données ESTER 1 phase II), d'autre part, les genres des noms complets extraits de la transcription peuvent être déterminés à travers celui de leur prénom associé. La comparaison de ces deux informations, obtenues de deux manières différentes, nous permet d'affiner le processus de décision. En cas d'incohérence, le couple prénom et patronyme n'est pas retenu et il est supprimé de la liste des candidats potentiels. Cependant, pour le cas des prénoms ambigus comme \og Dominique \fg, l'entité nommée sera conservée. 
+Les travaux présentés dans cette thèse prennent en compte le genre des locuteurs pour filtrer les probabilités $P(o_j,t_k)$ données par l'arbre de classification sémantique. Pour chaque locuteur de l'enregistrement, cette caractéristique est disponible puisqu'elle est déterminée de manière automatique lors des phases de segmentation et de classification (avec un taux d'erreur inférieur à 5 \% sur des données ESTER 1 phase II). De plus, le genre des noms complets extraits de la transcription peuvent être déterminés grâce au prénom, lorsque celui-ci le permet. La comparaison de ces deux informations, obtenues de deux manières différentes, nous permet d'affiner le processus de décision. En cas d'incohérence, le couple prénom et patronyme n'est pas retenu et il est supprimé de la liste des candidats potentiels. Cependant, pour le cas des prénoms ambigus comme \og Dominique \fg, l'entité nommée sera conservée. 
 
-Pour avoir la connaissance relative aux genres des prénoms, nous utilisons une base de données extraite du Web composée d'environ 20~000 prénoms. \`A chaque prénom est associé le nombre de fois où il a été attribué au genre féminin et au genre masculin depuis 1900 en France. Cette base de données ne semble pas exempte d'erreur~: par exemple le prénom \og Vincent \fg{} apparaît 227180 fois comme prénom masculin et 373 fois comme prénom féminin. Le genre retenu correspondra au genre majoritaire. Si ce dernier a une fréquence inférieure à 75 \%, alors le genre est considéré comme indéterminé.
+Une base de données (extraite du Web) composée d'environ 20~000 prénoms est utilisée pour obtenir le genre de chaque prénom. \`A chaque prénom est associé le nombre de fois où il a été attribué au genre féminin et au genre masculin depuis 1900 en France. Cette base de données ne semble pas exempte d'erreur~: par exemple le prénom \og Vincent \fg{} apparaît 227180 fois comme prénom masculin et 373 fois comme prénom féminin. Le genre retenu correspondra au genre majoritaire. Si ce dernier a une fréquence inférieure à 75~\%, alors le genre est considéré comme indéterminé.
 
 Au niveau de la définition des masses de croyance présentée en section \ref{sec:masse_croyance}, le filtre suivant est appliqué: 
 %CJ OK
@@ -1651,9 +1651,9 @@ L'évaluation du système proposé est réalisée à partir d'émissions radiophoniques
 Les émissions proviennent de cinq radios françaises et de Radio Télévision Marocaine et durent de 10 à 60 min. Elles sont réparties en trois corpus utilisés pour l'apprentissage de l'arbre de classification, le développement et l'évaluation du système. Le corpus d'apprentissage est celui de la campagne ESTER 1, et le corpus de développement utilisé correspond au corpus test de la campagne ESTER 1. Le corpus de test est constitué de données issues d'EPAC.
 %Le corpus de développement a été utilisé pour fixer les différents paramètres du système comme la taille du contexte lexical de l'arbre ou le poids donné aux échantillons lors de l'apprentissage (\textit{cf.} \ref{sct_apprentissage}). 
 
-Le corpus d'apprentissage contient 76 heures de données (7~420 tours de parole) dans lesquels 12~457 noms complets sont détectés. 755 locuteurs différents interviennent dans ce corpus et 40 n'ont pu être nommés. Le corpus de développement contient 10 heures (1~082 tours de parole) dans lesquels 1~660~noms complets ont été détectés. 211~locuteurs différents interviennent dans ce corpus et 24 n'ont pu être nommés. Le corpus de test contient 10 heures de données (1~194 tours de parole) dans lesquels 1102 noms complets sont détectés. 120 locuteurs différents interviennent dans ce corpus et ils ont tous été nommés. 
+Le corpus d'apprentissage contient 76 heures de données (7~420 tours de parole) dans lesquels 12~457 noms complets sont détectés. 755 locuteurs différents interviennent dans ce corpus et 40 n'ont pu être nommés. Le corpus de développement contient 10 heures (1~082 tours de parole) dans lesquels 1~660~noms complets ont été détectés. 211~locuteurs différents interviennent dans ce corpus et 24 n'ont pu être nommés. Le corpus de test contient 10 heures de données (1~194 tours de parole) dans lesquels 1102 noms complets sont détectés. 118 locuteurs différents interviennent dans ce corpus et 2 n'ont pu être nommé. 
 
-Tous les locuteurs du corpus de test ont la particularité d'être nommés. Lorsque seul le prénom ou le nom étaient disponibles ils ont été utilisés pour nommer le locuteur, sinon un titre descriptif a été utilisé~: un passant, un témoin, etc. De plus, des connaissances supplémentaires comme la grille des programmes ont été utilisées lors de la réalisation de la transcription manuelle. Le tableau \ref{tab:donnees_xp} résume la composition de ces différents corpus.
+La majorité locuteurs du corpus de test ont la particularité d'être nommés. Lorsque seul le prénom ou le nom étaient disponibles ils ont été utilisés pour nommer le locuteur. De plus, des connaissances supplémentaires comme la grille des programmes ont été utilisées lors de la réalisation de la transcription manuelle. Le tableau \ref{tab:donnees_xp} résume la composition de ces différents corpus.
 
 
 \begin{table}[h]
@@ -1665,7 +1665,7 @@ Tous les locuteurs du corpus de test ont la particularité d'être nommés. Lorsque
       Corpus & D & I & N & Nombre d'occurrences \\ \hline
       Apprentissage & 70,68~\% & 10,20~\% & 19,12~\% & 2357 \\
       Développement & 86,77~\% & 5,89~\% & 7,34~\% & 321 \\
-      Évaluation & 89,33\% & 10,67\% & 0\% & 141 \\ \hline
+      Évaluation & 89,23~\% & 10,58~\% & 0,19~\% & 141 \\ \hline
       \hline
 
       \hline
@@ -1677,9 +1677,10 @@ Tous les locuteurs du corpus de test ont la particularité d'être nommés. Lorsque
 
 %26,5 \% de ces locuteurs sont communs au corpus d'apprentissage seul et 28,4 \% sont communs aux corpus d'apprentissage et de développement. Ce découpage correspond au découpage de la campagne d'évaluation officielle ESTER 1 PHASE II 2005.
 
-Les transcriptions fournies avec les corpus ont été créées pour l'évaluation des tâches de segmentation et de classification en locuteurs, ainsi que pour la tâche de transcription. Les références proposées sont d'une grande qualité, les annotateurs ont essayé de nommer le maximum de locuteurs par des identifiants permettant d'en déduire leurs noms complets. Ces noms complets ont été extraits automatiquement et n'ont pas fait l'objet de validation manuelle approfondie. 
+Les transcriptions fournies avec les corpus ont été créées pour l'évaluation des tâches de segmentation et de classification en locuteurs, ainsi que pour la tâche de transcription.
 
-Le tableau~\ref{corp_stat}  montre la répartition \textit{a priori} des quatre étiquettes calculée pour le corpus de développement. L'étiquette \textit{\og autre \fg } est la plus fréquente et représente 79,5 \% des cas ; vient ensuite l'étiquette \textit{\og tour suivant \fg } avec 16,5 \%, tandis que les deux dernières étiquettes \textit{\og tour précédent \fg } et \textit{\og tour courant \fg } sont les moins fréquentes~: environ 2~\% chacune. 
+Le tableau~\ref{corp_stat}  montre la répartition \textit{a priori} des quatre étiquettes calculée pour le corpus de développement. L'étiquette \textit{\og autre \fg } est la plus fréquente et représente 79,5 \% des cas ; vient ensuite l'étiquette \textit{\og tour suivant \fg } avec 16,5 \%, tandis que les deux dernières étiquettes \textit{\og tour précédent \fg } et \textit{\og tour courant \fg } sont les moins fréquentes~: environ 2~\% chacune.
+\todo{Faire le même tableau su le test}
 
 \begin{table}
 \begin{center}
@@ -1735,24 +1736,20 @@ D'un point de vue applicatif, la métrique exprimée en durée est préférable si le
 
 \subsection{Résultats}
 
-Les systèmes présentés dans le chapitre \ref{sec:inl} utilisent tous une liste de locuteurs potentiels connue à l'avance. Pour les résultats présentés dans cette section, une liste des locuteurs potentiels et de leur genre est aussi utilisée. Cela permet notamment de comparer le système à celui du LIUM présenté dans la section \ref{sec:sys_id_lium}. Les résultats sans cette liste de locuteur seront donnés et discutés dans la section \ref{}. \todo{Référence XP sans liste}
+Comme dans les systèmes présentés dans le chapitre \ref{sec:inl}, une liste des locuteurs potentiels (ainsi que leur genre) est utilisée. Cela permet notamment de comparer le système à celui du LIUM présenté dans la section \ref{sec:sys_id_lium}. Les résultats sans cette liste de locuteur seront donnés et discutés dans la section \ref{}. \todo{Référence XP sans liste}
 
-Le tableau \ref{tab:results_belief} présente les résultats du système sur les corpus de développement et de test, en utilisant des transcriptions totalement manuelles. La liste de locuteurs utilisée pour le corpus de développement correspond aux locuteurs du corpus d'apprentissage, de développement et de test de la campagne ESTER 1. La liste de locuteurs utilisée pour le test est celle du corpus de test EPAC. Les résultats en durée et en nombre de locuteurs sont donnés. 
+Le tableau \ref{tab:results_belief} présente les résultats du système sur les corpus de développement et de test, en utilisant des transcriptions manuelles. La liste de locuteurs utilisée pour le corpus de développement correspond aux locuteurs du corpus d'apprentissage, de développement et de test de la campagne ESTER 1 (soit 1016 locuteurs). La liste de locuteurs utilisée pour le test est celle du corpus de test EPAC (soit 101 locuteurs). Les résultats en durée et en nombre de locuteurs sont donnés. 
 \begin{table}[h]
 \begin{center}
 \begin{tabular}{|c|c|c|c|c|c|}
 \cline{3-6}
 \multicolumn{2}{c|}{} & \multicolumn{3}{|c|}{En durée}  & En nb de Locuteur \\ \hline
-\textbf{Trans.} & \textbf{Seg/Class.} & \textbf{R} & \textbf{P} & \textbf{ErrDur} & \textbf{ErrLoc} \\ \hline
+\multicolumn{2}{|c|}{} & \textbf{R} & \textbf{P} & \textbf{ErrDur} & \textbf{ErrLoc} \\ \hline
 \hline
-\multicolumn{6}{|c|}{Corpus de Développement} \\
-\hline
-\textbf{M} & \textbf{M} & 86,22\% & 94,41\% & 12,75\% & 15,23\% \\ \hline
+\multicolumn{2}{|c|}{Corpus de Développement} & 86,22\% & 94,41\% & 12,75\% & 15,23\% \\ \hline
 \hline
 \hline
-\multicolumn{6}{|c|}{Corpus de Test} \\
-\hline
-\textbf{M} & \textbf{M} & 77,92\% & 95,48\% & 21,02\% & 24,53\% \\ \hline
+\multicolumn{2}{|c|}{Corpus de Test} & 78,36\% & 97,98\% & 20,60\% & 23,58\% \\ \hline
 \hline
 \end{tabular}
 \end{center}
@@ -1760,9 +1757,9 @@ Le tableau \ref{tab:results_belief} présente les résultats du système sur les co
 \label{tab:results_belief}
 \end{table}
 
-Ces résultats sont comparables à ceux donnés dans la figure \ref{fig:results_yannick_manu}~: à 95~\% de précision, le meilleur système obtenait un rappel d'environ 40~\%. Le corpus utilisé dans \ref{fig:results_yannick_manu} correspond au corpus de développement du système présenté. Pour la même précision, le rappel a plus que doublé pour atteindre 86,22~\%. Sur le corpus de test, à 95~\% de précision, le rappel est d'environ 78~\%. 
+Ces résultats sont comparables à ceux donnés pour le système du LIUM dans la figure \ref{fig:results_yannick_manu}~: à 95~\% de précision, le meilleur système obtenait un rappel d'environ 40~\%. Le corpus utilisé dans \ref{fig:results_yannick_manu} correspond au corpus de développement du système présenté. Pour la même précision, le rappel a plus que doublé pour atteindre 86,22~\%. Sur le corpus de test, à 95~\% de précision, le rappel est d'environ 78~\%. 
 
-Les moindres résultats sur le corpus de test s'expliquent par la composition du corpus décrit dans le tableau \ref{tab:donnees_xp}. En effet, il n'y a aucun locuteur étiqueté comme inconnu dans la référence. Le système doit donc proposer une identité pour chacun des locuteurs, quand bien même le locuteur a été nommé grâce à des informations externes au document, ou alors par un descriptif général comme \emph{un passant} ou \emph{un témoin}. Cela se traduit par un taux de locuteurs Indisponibles dans la traduction deux fois supérieur au corpus de développement.
+Les résultats sur le corpus de test s'expliquent par la composition du corpus décrit dans le tableau \ref{tab:donnees_xp}. En effet, le taux de locuteurs Indisponibles dans la transcription est deux fois supérieur à celui du corpus de développement.
 
 
 \section{Bilan}
