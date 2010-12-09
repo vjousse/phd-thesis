@@ -1784,13 +1784,24 @@ Ces différentes pistes sont décrites en détail dans le chapitre suivant, ainsi q
 
 Un nombre significatif d'avancées ont été réalisées depuis le système de base du LIUM, comme l'utilisation de LIA\_NE comme détecteur d'entités nommées ou la mise en place des fonctions de croyances pour combiner les informations issues de l'arbre de classification sémantique. Malgré ces avancées, plusieurs points restent encore à étudier comme l'utilisation de tels systèmes sur des transcriptions automatiques ou l'impact de connaissances a priori comme les listes de locuteurs. 
 
-Les principales étapes et réflexions qui ont conduit au développement de MILES\_NI, et notamment une analyse des erreurs, sont tout d'abord présentées.
+Les principales étapes et réflexions qui ont conduit au développement de MILES\_NI, et notamment une analyse des erreurs, sont tout d'abord présentées. Sont ensuite discuté la pertinence des métriques et de l'utilisation de connaissances a priori, avant de finir par l'utilisation de transcriptions automatiques.
 
-\section{Détection des entités nommées~: une étape fondamentale}
+\section{Analyse des erreurs}
+
+Les travaux de cette thèse ont été réalisés à partir d'un système déjà existant, celui du LIUM. Ce système disposait d'un détecteur d'entités nommées sommaire, il a donc tout d'abord été décidé de le remplacer par Nemesis, le système de détection d'entités nommées du LINA. Une analyse des erreurs a ensuite été conduite de manière à comprendre les erreurs réalisées par le système.
 
 \subsection{Nemesis, un outil prévu pour le TAL}
 
+Nemesis \cite{Fourour04} est un système d'identification et de catégorisation d'entités nommées pour le français. Ses spécifications ont été élaborées à la suite d'une étude en corpus et s'appuient sur des critères graphiques et référentiels. Ces derniers ont permis de construire une typologie des entités la plus fine et la plus exhaustive possible, fondée sur celle de Grass \cite{Grass00}. L'architecture logicielle de Nemesis se compose principalement de 4 modules (prétraitement lexical, première reconnaissance, apprentissage, seconde reconnaissance) qui effectuent un traitement immédiat des données à partir de textes bruts. L'identification des entités nommées est réalisée en analysant leur structure interne et leurs contextes gauche et droit immédiats à l'aide de lexiques de mots déclencheurs, ainsi que de règles de réécriture. Leur catégorisation s'appuie quant à elle sur la typologie construite précédemment. L'outil atteint environ 90\% de précision et 80\% de rappel sur des textes écrits en langage naturel.
+
+
+Nemesis a été développé par l'équipe TALN (Traitement Automatique des Langues Naturelles) du LINA (Laboratoire d'Informatique de Nantes Atlantique). À note qu'aucune modification ou adaptation n'a été réalisée pour utiliser Nemesis sur des transcriptions de journaux radiophoniques.
+
+
+Le système du LIUM (cf. section \ref{sec:sys_id_lium}) utilisant Nemesis comme détecteur d'entités nommées obtient un rappel de 65~\% à 91~\% de précision. Afin de comprendre le comportement du système, nous avons choisi de l'étudier avec des transcriptions et des segmentations/classifications manuelles. Le corpus utilisé correspond au corpus de développement de MILES\_NI. Nous chercherons donc à comprendre pourquoi ce système a un rappel faible (65~\%) bien que les conditions soient optimales (transcriptions et segmentation~/ classification manuelles).
+
 \subsection{Némésis et LIA\_NE~:  expériences et résultats}
+
 
 \section{Système de décision~: modélisation}
 
