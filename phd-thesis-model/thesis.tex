@@ -1782,11 +1782,11 @@ Ces différentes pistes sont décrites en détail dans le chapitre suivant, ainsi q
 \minitoc
 \newpage
 
-Un nombre significatif d'avancées ont été réalisées depuis le système de base du LIUM, comme l'utilisation de LIA\_NE comme détecteur d'entités nommées ou la mise en place des fonctions de croyances pour combiner les informations issues de l'arbre de classification sémantique. Malgré ces avancées, plusieurs points restent encore à étudier comme l'utilisation de tels systèmes sur des transcriptions automatiques ou l'impact de connaissances a priori comme les listes de locuteurs. 
+Un nombre significatif d'avancées ont été réalisées depuis le système de base du LIUM (cf. section \ref{sec:sys_id_lium}), comme l'utilisation de LIA\_NE comme détecteur d'entités nommées ou la mise en place des fonctions de croyances pour combiner les informations issues de l'arbre de classification sémantique. Malgré ces avancées, plusieurs points restent encore à étudier comme l'utilisation de tels systèmes sur des transcriptions automatiques ou l'impact de connaissances a priori comme les listes de locuteurs. 
 
 Les principales étapes et réflexions qui ont conduit au développement de MILES\_NI, et notamment une analyse des erreurs, sont tout d'abord présentées. Sont ensuite discuté la pertinence des métriques et de l'utilisation de connaissances a priori, avant de finir par l'utilisation de transcriptions automatiques.
 
-\section{Analyse des erreurs}
+\section{Étude du système du LIUM}
 
 Les travaux de cette thèse ont été réalisés à partir d'un système déjà existant, celui du LIUM. Ce système disposait d'un détecteur d'entités nommées sommaire, il a donc tout d'abord été décidé de le remplacer par Nemesis, le système de détection d'entités nommées du LINA. Une analyse des erreurs a ensuite été conduite de manière à comprendre les erreurs réalisées par le système.
 
@@ -1798,7 +1798,108 @@ Nemesis \cite{Fourour04} est un système d'identification et de catégorisation d'
 Nemesis a été développé par l'équipe TALN (Traitement Automatique des Langues Naturelles) du LINA (Laboratoire d'Informatique de Nantes Atlantique). À note qu'aucune modification ou adaptation n'a été réalisée pour utiliser Nemesis sur des transcriptions de journaux radiophoniques.
 
 
-Le système du LIUM (cf. section \ref{sec:sys_id_lium}) utilisant Nemesis comme détecteur d'entités nommées obtient un rappel de 65~\% à 91~\% de précision. Afin de comprendre le comportement du système, nous avons choisi de l'étudier avec des transcriptions et des segmentations/classifications manuelles. Le corpus utilisé correspond au corpus de développement de MILES\_NI. Nous chercherons donc à comprendre pourquoi ce système a un rappel faible (65~\%) bien que les conditions soient optimales (transcriptions et segmentation~/ classification manuelles).
+\subsection{Analyse des erreurs}
+
+Le système du LIUM utilisant Nemesis comme détecteur d'entités nommées obtient un rappel de 65~\% à 91~\% de précision. Afin de comprendre le comportement du système, nous avons choisi de l'étudier avec des transcriptions et des segmentations/classifications manuelles. Le corpus utilisé correspond au corpus de développement de MILES\_NI. Nous chercherons donc à comprendre pourquoi ce système a un rappel faible (65~\%) bien que les conditions soient optimales (transcriptions et segmentation~/ classification manuelles).
+
+\subsubsection{Méthode\\}
+
+Toutes les mauvaises décisions ont été étiquetées manuellement et comparées avec les différents scores générés par l'arbre. Cette étude a permis de mettre en évidence 
+%plusieurs types d'erreurs. Ces erreurs peuvent être classées en 
+deux grandes catégories d'erreurs~: les erreurs de détection d'entités nommées et les erreurs de décision de l'arbre. D'autres types d'erreurs ont aussi été constatés mais elles sont moins significatives.
+% que ces deux dernières.
+\subsubsection{Erreurs de détection d'entités nommées\\}
+
+La première catégorie d'erreur est due à des problèmes rencontrés lors de la détection d'entités nommées. En effet, les entités nommées, et plus précisément les noms de locuteurs non étiquetés uniquement par leur prénom~/~nom, ont une influence directe sur les performances du système en terme de rappel~:
+% En effet, Nemesis est prévu pour étendre au plus possible la détection d'entités nommées alors que le système attend juste le prénom~/~nom du locuteur. Ceci nous donne des cas de figure comme celui là~:
+
+\textbf{(N1)} Un locuteur n'est pas correctement étiqueté pour le système d'identification nommée~: quand il n'est pas détecté, quand seul son prénom est étiqueté ou quand ses nom et prénom sont étiquetés avec un ou plusieurs autres mots en plus (comme la fonction de la personne). Lorsque le nom du locuteur détecté ne correspond pas exactement au nom du locuteur de la référence, il est alors comptabilisé comme une erreur de suppression et par conséquent le rappel chute. 
+Par exemple, l'entité nommée ``[Joël Collado de Météo France]'' est étiquetée comme une personne et ne correspond pas exactement au couple prénom~/~nom attendu lors de l'identification.\\
+
+\textbf{(N2)} Un ensemble de mots ne contenant pas de nom et prénom est détecté comme une personne. Cette détection fait chuter le rappel en attribuant ce \textit{faux locuteur} à un tour de parole. Par exemple, Nemesis étiquette l'entité nommée ``[président du Fetia Api]'' comme personne qui est ensuite attribuée à un tour de parole. ``[président du Fetia Api]'' est bien une personne, mais cette entité nommée n'est pas un locuteur au sens de l'identification. Il est identifié par sa fonction au lieu de son nom et prénom.
+
+\subsubsection{Erreurs de décision de l'arbre\\}
+\label{erreurs_arbre}
+La seconde catégorie d'erreurs provient 
+%de l'arbre de décision. Il attribue un score au 4 étiquettes possibles pour les locuteurs détectés. Les 
+des erreurs d'étiquetage commises par l'arbre. Elles ont une incidence à la fois sur le rappel et sur la précision du système : 
+
+\textbf{(A1)} Les erreurs affectant le rappel proviennent majoritairement des locuteurs qui ont été étiquetés comme \textit{autres} alors qu'ils correspondent à une des 3 autres étiquettes. \\
+``\texttt{\textit{Valérie Crova} dit : (...) qui a toujours entretenu selon [Jean Christophe Bouisson] des rapports tendus avec le gouvernement.
+\\\textit{Jean Christophe Bouisson} dit : On ne peut pas penser (...)}''
+\\Dans cet exemple ``[Jean Christophe Bouisson]'' est étiqueté comme \textit{autre} alors qu'il est le \textit{suivant}.
+%SM c'est selon qui perturbe l'arbre ? regarde les mots actifs dans l'arbre
+%VJ je ne suis pas sur de savoir comment faire :)
+
+%En effet, ces locuteurs sont toujours présents directement après ou avant le tour de parole en question, mais l'arbre n'arrive pas à les rattacher à ces tours de parole. 
+\textbf{(A2)} Les erreurs affectant principalement la précision sont dues à des locuteurs qui sont mal étiquetés avec les étiquettes \textit{suivant} et \textit{précédent}. Dans la majorité des cas, l'étiquette \textit{suivant} a été attribuée au lieu de \textit{autre}. Par exemple, l'annonce d'interview correspond à une erreur typique~:\\ 
+``\texttt{[Jean Michel Hibon] au micro de [Jérôme Susini].}''\\
+On s'attend à ce que ``[Jean Michel Hibon]'' parle ensuite (ce qui est le cas), mais le système détecte ``[Jérôme Susini]'' comme le locuteur du prochain tour de parole car son score est plus élevé.\\
+%SM, pourquoi ? parce que le score et plus élevé ?
+
+\subsubsection{Autres erreurs\\}
+D'autres erreurs plus indépendantes du système ont été relevées~:\\
+\textbf{(E)} Certaines personnes ne sont citées que partiellement (seul leur prénom est cité dans la transcription), d'autres ont été mal orthographiées par le transcripteur ou encore certaines ne sont pas du tout citées ou annoncées dans la transcription. Sur les 11 heures du corpus, ce dernier cas ne concerne que 3 personnes. Cette constatation permet de valider l'hypothèse de départ~: les noms des locuteurs sont présents dans la transcription.
+
+\subsubsection{Répartition des erreurs\\}
+Le tableau \ref{tab:repart_erreurs} montre la répartition et l'importance des différents types d'erreurs sur le corpus de test. Les erreurs provenant de l'arbre de classification (A1 et A2) sont clairement dominantes avec plus de 72\% des erreurs totales alors que les erreurs dues à Nemesis (N1 et N2) ne représentent qu'un peu moins de 19\% des erreurs. Pour l'arbre de classification, les erreurs A1 et A2 ont le même ordre de grandeur (environ 36\% en moyenne). En revanche, en ce qui concerne Nemesis les erreurs de type N1 sont beaucoup plus fréquentes que celles de type N2 (3 fois plus).
+{\footnotesize{
+\begin{figure}
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+\textbf{Erreurs} & \textbf{Fréquence} & \textbf{Pourcentage Total} \\ \hline
+\hline
+\textbf{N1} & 12 & 14\% \\ \hline
+\textbf{N2} & 4 & 4,6\% \\ \hline \hline
+%\textit{total} & \textit{16} & \textit{18,6\%} \\ \hline \hline
+\textbf{A1} & 32 & 37,2\% \\ \hline
+\textbf{A2} & 30 & 34,9\% \\ \hline \hline 
+%\textit{total} & \textit{62} & \textit{72,1\%} \\ \hline \hline
+\textbf{E} & 8 & 9,3\%\\ \hline \hline
+\textbf{Total} & 86 & 100\% \\ \hline
+\end{tabular}
+\end{center}
+\caption{Répartition des erreurs sur le corpus de test.\newline
+%------------\newline
+{\textit{N1, N2~: erreurs issues de la détection d'entités nommées.\newline
+A1, A2~: erreurs issues de l'arbre de classification.\newline
+E~: autres erreurs.\newline}}
+%------------
+}
+\label{tab:repart_erreurs}
+\end{figure}
+}}
+\subsubsection{Cas de l'anaphore pronominale\\}
+Avant cette étude, nous pensions que la résolution d'anaphore pronominale à l'intérieur d'un tour de parole pouvait conduire à améliorer les prises de décisions. Lors de l'analyse des erreurs, nous n'avons relevé que deux cas où cette prise en compte aurait été bénéfique. L'un des deux cas correspond à la situation suivante :\\
+``\texttt{
+\textit{Fabrice Drouelle}~: écoutez ce qu'en pense [Jérôme Savary] (...) \textbf{il} le dit à [Christine Siméone].}''
+\\
+Comme le pronom personnel \textit{il} est en rapport avec Jérôme Savary, l'arbre aurait pu l'étiqueter comme \textit{suivant}.
+
+\subsubsection{Bilan}
+
+L'analyse des erreurs conduite ici a permis de mettre en évidence les faiblesses de l'arbre de classification sémantique~: lorsque l'on choisit de prendre une décision en se basant sur l'étiquette qui obtient la probabilité maximale, l'arbre de décision est responsable de plus de 70~\% des erreurs du système. Nemesis quant à lui, représente environ 20~\% des erreurs commises par le système. La majorité de ces erreurs est due à des entités nommées qui ne sont pas assez concises.
+
+Cette étude a permis de remettre en question l'arbre de classification et notamment le processus de décision qui y est lié (cf. section \ref{sec:fct_croyances} sur le processus de décision de MILES\_NI). Les travaux intermédiaires menés sur ce processus de décision sont décrits dans le chapitre suivant. Nemesis a par la suite été remplacé par LIA\_NE, la différence de performances de MILES\_NI en utilisant Nemesis ou LIA\_NE est donnée dans le tableau X.
+\todo{Tableau perfs Nemesis}
+%\subsection{Analyse des erreurs}
+%Les erreurs de détection d'entités nommées (comme l'ajout d'un mot en trop dans l'étiquetage) pourront être résolues grâce à un travail sur l'outil de TALN Nemesis. Ces erreurs affectent uniquement le rappel (locuteur mal ou pas détecté par exemple) et jamais la précision dans notre corpus. Certaines autres erreurs (étiquetage de France Inter comme étant une personne) seront a priori assez facile à éviter. En effet, l'outil se basant sur les majuscules et les prénoms, il détecte France comme prénom et donc France Inter comme personne puisque Inter contient une majuscule et à coté d'un prénom. Nemesis dispose pourtant de la radio France Inter dans ses lexiques, il faudrait donc que la règle regardant la présence dans les lexiques soit prédominante sur celle utilisant les prénoms et majuscules. Nous avons aussi réalisé l'étude pour voir si la résolution d'anaphore nominale pouvait conduire à améliorer les résultats et donc aider l'arbre à prendre des décisions. Nous n'avons relevé qu'un cas où cette prise en compte aurait été bénéfique, celui-la :\\
+%\texttt{
+%\textit{Fabrice Drouelle}~: écoutez ce qu'en pense Jérôme Savary (...) \textbf{il} le dit à Christine Siméone.}
+%\\ Si le \textbf{il} avait été étiqueté en rapport avec Jérôme Savary, l'arbre aurait pu l'étiqueter comme suivant.
+
+%Les erreurs commises par l'arbre affectent tout le système. Si il n'est pas capable de prendre une décision, le rappel va chuter, si il prend une mauvaise décision, c'est la précision qui va diminuer. En ce qui concerne le rappel, comme explicité dans \ref{erreurs_arbre}, il est assez fréquent que l'arbre étiquette une personne comme étant \textit{autre} alors que ce n'est pas le cas, et il ne prend pas de décision sur ce nom. Ceci est dû à l'absence du motif dans l'arbre de décision. C'est à dire que le locuteur n'a pas été annoncé d'une façon particulièrement remarquable, où tout du moins pas assez remarquable ou présente dans le corpus d'apprentissage pour que l'arbre soit capable de l'identifier. Voilà un exemple parmi plusieurs du même type :\\
+%\noindent \textit{Delphine Simon} : Vanessa Descoureaux vient de joindre \textbf{Marie Sophie Desaulle} la présidente de l' association des paralysés de de France on écoute sa réaction\\
+%\textit{\textbf{Marie Sophie Sesaulle}} : ben Christopher Reeve permettait effectivement que\\
+%Marie Sophie Desaulle est bien étiquetée par Nemesis quand c'est Delphine Simon qui l'annonce, mais elle est étiquetée comme autre par l'arbre et non comme suivante. On voit ici que c'est le texte présent entre l'annonce de Marie Sophie et le moment où elle parle vraiment qui \textit{parasite} l'arbre de décision. Il y a trop de mots qu'il n'a jamais vus dans son apprentissage pour réussir à prendre une décision. Dans ce type de cas là, une solution consisterait à remplacer la fonction de la personne (la présidente de l' association des paralysés de de France) par un unique mot, c'est à dire sa catégorie (une catégorie FONCTION par exemple). 
+%Les autres erreurs affectant principalement la précision sont dues à des locuteurs qui ont été affectés au suivant (ou au précédent mais dans une moindre mesure) alors qu'ils ne parlaient pas directement après, mais un tour de parole plus loin. C'est typiquement le cas lors de l'annonce d'interview comme celles-ci :\\ Jean Michel Hibon au micro de \textbf{Jérôme Susini}. \\On s'attend à ce que ce soit Jean Michel Hibon qui parle ensuite (ce qui est le cas), mais le système détecte toujours Jérôme Susini comme prochain tour de parole.
+
+%\subsection{Perspectives}
+%Une modification de Nemesis dans ce sens serait donc certainement très profitable. Il serait aussi intéressant d'ajouter l'information comme quoi le nom détecté est le dernier (ou le premier) du tour de parole lors de l'apprentissage de l'arbre et du test. Ceci permettrait dans certains cas de faire abstraction des mots pouvant suivre le dernier nom de locuteur du tour de parole. Une ponctuation plus conséquente (comme ajouter une virgule après chaque fin de segment) permettrait d'aider Nemesis à ne pas confondre les entités nommées, notamment quand une entité se trouve à la fin d'un segment et l'autre au début du suivant, Nemesis ne tient pas compte des segment et étiquette les deux entités nommées ensemble.
+
+%Notre corpus recoupant des fichiers de radios identiques, l'utilisation de modèles acoustiques permettrait de propager des décisions entre les différents fichiers. C'est le cas dans notre corpus pour Joël Collado le présentateur météo, qui est bien reconnu dans certains fichiers et pas dans d'autre, un modèle acoustique inter fichiers permettrait de propager les décisions globales entre les fichiers, comme nous propageons déjà les décisions locales au sein du même fichier grâce aux classes de locuteurs. Dans la même idée de faire confiance à l'acoustique, il ne devrait pas être possible d'affecter le même nom à deux classes de locuteurs identiques.
+
 
 \subsection{Némésis et LIA\_NE~:  expériences et résultats}
 
