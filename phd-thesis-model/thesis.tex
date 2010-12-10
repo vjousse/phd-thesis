@@ -1735,6 +1735,7 @@ Pour une évaluation en terme de nombre de locuteurs, dans le même cas de figure,
 D'un point de vue applicatif, la métrique exprimée en durée est préférable si les locuteurs considérés comme importants correspondent aux locuteurs s'exprimant beaucoup. En revanche, si l'application cherche à nommer le plus possible de locuteurs, il est plus intéressant d'évaluer les performances en terme de nombre de locuteurs.
 
 \subsection{Résultats}
+\label{sec:results_milesni}
 
 Comme dans les systèmes présentés dans le chapitre \ref{sec:inl}, une liste des locuteurs potentiels (ainsi que leur genre) est utilisée. Cela permet notamment de comparer le système à celui du LIUM présenté dans la section \ref{sec:sys_id_lium}. Les résultats sans cette liste de locuteur seront donnés et discutés dans la section \ref{}. \todo{Référence XP sans liste}
 
@@ -1795,7 +1796,7 @@ Les travaux de cette thèse ont été réalisés à partir d'un système déjà existant,
 Nemesis \cite{Fourour04} est un système d'identification et de catégorisation d'entités nommées pour le français. Ses spécifications ont été élaborées à la suite d'une étude en corpus et s'appuient sur des critères graphiques et référentiels. Ces derniers ont permis de construire une typologie des entités la plus fine et la plus exhaustive possible, fondée sur celle de Grass \cite{Grass00}. L'architecture logicielle de Nemesis se compose principalement de 4 modules (prétraitement lexical, première reconnaissance, apprentissage, seconde reconnaissance) qui effectuent un traitement immédiat des données à partir de textes bruts. L'identification des entités nommées est réalisée en analysant leur structure interne et leurs contextes gauche et droit immédiats à l'aide de lexiques de mots déclencheurs, ainsi que de règles de réécriture. Leur catégorisation s'appuie quant à elle sur la typologie construite précédemment. L'outil atteint environ 90\% de précision et 80\% de rappel sur des textes écrits en langage naturel.
 
 
-Nemesis a été développé par l'équipe TALN (Traitement Automatique des Langues Naturelles) du LINA (Laboratoire d'Informatique de Nantes Atlantique). À note qu'aucune modification ou adaptation n'a été réalisée pour utiliser Nemesis sur des transcriptions de journaux radiophoniques.
+Nemesis a été développé par l'équipe TALN (Traitement Automatique des Langues Naturelles) du LINA (Laboratoire d'Informatique de Nantes Atlantique). À noter qu'aucune modification ou adaptation n'a été réalisée pour utiliser Nemesis sur des transcriptions de journaux radiophoniques.
 
 
 \subsection{Analyse des erreurs}
@@ -1881,7 +1882,7 @@ Comme le pronom personnel \textit{il} est en rapport avec Jérôme Savary, l'arbre
 
 L'analyse des erreurs conduite ici a permis de mettre en évidence les faiblesses de l'arbre de classification sémantique~: lorsque l'on choisit de prendre une décision en se basant sur l'étiquette qui obtient la probabilité maximale, l'arbre de décision est responsable de plus de 70~\% des erreurs du système. Nemesis quant à lui, représente environ 20~\% des erreurs commises par le système. La majorité de ces erreurs est due à des entités nommées qui ne sont pas assez concises.
 
-Cette étude a permis de remettre en question l'arbre de classification et notamment le processus de décision qui y est lié (cf. section \ref{sec:fct_croyances} sur le processus de décision de MILES\_NI). Les travaux intermédiaires menés sur ce processus de décision sont décrits dans le chapitre suivant. Nemesis a par la suite été remplacé par LIA\_NE, la différence de performances de MILES\_NI en utilisant Nemesis ou LIA\_NE est donnée dans le tableau X.
+Cette étude a permis de remettre en question l'arbre de classification ainsi que le processus de décision qui en découle (cf. section \ref{sec:fct_croyances} sur le processus de décision de MILES\_NI). Les travaux intermédiaires menés sur ce processus de décision sont décrits dans le chapitre suivant. Nemesis a par la suite été remplacé par LIA\_NE, la différence de performances de MILES\_NI en utilisant Nemesis ou LIA\_NE est donnée dans le tableau X.
 \todo{Tableau perfs Nemesis}
 %\subsection{Analyse des erreurs}
 %Les erreurs de détection d'entités nommées (comme l'ajout d'un mot en trop dans l'étiquetage) pourront être résolues grâce à un travail sur l'outil de TALN Nemesis. Ces erreurs affectent uniquement le rappel (locuteur mal ou pas détecté par exemple) et jamais la précision dans notre corpus. Certaines autres erreurs (étiquetage de France Inter comme étant une personne) seront a priori assez facile à éviter. En effet, l'outil se basant sur les majuscules et les prénoms, il détecte France comme prénom et donc France Inter comme personne puisque Inter contient une majuscule et à coté d'un prénom. Nemesis dispose pourtant de la radio France Inter dans ses lexiques, il faudrait donc que la règle regardant la présence dans les lexiques soit prédominante sur celle utilisant les prénoms et majuscules. Nous avons aussi réalisé l'étude pour voir si la résolution d'anaphore nominale pouvait conduire à améliorer les résultats et donc aider l'arbre à prendre des décisions. Nous n'avons relevé qu'un cas où cette prise en compte aurait été bénéfique, celui-la :\\
@@ -1901,27 +1902,23 @@ Cette étude a permis de remettre en question l'arbre de classification et notamm
 %Notre corpus recoupant des fichiers de radios identiques, l'utilisation de modèles acoustiques permettrait de propager des décisions entre les différents fichiers. C'est le cas dans notre corpus pour Joël Collado le présentateur météo, qui est bien reconnu dans certains fichiers et pas dans d'autre, un modèle acoustique inter fichiers permettrait de propager les décisions globales entre les fichiers, comme nous propageons déjà les décisions locales au sein du même fichier grâce aux classes de locuteurs. Dans la même idée de faire confiance à l'acoustique, il ne devrait pas être possible d'affecter le même nom à deux classes de locuteurs identiques.
 
 
-\subsection{Némésis et LIA\_NE~:  expériences et résultats}
+\section{Processus de décision}
 
-
-\section{Système de décision~: modélisation}
-
-Comme mentionné dans la section \ref{chap:liumni}, les travaux de cette thèse font suite à ceux précédemment menés au LIUM \cite{MauclairOdyssey06,Esteve07}. Nous commençons tout d'abord par rappeler et formaliser le processus de décision utilisé dans les précédents travaux, pour ensuite présenter la solution intermédiaire développée pendant cette thèse. Nous finissons par exposer le cheminement qui nous a conduit à utiliser la théorie des fonctions de croyance.
+Lors des travaux de cette thèse, le processus de décision a beaucoup évolué. Nous commençons par rappeler et formaliser le processus de décision utilisé dans les précédents travaux du LIUM, pour ensuite présenter la solution intermédiaire développée pendant cette thèse. Nous finissons par exposer le cheminement qui nous a conduit à utiliser la théorie des fonctions de croyance.
 
 \subsection{Utilisation d'un maximum}
 
 \label{sec:maximum}
 
-Le processus de décision utilisé dans les travaux du LIUM est assez rudimentaire.
+Tout d'abord, il est bon de rappeler que lorsque l'arbre de classification sémantique donne une distribution de probabilités (sur les 4 classes possibles \emph{précédent}, \emph{courant}, \emph{suivant} et \emph{autre}) pour un nom complet donné, les précédents travaux du LIUM ne prennent en compte que la probabilité avec la valeur maximale. Les autres probabilités ne sont pas prises en compte.
 
-En effet, lors de la propagation des attributions locales aux tours de paroles puis aux classes de locuteur, une simple somme des probabilités $P(o_j,t_{r})$ (cf. \ref{sec:notations} pour la signification des notations) était effectuée. Ce score concernant un locuteur $e_i$ pour une classe donnée $c_l$ s'exprime comme ceci~:
+Ensuite, lors de la propagation des attributions locales de l'arbre aux tours de paroles puis aux locuteurs, une simple somme des probabilités $P(o_j,t_{r})$ (cf. \ref{sec:notations} pour la signification des notations) est effectuée. Ce score concernant un locuteur $e_i$ pour une classe donnée $c_l$ s'exprime comme ceci~:
 
 \begin{equation}s_{l}(e_i)= \sum_{\left\{(o_j, t_r)  | o_j= e_i, \: t_r \in c_l \right\}} P(o_j,t_{r})
 \label{eq:sl}
 \end{equation}
 
-Ensuite, le nom complet $e_i$ ayant le score maximum pour une classe de locuteur donnée $c_l$ lui était attribué. 
-Rappelons que puisque tous les locuteurs sont censés être différents, la fonction d'assignation des noms complets aux locuteurs $f(c_l)=f(c_l') \Rightarrow c_l=c_l'$ doit être injective (cf. \ref{sec:decision}).
+Ensuite, le nom complet $e_i$ ayant le score maximum pour un locuteur donné $c_l$ lui est attribué. Dans ces travaux, la fonction d'assignation des noms complets aux locuteurs $f(c_l)=f(c_l') \Rightarrow c_l=c_l'$ n'est pas injective~: il est donc possible d'affecter deux noms complets identiques à des locuteurs différents.
 
 Soit ${\cal D}= \{c_l \in \mathcal{C} | \; \forall e_i\in \mathcal{E}, s_l(e_i)=0\}$, l'ensemble des locuteurs n'ayant pas de candidats potentiels. La règle $\mathbf{R_1}$ permettant d'affecter le nom complet $e_i$ ayant le score maximal $s_l(e_i)$ est définie comme ceci~:
     \begin{equation}\label{eq:maxscore}
@@ -1934,7 +1931,7 @@ Soit ${\cal D}= \{c_l \in \mathcal{C} | \; \forall e_i\in \mathcal{E}, s_l(e_i)=
 Cette méthode de combinaison a plusieurs inconvénients. Tout d'abord, le fait de réaliser la somme des probabilités issues de l'arbre ne permet plus de travailler dans l'espace probabiliste. En effet, une fois les sommes effectuées, seuls des scores difficilement comparables entre eux sont disponibles.
 
 
-Ensuite, la règle $\mathbf{R_1}$ ne prend pas en compte la contribution du score $s_l(e_i)$ au sein d'une classe de locuteur. Prenons l'exemple décrit dans le tableau \ref{tab:examplecomb}. En utilisant la règle $\mathbf{R_1}$, \emph{Jacques Derrida} est attribué à la classe de locuteur $c_{13}$ puisque c'est pour cette classe qu'il obtient le score maximum. $\beta_{il}$ désigne le pourcentage du score que représente $s_l(e_i^*)$ au niveau de la classe de locuteur $c_l$. Même si \emph{Jacques Derrida} a le score le plus élevé pour $c_{13}$, il ne représente que $35 \%$ des scores totaux de cette classe. En revanche, au sein de la classe $c_{15}$, \emph{Jacques Derrida} représente $80 \%$ des scores. Avant d'utiliser les fonctions de croyance, nous avons tout d'abord proposé une méthode permettant de normaliser les scores pour prendre en compte ces différentes aspects.
+Ensuite, la règle $\mathbf{R_1}$ ne prend pas en compte la contribution du score $s_l(e_i)$ au sein d'un locuteur. Prenons l'exemple décrit dans le tableau \ref{tab:examplecomb}. En utilisant la règle $\mathbf{R_1}$, \emph{Jacques Derrida} est attribué au locuteur $c_{13}$ puisque c'est pour ce locuteur qu'il obtient le score maximum. $\beta_{il}$ désigne le pourcentage du score que représente $s_l(e_i^*)$ au niveau du locuteur $c_l$. Même si \emph{Jacques Derrida} a le score le plus élevé pour $c_{13}$, il ne représente que $35 \%$ des scores totaux de cette classe. En revanche, au sein de la classe $c_{15}$, \emph{Jacques Derrida} représente $80 \%$ des scores. Avant d'utiliser les fonctions de croyance, nous avons tout d'abord proposé une méthode permettant de normaliser les scores pour prendre en compte ces différentes aspects.
 
 \begin{table}[htbp]
 \caption{Exemple d'une assignation initiale multiple}
@@ -1959,13 +1956,13 @@ Ensuite, la règle $\mathbf{R_1}$ ne prend pas en compte la contribution du score
 
 \label{sec:normalisation}
 
-Comme décrit dans la section précédente, la contribution du score de chaque nom complet au sein de la classe de locuteur (modélisé par $\beta_{il}$) peut être une information intéressante à prendre en compte lors du processus de décision. Mais l'utilisation de $\beta_{il}$ comme unique critère de décision ne peut être une option. En effet, dans le cas où un mauvais nom complet serait le seul candidat pour une classe donnée, $\beta_{il}$ vaudrait 100 \%. Ce nom complet serait alors systématiquement choisi pour la classe de locuteur concernée, même si $s_l(e_i)$ est très faible pour cette classe. Il faut donc prendre en compte conjointement $s_l(e_i)$ et $\beta_{il}$. Pour ce faire, nous proposons l'utilisation d'une nouvelle règle $\mathbf{R_2}$~:
+La contribution du score de chaque nom complet au sein d'un locuteur à nommer (modélisé par $\beta_{il}$) peut être une information intéressante à prendre en compte lors du processus de décision. Mais l'utilisation de $\beta_{il}$ comme unique critère de décision ne peut être une option. En effet, dans le cas où un mauvais nom complet serait le seul candidat pour une classe donnée, $\beta_{il}$ vaudrait 100 \%. Ce nom complet serait alors systématiquement choisi pour le locuteur concerné, même si $s_l(e_i)$ est très faible pour ce locuteur. Il faut donc prendre en compte conjointement $s_l(e_i)$ et $\beta_{il}$. Pour ce faire, nous proposons l'utilisation d'une nouvelle règle $\mathbf{R_2}$~:
 
 \begin{equation} \label{eq:SC}
    \mbox {SC}_l(e_i)=s_{l}(e_i) \beta_{il}
 \end{equation}
 
-Cette règle permet de normaliser le score de chaque locuteur en fonction du score global de la classe. Lorsqu'un nom complet est le seul candidat pour une classe, son score reste inchangé. Lorsqu'il y a plusieurs candidats pour une classe, la normalisation permet de prendre en compte la contribution du score par rapport à l'ensemble des scores de la classe. Les scores en forte concurrence sont alors pénalisés. Cette normalisation est particulièrement efficace lorsque plusieurs noms complets potentiels ont des scores élevés.
+Cette règle permet de normaliser le score de chaque nom complet $e_i$ en fonction du score global du locuteur à nommer. Lorsqu'un nom complet est le seul candidat pour un locuteur, son score reste inchangé. Lorsqu'il y a plusieurs candidats pour un même locuteur, la normalisation permet de prendre en compte la contribution du score par rapport à l'ensemble des scores du locuteur. Les scores en forte concurrence sont alors pénalisés. Cette normalisation est particulièrement efficace lorsque plusieurs noms complets potentiels ont des scores élevés.
 
 Reprenons l'exemple décrit dans le tableau \ref{tab:examplecombbeta} en utilisant cette fois ci ${SC}_l(e_i)$ pour prendre la décision. Le tableau \ref{tab:examplecombbeta} décrit ce cas de figure.
 
@@ -1987,7 +1984,7 @@ Reprenons l'exemple décrit dans le tableau \ref{tab:examplecombbeta} en utilisan
 
 \end{table}
 
-Dans le précédent exemple, \emph{Jacques Derrida} était affecté à la classe de locuteur $c_{13}$. Avec l'utilisation de ${SC}_l(e_i)$ pour prendre la décision, \emph{Jacques Derrida} est maintenant attribué à la classe $c_{15}$~: celle ou il obtient un score $s_l(e_i^*)$ élevé et pour laquelle il y a peu de conflit ($\beta_{il}$ est égal à $80 \%$).
+Dans le précédent exemple, \emph{Jacques Derrida} était affecté au locuteur $c_{13}$. Avec l'utilisation de ${SC}_l(e_i)$ pour prendre la décision, \emph{Jacques Derrida} est maintenant attribué au locuteur $c_{15}$~: celui où il obtient un score $s_l(e_i^*)$ élevé et pour lequel il y a peu de conflit ($\beta_{il}$ est égal à $80 \%$).
 
 \subsection{Expériences et résultats}
 
@@ -1997,11 +1994,9 @@ Dans le précédent exemple, \emph{Jacques Derrida} était affecté à la classe de l
 
 
 
-Plusieurs critiques de natures diverses peuvent être émises quant à la pertinence de la méthode de combinaison exposée précédemment en section \ref{sec:maximum}, même si elle a donné de bons résultats (cf. section \ref{sec:exp_normalisation}). Premièrement, la notion de score est difficile à interpréter, ces quantités obtenues ne représentent pas de degré de confiance, ni de probabilité que tel nom complet soit tel locuteur. Elles conduisent à un manque de lisibilité de la décision. L'équation \ref{eq:SC} sur laquelle s'appuie la décision représente un compromis qu'il est difficile de justifier.
+Plusieurs critiques de natures diverses peuvent être émises quant à la pertinence de la méthode de combinaison exposée précédemment en section \ref{sec:maximum}, même si elle a donné de bons résultats (cf. section \ref{sec:exp_normalisation}). Premièrement, la notion de score est difficile à interpréter, ces quantités obtenues ne représentent pas de degré de confiance, ni de probabilité que tel nom complet corresponde à tel locuteur. Elles conduisent à un manque de lisibilité de la décision. L'équation \ref{eq:SC} sur laquelle s'appuie la décision représente un compromis qu'il est difficile de justifier.
 
 Mais la critique principale concerne la méthode même de combinaison : le conflit d'informations au sein d'un tour de parole donné n'est pas pris en compte. L'information disponible n'est pas combinée dans sa globalité de façon satisfaisante. La méthode de combinaison proposée est susceptible de propager des imperfections pour l'étape suivante de la décision. En effet, l'affectation d'un nom complet à un locuteur ne tient pas compte des liens entre les différentes informations fournies par l'arbre de classification, en particulier quand un même locuteur prononce plusieurs noms complets et peut donc aboutir à des résultats erronés. Le tableau \ref{tab:conflit} présente un exemple de tour de parole $t_k$ où $8$ noms complets sont détectés. Les probabilités indiquées correspondent au locuteur du tour suivant $t_{k+1}$, qui est de genre masculin. L'un des noms complets (féminin) est donc éliminé. Certaines occurrences sont redondantes, car elles correspondent à un même nom complet (\emph{Jean-Claude Pajak} et \emph{Jacques Chirac}) et une seule occurrence a une probabilité élevée. Il reste donc $4$ noms complets en compétition, ce qui représente une incompatibilité importante. Or, la contribution de ce tour produit des scores élevés pour \emph{Jean-Claude Pajak} ($1,25$) et \emph{Jacques Chirac} ($0,87$), scores semblables à celui qu'on obtiendrait si on disposait d'une information sans ambigüité, comme par exemple un tour ne contenant qu'une seule occurrence de probabilité élevée sans concurrence. En effet, même si \emph{Jacques Chirac} obtient un score relativement élevé ($0,87$) avec la méthode de combinaison proposée, le fait que ce score provienne de 3 scores relativement faibles de l'arbre ($0,29$) est complètement occulté.
-
- Cet exemple met en évidence le fait que cette méthode ne prend pas en compte la contradiction des informations délivrées par certains tours de parole. Même si une solution intermédiaire a été présentée dans \ref{sec:normalisation}, il convient de réajuster le calcul des scores en tenant mieux compte de l'incertitude de ces informations. Un formalisme probabiliste basé par exemple sur des probabilités conditionnelles peut être envisagé pour ce type de situations, mais le manque d'informations {\it a priori} rend ce type de modélisation difficile. Bien que les sorties de l'arbre soient de nature probabiliste, la théorie des croyances nous a paru mieux adaptée et moins contraignante, grâce en particulier à la souplesse de son utilisation. C'est pourquoi c'est cette théorie qui a finalement été retenue dans les travaux présentés dans \ref{sec:fct_croyances}.
 
 %---------------
 \begin{table}[htbp]
@@ -2028,13 +2023,25 @@ locuteur $t_{k+1}$ est masculin).}
 \label{tab:conflit}
 \end{table}
 %-----------------------
+ Cet exemple met en évidence le fait que cette méthode ne prend pas en compte la contradiction des informations délivrées par certains tours de parole. Même si une solution intermédiaire a été présentée dans \ref{sec:normalisation}, il convient de réajuster le calcul des scores en tenant mieux compte de l'incertitude de ces informations. Un formalisme probabiliste basé par exemple sur des probabilités conditionnelles peut être envisagé pour ce type de situations, mais le manque d'informations {\it a priori} rend ce type de modélisation difficile. Bien que les sorties de l'arbre soient de nature probabiliste, la théorie des croyances nous a paru mieux adaptée et moins contraignante, grâce en particulier à la souplesse de son utilisation. C'est pourquoi c'est cette théorie qui a finalement été retenue dans les travaux présentés dans \ref{sec:fct_croyances}.
 
-\section{Applications et connaissances a priori}
-liste de locuteurs, genre des locuteurs
 
-\subsection{Résultats avec liste de locuteurs globale}
+\section{Utilisation de connaissances a priori}
 
-Le tableau \ref{tab:results_liumni} présente les résultats du système sur les corpus de développement et de test, en utilisant des transcriptions totalement manuelles ou totalement automatiques. Le système de détection d'entités nommées utilisé est LIA\_NE, la liste de locuteurs d'ESTER 1 est utilisée pour filtrer les décisions. Le genre des locuteurs est pris en compte via la liste des locuteurs (le genre des locuteurs étant extrait des transcriptions de référence).
+Tous les travaux menés jusqu'ici utilisent une liste de noms complets représentant les locuteurs potentiels (généralement appelée \og{} liste de locuteurs \fg{}). Elle peut être utilisée pour étiqueter les noms complets directement dans la transcription (comme pour les travaux de Canseco ou de Tranter) ou pour rejeter certaines décisions qui ne concernent pas des locuteurs cibles (comme MILES\_NI). L'utilisation de telles listes est difficilement justifiable si le contexte d'utilisation du système d'INL n'est pas précisé.
+
+\subsection{Contexte}
+
+Imaginons des enregistrements radiophoniques (ou télévisuels) où les intervenants sont connus car ils peuvent être obtenus via le programme des émissions ou via des connaissances externes. Dans ce cas un système d'INL peut être utilisé pour étiqueter automatiquement les locuteurs et les interventions de manière précise dans chaque enregistrement. Il est alors tout à fait acceptable d'utiliser une liste de locuteur par enregistrement, puisque leur identité est déjà connue. De plus, le genre des locuteurs peut généralement être récupéré de la même manière et peut donc être utilisé comme connaissance a priori.
+
+En revanche, lorsque le système d'INL est utilisé pour nommer des enregistrements dont les locuteurs ne sont pas connus, utiliser une liste de locuteur revient à disposer d'informations \emph{a priori}. Lorsque l'on cherche à nommer automatiquement de grandes collections de documents audio, il est impossible d'obtenir une liste de tous les locuteurs au préalable. Constituer cette liste est, dans ce cas, un des objectifs du processus d'INL. Puisque dans ce cas, aucune information a priori sur les locuteurs ne peut être obtenue au préalable, le genre des locuteurs doit être déterminé grâce au prénom du nom complet (cf. section \ref{sec:results_milesni}) lorsque cela est possible.
+
+\subsection{Expérimentations}
+
+Afin de prendre ces deux cas d'utilisation en compte, nous présentons dans le tableau X \todo{Rédiger tableau résultats avec ou sans liste de locu} les résultats avec et sans listes de locuteurs. À la différence des précédents résultats présentés pour MILES\_NI (cf. section \ref{sec:results_milesni}), une liste de locuteur différente par enregistrement est utilisée. Cette liste ne contient que les locuteurs du document, ils ont été extraits (ainsi que leur genre) automatiquement des transcriptions de référence.
+
+
+%Le tableau \ref{tab:results_liumni} présente les résultats du système sur les corpus de développement et de test, en utilisant des transcriptions totalement manuelles ou totalement automatiques. Le système de détection d'entités nommées utilisé est LIA\_NE, la liste de locuteurs d'ESTER 1 est utilisée pour filtrer les décisions. Le genre des locuteurs est pris en compte via la liste des locuteurs (le genre des locuteurs étant extrait des transcriptions de référence).
 
 \begin{table}[h]
 \begin{center}
@@ -2059,8 +2066,6 @@ Le tableau \ref{tab:results_liumni} présente les résultats du système sur les co
 \caption{Système proposé avec une transcription enrichie manuelle ou automatique en utilisant une liste de locuteurs}
 \label{tab:results_liumni}
 \end{table}
-
-\subsection{Résultats avec liste de locuteurs par show}
 
 \begin{table}[h]
 \begin{center}
@@ -2087,88 +2092,92 @@ Le tableau \ref{tab:results_liumni} présente les résultats du système sur les co
 \end{table}
 
 
-\subsection{Impact de la prise en compte du genre}
+%\subsection{Impact de la prise en compte du genre}
+%
+%Lors de l'utilisation d'un système d'INL avec une liste de locuteurs connue à l'avance, le genre des locuteurs peut généralement être obtenu de la même manière. C'est pourquoi les résultats présentés dans la section \ref{sec:results_milesni} utilisent cette connaissance a priori.
+%
+%En revanche, lors de l'utilisation d'un système d'INL sans liste de locuteurs, 
+%
+%Le tableau \ref{tab:results_liumni_sansgenre} présente les résultat de MILES\_NI sans utiliser le genre des locuteurs sans utiliser l'information sur le genre des locuteurs. La liste des locuteurs d'ESTER 1 (tous corpus confondus) est utilisée, mais sans prendre en compte le genre du locuteur.
+%
+%Lorsque le genre n'est pas utilisé pour affiner les décisions, les performances du système se dégradent, que ce soit sur les transcriptions automatiques ou manuelles. Sur les transcriptions manuelles, le taux d'erreur augmente d'environ 3\% en absolu. Sur les transcriptions automatiques, le taux d'erreur augmente très peu sur les corpus de développement, mais augmente de 4\% sur le corpus de test. Le genre des locuteurs étant détecté automatiquement, il est donc soumis à des erreurs \todo{donner le taux d'erreur}. Mais même si cette détection comporte des erreurs, l'utiliser améliore quand même les performances.
 
-Le tableau \ref{tab:results_liumni_sansgenre} présente les mêmes résultats que le tableau \ref{tab:results_liumni} sans utiliser l'information sur le genre des locuteurs. La liste des locuteurs d'ESTER 1 (tous corpus confondus) est utilisée, mais sans prendre en compte le genre du locuteur.
-
-Lorsque le genre n'est pas utilisé pour affiner les décisions, les performances du système se dégradent, que ce soit sur les transcriptions automatiques ou manuelles. Sur les transcriptions manuelles, le taux d'erreur augmente d'environ 3\% en absolu. Sur les transcriptions automatiques, le taux d'erreur augmente très peu sur les corpus de développement, mais augmente de 4\% sur le corpus de test. Le genre des locuteurs étant détecté automatiquement, il est donc soumis à des erreurs \todo{donner le taux d'erreur}. Mais même si cette détection comporte des erreurs, l'utiliser améliore quand même les performances.
-
-\begin{table}[h]
-\begin{center}
-\begin{tabular}{|c|c|c|c|c|c|}
-\cline{3-6}
-\multicolumn{2}{c|}{} & \multicolumn{3}{|c|}{En durée}  & En nb de Locuteur \\ \hline
-\textbf{Trans.} & \textbf{Seg/Class.} & \textbf{R} & \textbf{P} & \textbf{ErrDur} & \textbf{ErrLoc} \\ \hline
-\hline
-\multicolumn{6}{|c|}{Corpus de Développement} \\
-\hline
-\textbf{M} & \textbf{M} & 84,30\% & 90,60\% & 14,55\% & 17,84\% \\ \hline
-\textbf{A} & \textbf{A} & 28,56\% & 54,08\% & 65,65\% & - \\
-\hline
-\hline
-\multicolumn{6}{|c|}{Corpus de Test} \\
-\hline
-\textbf{M} & \textbf{M} & 84,12\% & 93.40\% & 14,68\% & 20,33\% \\ \hline
-\textbf{A} & \textbf{A} & 24,61\% & 58,82\% & 68,78\% & - \\
-\hline
-\end{tabular}
-\end{center}
-\caption{Système proposé avec une transcription enrichie manuelle ou automatique en utilisant une liste de locuteurs, sans prise en compte du genre}
-\label{tab:results_liumni_sansgenre}
-\end{table}
+%\begin{table}[h]
+%\begin{center}
+%\begin{tabular}{|c|c|c|c|c|c|}
+%\cline{3-6}
+%\multicolumn{2}{c|}{} & \multicolumn{3}{|c|}{En durée}  & En nb de Locuteur \\ \hline
+%\textbf{Trans.} & \textbf{Seg/Class.} & \textbf{R} & \textbf{P} & \textbf{ErrDur} & \textbf{ErrLoc} \\ \hline
+%\hline
+%\multicolumn{6}{|c|}{Corpus de Développement} \\
+%\hline
+%\textbf{M} & \textbf{M} & 84,30\% & 90,60\% & 14,55\% & 17,84\% \\ \hline
+%\textbf{A} & \textbf{A} & 28,56\% & 54,08\% & 65,65\% & - \\
+%\hline
+%\hline
+%\multicolumn{6}{|c|}{Corpus de Test} \\
+%\hline
+%\textbf{M} & \textbf{M} & 84,12\% & 93.40\% & 14,68\% & 20,33\% \\ \hline
+%\textbf{A} & \textbf{A} & 24,61\% & 58,82\% & 68,78\% & - \\
+%\hline
+%\end{tabular}
+%\end{center}
+%\caption{Système proposé avec une transcription enrichie manuelle ou automatique en utilisant une liste de locuteurs, sans prise en compte du genre}
+%\label{tab:results_liumni_sansgenre}
+%\end{table}
 
 
-\subsection{Système ouvert sans liste de locuteurs et de leur genre}
-
-\ref{tab:results_liumni_sansliste} \ref{tab:results_liumni_genre_prenom}
-
-\begin{table}[h]
-\begin{center}
-\begin{tabular}{|c|c|c|c|c|c|}
-\cline{3-6}
-\multicolumn{2}{c|}{} & \multicolumn{3}{|c|}{En durée}  & En nb de Locuteur \\ \hline
-\textbf{Trans.} & \textbf{Seg/Class.} & \textbf{R} & \textbf{P} & \textbf{ErrDur} & \textbf{ErrLoc} \\ \hline
-\hline
-\multicolumn{6}{|c|}{Corpus de Développement} \\
-\hline
-\textbf{M} & \textbf{M} & 67,23\% & 93,12\% & 30,04\% & 28,63\% \\ \hline
-\textbf{A} & \textbf{A} & 20,26\% & 76,84\% & 72,73\% & - \\
-\hline
-\hline
-\multicolumn{6}{|c|}{Corpus de Test} \\
-\hline
-\textbf{M} & \textbf{M} & 71,46\% & 95,03\% & 26,11\% & 27,80\% \\ \hline
-\textbf{A} & \textbf{A} & 20,60\% & 64,03\% & 72,32\% & - \\
-\hline
-\end{tabular}
-\end{center}
-\caption{Système de base avec une transcription enrichie manuelle ou automatique sans liste de locuteurs et sans genre}
-\label{tab:results_liumni_sansliste}
-\end{table}
-
-\begin{table}[h]
-\begin{center}
-\begin{tabular}{|c|c|c|c|c|c|}
-\cline{3-6}
-\multicolumn{2}{c|}{} & \multicolumn{3}{|c|}{En durée}  & En nb de Locuteur \\ \hline
-\textbf{Trans.} & \textbf{Seg/Class.} & \textbf{R} & \textbf{P} & \textbf{ErrDur} & \textbf{ErrLoc} \\ \hline
-\hline
-\multicolumn{6}{|c|}{Corpus de Développement} \\
-\hline
-\textbf{M} & \textbf{M} & 70,97\% & 97,89\% & 26,55\% & 22,82\% \\ \hline
-\textbf{A} & \textbf{A} & 20,91\% & 80,64\% & 72,10\% & - \\
-\hline
-\hline
-\multicolumn{6}{|c|}{Corpus de Test} \\
-\hline
-\textbf{M} & \textbf{M} & 74,58\% & 97,85\% & 23,23\% & 24,90\% \\ \hline
-\textbf{A} & \textbf{A} & 23,77\% & 74,53\% & 69,40\% & - \\
-\hline
-\end{tabular}
-\end{center}
-\caption{Système proposé avec une transcription enrichie manuelle ou automatique sans liste de locuteurs, et avec prise en compte du genre par le prénom}
-\label{tab:results_liumni_genre_prenom}
-\end{table}
+%\subsection{Système ouvert sans liste de locuteurs et de leur genre}
+%
+%\ref{tab:results_liumni_sansliste} \ref{tab:results_liumni_genre_prenom}
+%
+%\begin{table}[h]
+%\begin{center}
+%\begin{tabular}{|c|c|c|c|c|c|}
+%\cline{3-6}
+%\multicolumn{2}{c|}{} & \multicolumn{3}{|c|}{En durée}  & En nb de Locuteur \\ \hline
+%\textbf{Trans.} & \textbf{Seg/Class.} & \textbf{R} & \textbf{P} & \textbf{ErrDur} & \textbf{ErrLoc} \\ \hline
+%\hline
+%\multicolumn{6}{|c|}{Corpus de Développement} \\
+%\hline
+%\textbf{M} & \textbf{M} & 67,23\% & 93,12\% & 30,04\% & 28,63\% \\ \hline
+%\textbf{A} & \textbf{A} & 20,26\% & 76,84\% & 72,73\% & - \\
+%\hline
+%\hline
+%\multicolumn{6}{|c|}{Corpus de Test} \\
+%\hline
+%\textbf{M} & \textbf{M} & 71,46\% & 95,03\% & 26,11\% & 27,80\% \\ \hline
+%\textbf{A} & \textbf{A} & 20,60\% & 64,03\% & 72,32\% & - \\
+%\hline
+%\end{tabular}
+%\end{center}
+%\caption{Système de base avec une transcription enrichie manuelle ou automatique sans liste de locuteurs et sans genre}
+%\label{tab:results_liumni_sansliste}
+%\end{table}
+%
+%\begin{table}[h]
+%\begin{center}
+%\begin{tabular}{|c|c|c|c|c|c|}
+%\cline{3-6}
+%\multicolumn{2}{c|}{} & \multicolumn{3}{|c|}{En durée}  & En nb de Locuteur \\ \hline
+%\textbf{Trans.} & \textbf{Seg/Class.} & \textbf{R} & \textbf{P} & \textbf{ErrDur} & \textbf{ErrLoc} \\ \hline
+%\hline
+%\multicolumn{6}{|c|}{Corpus de Développement} \\
+%\hline
+%\textbf{M} & \textbf{M} & 70,97\% & 97,89\% & 26,55\% & 22,82\% \\ \hline
+%\textbf{A} & \textbf{A} & 20,91\% & 80,64\% & 72,10\% & - \\
+%\hline
+%\hline
+%\multicolumn{6}{|c|}{Corpus de Test} \\
+%\hline
+%\textbf{M} & \textbf{M} & 74,58\% & 97,85\% & 23,23\% & 24,90\% \\ \hline
+%\textbf{A} & \textbf{A} & 23,77\% & 74,53\% & 69,40\% & - \\
+%\hline
+%\end{tabular}
+%\end{center}
+%\caption{Système proposé avec une transcription enrichie manuelle ou automatique sans liste de locuteurs, et avec prise en compte du genre par le prénom}
+%\label{tab:results_liumni_genre_prenom}
+%\end{table}
 
 
 \section{Métriques~: de la pertinence des métriques utilisées}
@@ -2389,6 +2398,8 @@ Le tableau \ref{tab:results_fctcroyance} présente les résultats du système utili
 \label{tab:results_fctcroyance_sansliste}
 \end{table}
 
+\chapter{Conclusion}
+\minitoc
 
 % \section{Commandes}
 % 
