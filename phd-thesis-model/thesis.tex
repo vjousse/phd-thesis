@@ -1994,23 +1994,23 @@ Le tableau \ref{tab:results_normalisation} donne les résultats sur les corpus de
 
 \begin{table}[h]
 \begin{center}
-\begin{tabular}{|c|c|c|c|c|c|}
+\begin{tabular}{|c|c|c|c|c|c|c|}
 \cline{3-6}
-\multicolumn{2}{c|}{} & \multicolumn{3}{|c|}{En durée}  & En nb de Locuteur \\ \hline
-\multicolumn{2}{|c|}{} & \textbf{R} & \textbf{P} & \textbf{ErrDur} & \textbf{ErrLoc} \\ \hline
+\multicolumn{2}{c|}{} & \multicolumn{3}{|c|}{En durée}  & \multicolumn{2}{|c|}{En nombre} \\ \hline
+\multicolumn{2}{|c|}{} & \textbf{R} & \textbf{P} & \textbf{ErrDur} & \textbf{ErrLoc} & \textbf{Nb. corrects} \\ \hline
 \hline
-\multicolumn{6}{|c|}{\emph{Corpus de Développement}}\\ \hline
+\multicolumn{7}{|c|}{\emph{Corpus de Développement}}\\ \hline
 \hline
-\multicolumn{2}{|c|}{Maximum} & 75,37~\% & 97,31~\% & 22,51~\% & 32,51~\% \\ \hline
-\multicolumn{2}{|c|}{Normalisation} & 87,41~\% & 95,71~\% & 11,67~\% & 13,99~\% \\ \hline
-\multicolumn{2}{|c|}{Fonctions de croyance} & 86,22~\% & 94,41~\% & 12,75~\% & 15,23~\% \\ \hline
+\multicolumn{2}{|c|}{Maximum} & 75,37~\% & 97,31~\% & 22,51~\% & 32,51~\% & 164 \\ \hline
+\multicolumn{2}{|c|}{Normalisation} & 87,41~\% & 95,71~\% & 11,67~\% & 13,99~\% & 209 \\ \hline
+\multicolumn{2}{|c|}{F. de croyance} & 86,22~\% & 94,41~\% & 12,75~\% & 15,23~\% & 206 \\ \hline
 \hline
 \hline
-\multicolumn{6}{|c|}{\emph{Corpus de Test}}\\ \hline
+\multicolumn{7}{|c|}{\emph{Corpus de Test}}\\ \hline
 \hline
-\multicolumn{2}{|c|}{Maximum} & 77,83~\% & 100~\% & 21,10~\% & 28,30~\% \\ \hline
-\multicolumn{2}{|c|}{Normalisation} & 81,57~\% & 100~\% & 17,54~\% & 21,70~\% \\ \hline
-\multicolumn{2}{|c|}{Fonctions de croyance} & 78,36\% & 97,98\% & 20,60\% & 23,58\% \\ \hline
+\multicolumn{2}{|c|}{Maximum} & 77,83~\% & 100~\% & 21,10~\% & 28,30~\% & 76 \\ \hline
+\multicolumn{2}{|c|}{Normalisation} & 81,57~\% & 100~\% & 17,54~\% & 21,70~\% & 83 \\ \hline
+\multicolumn{2}{|c|}{F. de croyance} & 78,36\% & 97,98\% & 20,60\% & 23,58\% & 81 \\ \hline
 \hline
 \end{tabular}
 \end{center}
@@ -2018,11 +2018,15 @@ Le tableau \ref{tab:results_normalisation} donne les résultats sur les corpus de
 \label{tab:results_normalisation}
 \end{table}
 
+Tout d'abord, on observe le même comportement des différentes méthodes sur les deux corpus. La méthode qui présente les meilleurs résultats est la méthode utilisant la normalisation~: 17,54~\% de taux d'erreur en durée sur le corpus de test (11,67~\% pour le corpus de développement) pour 21,70~\% de taux d'erreur en nombre de locuteurs sur ce même corpus (13,99~\% sur le corpus de développement). La méthode utilisant les fonctions de croyance est quant à elle légèrement moins performante~\%: 20,60~\% de taux d'erreur en durée sur le corpus de test pour 23,58~\% de taux d'erreur en nombre de locuteurs.
+
+Lors de l'analyse de ces résultats, le nombre de locuteurs concernés doit être pris en compte. Par exemple, sur le corpus de développement, la différence de locuteurs correctement nommés entre la méthode utilisant la normalisation et celle utilisant les fonctions de croyance est infime~: on passe de 209 locuteurs correctement nommés à 206 (contre 164 pour la méthode du maximum). De manière identique, sur le corpus de test, le nombre de locuteurs correctement nommés passe de 83 à 81 avec l'utilisation des fonctions de croyance (contre 76 pour la méthode du maximum).
+
+Bien que ce ne soit pas la méthode qui obtienne les meilleurs résultats, ce sont les fonctions de croyance qui ont été utilisés pour MILES\_NI. Ce choix est justifié dans la section suivante.
+
 \subsection{Critiques et théorie des fonctions de croyance}
 
-
-
-Plusieurs critiques de natures diverses peuvent être émises quant à la pertinence de la méthode de combinaison exposée précédemment en section \ref{sec:maximum}, même si elle a donné de bons résultats (cf. section \ref{sec:exp_normalisation}). Premièrement, la notion de score est difficile à interpréter, ces quantités obtenues ne représentent pas de degré de confiance, ni de probabilité que tel nom complet corresponde à tel locuteur. Elles conduisent à un manque de lisibilité de la décision. L'équation \ref{eq:SC} sur laquelle s'appuie la décision représente un compromis qu'il est difficile de justifier.
+Plusieurs critiques de natures diverses peuvent être émises quant à la pertinence de la méthode de combinaison utilisant un maximum et une addition des probabilités de l'arbre de classification (exposée précédemment en section \ref{sec:maximum}). Même si elle a donné de bons résultats (cf. section \ref{sec:exp_normalisation}), la notion de score est difficile à interpréter. Ces quantités obtenues ne représentent pas de degré de confiance, ni de probabilité que tel nom complet corresponde à tel locuteur. Elles conduisent à un manque de lisibilité de la décision. L'équation \ref{eq:SC} sur laquelle s'appuie la décision représente un compromis qu'il est difficile de justifier.
 
 Mais la critique principale concerne la méthode même de combinaison : le conflit d'informations au sein d'un tour de parole donné n'est pas pris en compte. L'information disponible n'est pas combinée dans sa globalité de façon satisfaisante. La méthode de combinaison proposée est susceptible de propager des imperfections pour l'étape suivante de la décision. En effet, l'affectation d'un nom complet à un locuteur ne tient pas compte des liens entre les différentes informations fournies par l'arbre de classification, en particulier quand un même locuteur prononce plusieurs noms complets et peut donc aboutir à des résultats erronés. Le tableau \ref{tab:conflit} présente un exemple de tour de parole $t_k$ où $8$ noms complets sont détectés. Les probabilités indiquées correspondent au locuteur du tour suivant $t_{k+1}$, qui est de genre masculin. L'un des noms complets (féminin) est donc éliminé. Certaines occurrences sont redondantes, car elles correspondent à un même nom complet (\emph{Jean-Claude Pajak} et \emph{Jacques Chirac}) et une seule occurrence a une probabilité élevée. Il reste donc $4$ noms complets en compétition, ce qui représente une incompatibilité importante. Or, la contribution de ce tour produit des scores élevés pour \emph{Jean-Claude Pajak} ($1,25$) et \emph{Jacques Chirac} ($0,87$), scores semblables à celui qu'on obtiendrait si on disposait d'une information sans ambigüité, comme par exemple un tour ne contenant qu'une seule occurrence de probabilité élevée sans concurrence. En effet, même si \emph{Jacques Chirac} obtient un score relativement élevé ($0,87$) avec la méthode de combinaison proposée, le fait que ce score provienne de 3 scores relativement faibles de l'arbre ($0,29$) est complètement occulté.
 
