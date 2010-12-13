@@ -1990,6 +1990,34 @@ Dans le précédent exemple, \emph{Jacques Derrida} était affecté au locuteur $c_{
 
 \label{sec:exp_normalisation}
 
+Le tableau \ref{tab:results_normalisation} donne les résultats sur les corpus de développement et de test (transcriptions enrichies manuelles) en utilisant les différents systèmes de combinaison des informations~: simple maximum, normalisation des scores ou fonctions de croyances. Une liste de locuteur et de leur genre est utilisée (cf. section \ref{sec:results_milesni}). MILES\_NI a été utilisé pour ces expériences, ainsi que les différentes avancées qu'il contient~: injectivité de $f(c_l)=f(c_l') \Rightarrow c_l=c_l'$, prise en compte du genre et utilisation de l'algorithme Hongrois. Seule la manière de combiner les informations de l'arbre de classification au niveau du locuteur a été changée.
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|}
+\cline{3-6}
+\multicolumn{2}{c|}{} & \multicolumn{3}{|c|}{En durée}  & En nb de Locuteur \\ \hline
+\multicolumn{2}{|c|}{} & \textbf{R} & \textbf{P} & \textbf{ErrDur} & \textbf{ErrLoc} \\ \hline
+\hline
+\multicolumn{6}{|c|}{\emph{Corpus de Développement}}\\ \hline
+\hline
+\multicolumn{2}{|c|}{Maximum} & 75,37~\% & 97,31~\% & 22,51~\% & 32,51~\% \\ \hline
+\multicolumn{2}{|c|}{Normalisation} & 87,41~\% & 95,71~\% & 11,67~\% & 13,99~\% \\ \hline
+\multicolumn{2}{|c|}{Fonctions de croyance} & 86,22~\% & 94,41~\% & 12,75~\% & 15,23~\% \\ \hline
+\hline
+\hline
+\multicolumn{6}{|c|}{\emph{Corpus de Test}}\\ \hline
+\hline
+\multicolumn{2}{|c|}{Maximum} & 77,83~\% & 100~\% & 21,10~\% & 28,30~\% \\ \hline
+\multicolumn{2}{|c|}{Normalisation} & 81,57~\% & 100~\% & 17,54~\% & 21,70~\% \\ \hline
+\multicolumn{2}{|c|}{Fonctions de croyance} & 78,36\% & 97,98\% & 20,60\% & 23,58\% \\ \hline
+\hline
+\end{tabular}
+\end{center}
+\caption{Différence entre les méthodes de combinaison globales sur des transcriptions enrichies manuelles en utilisant une liste de locuteurs}
+\label{tab:results_normalisation}
+\end{table}
+
 \subsection{Critiques et théorie des fonctions de croyance}
 
 
