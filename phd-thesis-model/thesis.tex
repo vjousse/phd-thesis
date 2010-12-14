@@ -1995,7 +1995,7 @@ Le tableau \ref{tab:results_normalisation} donne les résultats sur les corpus de
 \begin{table}[h]
 \begin{center}
 \begin{tabular}{|c|c|c|c|c|c|c|}
-\cline{3-6}
+\cline{3-7}
 \multicolumn{2}{c|}{} & \multicolumn{3}{|c|}{En durée}  & \multicolumn{2}{|c|}{En nombre} \\ \hline
 \multicolumn{2}{|c|}{} & \textbf{R} & \textbf{P} & \textbf{ErrDur} & \textbf{ErrLoc} & \textbf{Nb. corrects} \\ \hline
 \hline
@@ -2022,7 +2022,7 @@ Tout d'abord, on observe le même comportement des différentes méthodes sur les d
 
 Lors de l'analyse de ces résultats, le nombre de locuteurs concernés doit être pris en compte. Par exemple, sur le corpus de développement, la différence de locuteurs correctement nommés entre la méthode utilisant la normalisation et celle utilisant les fonctions de croyance est infime~: on passe de 209 locuteurs correctement nommés à 206 (contre 164 pour la méthode du maximum). De manière identique, sur le corpus de test, le nombre de locuteurs correctement nommés passe de 83 à 81 avec l'utilisation des fonctions de croyance (contre 76 pour la méthode du maximum).
 
-Bien que ce ne soit pas la méthode qui obtienne les meilleurs résultats, ce sont les fonctions de croyance qui ont été utilisés pour MILES\_NI. Ce choix est justifié dans la section suivante.
+Bien que ce ne soit pas la méthode qui obtienne les meilleurs résultats, ce sont les fonctions de croyance qui ont été utilisées pour MILES\_NI. Ce choix est justifié dans la section suivante.
 
 \subsection{Critiques et théorie des fonctions de croyance}
 
@@ -2060,17 +2060,42 @@ locuteur $t_{k+1}$ est masculin).}
 
 \section{Utilisation de connaissances a priori}
 
-Tous les travaux menés jusqu'ici utilisent une liste de noms complets représentant les locuteurs potentiels (généralement appelée \og{} liste de locuteurs \fg{}). Elle peut être utilisée pour étiqueter les noms complets directement dans la transcription (comme pour les travaux de Canseco ou de Tranter) ou pour rejeter certaines décisions qui ne concernent pas des locuteurs cibles (comme MILES\_NI). L'utilisation de telles listes est difficilement justifiable si le contexte d'utilisation du système d'INL n'est pas précisé.
+Tous les travaux menés jusqu'ici utilisent une liste de noms complets représentant les locuteurs potentiels (généralement appelée \og liste de locuteurs \fg{}). Elle peut être utilisée pour étiqueter les noms complets directement dans la transcription (comme pour les travaux de Canseco ou de Tranter) ou pour rejeter certaines décisions qui ne concernent pas des locuteurs cibles (comme MILES\_NI). L'utilisation de telles listes est difficilement justifiable si le contexte d'utilisation du système d'INL n'est pas précisé.
 
 \subsection{Contexte}
 
-Imaginons des enregistrements radiophoniques (ou télévisuels) où les intervenants sont connus car ils peuvent être obtenus via le programme des émissions ou via des connaissances externes. Dans ce cas un système d'INL peut être utilisé pour étiqueter automatiquement les locuteurs et les interventions de manière précise dans chaque enregistrement. Il est alors tout à fait acceptable d'utiliser une liste de locuteur par enregistrement, puisque leur identité est déjà connue. De plus, le genre des locuteurs peut généralement être récupéré de la même manière et peut donc être utilisé comme connaissance a priori.
+Imaginons des enregistrements radiophoniques (ou télévisuels) où les intervenants sont connus car ils peuvent être obtenus via le programme des émissions ou via des connaissances externes. Dans ce cas un système d'INL peut être utilisé pour étiqueter automatiquement les locuteurs et les interventions de manière précise dans chaque enregistrement. Il est alors tout à fait acceptable d'utiliser une liste de locuteurs par enregistrement, puisque leur identité est déjà connue. De plus, le genre des locuteurs peut généralement être récupéré de la même manière et peut donc être utilisé comme connaissance a priori.
 
-En revanche, lorsque le système d'INL est utilisé pour nommer des enregistrements dont les locuteurs ne sont pas connus, utiliser une liste de locuteur revient à disposer d'informations \emph{a priori}. Lorsque l'on cherche à nommer automatiquement de grandes collections de documents audio, il est impossible d'obtenir une liste de tous les locuteurs au préalable. Constituer cette liste est, dans ce cas, un des objectifs du processus d'INL. Puisque dans ce cas, aucune information a priori sur les locuteurs ne peut être obtenue au préalable, le genre des locuteurs doit être déterminé grâce au prénom du nom complet (cf. section \ref{sec:results_milesni}) lorsque cela est possible.
+En revanche, lorsque le système d'INL est utilisé pour nommer des enregistrements dont les locuteurs ne sont pas connus, utiliser une liste de locuteurs revient à disposer d'informations \emph{a priori}. Lorsque l'on cherche à nommer automatiquement de grandes collections de documents audio, il est impossible d'obtenir une liste de tous les locuteurs au préalable. Constituer cette liste est, dans ce cas, un des objectifs du processus d'INL. Puisqu'aucune information a priori sur les locuteurs ne peut être obtenue au préalable, le genre des locuteurs doit être déterminé grâce au prénom du nom complet (cf. section \ref{sec:results_milesni}) lorsque cela est possible.
 
 \subsection{Expérimentations}
 
-Afin de prendre ces deux cas d'utilisation en compte, nous présentons dans le tableau X \todo{Rédiger tableau résultats avec ou sans liste de locu} les résultats avec et sans listes de locuteurs. À la différence des précédents résultats présentés pour MILES\_NI (cf. section \ref{sec:results_milesni}), une liste de locuteur différente par enregistrement est utilisée. Cette liste ne contient que les locuteurs du document, ils ont été extraits (ainsi que leur genre) automatiquement des transcriptions de référence.
+Afin de prendre ces deux cas d'utilisation en compte, nous présentons dans le tableau \ref{tab:results_listes} les résultats avec et sans listes de locuteurs. À la différence des précédents résultats présentés pour MILES\_NI (cf. section \ref{sec:results_milesni}), une liste de locuteurs différente par enregistrement est utilisée. Cette liste ne contient que les locuteurs du document, ils ont été extraits (ainsi que leur genre) automatiquement des transcriptions de référence.
+
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\cline{3-7}
+\multicolumn{2}{c|}{} & \multicolumn{3}{|c|}{En durée}  & \multicolumn{2}{|c|}{En nombre} \\ \hline
+\multicolumn{2}{|c|}{} & \textbf{R} & \textbf{P} & \textbf{ErrDur} & \textbf{ErrLoc} & \textbf{Nb. corrects} \\ \hline
+\hline
+\multicolumn{7}{|c|}{\emph{Corpus de Développement}}\\ \hline
+\hline
+\multicolumn{2}{|c|}{Liste par enregistrement} & 86,83~\% & 95,86~\% & 12,38~\% & 14,74~\% & 214 \\ \hline
+\multicolumn{2}{|c|}{Sans liste} & 87,41~\% & 95,71~\% & 11,67~\% & 13,99~\% & 209 \\ \hline
+\hline
+\hline
+\multicolumn{7}{|c|}{\emph{Corpus de Test}}\\ \hline
+\hline
+\multicolumn{2}{|c|}{Liste par enregistrement} & 78,03~\% & 95,69~\% & 21,92~\% & 24,39~\% & 93 \\ \hline
+\multicolumn{2}{|c|}{Sans liste} & 78,36\% & 97,98\% & 20,60\% & 23,58\% & 81 \\ \hline
+\hline
+\end{tabular}
+\end{center}
+\caption{Différence entre les méthodes de combinaison globales sur des transcriptions enrichies manuelles en utilisant une liste de locuteurs}
+\label{tab:results_listes}
+\end{table}
 
 
 %Le tableau \ref{tab:results_liumni} présente les résultats du système sur les corpus de développement et de test, en utilisant des transcriptions totalement manuelles ou totalement automatiques. Le système de détection d'entités nommées utilisé est LIA\_NE, la liste de locuteurs d'ESTER 1 est utilisée pour filtrer les décisions. Le genre des locuteurs est pris en compte via la liste des locuteurs (le genre des locuteurs étant extrait des transcriptions de référence).
