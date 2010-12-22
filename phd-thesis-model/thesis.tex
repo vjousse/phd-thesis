@@ -1184,7 +1184,7 @@ Pour finir l'hypothèse concernant la présence des noms complets (correctement tr
 %Les travaux du LIUM ont été les seuls à utiliser un système automatique de détection des entités nommées. Dans le but d'automatiser le plus possible le processus, l'utilisation d'un tel système est indispensable. De plus, l'affectation des étiquettes \og précédent \fg{}, \og courant \fg{} et \og suivant \fg{} a beaucoup été étudiée dans la littérature. En revanche, le processus de propagation de ces étiquettes au niveau des classes de locuteur et la résolution des conflits n'a pas été étudiée jusqu'ici. Pour finir, beaucoup de travaux ont été conduits sur des transcriptions partiellement ou totalement manuelles ; un travail sur des transcriptions entièrement automatiques est à réaliser.
 
 
-\chapter{MILES\_NI : Un système d'INL par analyse conjointe du signal et de sa transcription}
+\chapter{\emph{Milesin} : Un système d'INL par analyse conjointe du signal et de sa transcription}
 \minitoc
 \newpage
 
@@ -1766,11 +1766,11 @@ Les résultats sur le corpus de test s'expliquent par la composition du corpus dé
 
 \section{Bilan}
 
-MILES\_NI est un système d'INL utilisant un détecteur d'entités nommées pour étiqueter les noms complets et les classes sémantiques, un arbre de classification sémantique pour réaliser les attributions locales et la théorie des fonctions de croyances couplée à l'algorithme de Kuhn-Munkres pour le processus d'attribution globale.
+\emph{Milesin} est un système d'INL utilisant un détecteur d'entités nommées pour étiqueter les noms complets et les classes sémantiques, un arbre de classification sémantique pour réaliser les attributions locales et la théorie des fonctions de croyances couplée à l'algorithme de Kuhn-Munkres pour le processus d'attribution globale.
 
-L'utilisation des fonctions de croyance pour combiner les croyances et incertitudes de la phase d'attribution locale permet de disposer d'un solide modèle mathématique pour calculer les probabilités d'affectation d'un nom complet à un locuteur. Grâce à l'utilisation de l'algorithme de Kuhn-Munkres, l'assignation des noms complets aux locuteurs est optimale. Ces différentes améliorations donnent de bons résultats, puisque sur le même corpus transcrit manuellement, MILES\_NI obtient un rappel de 86,22~\% à 95~\% de précision, là où le système antérieur à cette thèse obtenait un rappel d'environ 40~\%.
+L'utilisation des fonctions de croyance pour combiner les croyances et incertitudes de la phase d'attribution locale permet de disposer d'un solide modèle mathématique pour calculer les probabilités d'affectation d'un nom complet à un locuteur. Grâce à l'utilisation de l'algorithme de Kuhn-Munkres, l'assignation des noms complets aux locuteurs est optimale. Ces différentes améliorations donnent de bons résultats, puisque sur le même corpus transcrit manuellement, \emph{Milesin} obtient un rappel de 86,22~\% à 95~\% de précision, là où le système antérieur à cette thèse obtenait un rappel d'environ 40~\%.
 
-Afin de se comparer aux travaux précédemment effectués, une liste de locuteurs potentiels a été utilisée. Cette liste constitue une connaissance a priori qui peut se justifier si les intervenants des enregistrements sont déjà connus et qu'il s'agit uniquement de les nommer dans les fichiers. En revanche, si l'on veut disposer d'un système sans connaissances a priori sur les documents à traiter, il faut pouvoir se passer de cette liste de locuteurs. De plus, il serait intéressant de tester MILES\_NI sur des transcriptions automatiques afin d'analyser son comportement et d'apporter de nouvelles pistes de travail sur ce type de transcriptions.
+Afin de se comparer aux travaux précédemment effectués, une liste de locuteurs potentiels a été utilisée. Cette liste constitue une connaissance a priori qui peut se justifier si les intervenants des enregistrements sont déjà connus et qu'il s'agit uniquement de les nommer dans les fichiers. En revanche, si l'on veut disposer d'un système sans connaissances a priori sur les documents à traiter, il faut pouvoir se passer de cette liste de locuteurs. De plus, il serait intéressant de tester \emph{Milesin} sur des transcriptions automatiques afin d'analyser son comportement et d'apporter de nouvelles pistes de travail sur ce type de transcriptions.
 
 Ces différentes pistes sont décrites en détail dans le chapitre suivant, ainsi que les avancées et limites du travail effectué dans cette thèse.
 
@@ -1779,16 +1779,16 @@ Ces différentes pistes sont décrites en détail dans le chapitre suivant, ainsi q
 %%%% DERNIER CHAPITRE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\chapter{MILES\_NI : avancées et limites}
+\chapter{Milesin : avancées et limites}
 
 \minitoc
 \newpage
 
 Un nombre significatif d'avancées ont été réalisées depuis le système de base du LIUM (cf. section \ref{sec:sys_id_lium}), comme l'utilisation de LIA\_NE comme détecteur d'entités nommées ou la mise en place des fonctions de croyances pour combiner les informations issues de l'arbre de classification sémantique. Malgré ces avancées, plusieurs points restent encore à étudier comme l'utilisation de tels systèmes sur des transcriptions automatiques ou l'impact de connaissances a priori comme les listes de locuteurs. 
 
-Les principales étapes et réflexions qui ont conduit au développement de MILES\_NI, et notamment une analyse des erreurs, sont tout d'abord présentées. Sont ensuite discuté la pertinence des métriques et de l'utilisation de connaissances a priori, avant de finir par l'utilisation de transcriptions automatiques.
+Les principales étapes et réflexions qui ont conduit au développement de \emph{Milesin}, et notamment une analyse des erreurs, sont tout d'abord présentées. Sont ensuite discuté la pertinence des métriques et de l'utilisation de connaissances a priori, avant de finir par l'utilisation de transcriptions automatiques.
 
-\section{Étude du système du LIUM}
+\section{Analyse préliminaire}
 
 Les travaux de cette thèse ont été réalisés à partir d'un système déjà existant, celui du LIUM. Ce système disposait d'un détecteur d'entités nommées sommaire, il a donc tout d'abord été décidé de le remplacer par Nemesis, le système de détection d'entités nommées du LINA. Une analyse des erreurs a ensuite été conduite de manière à comprendre les erreurs réalisées par le système.
 
@@ -1802,7 +1802,7 @@ Nemesis a été développé par l'équipe TALN (Traitement Automatique des Langues Na
 
 \subsection{Analyse des erreurs}
 
-Le système du LIUM utilisant Nemesis comme détecteur d'entités nommées obtient un rappel de 65~\% à 91~\% de précision. Afin de comprendre le comportement du système, nous avons choisi de l'étudier avec des transcriptions et des segmentations/classifications manuelles. Le corpus utilisé correspond au corpus de développement de MILES\_NI. Nous chercherons donc à comprendre pourquoi ce système a un rappel faible (65~\%) bien que les conditions soient optimales (transcriptions et segmentation~/ classification manuelles).
+Le système du LIUM utilisant Nemesis comme détecteur d'entités nommées obtient un rappel de 65~\% à 91~\% de précision. Afin de comprendre le comportement du système, nous avons choisi de l'étudier avec des transcriptions et des segmentations/classifications manuelles. Le corpus utilisé correspond au corpus de développement de \emph{Milesin}. Nous chercherons donc à comprendre pourquoi ce système a un rappel faible (65~\%) bien que les conditions soient optimales (transcriptions et segmentation~/ classification manuelles).
 
 \subsubsection{Méthode\\}
 
@@ -1883,7 +1883,7 @@ Comme le pronom personnel \textit{il} est en rapport avec Jérôme Savary, l'arbre
 
 L'analyse des erreurs conduite ici a permis de mettre en évidence les faiblesses de l'arbre de classification sémantique~: lorsque l'on choisit de prendre une décision en se basant sur l'étiquette qui obtient la probabilité maximale, l'arbre de décision est responsable de plus de 70~\% des erreurs du système. Nemesis quant à lui, représente environ 20~\% des erreurs commises par le système. La majorité de ces erreurs est due à des entités nommées qui ne sont pas assez concises.
 
-Cette étude a permis de remettre en question l'arbre de classification ainsi que le processus de décision qui en découle (cf. section \ref{sec:fct_croyances} sur le processus de décision de MILES\_NI). Les travaux intermédiaires menés sur ce processus de décision sont décrits dans le chapitre suivant. Nemesis a par la suite été remplacé par LIA\_NE, la différence de performances de MILES\_NI en utilisant Nemesis ou LIA\_NE est donnée dans le tableau X.
+Cette étude a permis de remettre en question l'arbre de classification ainsi que le processus de décision qui en découle (cf. section \ref{sec:fct_croyances} sur le processus de décision de \emph{Milesin}). Les travaux intermédiaires menés sur ce processus de décision sont décrits dans le chapitre suivant. Nemesis a par la suite été remplacé par LIA\_NE, la différence de performances de \emph{Milesin} en utilisant Nemesis ou LIA\_NE est donnée dans le tableau X.
 \todo{Tableau perfs Nemesis}
 %\subsection{Analyse des erreurs}
 %Les erreurs de détection d'entités nommées (comme l'ajout d'un mot en trop dans l'étiquetage) pourront être résolues grâce à un travail sur l'outil de TALN Nemesis. Ces erreurs affectent uniquement le rappel (locuteur mal ou pas détecté par exemple) et jamais la précision dans notre corpus. Certaines autres erreurs (étiquetage de France Inter comme étant une personne) seront a priori assez facile à éviter. En effet, l'outil se basant sur les majuscules et les prénoms, il détecte France comme prénom et donc France Inter comme personne puisque Inter contient une majuscule et à coté d'un prénom. Nemesis dispose pourtant de la radio France Inter dans ses lexiques, il faudrait donc que la règle regardant la présence dans les lexiques soit prédominante sur celle utilisant les prénoms et majuscules. Nous avons aussi réalisé l'étude pour voir si la résolution d'anaphore nominale pouvait conduire à améliorer les résultats et donc aider l'arbre à prendre des décisions. Nous n'avons relevé qu'un cas où cette prise en compte aurait été bénéfique, celui-la :\\
@@ -1903,7 +1903,7 @@ Cette étude a permis de remettre en question l'arbre de classification ainsi que
 %Notre corpus recoupant des fichiers de radios identiques, l'utilisation de modèles acoustiques permettrait de propager des décisions entre les différents fichiers. C'est le cas dans notre corpus pour Joël Collado le présentateur météo, qui est bien reconnu dans certains fichiers et pas dans d'autre, un modèle acoustique inter fichiers permettrait de propager les décisions globales entre les fichiers, comme nous propageons déjà les décisions locales au sein du même fichier grâce aux classes de locuteurs. Dans la même idée de faire confiance à l'acoustique, il ne devrait pas être possible d'affecter le même nom à deux classes de locuteurs identiques.
 
 
-\section{Processus de décision}
+\section{Processus de décision~: variantes}
 
 Lors des travaux de cette thèse, le processus de décision a beaucoup évolué. Nous commençons par rappeler et formaliser le processus de décision utilisé dans les précédents travaux du LIUM, pour ensuite présenter la solution intermédiaire développée pendant cette thèse. Nous finissons par exposer le cheminement qui nous a conduit à utiliser la théorie des fonctions de croyance.
 
@@ -1991,7 +1991,7 @@ Dans le précédent exemple, \emph{Jacques Derrida} était affecté au locuteur $c_{
 
 \label{sec:exp_normalisation}
 
-Le tableau \ref{tab:results_normalisation} donne les résultats sur les corpus de développement et de test (transcriptions enrichies manuelles) en utilisant les différents systèmes de combinaison des informations~: simple maximum, normalisation des scores ou fonctions de croyances. Une liste de locuteur et de leur genre est utilisée (cf. section \ref{sec:results_milesni}). MILES\_NI a été utilisé pour ces expériences, ainsi que les différentes avancées qu'il contient~: injectivité de $f(c_l)=f(c_l') \Rightarrow c_l=c_l'$, prise en compte du genre et utilisation de l'algorithme Hongrois. Seule la manière de combiner les informations de l'arbre de classification au niveau du locuteur a été changée.
+Le tableau \ref{tab:results_normalisation} donne les résultats sur les corpus de développement et de test (transcriptions enrichies manuelles) en utilisant les différents systèmes de combinaison des informations~: simple maximum, normalisation des scores ou fonctions de croyances. Une liste de locuteur et de leur genre est utilisée (cf. section \ref{sec:results_milesni}). \emph{Milesin} a été utilisé pour ces expériences, ainsi que les différentes avancées qu'il contient~: injectivité de $f(c_l)=f(c_l') \Rightarrow c_l=c_l'$, prise en compte du genre et utilisation de l'algorithme Hongrois. Seule la manière de combiner les informations de l'arbre de classification au niveau du locuteur a été changée.
 
 \begin{table}[h]
 \begin{center}
@@ -2023,7 +2023,7 @@ Tout d'abord, on observe le même comportement des différentes méthodes sur les d
 
 Lors de l'analyse de ces résultats, le nombre de locuteurs concernés doit être pris en compte. Par exemple, sur le corpus de développement, la différence de locuteurs correctement nommés entre la méthode utilisant la normalisation et celle utilisant les fonctions de croyance est infime~: on passe de 209 locuteurs correctement nommés à 206 (contre 164 pour la méthode du maximum). De manière identique, sur le corpus de test, le nombre de locuteurs correctement nommés passe de 83 à 81 avec l'utilisation des fonctions de croyance (contre 76 pour la méthode du maximum).
 
-Bien que ce ne soit pas la méthode qui obtienne les meilleurs résultats, ce sont les fonctions de croyance qui ont été utilisées pour MILES\_NI. Ce choix est justifié dans la section suivante.
+Bien que ce ne soit pas la méthode qui obtienne les meilleurs résultats, ce sont les fonctions de croyance qui ont été utilisées pour \emph{Milesin}. Ce choix est justifié dans la section suivante.
 
 \subsection{Critiques et théorie des fonctions de croyance}
 
@@ -2059,9 +2059,9 @@ locuteur $t_{k+1}$ est masculin).}
  Cet exemple met en évidence le fait que cette méthode ne prend pas en compte la contradiction des informations délivrées par certains tours de parole. Même si une solution intermédiaire a été présentée dans \ref{sec:normalisation}, il convient de réajuster le calcul des scores en tenant mieux compte de l'incertitude de ces informations. Un formalisme probabiliste basé par exemple sur des probabilités conditionnelles peut être envisagé pour ce type de situations, mais le manque d'informations {\it a priori} rend ce type de modélisation difficile. Bien que les sorties de l'arbre soient de nature probabiliste, la théorie des croyances nous a paru mieux adaptée et moins contraignante, grâce en particulier à la souplesse de son utilisation. C'est pourquoi c'est cette théorie qui a finalement été retenue dans les travaux présentés dans \ref{sec:fct_croyances}.
 
 
-\section{Utilisation de connaissances a priori}
+\section{Liste de locuteurs et applications}
 
-Tous les travaux menés jusqu'ici utilisent une liste de noms complets représentant les locuteurs potentiels (généralement appelée \og liste de locuteurs \fg{}). Elle peut être utilisée pour étiqueter les noms complets directement dans la transcription (comme pour les travaux de Canseco ou de Tranter) ou pour rejeter certaines décisions qui ne concernent pas des locuteurs cibles (comme MILES\_NI). L'utilisation de telles listes est difficilement justifiable si le contexte d'utilisation du système d'INL n'est pas précisé.
+Tous les travaux menés jusqu'ici utilisent une liste de noms complets représentant les locuteurs potentiels (généralement appelée \og liste de locuteurs \fg{}). Elle peut être utilisée pour étiqueter les noms complets directement dans la transcription (comme pour les travaux de Canseco ou de Tranter) ou pour rejeter certaines décisions qui ne concernent pas des locuteurs cibles (comme \emph{Milesin}). L'utilisation de telles listes est difficilement justifiable si le contexte d'utilisation du système d'INL n'est pas précisé.
 
 \subsection{Contexte}
 
@@ -2073,7 +2073,7 @@ En revanche, lorsque le système d'INL est utilisé pour nommer des enregistrement
 
 \label{sec:exp_liste}
 
-Afin de prendre ces deux cas d'utilisation en compte, nous présentons dans le tableau \ref{tab:results_listes} les résultats avec et sans listes de locuteurs. À la différence des précédents résultats présentés pour MILES\_NI (cf. section \ref{sec:results_milesni}), une liste de locuteurs différente par enregistrement est utilisée. Cette liste ne contient que les locuteurs du document, ils ont été extraits (ainsi que leur genre) automatiquement des transcriptions de référence. Lorsqu'aucune liste de locuteurs n'est utilisée, le genre des locuteurs est déterminé grâce à la méthode décrite dans \ref{sec:genre}.
+Afin de prendre ces deux cas d'utilisation en compte, nous présentons dans le tableau \ref{tab:results_listes} les résultats avec et sans listes de locuteurs. À la différence des précédents résultats présentés pour \emph{Milesin} (cf. section \ref{sec:results_milesni}), une liste de locuteurs différente par enregistrement est utilisée. Cette liste ne contient que les locuteurs du document, ils ont été extraits (ainsi que leur genre) automatiquement des transcriptions de référence. Lorsqu'aucune liste de locuteurs n'est utilisée, le genre des locuteurs est déterminé grâce à la méthode décrite dans \ref{sec:genre}.
 
 
 \begin{table}[h]
@@ -2117,11 +2117,11 @@ Dans cette optique, les systèmes doivent présenter la plus grande précision poss
 Dans un deuxième temps, il sera intéressant de regarder comment il est possible d'améliorer le détecteur d'entités nommées pour diminuer les erreurs de délimitation mentionnées dans la section \ref{sec:exp_liste}. Un traitement des coréférences entre prénom, patronyme et nom complet devrait aussi pouvoir améliorer les résultats du système sur certains corpus.
 
 
-\section{Transcriptions automatiques~: performances et limites}
+\section{Transcriptions automatiques}
 
 \subsection{Système de segmentation et de classification automatique du LIUM}
 
-Comme décrit dans \ref{ssec:ral}, la tâche de segmentation et de classification en locuteur consiste à annoter des régions du signal audio. Ces annotations peuvent être de plusieurs types : des étiquettes représentant les différents locuteurs, le genre des locuteurs, le type de canal (radio, studio) ou encore le type d'environnement sonore comme le bruit, la musique, \dots Dans la tâche de segmentation, les étiquettes représentant les locuteurs sont anonymes. Le système du LIUM est entièrement décrit dans \cite{liumspkdiarization}, ce qui suit en donne un court aperçu.
+La tâche de segmentation et de classification en locuteur consiste à annoter des régions du signal audio (cf. section \ref{ssub:decoupage_regroupement}). Ces annotations peuvent être de plusieurs types : des étiquettes représentant les différents locuteurs, le genre des locuteurs, le type de canal (radio, studio) ou encore le type d'environnement sonore comme le bruit, la musique, \dots Dans la tâche de segmentation, les étiquettes représentant les locuteurs sont anonymes. Le système du LIUM est entièrement décrit dans \cite{liumspkdiarization}, ce qui suit en donne un court aperçu.
 
 Le système utilisé au LIUM (LIUM\_SpkDiarization) utilise une segmentation basée sur GLR (Generalized Likelihood Ratio) et BIC \cite{Siegler97automaticsegmentation} (Bayesian Information Criterion). Une première passe permet de détecter les points de rupture du signal constituant les frontières des segments. Ces points de rupture sont détectés en utilisant la mesure de vraisemblance GLR calculée (grâce à des GMM à matrice de covariance pleine) sur une fenêtre de 5 secondes tout le long du signal. Lorsque la mesure atteint un maximum dans cette fenêtre de 5 secondes, le système considère que c'est un point de rupture. Une seconde passe est ensuite effectuée afin de fusionner les segments correspondant au même locuteur, du début à la fin de l'enregistrement. La mesure utilisée pour le regroupement est la distance BIC utilisant des matrices de covariance pleines. 
 
@@ -2131,6 +2131,8 @@ L'algorithme utilisé pour regrouper les segments au sein de classes se base sur 
 La détection du genre est réalisée grâce à des GMM (avec une diagonale à 128 composantes) pour chacun des quatre combinaisons possibles entre le genre (homme/femme) et le canal (studio/téléphone). Chaque classe est étiquetée en fonction de la GMM qui maximise la vraisemblance avec la classe en question. Chaque modèle a été préalablement appris en utilisant le corpus d'apprentissage de la campagne ESTER.
 
 \subsection{Système de transcription automatique du LIUM}
+
+Le système du LIUM \cite{lium_asr} est basé sur le décodeur CMU Sphinx \cite{Lamere03designof}.
 
 \subsection{Légende}
 
@@ -2176,7 +2178,7 @@ La détection du genre est réalisée grâce à des GMM (avec une diagonale à 128 com
   \label{table:etiquettes_sct}
 \end{table}
 
-\section{Métriques~: de la pertinence des métriques utilisées}
+\subsection{De la pertinence des métriques utilisées}
 
 Les systèmes d'identification nommée du locuteur peuvent être évalués de deux manières~: en durée ou en nombre de locuteurs.
 
