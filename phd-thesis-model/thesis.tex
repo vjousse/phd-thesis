@@ -2099,7 +2099,7 @@ Afin de prendre ces deux cas d'utilisation en compte, nous présentons dans le ta
 
 Lorsqu'une liste de locuteurs par enregistrement est utilisée, les résultats obtenus sont supérieurs à ceux présentés dans \ref{sec:results_milesni} où la liste de locuteurs contient plus de noms complets. Ce comportement s'explique aisément dans la mesure où l'utilisation d'une liste ne contenant que les locuteurs de l'enregistrement permet d'éliminer au maximum les locuteurs parasites~: tous les étiquetages de l'arbre concernant des locuteurs ne faisant pas partie de l'enregistrement ne sont pas pris en compte.
 
-En revanche lorsqu'aucune liste de locuteurs n'est utilisée, les performances chutent considérablement. Même si le rappel chute de l'ordre de 15~\%, c'est surtout la précision qui est importante dans les systèmes d'INL. En effet, identifier moins de locuteurs mais de façon précise sera préféré à identifier plus de locuteurs en commettant beaucoup d'erreurs. Dans les résultats présentés dans le tableau \ref{tab:results_listes}, la précision chute de 22~\% pour le corpus de développent et de 31~\% pour le corpus de test.
+En revanche, lorsqu'aucune liste de locuteurs n'est utilisée, les performances chutent considérablement. Même si le rappel chute de l'ordre de 15~\%, c'est surtout la chute de la précision qui est problématique pour les systèmes d'INL. En effet, identifier moins de locuteurs mais de façon précise sera préféré à identifier plus de locuteurs en commettant beaucoup d'erreurs. Dans les résultats présentés dans le tableau \ref{tab:results_listes}, la précision chute de 22~\% pour le corpus de développement et de 31~\% pour le corpus de test.
 
 \section{Transcriptions automatiques~: performances et limites}
 
