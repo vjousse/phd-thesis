@@ -421,6 +421,7 @@ Ces systèmes utilisent généralement des lexiques initiaux. Parmi ces systèmes, P
 
 
 \subsection{Reconnaissance et découverte des Entités Nommées}
+\label{sec:reco_en}
 
 Lors de la reconnaissance des entités nommées, plusieurs types de problèmes doivent être résolus \cite{Fourour04}. Pour exprimer ces problèmes, la terminologie introduite par \cite{Daille00} fondée sur des critères graphiques est utilisée~:
 
@@ -2100,6 +2101,15 @@ Afin de prendre ces deux cas d'utilisation en compte, nous présentons dans le ta
 Lorsqu'une liste de locuteurs par enregistrement est utilisée, les résultats obtenus sont supérieurs à ceux présentés dans \ref{sec:results_milesni} où la liste de locuteurs contient plus de noms complets. Ce comportement s'explique aisément dans la mesure où l'utilisation d'une liste ne contenant que les locuteurs de l'enregistrement permet d'éliminer au maximum les locuteurs parasites~: tous les étiquetages de l'arbre concernant des locuteurs ne faisant pas partie de l'enregistrement ne sont pas pris en compte.
 
 En revanche lorsqu'aucune liste de locuteurs n'est utilisée, les performances chutent considérablement. Même si le rappel chute de l'ordre de 15~\%, c'est surtout la précision qui est importante dans les systèmes d'INL. En effet, identifier moins de locuteurs mais de façon précise sera préféré à identifier plus de locuteurs en commettant beaucoup d'erreurs. Dans les résultats présentés dans le tableau \ref{tab:results_listes}, la précision chute de 22~\% pour le corpus de développent et de 31~\% pour le corpus de test.
+
+Ces résultats s'expliquent de plusieurs manière. Tout d'abord, sans l'utilisation de liste de locuteurs, les erreurs du détecteur d'entités nommées sont propagées au sein du processus. Par exemple, au lieu d'étiqueter \emph{Pierre Kupferman} seul comme entité nommée de type personne, c'est \emph{Bonjour Pierre Kupferman} qui est étiqueté. De même, au lieu d'étiqueter \emph{Hélène Cardin}, LIA\_NE étiquette \emph{Shanghai Hélène Cardin}. La délimitation des entités nommées est un des problèmes auquel les détecteurs ont à faire face, cf. section \ref{sec:reco_en}. Même si étiqueter un locuteur comme \emph{Bonjour Pierre Kupferman} au lieu de \emph{Pierre Kupferman} permettrait à un relecteur humain d'obtenir l'information qu'il cherche, ce cas de figure est compté comme une erreur dans notre évaluation.
+
+Ensuite, beaucoup de locuteurs sont nommés avec des noms partiels~: \emph{Dominique de Villepin} nommé \emph{Villepin}, \emph{Mohammed Belhaj Soulami} nommé \emph{Mohammed Kamal Belhaj Soulami}; ou uniquement avec leur prénom~: \emph{Joël Collado} nommé \emph{Joël}, \emph{Christophe Godinot} nommé \emph{Christophe}, etc. Pour finir, des locuteurs non nommés dans la référence se retrouvent nommés avec des noms complets qui présentent une probabilité faible pour ce locuteur, mais qui sont les seuls candidats potentiels.
+
+\subsection{Perspectives}
+
+
+Parler du seuillage sur les probas pignistiques pour augmenter la précision, de la prise en compte du conflit et de l'incertitude via les fonctions de croyance pour augmenter sur tout la précision.
 
 \section{Transcriptions automatiques~: performances et limites}
 
