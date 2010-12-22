@@ -2119,70 +2119,36 @@ Dans un deuxième temps, il sera intéressant de regarder comment il est possible 
 
 \section{Transcriptions automatiques}
 
-\subsection{Système de segmentation et de classification automatique du LIUM}
-
-La tâche de segmentation et de classification en locuteur consiste à annoter des régions du signal audio (cf. section \ref{ssub:decoupage_regroupement}). Ces annotations peuvent être de plusieurs types : des étiquettes représentant les différents locuteurs, le genre des locuteurs, le type de canal (radio, studio) ou encore le type d'environnement sonore comme le bruit, la musique, \dots Dans la tâche de segmentation, les étiquettes représentant les locuteurs sont anonymes. Le système du LIUM est entièrement décrit dans \cite{liumspkdiarization}, ce qui suit en donne un court aperçu.
-
-Le système utilisé au LIUM (LIUM\_SpkDiarization) utilise une segmentation basée sur GLR (Generalized Likelihood Ratio) et BIC \cite{Siegler97automaticsegmentation} (Bayesian Information Criterion). Une première passe permet de détecter les points de rupture du signal constituant les frontières des segments. Ces points de rupture sont détectés en utilisant la mesure de vraisemblance GLR calculée (grâce à des GMM à matrice de covariance pleine) sur une fenêtre de 5 secondes tout le long du signal. Lorsque la mesure atteint un maximum dans cette fenêtre de 5 secondes, le système considère que c'est un point de rupture. Une seconde passe est ensuite effectuée afin de fusionner les segments correspondant au même locuteur, du début à la fin de l'enregistrement. La mesure utilisée pour le regroupement est la distance BIC utilisant des matrices de covariance pleines. 
-
-
-L'algorithme utilisé pour regrouper les segments au sein de classes se base sur une classification hiérarchique. Au départ, chaque classe est constituée d'un unique segment, chaque classe étant modélisée avec une GMM à matrice de covariance pleine. La mesure utilisée pour regrouper les classes entre elles, et pour stopper le regroupement est la mesure BIC. Les classes les plus proches sont regroupées tant que la distance BIC entre ces classes est inférieure à 0.
-
-La détection du genre est réalisée grâce à des GMM (avec une diagonale à 128 composantes) pour chacun des quatre combinaisons possibles entre le genre (homme/femme) et le canal (studio/téléphone). Chaque classe est étiquetée en fonction de la GMM qui maximise la vraisemblance avec la classe en question. Chaque modèle a été préalablement appris en utilisant le corpus d'apprentissage de la campagne ESTER.
+Les expériences menées jusqu'ici ont été réalisées sur des transcriptions manuelles. La segmentation et le regroupement en locuteurs ainsi que la transcription ont été réalisés par des annotateurs humains~: elles sont considérées comme sans erreur. L'utilisation de systèmes d'INL prend tout son sens lorsqu'elle peut être réalisée sur des transcriptions produites par des systèmes automatiques. Même si quelques expériences préliminaires ont été réalisées par Tranter et le LIUM, l'utilisation de systèmes d'INL sur des transcriptions reste problématique. Nous présentons ici les résultats de \emph{Milesin} sur des transcriptions entièrement ou partiellement automatiques, avant de discuter des problèmes à résoudre lors de l'utilisation de tels systèmes sur des transcriptions automatiques. Nous finirons par exposer notre réflexion sur les métriques utilisées.
 
 \subsection{Système de transcription automatique du LIUM}
 
-Le système du LIUM \cite{lium_asr} est basé sur le décodeur CMU Sphinx \cite{Lamere03designof}.
+Le système de transcription automatique du LIUM est constitué de deux modules~: un module de segmentation et de classification en locuteur et un module de transcription.
 
-\subsection{Légende}
+Tout d'abord, la tâche de segmentation et de classification en locuteur consiste à annoter des régions du signal audio (cf. section \ref{ssub:decoupage_regroupement}). Ces annotations peuvent être de plusieurs types : des étiquettes représentant les différents locuteurs, le genre des locuteurs, le type de canal (radio, studio) ou encore le type d'environnement sonore comme le bruit, la musique, \dots Dans la tâche de segmentation, les étiquettes représentant les locuteurs sont anonymes. Le système utilisé au LIUM (LIUM\_SpkDiarization) utilise une segmentation basée sur GLR (Generalized Likelihood Ratio) et BIC \cite{Siegler97automaticsegmentation} (Bayesian Information Criterion). Il est entièrement décrit dans \cite{liumspkdiarization}.
 
-\textit{\textbf{Trans.}: Transcription \textbf{M}anuelle ou \textbf{A}utomatique.\newline
-\textbf{Seg/Class.}: segmentation/classification manuelles ou automatiques.\newline
-\textbf{R, P}: rappel et précision calculés en en durée.\newline
-\textbf{ErrDur}: Taux d'erreur en durée.\newline
-\textbf{ErrLoc} : Taux d'erreur en nombre de locuteurs.\newline}
+Le module de transcription a pour but de transcrire le signal audio en mots. Celui du LIUM \cite{lium_asr} est basé sur le décodeur CMU Sphinx 3.7. Il utilise un vocabulaire de plus de 65~000 mots, ainsi qu'un modèle de langage 3-gramme. Des ajouts au décodeur de base ont permis d'utiliser SAT (Speaker Adaptative Training) et des modèles 4-gramme pour réévaluer les graphes de mots. Le système est décrit de manière exhaustive dans et .
+%Le système utilisé au LIUM (LIUM\_SpkDiarization) utilise une segmentation basée sur GLR (Generalized Likelihood Ratio) et BIC \cite{Siegler97automaticsegmentation} (Bayesian Information Criterion). Une première passe permet de détecter les points de rupture du signal constituant les frontières des segments. Ces points de rupture sont détectés en utilisant la mesure de vraisemblance GLR calculée (grâce à des GMM à matrice de covariance pleine) sur une fenêtre de 5 secondes tout le long du signal. Lorsque la mesure atteint un maximum dans cette fenêtre de 5 secondes, le système considère que c'est un point de rupture. Une seconde passe est ensuite effectuée afin de fusionner les segments correspondant au même locuteur, du début à la fin de l'enregistrement. La mesure utilisée pour le regroupement est la distance BIC utilisant des matrices de covariance pleines. 
 
-\subsection{Corpus et données}
 
-\begin{table}[h]
-  \begin{center}
-    \begin{tabular}{|c|c|c|c|c|}
-      \hline
-      Corpus & Courant & Suivant & Précédent & Autre \\
-      \hline
-      Train & 3,9 & 16,6 & 19,2 & 32,5 \\
-      Dev & 8,3 & 17,6 & 9,3 & 45,2 \\
-      Test & 26,7 & 17,1 & 12.3 & 39,3 \\      
-      \hline
-    \end{tabular}
-  \end{center}
+%L'algorithme utilisé pour regrouper les segments au sein de classes se base sur une classification hiérarchique. Au départ, chaque classe est constituée d'un unique segment, chaque classe étant modélisée avec une GMM à matrice de covariance pleine. La mesure utilisée pour regrouper les classes entre elles, et pour stopper le regroupement est la mesure BIC. Les classes les plus proches sont regroupées tant que la distance BIC entre ces classes est inférieure à 0.
 
-  \caption{Taux d'erreur des étiquettes courantes / suivantes / précédentes des locuteurs faisant partie de la liste de locuteur fermée ESTER1}
-  \label{table:etiquettes_sct}
-\end{table}
+%La détection du genre est réalisée grâce à des GMM (avec une diagonale à 128 composantes) pour chacun des quatre combinaisons possibles entre le genre (homme/femme) et le canal (studio/téléphone). Chaque classe est étiquetée en fonction de la GMM qui maximise la vraisemblance avec la classe en question. Chaque modèle a été préalablement appris en utilisant le corpus d'apprentissage de la campagne ESTER.
 
-\begin{table}[h]
-  \begin{center}
-    \begin{tabular}{|c|c|c|c|c|}
-      \hline
-      Corpus & Courant & Suivant & Précédent & Autre \\
-      \hline
-      Train & 17,3 & 46,3 & 51,9 & 6,8 \\
-      Dev & 42,1 & 46 & 40 & 13,2 \\
-      Test & 52,1 & 42,4 & 42 & 10,7 \\      
-      \hline
-    \end{tabular}
-  \end{center}
+%\subsection{Système de transcription automatique du LIUM}
 
-  \caption{Taux d'erreur des étiquettes courantes / suivantes / précédentes des locuteurs en liste ouverte}
-  \label{table:etiquettes_sct}
-\end{table}
+\subsection{Expériences}
+\label{sec:xp_auto}
 
 \subsection{De la pertinence des métriques utilisées}
 
+Avec des transcriptions entièrement automatiques, il est difficile de n'évaluer que le système d'INL. En effet, ce dernier est fortement dépendant de la segmentation et de la classification automatiques. Si un locuteur a été correctement identifié à un endroit de l'enregistrement, mais que la segmentation ne permet pas de lui affecter la totalité de ses tours de parole, le système d'INL présentera un fort taux d'erreur. Par exemple, sur un tour de parole durant 10 minutes, si seule la première minute a été étiquetée, le système présentera un taux d'erreur de 90~\% pour ce locuteur.
+
+Les résultats présentés dans la section \ref{sec:xp_auto} sont mesurés en durée. Plus le 
+
 Les systèmes d'identification nommée du locuteur peuvent être évalués de deux manières~: en durée ou en nombre de locuteurs.
 
-
+\subsection{Bilan}
 
 % Résultats sans filtrage de liste de locuteurs sur du manuel (même pas sur le genre) & LIA_NE
 %
