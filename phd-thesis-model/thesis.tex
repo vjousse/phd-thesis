@@ -2188,9 +2188,6 @@ Afin de prendre ces deux cas d'utilisation en compte, nous présentons dans le ta
 %\end{table}
 
 
-\section{Métriques~: de la pertinence des métriques utilisées}
-
-
 \section{Transcriptions automatiques~: performances et limites}
 
 \subsection{Système de segmentation et de classification automatique du LIUM}
@@ -2250,6 +2247,12 @@ La détection du genre est réalisée grâce à des GMM (avec une diagonale à 128 com
   \label{table:etiquettes_sct}
 \end{table}
 
+\section{Métriques~: de la pertinence des métriques utilisées}
+
+Les systèmes d'identification nommée du locuteur peuvent être évalués de deux manières~: en durée ou en nombre de locuteurs.
+
+
+
 % Résultats sans filtrage de liste de locuteurs sur du manuel (même pas sur le genre) & LIA_NE
 %
 % Train ESTER 1 (Train spkid)
@@ -2298,113 +2301,8 @@ La détection du genre est réalisée grâce à des GMM (avec une diagonale à 128 com
 % Current : 4/15 = 26.6666666666667 %
 % Other : 126/321 = 39.2523364485981 %
 
-\subsection{Utilisation d'une liste de locuteurs globale et de leur genre}
 
-Le tableau \ref{tab:results_fctcroyance} présente les résultats du système utilisant les fonctions de croyances. Les expériences sont menées sur les corpus de développement et de test, en utilisant des transcriptions totalement manuelles ou totalement automatiques. Le système de détection d'entités nommées utilisé est LIA\_NE, la liste de locuteurs d'ESTER 1 est utilisée pour filtrer les décisions. Le genre des locuteurs est pris en compte via la liste des locuteurs (le genre des locuteurs étant extrait des transcriptions de référence).
 
-\begin{table}[h]
-\begin{center}
-\begin{tabular}{|c|c|c|c|c|c|}
-\cline{3-6}
-\multicolumn{2}{c|}{} & \multicolumn{3}{|c|}{En durée}  & En nb de Locuteur \\ \hline
-\textbf{Trans.} & \textbf{Seg/Class.} & \textbf{R} & \textbf{P} & \textbf{ErrDur} & \textbf{ErrLoc} \\ \hline
-\hline
-\multicolumn{6}{|c|}{Corpus de Développement} \\
-\hline
-\textbf{M} & \textbf{M} & 86,16\% & 94,38\% & 12,75\% & 15,35\% \\ \hline
-\textbf{A} & \textbf{A} & 21,45\% & 49,96\% & 71,59\% & - \\
-\hline
-\hline
-\multicolumn{6}{|c|}{Corpus de Test} \\
-\hline
-\textbf{M} & \textbf{M} & 85,49\% & 95,01\% & 13,34\% & 18,67\% \\ \hline
-\textbf{A} & \textbf{A} & 25,63\% & 61,20\% & 67,95\% & - \\
-\hline
-\end{tabular}
-\end{center}
-\caption{Système utilisant les fonctions de croyance avec une transcription enrichie manuelle ou automatique en utilisant une liste de locuteurs et la détection du genre}
-\label{tab:results_fctcroyance}
-\end{table}
-
-\subsection{Utilisation d'une liste de locuteurs par show et de leur genre}
-
-\begin{table}[h]
-\begin{center}
-\begin{tabular}{|c|c|c|c|c|c|}
-\cline{3-6}
-\multicolumn{2}{c|}{} & \multicolumn{3}{|c|}{En durée}  & En nb de Locuteur \\ \hline
-\textbf{Trans.} & \textbf{Seg/Class.} & \textbf{R} & \textbf{P} & \textbf{ErrDur} & \textbf{ErrLoc} \\ \hline
-\hline
-\multicolumn{6}{|c|}{Corpus de Développement} \\
-\hline
-\textbf{M} & \textbf{M} & 87,01\% & 95,75\% & 11,95\% & 14,11\% \\ \hline
-\textbf{A} & \textbf{A} & 20,95\% & 61,53\% & 72,01\% & - \\
-\hline
-\hline
-\multicolumn{6}{|c|}{Corpus de Test} \\
-\hline
-\textbf{M} & \textbf{M} & 86,35\% & 96,10\% & 12,56\% & 17,43\% \\ \hline
-\textbf{A} & \textbf{A} & 24,97\% & 64,90\% & 68,33\% & - \\
-\hline
-\end{tabular}
-\end{center}
-\caption{Système utilisant les fonctions de croyance avec une transcription enrichie manuelle ou automatique en utilisant une liste de locuteurs spécifique au show et la détection du genre}
-\label{tab:results_fctcroyance}
-\end{table}
-
-\subsection{Influence de la prise en compte du genre}
-
-\begin{table}[h]
-\begin{center}
-\begin{tabular}{|c|c|c|c|c|c|}
-\cline{3-6}
-\multicolumn{2}{c|}{} & \multicolumn{3}{|c|}{En durée}  & En nb de Locuteur \\ \hline
-\textbf{Trans.} & \textbf{Seg/Class.} & \textbf{R} & \textbf{P} & \textbf{ErrDur} & \textbf{ErrLoc} \\ \hline
-\hline
-\multicolumn{6}{|c|}{Corpus de Développement} \\
-\hline
-\textbf{M} & \textbf{M} & 80,19\% & 89,33\% & 18,32\% & 19,09\% \\ \hline
-\textbf{A} & \textbf{A} & 20,70\% & 45,15\% & 72,81\% & - \\
-\hline
-\hline
-\multicolumn{6}{|c|}{Corpus de Test} \\
-\hline
-\textbf{M} & \textbf{M} & 82,24\% & 91,16\% & 16,45\% & 21,58\% \\ \hline
-\textbf{A} & \textbf{A} & 24,61\% & 58,82\% & 68,78\% & - \\
-\hline
-\end{tabular}
-\end{center}
-\caption{Système utilisant les fonctions de croyance avec une transcription enrichie manuelle ou automatique en utilisant une liste de locuteurs et sans prise en compte du genre}
-\label{tab:results_fctcroyance}
-\end{table}
-
-\subsection{Système ouvert sans liste de locuteurs et sans genre}
-
-\ref{tab:results_fctcroyance_sansliste}
-
-\begin{table}[h]
-\begin{center}
-\begin{tabular}{|c|c|c|c|c|c|}
-\cline{3-6}
-\multicolumn{2}{c|}{} & \multicolumn{3}{|c|}{En durée}  & En nb de Locuteur \\ \hline
-\textbf{Trans.} & \textbf{Seg/Class.} & \textbf{R} & \textbf{P} & \textbf{ErrDur} & \textbf{ErrLoc} \\ \hline
-\hline
-\multicolumn{6}{|c|}{Corpus de Développement} \\
-\hline
-\textbf{M} & \textbf{M} & 65,74\% & 91,96\% & 31,63\% & 29,46\% \\ \hline
-\textbf{A} & \textbf{A} & 19,53\% & 70,52\% & 73,39\% & - \\
-\hline
-\hline
-\multicolumn{6}{|c|}{Corpus de Test} \\
-\hline
-\textbf{M} & \textbf{M} & 69,85\% & 94,10\% & 27,79\% & 28,22\% \\ \hline
-\textbf{A} & \textbf{A} & 20,59\% & 61,42\% & 72,31\% & - \\
-\hline
-\end{tabular}
-\end{center}
-\caption{Système utilisant les fonctions de croyance avec une transcription enrichie manuelle ou automatique sans liste de locuteurs et sans genre}
-\label{tab:results_fctcroyance_sansliste}
-\end{table}
 
 \chapter{Conclusion}
 \minitoc
