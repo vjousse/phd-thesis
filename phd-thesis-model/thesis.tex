@@ -2071,6 +2071,8 @@ En revanche, lorsque le système d'INL est utilisé pour nommer des enregistrement
 
 \subsection{Expérimentations}
 
+\label{sec:exp_liste}
+
 Afin de prendre ces deux cas d'utilisation en compte, nous présentons dans le tableau \ref{tab:results_listes} les résultats avec et sans listes de locuteurs. À la différence des précédents résultats présentés pour MILES\_NI (cf. section \ref{sec:results_milesni}), une liste de locuteurs différente par enregistrement est utilisée. Cette liste ne contient que les locuteurs du document, ils ont été extraits (ainsi que leur genre) automatiquement des transcriptions de référence. Lorsqu'aucune liste de locuteurs n'est utilisée, le genre des locuteurs est déterminé grâce à la méthode décrite dans \ref{sec:genre}.
 
 
@@ -2108,8 +2110,12 @@ Ensuite, beaucoup de locuteurs sont nommés avec des noms partiels~: \emph{Domini
 
 \subsection{Perspectives}
 
+En fonction du contexte, l'utilisation de connaissances a priori peut tout à fait être justifiable. Dans l'hypothèse où la liste des locuteurs ne peut être connue à l'avance, les expériences montrent que le système est beaucoup moins performant. Lorsque les systèmes d'INL sont utilisés sans liste de locuteurs, ils servent à collecter les informations des documents, notamment à des fin de recherche documentaire. Dans ce type de cadre applicatif, il est important de ne pas commettre d'erreurs. Même si le système ne détecte pas tous les locuteurs, il faut que ceux qu'il étiquette soient fiables.
 
-Parler du seuillage sur les probas pignistiques pour augmenter la précision, de la prise en compte du conflit et de l'incertitude via les fonctions de croyance pour augmenter sur tout la précision.
+Dans cette optique, les systèmes doivent présenter la plus grande précision possible, même si le rappel reste relativement faible. Dans Milesin, il n'est actuellement pas possible de favoriser la précision au dépend du rappel par exemple. En revanche, les derniers travaux et notamment l'utilisation de la théorie des fonctions de croyance permettent d'avoir des outils à disposition pour ce faire. Cette théorie permet de modéliser l'ignorance et le conflit au sein d'un locuteur. Dans un premier temps, un simple seuil sur ces valeurs devrait permettre de faire augmenter la précision lors de la prise de décision.
+
+Dans un deuxième temps, il sera intéressant de regarder comment il est possible d'améliorer le détecteur d'entités nommées pour diminuer les erreurs de délimitation mentionnées dans la section \ref{sec:exp_liste}. Un traitement des coréférences entre prénom, patronyme et nom complet devrait aussi pouvoir améliorer les résultats du système sur certains corpus.
+
 
 \section{Transcriptions automatiques~: performances et limites}
 
