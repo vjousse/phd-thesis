@@ -2142,7 +2142,17 @@ Le module de transcription a pour but de transcrire le signal audio en mots. Cel
 
 \subsection{De la pertinence des métriques utilisées}
 
-Avec des transcriptions entièrement automatiques, il est difficile de n'évaluer que le système d'INL. En effet, ce dernier est fortement dépendant de la segmentation et de la classification automatiques. Si un locuteur a été correctement identifié à un endroit de l'enregistrement, mais que la segmentation ne permet pas de lui affecter la totalité de ses tours de parole, le système d'INL présentera un fort taux d'erreur. Par exemple, sur un tour de parole durant 10 minutes, si seule la première minute a été étiquetée, le système présentera un taux d'erreur de 90~\% pour ce locuteur.
+Lorsque l'évaluation est réalisée sur des transcriptions entièrement automatiques (segmentation et classification), il est difficile d'évaluer en nombre de locuteurs comme cela a pu être fait sur des transcriptions manuelles. En effet, il est compliqué de considérer un locuteur comme correct, quand les segmentations et classifications peuvent varier entre la référence et l'hypothèse.
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=0.7\columnwidth]{img/pb-seg.pdf}
+\caption{Problème d'identification nommée dû à une mauvaise segmentation}
+\label{fig:pb_seg_inl}
+\end{center}
+\end{figure}
+
+Avec des transcriptions entièrement automatiques, il est difficile de n'évaluer que le système d'INL. En effet, ce dernier est fortement dépendant de la segmentation et de la classification automatiques. Si un locuteur a été correctement identifié à un endroit de l'enregistrement, mais que la segmentation ne permet pas de lui affecter la totalité de ses tours de parole, le système d'INL présentera un fort taux d'erreur. Par exemple, sur un tour de parole durant 10 minutes, si seule la première minute a été détectée par le système de segmentation et étiquetée pas le système d'INL, le taux d'erreur sera de 90~\% pour ce locuteur.
 
 Les résultats présentés dans la section \ref{sec:xp_auto} sont mesurés en durée. Plus le 
 
