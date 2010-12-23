@@ -1786,9 +1786,11 @@ Ces différentes pistes sont décrites en détail dans le chapitre suivant, ainsi q
 
 Un nombre significatif d'avancées ont été réalisées depuis le système de base du LIUM (cf. section \ref{sec:sys_id_lium}), comme l'utilisation de LIA\_NE comme détecteur d'entités nommées ou la mise en place des fonctions de croyances pour combiner les informations issues de l'arbre de classification sémantique. Malgré ces avancées, plusieurs points restent encore à étudier comme l'utilisation de tels systèmes sur des transcriptions automatiques ou l'impact de connaissances a priori comme les listes de locuteurs. 
 
-Les principales étapes et réflexions qui ont conduit au développement de \emph{Milesin}, et notamment une analyse des erreurs, sont tout d'abord présentées. Sont ensuite discuté la pertinence des métriques et de l'utilisation de connaissances a priori, avant de finir par l'utilisation de transcriptions automatiques.
+Les principales étapes et réflexions qui ont conduit au développement de \emph{Milesin}, et notamment une analyse des erreurs, sont tout d'abord présentées. Est ensuite discutée l'utilisation de listes de locuteurs, avant de finir par des résultats préliminaires sur des transcriptions entièrement automatiques.
 
 \section{Analyse préliminaire}
+
+\label{sec:analyse_preliminaire}
 
 Les travaux de cette thèse ont été réalisés à partir d'un système déjà existant, celui du LIUM. Ce système disposait d'un détecteur d'entités nommées sommaire, il a donc tout d'abord été décidé de le remplacer par Nemesis, le système de détection d'entités nommées du LINA. Une analyse des erreurs a ensuite été conduite de manière à comprendre les erreurs réalisées par le système.
 
@@ -1883,8 +1885,26 @@ Comme le pronom personnel \textit{il} est en rapport avec Jérôme Savary, l'arbre
 
 L'analyse des erreurs conduite ici a permis de mettre en évidence les faiblesses de l'arbre de classification sémantique~: lorsque l'on choisit de prendre une décision en se basant sur l'étiquette qui obtient la probabilité maximale, l'arbre de décision est responsable de plus de 70~\% des erreurs du système. Nemesis quant à lui, représente environ 20~\% des erreurs commises par le système. La majorité de ces erreurs est due à des entités nommées qui ne sont pas assez concises.
 
-Cette étude a permis de remettre en question l'arbre de classification ainsi que le processus de décision qui en découle (cf. section \ref{sec:fct_croyances} sur le processus de décision de \emph{Milesin}). Les travaux intermédiaires menés sur ce processus de décision sont décrits dans le chapitre suivant. Nemesis a par la suite été remplacé par LIA\_NE, la différence de performances de \emph{Milesin} en utilisant Nemesis ou LIA\_NE est donnée dans le tableau X.
-\todo{Tableau perfs Nemesis}
+Cette étude a permis de remettre en question l'arbre de classification ainsi que le processus de décision qui en découle (cf. section \ref{sec:fct_croyances} sur le processus de décision de \emph{Milesin}). Les travaux intermédiaires menés sur ce processus de décision sont décrits dans le chapitre suivant. Nemesis a par la suite été remplacé par LIA\_NE, la différence de performances de \emph{Milesin} en utilisant Nemesis ou LIA\_NE est donnée dans le tableau \ref{tab:results_lia_ne_nemesis}.
+
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|}
+\cline{3-6}
+\multicolumn{2}{c|}{} & \multicolumn{3}{|c|}{En durée}  & En nb de Locuteur \\ \hline
+\multicolumn{2}{|c|}{} & \textbf{R} & \textbf{P} & \textbf{ErrDur} & \textbf{ErrLoc} \\ \hline
+\hline
+\multicolumn{2}{|c|}{LIA\_NE} & 86,00\% & 94,07\% & 13,17\% & 13,69\% \\ \hline
+\hline
+\multicolumn{2}{|c|}{Nemesis} & 80,05\% & 94,68\% & 18,69\% & 19,11\% \\ \hline
+\hline
+\end{tabular}
+\end{center}
+\caption{Résultats de \emph{Milesin} sur des transcriptions entièrement manuelles en utilisant Nemesis ou LIA\_NE comme détecteur d'entités nommées}
+\label{tab:results_lia_ne_nemesis}
+\end{table}
+
 %\subsection{Analyse des erreurs}
 %Les erreurs de détection d'entités nommées (comme l'ajout d'un mot en trop dans l'étiquetage) pourront être résolues grâce à un travail sur l'outil de TALN Nemesis. Ces erreurs affectent uniquement le rappel (locuteur mal ou pas détecté par exemple) et jamais la précision dans notre corpus. Certaines autres erreurs (étiquetage de France Inter comme étant une personne) seront a priori assez facile à éviter. En effet, l'outil se basant sur les majuscules et les prénoms, il détecte France comme prénom et donc France Inter comme personne puisque Inter contient une majuscule et à coté d'un prénom. Nemesis dispose pourtant de la radio France Inter dans ses lexiques, il faudrait donc que la règle regardant la présence dans les lexiques soit prédominante sur celle utilisant les prénoms et majuscules. Nous avons aussi réalisé l'étude pour voir si la résolution d'anaphore nominale pouvait conduire à améliorer les résultats et donc aider l'arbre à prendre des décisions. Nous n'avons relevé qu'un cas où cette prise en compte aurait été bénéfique, celui-la :\\
 %\texttt{
@@ -2078,21 +2098,21 @@ Afin de prendre ces deux cas d'utilisation en compte, nous présentons dans le ta
 
 \begin{table}[h]
 \begin{center}
-\begin{tabular}{|c|c|c|c|c|c|c|}
-\cline{3-7}
-\multicolumn{2}{c|}{} & \multicolumn{3}{|c|}{En durée}  & \multicolumn{2}{|c|}{En nombre} \\ \hline
-\multicolumn{2}{|c|}{} & \textbf{R} & \textbf{P} & \textbf{ErrDur} & \textbf{ErrLoc} & \textbf{Nb. corrects} \\ \hline
+\begin{tabular}{|c|c|c|c|c|c|}
+\cline{3-6}
+\multicolumn{2}{c|}{} & \multicolumn{3}{|c|}{En durée}  & En nombre \\ \hline
+\multicolumn{2}{|c|}{} & \textbf{R} & \textbf{P} & \textbf{ErrDur} & \textbf{ErrLoc} \\ \hline
 \hline
-\multicolumn{7}{|c|}{\emph{Corpus de Développement}}\\ \hline
+\multicolumn{6}{|c|}{\emph{Corpus de Développement}}\\ \hline
 \hline
-\multicolumn{2}{|c|}{Liste par enregistrement} & 86,83~\% & 95,66~\% & 12,38~\% & 12,42~\% & - \\ \hline
-\multicolumn{2}{|c|}{Sans liste} & 72,86~\% & 73,39~\% & 29,27~\% & 30,22~\% & - \\ \hline
+\multicolumn{2}{|c|}{Liste par enregistrement} & 86,83~\% & 95,66~\% & 12,38~\% & 12,42~\% \\ \hline
+\multicolumn{2}{|c|}{Sans liste} & 72,86~\% & 73,39~\% & 29,27~\% & 30,22~\% \\ \hline
 \hline
 \hline
-\multicolumn{7}{|c|}{\emph{Corpus de Test}}\\ \hline
+\multicolumn{6}{|c|}{\emph{Corpus de Test}}\\ \hline
 \hline
-\multicolumn{2}{|c|}{Liste par enregistrement} & 78,03~\% & 95,69~\% & 21,92~\% & 24,19~\% & - \\ \hline
-\multicolumn{2}{|c|}{Sans liste} & 61,77\% & 64,38~\% & 38,16~\% & 35,48~\% & - \\ \hline
+\multicolumn{2}{|c|}{Liste par enregistrement} & 78,03~\% & 95,69~\% & 21,92~\% & 24,19~\% \\ \hline
+\multicolumn{2}{|c|}{Sans liste} & 61,77\% & 64,38~\% & 38,16~\% & 35,48~\% \\ \hline
 \hline
 \end{tabular}
 \end{center}
@@ -2110,6 +2130,8 @@ Ensuite, beaucoup de locuteurs sont nommés avec des noms partiels~: \emph{Domini
 
 \subsection{Perspectives}
 
+\label{sec:perspectives_sans_liste}
+
 En fonction du contexte, l'utilisation de connaissances a priori peut tout à fait être justifiable. Dans l'hypothèse où la liste des locuteurs ne peut être connue à l'avance, les expériences montrent que le système est beaucoup moins performant. Lorsque les systèmes d'INL sont utilisés sans liste de locuteurs, ils servent à collecter les informations des documents, notamment à des fin de recherche documentaire. Dans ce type de cadre applicatif, il est important de ne pas commettre d'erreurs. Même si le système ne détecte pas tous les locuteurs, il faut que ceux qu'il étiquette soient fiables.
 
 Dans cette optique, les systèmes doivent présenter la plus grande précision possible, même si le rappel reste relativement faible. Dans Milesin, il n'est actuellement pas possible de favoriser la précision au dépend du rappel par exemple. En revanche, les derniers travaux et notamment l'utilisation de la théorie des fonctions de croyance permettent d'avoir des outils à disposition pour ce faire. Cette théorie permet de modéliser l'ignorance et le conflit au sein d'un locuteur. Dans un premier temps, un simple seuil sur ces valeurs devrait permettre de faire augmenter la précision lors de la prise de décision.
@@ -2117,11 +2139,14 @@ Dans cette optique, les systèmes doivent présenter la plus grande précision poss
 Dans un deuxième temps, il sera intéressant de regarder comment il est possible d'améliorer le détecteur d'entités nommées pour diminuer les erreurs de délimitation mentionnées dans la section \ref{sec:exp_liste}. Un traitement des coréférences entre prénom, patronyme et nom complet devrait aussi pouvoir améliorer les résultats du système sur certains corpus.
 
 
-\section{Transcriptions automatiques}
+\section{Transcriptions automatiques~: résultats préliminaires}
 
-Les expériences menées jusqu'ici ont été réalisées sur des transcriptions manuelles. La segmentation et le regroupement en locuteurs ainsi que la transcription ont été réalisés par des annotateurs humains~: elles sont considérées comme sans erreur. L'utilisation de systèmes d'INL prend tout son sens lorsqu'elle peut être réalisée sur des transcriptions produites par des systèmes automatiques. Même si quelques expériences préliminaires ont été réalisées par Tranter et le LIUM, l'utilisation de systèmes d'INL sur des transcriptions reste problématique. Nous présentons ici les résultats de \emph{Milesin} sur des transcriptions entièrement ou partiellement automatiques, avant de discuter des problèmes à résoudre lors de l'utilisation de tels systèmes sur des transcriptions automatiques. Nous finirons par exposer notre réflexion sur les métriques utilisées.
+Les expériences menées jusqu'ici ont été réalisées sur des transcriptions manuelles. La segmentation et le regroupement en locuteurs ainsi que la transcription ont été réalisés par des annotateurs humains~: elles sont considérées comme sans erreur. L'utilisation de systèmes d'INL prend tout son sens lorsqu'elle peut être réalisée sur des transcriptions produites par des systèmes automatiques. Même si quelques expériences préliminaires ont été réalisées par Tranter et le LIUM, l'utilisation de systèmes d'INL sur des transcriptions reste problématique. 
+
+Nous présentons ici les résultats de \emph{Milesin} sur des transcriptions automatiques réalisées avec le système de transcription du LIUM, avant de discuter des problèmes à résoudre lors de l'utilisation de tels systèmes sur des transcriptions automatiques. Nous finirons par exposer notre réflexion sur les métriques utilisées.
 
 \subsection{Système de transcription automatique du LIUM}
+\label{sec:sys_auto_lium}
 
 Le système de transcription automatique du LIUM est constitué de deux modules~: un module de segmentation et de classification en locuteur et un module de transcription.
 
@@ -2140,6 +2165,33 @@ Le module de transcription a pour but de transcrire le signal audio en mots. Cel
 \subsection{Expériences}
 \label{sec:xp_auto}
 
+Le tableau \ref{tab:results_auto} présente les résultats de \emph{Milesin} sur des transcriptions entièrement automatiques. Les systèmes de segmentation/classification et de transcription automatiques utilisés sont ceux présentés dans la section \ref{sec:sys_auto_lium}. Sur le corpus de développement, le DER est de 11,5~\% et le WER de 20,5~\%. Sur le corpus de test, le DER est de 5,71~\% et le WER de X~\% (\todo{Trouver le WER d'EPAC}).
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|}
+\cline{3-5}
+\multicolumn{2}{c|}{} & \textbf{R} & \textbf{P} & \textbf{ErrDur}\\ \hline
+\hline
+\multicolumn{5}{|c|}{\emph{Corpus de Développement}}\\ \hline
+\hline
+\multicolumn{2}{|c|}{Liste par enregistrement} & 21,16~\% & 61,66~\% & 64,92~\% \\ \hline
+\hline
+\hline
+\multicolumn{5}{|c|}{\emph{Corpus de Test}}\\ \hline
+\hline
+\multicolumn{2}{|c|}{Liste par enregistrement} & -~\% & -~\% & -~\% \\ \hline
+\hline
+\end{tabular}
+\end{center}
+\caption{Résultats de \emph{Milesin} sur des transcriptions entièrement automatiques en utilisant une liste de locuteurs par enregistrement}
+\label{tab:results_auto}
+\end{table}
+
+Le taux d'erreur (en durée) obtenu est d'environ 65~\%. Lorsque l'on utilise \emph{Milesin} avec des transcriptions entièrement automatiques, les erreurs des différents systèmes se cumulent. Aucune adaptation de \emph{Milesin} pour des transcriptions automatiques n'a été effectuée dans ces expériences.
+
+Une des premières choses à faire, serait d'essayer d'augmenter la précision comme décrit dans la section \ref{sec:perspectives_sans_liste}. Ensuite, une analyse des erreurs similaire à celle réalisée dans la section \ref{sec:analyse_preliminaire} devrait permettre de dégager de futures pistes de recherche.
+
 \subsection{De la pertinence des métriques utilisées}
 
 Lorsque l'évaluation est réalisée sur des transcriptions entièrement automatiques (segmentation et classification), il est difficile d'évaluer en nombre de locuteurs comme cela a pu être fait sur des transcriptions manuelles. En effet, il est compliqué de considérer un locuteur comme correct, quand les segmentations et classifications peuvent varier entre la référence et l'hypothèse.
@@ -2154,7 +2206,9 @@ Lorsque l'évaluation est réalisée sur des transcriptions entièrement automatique
 
 La figure \ref{fig:pb_seg_inl} illustre un de ces problèmes. Dans la référence, un seul tour de parole est affecté au locuteur \emph{Maude Bayeu}. Dans l'hypothèse, le système de segmentation a commis une erreur et seule une partie du tour de parole de référence a pu être étiqueté. Même si un tel étiquetage permet de repérer dans l'enregistrement le début d'une des interventions de Maude Bayeu, il présentera un taux d'erreur très élevé.
 
-En fonction du type d'application visée, l'évaluation doit aussi être adaptée. Si le but est d'étiqueter les interventions des locuteurs de manière précise dans les enregistrements, la mesure en durée est pertinente. En revanche, si le but est d'obtenir uniquement une liste des locuteurs de l'enregistrement, sans se soucier d'où il parle, la mesure en durée présente moins d'intérêt.
+En fonction du type d'application visée, l'évaluation doit aussi être adaptée. Si le but est d'étiqueter les interventions des locuteurs de manière précise dans les enregistrements, la mesure en durée est pertinente. En revanche, si le but est d'obtenir uniquement une liste des locuteurs de l'enregistrement, sans se soucier d'où il parle, la mesure en durée présente moins d'intérêt. Par exemple, s'il on considère qu'obtenir le début de chaque intervention de chaque locuteur est suffisant pour repérer un locuteur dans en enregistrement, une métrique évaluant cela pourrait être mise en place. 
+
+Toutes ces problématiques sont en cours d'étude dans le projet ANR REPERE 2010\footnote{\url{http://www.agence-nationale-recherche.fr/programmes-de-recherche/projets-selectionnes/programme-contenus-et-interactions-defi-multimedia-reconnaissance-de-personnes-dans-des-emissions-audiovisuelles-repere-2010/}}, et feront l'objet de futur travaux au LIUM.
 
 %Cet exemple illustre bien qu'avec des transcriptions entièrement automatiques, il est difficile de n'évaluer que le système d'INL. En effet, ce dernier est fortement dépendant de la segmentation et de la classification automatiques. Si un locuteur a été correctement identifié à un endroit de l'enregistrement, mais que la segmentation ne permet pas de lui affecter la totalité de ses tours de parole, le système d'INL présentera un fort taux d'erreur. Par exemple, sur un tour de parole durant 10 minutes, si seule la première minute a été détectée par le système de segmentation et étiquetée pas le système d'INL, le taux d'erreur sera de 90~\% pour ce locuteur.
 
@@ -2165,6 +2219,12 @@ En fonction du type d'application visée, l'évaluation doit aussi être adaptée. S
 Afin d'étudier l'impact des différentes composantes d'une transcription automatique (segmentation/classification et transcription), le tableau X montre les résultats en ne faisant varier qu'un des deux paramètres à la fois. Cette étude à été menée sur le corpus de développement.
 
 \subsection{Bilan}
+
+\emph{Milesin} est le fruit de diverses améliorations apportées au système pré-existant au LIUM. Le système d'entités nommées a tout d'abord été remplacé par LIA\_NE, le détecteur d'entités nommées le plus performant de la campagne d'évaluation ESTER 2. Ensuite, l'étape d'attribution locale ainsi que le processus d'attribution globale ont améliorés à plusieurs reprises. Le choix du système à base de fonctions de croyances a été motivé par la modélisation mathématique que permet cette théorie. Grâce à la théorie des fonctions de croyance, il est maintenant possible de modéliser le conflit, l'ignorance ou la croyance au sein d'un locuteur à nommer. Bien que ces informations soient potentiellement très utiles, elles n'ont pour l'instant été que partiellement exploitées~: le conflit et l'ignorance ne sont pour l'instant pas pris en compte. Ces informations devraient permettre d'augmenter la précision du système lorsque l'on utilise des systèmes sans listes de locuteurs par exemple.
+
+Des premiers résultats sur des transcriptions entièrement automatiques ont été donnés. La majeure partie du travail réalisé pour \emph{Milesni} l'a été sur des transcriptions entièrement manuelles. De ce fait, le passage à l'automatique n'a pas encore été étudié et les performances sont mauvaises.
+
+Les travaux sur l'identification nommée du locuteur doivent maintenant porter sur la prise en compte des spécificités des transcriptions automatiques. Il conviendrait par exemple de remettre en cause l'injectivité de la fonction d'assignation d'un nom complet aux locuteurs $f(c_l)=f(c_l') \Rightarrow c_l=c_l'$. Si cette hypothèse est tout à fait pertinente pour des transcriptions manuelles, elle l'est beaucoup moins pour des transcriptions automatiques, à cause des erreurs de classification et de segmentation. De plus, les systèmes de reconnaissance automatique de la parole commettent beaucoup d'erreur lors de la transcription de noms propres. De récents travaux sur la phonétisation automatique de noms propres \cite{nionio} ce sont intéressés à ce problème. Il conviendrait de les étudier en détail afin de les exploiter pour les systèmes d'INL.
 
 % Résultats sans filtrage de liste de locuteurs sur du manuel (même pas sur le genre) & LIA_NE
 %
