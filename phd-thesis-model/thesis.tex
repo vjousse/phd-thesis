@@ -2156,6 +2156,9 @@ La figure \ref{fig:pb_seg_inl} illustre un de ces problèmes. Dans la référence, 
 
 Cet exemple illustre bien qu'avec des transcriptions entièrement automatiques, il est difficile de n'évaluer que le système d'INL. En effet, ce dernier est fortement dépendant de la segmentation et de la classification automatiques. Si un locuteur a été correctement identifié à un endroit de l'enregistrement, mais que la segmentation ne permet pas de lui affecter la totalité de ses tours de parole, le système d'INL présentera un fort taux d'erreur. Par exemple, sur un tour de parole durant 10 minutes, si seule la première minute a été détectée par le système de segmentation et étiquetée pas le système d'INL, le taux d'erreur sera de 90~\% pour ce locuteur.
 
+\subsection{Impact de la transcription et de la segmentation}
+
+Afin d'étudier l'impact des différentes composantes d'une transcription automatique (segmentation/classification et transcription), le tableau X montre les résultats en ne faisant varier qu'un des deux paramètres à la fois. Cette étude à été menée sur le corpus de développement.
 
 \subsection{Bilan}
 
