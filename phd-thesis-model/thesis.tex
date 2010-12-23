@@ -2152,11 +2152,13 @@ Lorsque l'évaluation est réalisée sur des transcriptions entièrement automatique
 \end{center}
 \end{figure}
 
-Avec des transcriptions entièrement automatiques, il est difficile de n'évaluer que le système d'INL. En effet, ce dernier est fortement dépendant de la segmentation et de la classification automatiques. Si un locuteur a été correctement identifié à un endroit de l'enregistrement, mais que la segmentation ne permet pas de lui affecter la totalité de ses tours de parole, le système d'INL présentera un fort taux d'erreur. Par exemple, sur un tour de parole durant 10 minutes, si seule la première minute a été détectée par le système de segmentation et étiquetée pas le système d'INL, le taux d'erreur sera de 90~\% pour ce locuteur.
+La figure \ref{fig:pb_seg_inl} illustre un de ces problèmes. Dans la référence, un seul tour de parole est affecté au locuteur \emph{Maude Bayeu}. Dans l'hypothèse, le système de segmentation a commis une erreur et seule une partie du tour de parole de référence a pu être étiqueté.
 
-Les résultats présentés dans la section \ref{sec:xp_auto} sont mesurés en durée. Plus le 
+Cet exemple illustre bien qu'avec des transcriptions entièrement automatiques, il est difficile de n'évaluer que le système d'INL. En effet, ce dernier est fortement dépendant de la segmentation et de la classification automatiques. Si un locuteur a été correctement identifié à un endroit de l'enregistrement, mais que la segmentation ne permet pas de lui affecter la totalité de ses tours de parole, le système d'INL présentera un fort taux d'erreur. Par exemple, sur un tour de parole durant 10 minutes, si seule la première minute a été détectée par le système de segmentation et étiquetée pas le système d'INL, le taux d'erreur sera de 90~\% pour ce locuteur.
 
-Les systèmes d'identification nommée du locuteur peuvent être évalués de deux manières~: en durée ou en nombre de locuteurs.
+\subsection{Impact de la transcription et de la segmentation}
+
+Afin d'étudier l'impact des différentes composantes d'une transcription automatique (segmentation/classification et transcription), le tableau X montre les résultats en ne faisant varier qu'un des deux paramètres à la fois. Cette étude à été menée sur le corpus de développement.
 
 \subsection{Bilan}
 
