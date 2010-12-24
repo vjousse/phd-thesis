@@ -1031,7 +1031,7 @@ Dans \cite{Chengyuan07} Microsoft a comparé le système de Tranter avec le systèm
 \begin{figure}[h]
 \begin{center}
 \includegraphics[width=0.7\columnwidth]{img/resultats_microsoft.pdf}
-\caption{Résultats sur le corpus de test (transcription et segmentation/classification manuelles). Le modèle d'entropie maximum (maxent) et le modèle N-gramme utilisent les mêmes règles lexicales. Les résultats avec l'ajout de la position (pos), des données acoustiques (ac) et l'utilisation du genre (g) sont aussi donnés pour le modèle d'entropie maximum.}
+\caption{Résultats sur le corpus de test (transcription et segmentation~/ classification manuelles). Le modèle d'entropie maximum (maxent) et le modèle N-gramme utilisent les mêmes règles lexicales. Les résultats avec l'ajout de la position (pos), des données acoustiques (ac) et l'utilisation du genre (g) sont aussi donnés pour le modèle d'entropie maximum.}
 \label{fig:resultats_microsoft}
 \end{center}
 \end{figure}
@@ -1149,7 +1149,7 @@ Ce système a été comparé à celui de Tranter dans \cite{Esteve07}. Il a été évalu
 \begin{figure}[h]
 \begin{center}
 \includegraphics[width=0.7\columnwidth]{img/results_manu_yannick.pdf}
-\caption{Résultats du système du LIUM et du système à base de N-grammes sur des transcriptions entièrement manuelles (segmentation/classification/transcription)}
+\caption{Résultats du système du LIUM et du système à base de N-grammes sur des transcriptions entièrement manuelles (segmentation~/ classification~/ transcription)}
 \label{fig:results_yannick_manu}
 \end{center}
 \end{figure}
@@ -1735,10 +1735,30 @@ Pour une évaluation en terme de nombre de locuteurs, dans le même cas de figure,
 
 D'un point de vue applicatif, la métrique exprimée en durée est préférable si les locuteurs considérés comme importants correspondent aux locuteurs s'exprimant beaucoup. En revanche, si l'application cherche à nommer le plus possible de locuteurs, il est plus intéressant d'évaluer les performances en terme de nombre de locuteurs.
 
+\subsection{Système de transcription automatique du LIUM}
+\label{sec:sys_auto_lium}
+
+Les expériences réalisées sur des transcriptions automatiques ont été effectuées grâce au système de transcription automatique de la parole du LIUM. Ce système est constitué de deux modules~: un module de segmentation et de classification en locuteur et un module de transcription.
+
+Tout d'abord, la tâche de segmentation et de classification en locuteur consiste à annoter des régions du signal audio (cf. section \ref{ssub:decoupage_regroupement}). Ces annotations peuvent être de plusieurs types : des étiquettes représentant les différents locuteurs, le genre des locuteurs, le type de canal (radio, studio) ou encore le type d'environnement sonore comme le bruit, la musique, \dots Dans la tâche de segmentation, les étiquettes représentant les locuteurs sont anonymes. Le système utilisé au LIUM (LIUM\_SpkDiarization) utilise une segmentation basée sur GLR (Generalized Likelihood Ratio) et BIC \cite{Siegler97automaticsegmentation} (Bayesian Information Criterion). Il est entièrement décrit dans \cite{liumspkdiarization}. Ce système a été classé premier lors de la campagne d'évaluation ESTER 2 avec un DER (\emph{Diarization Error Rate}) de 10~\%.
+
+Le module de transcription a pour but de transcrire le signal audio en mots. Celui du LIUM \cite{lium_asr} est basé sur le décodeur CMU Sphinx 3.7. Il utilise un vocabulaire de plus de 65~000 mots, ainsi qu'un modèle de langage 3-gramme. Des ajouts au décodeur de base ont permis d'utiliser SAT (Speaker Adaptative Training) et des modèles 4-gramme pour réévaluer les graphes de mots. Le système est décrit de manière exhaustive dans \cite{lium_asr_full} et \cite{lium_asr}. Ce système s'est classé 2 ème lors de la campagne d'évaluation ESTER 2 avec un taux d'erreur mot de 17,83~\%.
+%Le système utilisé au LIUM (LIUM\_SpkDiarization) utilise une segmentation basée sur GLR (Generalized Likelihood Ratio) et BIC \cite{Siegler97automaticsegmentation} (Bayesian Information Criterion). Une première passe permet de détecter les points de rupture du signal constituant les frontières des segments. Ces points de rupture sont détectés en utilisant la mesure de vraisemblance GLR calculée (grâce à des GMM à matrice de covariance pleine) sur une fenêtre de 5 secondes tout le long du signal. Lorsque la mesure atteint un maximum dans cette fenêtre de 5 secondes, le système considère que c'est un point de rupture. Une seconde passe est ensuite effectuée afin de fusionner les segments correspondant au même locuteur, du début à la fin de l'enregistrement. La mesure utilisée pour le regroupement est la distance BIC utilisant des matrices de covariance pleines. 
+
+
+%L'algorithme utilisé pour regrouper les segments au sein de classes se base sur une classification hiérarchique. Au départ, chaque classe est constituée d'un unique segment, chaque classe étant modélisée avec une GMM à matrice de covariance pleine. La mesure utilisée pour regrouper les classes entre elles, et pour stopper le regroupement est la mesure BIC. Les classes les plus proches sont regroupées tant que la distance BIC entre ces classes est inférieure à 0.
+
+%La détection du genre est réalisée grâce à des GMM (avec une diagonale à 128 composantes) pour chacun des quatre combinaisons possibles entre le genre (homme/femme) et le canal (studio/téléphone). Chaque classe est étiquetée en fonction de la GMM qui maximise la vraisemblance avec la classe en question. Chaque modèle a été préalablement appris en utilisant le corpus d'apprentissage de la campagne ESTER.
+
+%\subsection{Système de transcription automatique du LIUM}
+
+
 \subsection{Résultats}
 \label{sec:results_milesni}
 
-Comme dans les systèmes présentés dans le chapitre \ref{sec:inl}, une liste des locuteurs potentiels (ainsi que leur genre) est utilisée. Cela permet notamment de comparer le système à celui du LIUM présenté dans la section \ref{sec:sys_id_lium}. Les résultats sans cette liste de locuteur seront donnés et discutés dans la section \ref{}. \todo{Référence XP sans liste}
+Comme dans les systèmes présentés dans le chapitre \ref{sec:inl}, une liste des locuteurs potentiels (ainsi que leur genre) est utilisée. Cela permet notamment de comparer le système à celui du LIUM présenté dans la section \ref{sec:sys_id_lium}. Les résultats sans cette liste de locuteur seront donnés et discutés dans la section \ref{sec:liste_locu}.
+
+\subsubsection{Transcriptions manuelles}
 
 Le tableau \ref{tab:results_belief} présente les résultats du système sur les corpus de développement et de test, en utilisant des transcriptions manuelles. La liste de locuteurs utilisée pour le corpus de développement correspond aux locuteurs du corpus d'apprentissage, de développement et de test de la campagne ESTER 1 (soit 1016 locuteurs). La liste de locuteurs utilisée pour le test est celle du corpus de test EPAC (soit 101 locuteurs). Les résultats en durée et en nombre de locuteurs sont donnés. 
 \begin{table}[h]
@@ -1762,6 +1782,39 @@ Le tableau \ref{tab:results_belief} présente les résultats du système sur les co
 Ces résultats sont comparables à ceux donnés pour le système du LIUM dans la figure \ref{fig:results_yannick_manu}~: à 95~\% de précision, le meilleur système obtenait un rappel d'environ 40~\%. Le corpus utilisé dans \ref{fig:results_yannick_manu} correspond au corpus de développement du système présenté. Pour la même précision, le rappel a plus que doublé pour atteindre 86,00~\%. Sur le corpus de test, à 93~\% de précision, le rappel est d'environ 77~\%. 
 
 Les résultats sur le corpus de test s'expliquent par la composition du corpus décrit dans le tableau \ref{tab:donnees_xp}. En effet, le taux de locuteurs Indisponibles dans la transcription est deux fois supérieur à celui du corpus de développement.
+
+\subsubsection{Transcriptions automatiques~: résultats préliminaires}
+
+L'utilisation de systèmes d'INL prend tout son sens lorsqu'elle peut être réalisée sur des transcriptions produites par des systèmes automatiques. Même si quelques expériences préliminaires ont été réalisées par Tranter et le LIUM, l'utilisation de systèmes d'INL sur des transcriptions reste problématique. 
+
+\label{sec:xp_auto}
+
+Le tableau \ref{tab:results_auto} présente les résultats de \emph{Milesin} sur des transcriptions entièrement automatiques. Les systèmes de segmentation/c lassification et de transcription automatiques utilisés sont ceux présentés dans la section \ref{sec:sys_auto_lium}. Sur le corpus de développement, le DER est de 11,5~\% et le WER de 20,5~\%. Sur le corpus de test, le DER est de 5,71~\% et le WER de X~\% (\todo{Trouver le WER d'EPAC}).
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|}
+\cline{3-5}
+\multicolumn{2}{c|}{} & \textbf{R} & \textbf{P} & \textbf{ErrDur}\\ \hline
+\hline
+\multicolumn{5}{|c|}{\emph{Corpus de Développement}}\\ \hline
+\hline
+\multicolumn{2}{|c|}{Liste par enregistrement} & 21,16~\% & 61,66~\% & 64,92~\% \\ \hline
+\hline
+\hline
+\multicolumn{5}{|c|}{\emph{Corpus de Test}}\\ \hline
+\hline
+\multicolumn{2}{|c|}{Liste par enregistrement} & -~\% & -~\% & -~\% \\ \hline
+\hline
+\end{tabular}
+\end{center}
+\caption{Résultats de \emph{Milesin} sur des transcriptions entièrement automatiques en utilisant une liste de locuteurs par enregistrement}
+\label{tab:results_auto}
+\end{table}
+
+Le taux d'erreur (en durée) obtenu est d'environ 65~\%. Lorsque l'on utilise \emph{Milesin} avec des transcriptions entièrement automatiques, les erreurs des différents systèmes se cumulent. Aucune adaptation de \emph{Milesin} pour des transcriptions automatiques n'a été effectuée dans ces expériences.
+
+Une des premières choses à faire, serait d'essayer d'augmenter la précision comme décrit dans la section \ref{sec:perspectives_sans_liste}. Ensuite, une analyse des erreurs similaire à celle réalisée dans la section \ref{sec:analyse_preliminaire} devrait permettre de dégager de futures pistes de recherche. L'influence des différentes composantes d'une transcription automatique sur les résultats des systèmes d'INL est discutée dans la section \ref{sec:impact_trans_auto}.
 
 
 \section{Bilan}
@@ -2087,6 +2140,8 @@ locuteur $t_{k+1}$ est masculin).}
 
 \section{Liste de locuteurs et applications}
 
+\label{sec:liste_locu}
+
 Tous les travaux menés jusqu'ici utilisent une liste de noms complets représentant les locuteurs potentiels (généralement appelée \og liste de locuteurs \fg{}). Elle peut être utilisée pour étiqueter les noms complets directement dans la transcription (comme pour les travaux de Canseco ou de Tranter) ou pour rejeter certaines décisions qui ne concernent pas des locuteurs cibles (comme \emph{Milesin}). L'utilisation de telles listes est difficilement justifiable si le contexte d'utilisation du système d'INL n'est pas précisé.
 
 \subsection{Contexte}
@@ -2146,59 +2201,7 @@ Dans cette optique, les systèmes doivent présenter la plus grande précision poss
 
 Dans un deuxième temps, il sera intéressant de regarder comment il est possible d'améliorer le détecteur d'entités nommées pour diminuer les erreurs de délimitation mentionnées dans la section \ref{sec:exp_liste}. Un traitement des coréférences entre prénom, patronyme et nom complet devrait aussi pouvoir améliorer les résultats du système sur certains corpus.
 
-
-\section{Transcriptions automatiques~: résultats préliminaires}
-
-Les expériences menées jusqu'ici ont été réalisées sur des transcriptions manuelles. La segmentation et le regroupement en locuteurs ainsi que la transcription ont été réalisés par des annotateurs humains~: elles sont considérées comme sans erreur. L'utilisation de systèmes d'INL prend tout son sens lorsqu'elle peut être réalisée sur des transcriptions produites par des systèmes automatiques. Même si quelques expériences préliminaires ont été réalisées par Tranter et le LIUM, l'utilisation de systèmes d'INL sur des transcriptions reste problématique. 
-
-Nous présentons ici les résultats de \emph{Milesin} sur des transcriptions automatiques réalisées avec le système de transcription du LIUM, avant de discuter des problèmes à résoudre lors de l'utilisation de tels systèmes sur des transcriptions automatiques. Nous finirons par exposer notre réflexion sur les métriques utilisées.
-
-\subsection{Système de transcription automatique du LIUM}
-\label{sec:sys_auto_lium}
-
-Le système de transcription automatique du LIUM est constitué de deux modules~: un module de segmentation et de classification en locuteur et un module de transcription.
-
-Tout d'abord, la tâche de segmentation et de classification en locuteur consiste à annoter des régions du signal audio (cf. section \ref{ssub:decoupage_regroupement}). Ces annotations peuvent être de plusieurs types : des étiquettes représentant les différents locuteurs, le genre des locuteurs, le type de canal (radio, studio) ou encore le type d'environnement sonore comme le bruit, la musique, \dots Dans la tâche de segmentation, les étiquettes représentant les locuteurs sont anonymes. Le système utilisé au LIUM (LIUM\_SpkDiarization) utilise une segmentation basée sur GLR (Generalized Likelihood Ratio) et BIC \cite{Siegler97automaticsegmentation} (Bayesian Information Criterion). Il est entièrement décrit dans \cite{liumspkdiarization}. Ce système a été classé premier lors de la campagne d'évaluation ESTER 2 avec un DER (\emph{Diarization Error Rate}) de 10~\%.
-
-Le module de transcription a pour but de transcrire le signal audio en mots. Celui du LIUM \cite{lium_asr} est basé sur le décodeur CMU Sphinx 3.7. Il utilise un vocabulaire de plus de 65~000 mots, ainsi qu'un modèle de langage 3-gramme. Des ajouts au décodeur de base ont permis d'utiliser SAT (Speaker Adaptative Training) et des modèles 4-gramme pour réévaluer les graphes de mots. Le système est décrit de manière exhaustive dans \cite{lium_asr_full} et \cite{lium_asr}. Ce système s'est classé 2 ème lors de la campagne d'évaluation ESTER 2 avec un taux d'erreur mot de 17,83~\%.
-%Le système utilisé au LIUM (LIUM\_SpkDiarization) utilise une segmentation basée sur GLR (Generalized Likelihood Ratio) et BIC \cite{Siegler97automaticsegmentation} (Bayesian Information Criterion). Une première passe permet de détecter les points de rupture du signal constituant les frontières des segments. Ces points de rupture sont détectés en utilisant la mesure de vraisemblance GLR calculée (grâce à des GMM à matrice de covariance pleine) sur une fenêtre de 5 secondes tout le long du signal. Lorsque la mesure atteint un maximum dans cette fenêtre de 5 secondes, le système considère que c'est un point de rupture. Une seconde passe est ensuite effectuée afin de fusionner les segments correspondant au même locuteur, du début à la fin de l'enregistrement. La mesure utilisée pour le regroupement est la distance BIC utilisant des matrices de covariance pleines. 
-
-
-%L'algorithme utilisé pour regrouper les segments au sein de classes se base sur une classification hiérarchique. Au départ, chaque classe est constituée d'un unique segment, chaque classe étant modélisée avec une GMM à matrice de covariance pleine. La mesure utilisée pour regrouper les classes entre elles, et pour stopper le regroupement est la mesure BIC. Les classes les plus proches sont regroupées tant que la distance BIC entre ces classes est inférieure à 0.
-
-%La détection du genre est réalisée grâce à des GMM (avec une diagonale à 128 composantes) pour chacun des quatre combinaisons possibles entre le genre (homme/femme) et le canal (studio/téléphone). Chaque classe est étiquetée en fonction de la GMM qui maximise la vraisemblance avec la classe en question. Chaque modèle a été préalablement appris en utilisant le corpus d'apprentissage de la campagne ESTER.
-
-%\subsection{Système de transcription automatique du LIUM}
-
-\subsection{Expériences}
-\label{sec:xp_auto}
-
-Le tableau \ref{tab:results_auto} présente les résultats de \emph{Milesin} sur des transcriptions entièrement automatiques. Les systèmes de segmentation/classification et de transcription automatiques utilisés sont ceux présentés dans la section \ref{sec:sys_auto_lium}. Sur le corpus de développement, le DER est de 11,5~\% et le WER de 20,5~\%. Sur le corpus de test, le DER est de 5,71~\% et le WER de X~\% (\todo{Trouver le WER d'EPAC}).
-
-\begin{table}[h]
-\begin{center}
-\begin{tabular}{|c|c|c|c|c|}
-\cline{3-5}
-\multicolumn{2}{c|}{} & \textbf{R} & \textbf{P} & \textbf{ErrDur}\\ \hline
-\hline
-\multicolumn{5}{|c|}{\emph{Corpus de Développement}}\\ \hline
-\hline
-\multicolumn{2}{|c|}{Liste par enregistrement} & 21,16~\% & 61,66~\% & 64,92~\% \\ \hline
-\hline
-\hline
-\multicolumn{5}{|c|}{\emph{Corpus de Test}}\\ \hline
-\hline
-\multicolumn{2}{|c|}{Liste par enregistrement} & -~\% & -~\% & -~\% \\ \hline
-\hline
-\end{tabular}
-\end{center}
-\caption{Résultats de \emph{Milesin} sur des transcriptions entièrement automatiques en utilisant une liste de locuteurs par enregistrement}
-\label{tab:results_auto}
-\end{table}
-
-Le taux d'erreur (en durée) obtenu est d'environ 65~\%. Lorsque l'on utilise \emph{Milesin} avec des transcriptions entièrement automatiques, les erreurs des différents systèmes se cumulent. Aucune adaptation de \emph{Milesin} pour des transcriptions automatiques n'a été effectuée dans ces expériences.
-
-Une des premières choses à faire, serait d'essayer d'augmenter la précision comme décrit dans la section \ref{sec:perspectives_sans_liste}. Ensuite, une analyse des erreurs similaire à celle réalisée dans la section \ref{sec:analyse_preliminaire} devrait permettre de dégager de futures pistes de recherche.
+\section{Transcriptions automatiques}
 
 \subsection{De la pertinence des métriques utilisées}
 
@@ -2222,11 +2225,13 @@ Toutes ces problématiques sont en cours d'étude dans le projet ANR REPERE 2010\f
 
 \subsection{Impact de la transcription et de la segmentation}
 
+\label{sec:impact_trans_auto}
+
 \todo{Est-ce qu'on garde cette partie là ? Car dans le coup il faut tout réaligner dans les différents sens pour ester1 et epac, ainsi que refaire tourner LIA\_NE sur chaque corpus réaligné \ldots}
 
 Afin d'étudier l'impact des différentes composantes d'une transcription automatique (segmentation/classification et transcription), le tableau X montre les résultats en ne faisant varier qu'un des deux paramètres à la fois. Cette étude à été menée sur le corpus de développement.
 
-\subsection{Bilan}
+\section{Bilan}
 
 \emph{Milesin} est le fruit de diverses améliorations apportées au système pré-existant au LIUM. Le système d'entités nommées a tout d'abord été remplacé par LIA\_NE, le détecteur d'entités nommées le plus performant de la campagne d'évaluation ESTER 2. Ensuite, l'étape d'attribution locale ainsi que le processus d'attribution globale ont améliorés à plusieurs reprises. Le choix du système à base de fonctions de croyances a été motivé par la modélisation mathématique que permet cette théorie. Grâce à la théorie des fonctions de croyance, il est maintenant possible de modéliser le conflit, l'ignorance ou la croyance au sein d'un locuteur à nommer. Bien que ces informations soient potentiellement très utiles, elles n'ont pour l'instant été que partiellement exploitées~: le conflit et l'ignorance ne sont pour l'instant pas pris en compte. Ces informations devraient permettre d'augmenter la précision du système lorsque l'on utilise des systèmes sans listes de locuteurs par exemple.
 
