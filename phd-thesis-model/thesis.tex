@@ -109,7 +109,7 @@ Les documents que les systèmes de transcription grand vocabulaire sont capables 
 
 %Les campagnes d'évaluation se sont adaptées et de nouveaux corpus constitués d'enregistrements de journaux d'informations radiophoniques ont été constitués. Même si ces corpus contiennent beaucoup de parole qui a été préparée et écrite à l'avance par les journalistes, elle est néanmoins convertie à l'oral. À la différence des corpus précédents qui n'étaient constitués que de corpus écrits ensuite lus tel quel. De plus, ces corpus contiennent aussi de la parole plus spontanée, puisque beaucoup d'émissions font intervenir des invités ou interrogent des personnes dans la rue. À noter que ces corpus sont aussi fortement multi-locuteurs. Avec ces nouvelles campagnes d'évaluations, les systèmes sont confrontés à des corpus qui se rapprochent de plus en plus de dialogues complètement spontanés entre plusieurs personnes (même si comme nous l'avons fait remarquer, une partie de la parole est encore relativement préparée).
 
-Aux États-Unis, le DARPA puis le NIST ont organisé des campagnes d'évaluations des systèmes de transcription enrichie (\emph{Rich Transcription, RT}) \cite{Graff96the1996} à partir de 1996. En France, c'est la campagne ESTER \cite{Gravier04,Galliano06} organisée par l'AFCP, la DGA et ELRA qui a permis de réaliser les premières évaluations des systèmes de reconnaissance français sur des journaux d'informations radiophoniques. Une deuxième campagne d'évaluation française nommée ESTER II \cite{Ester2} a ensuite été menée de 2008 à 2009 de manière à mesurer les progrès des différents systèmes.
+Aux États-Unis, le DARPA puis le NIST ont organisé des campagnes d'évaluations des systèmes de transcription enrichie (\emph{Rich Transcription, RT}) \cite{Graff96the1996} à partir de 1996. En France, c'est la campagne ESTER \cite{Gravier04,Galliano06} organisée par l'AFCP, la DGA et ELRA qui a permis de réaliser les premières évaluations des systèmes de reconnaissance français sur des journaux d'informations radiophoniques. Une deuxième campagne d'évaluation française nommée ESTER II \cite{ESTER2} a ensuite été menée de 2008 à 2009 de manière à mesurer les progrès des différents systèmes.
 
 \begin{figure}[h]
 
@@ -227,7 +227,7 @@ La métrique utilisée dans les différentes campagnes (cf. section \ref{ssec:trans
 \label{eq:wer}
 \end{equation}  
 
-À titre d'exemple, lors de la première campagne ESTER \cite{Galliano05}, le meilleur système (celui du LIMSI) atteignait un taux d'erreur mot de 11,9~\%. L'écart entre les différents systèmes était cependant relativement important, puisque le deuxième système, celui du LIUM, affichait un taux d'erreur mot de 23,6~\%. Lors de la campagne ESTER II \cite{Ester2}, le système le plus performant était toujours celui du LIMSI avec un taux d'erreur de 12,1~\% . En revanche l'écart avec le système du LIUM s'est réduit puisque son taux d'erreur n'était plus que de 17,8~\%.
+À titre d'exemple, lors de la première campagne ESTER \cite{Galliano05}, le meilleur système (celui du LIMSI) atteignait un taux d'erreur mot de 11,9~\%. L'écart entre les différents systèmes était cependant relativement important, puisque le deuxième système, celui du LIUM, affichait un taux d'erreur mot de 23,6~\%. Lors de la campagne ESTER II \cite{ESTER2}, le système le plus performant était toujours celui du LIMSI avec un taux d'erreur de 12,1~\% . En revanche l'écart avec le système du LIUM s'est réduit puisque son taux d'erreur n'était plus que de 17,8~\%.
 
 
 \section{Reconnaissance automatique du locuteur}
@@ -250,7 +250,7 @@ Des serveurs vocaux aux terminaux mobiles, en passant par les dispositifs de séc
 Dans les applications biométriques, un système de RAL va essayer de reconnaître, grâce à sa voix, un locuteur qui cherche à s'identifier auprès d'un terminal. Même si ces systèmes donnent de bons résultats, ils ne sont pas parfaits. Les systèmes à l'état de l'art comme MISTRAL ont un taux d'erreur aux alentours de 5~\% \cite{MeignierMistral}. Ils ne peuvent donc pas être considérés comme aussi sûr que les empreintes digitales et doivent être utilisés avec prudence à des fins judiciaires par exemple \cite{Boe99, Bonastre2003}. En revanche, avec l'arrivée des terminaux mobiles dans la vie de tous les jours, la RAL s'invite avec succès dans les téléphones portables de dernière génération \cite{Larcher_JEP10}.
 
 
-L'utilisation de la RAL dans les applications que nous venons de citer peut se découper en quatre grandes catégories décrites ci-dessous. Ces catégories sont d'ailleurs sujet à évaluation dans les différentes campagnes comme NIST \cite{Alvin04nistspeaker} et ESTER \cite{Gravier04,Ester2}.
+L'utilisation de la RAL dans les applications que nous venons de citer peut se découper en quatre grandes catégories décrites ci-dessous. Ces catégories sont d'ailleurs sujet à évaluation dans les différentes campagnes comme NIST \cite{Alvin04nistspeaker} et ESTER \cite{Gravier04,ESTER2}.
 
 %En plus de la difficulté à différencier deux locuteurs différents, la RAL est aussi confrontée à des problèmes intra-locuteurs. En effet, la voix d'un locuteur peut fortement varier d'un enregistrement à l'autre. Le niveau de fatigue, l'émotion, le contexte d'enregistrement ou encore l'âge d'un locuteur sont autant de variations qui peuvent venir perturber la RAL. Mais la biométrie n'est pas la seule application possible, de par ses caractéristiques, la RAL est utilisée dans bien d'autres domaines.
 
@@ -414,7 +414,7 @@ Selon Poibeau \cite{Poibeau2002} et Sekine et Eriguchi \cite{Sekine2000}, les sy
 Dans ces systèmes, le concepteur doit élaborer un ensemble de règles qui seront ensuite utilisées pour détecter les entités nommées. Historiquement, cette technique fût la première utilisée dans le domaine. Bien que depuis la campagne d'évaluation MUC-6, l'apprentissage automatique ait fait son apparition dans ce domaine, les systèmes à base de règles écrites \og à la main \fg{} restent encore très utilisés aujourd'hui.\\
 
 \textbf{Les systèmes à base d'apprentissage automatique}\\
-Ces systèmes utilisent des techniques d'apprentissage automatique pour apprendre un modèle capable d'étiqueter des entités nommées à partir d'un corpus d'apprentissage. Ces travaux sont largement inspirés des techniques utilisées en reconnaissance automatique de la parole, et utilisent diverses techniques d'apprentissage : modèles de Markov cachés, modèle d'entropie maximum, arbres de décision, etc. Le système (LIA\_NE) développé par Béchet \cite{bechetc-icassp10} au Laboratoire d'Informatique d'Avignon (LIA) pour ESTER2 \cite{Ester2} fait partie de ce type de systèmes.\\ 
+Ces systèmes utilisent des techniques d'apprentissage automatique pour apprendre un modèle capable d'étiqueter des entités nommées à partir d'un corpus d'apprentissage. Ces travaux sont largement inspirés des techniques utilisées en reconnaissance automatique de la parole, et utilisent diverses techniques d'apprentissage : modèles de Markov cachés, modèle d'entropie maximum, arbres de décision, etc. Le système (LIA\_NE) développé par Béchet \cite{bechetc-icassp10} au Laboratoire d'Informatique d'Avignon (LIA) pour ESTER2 \cite{ESTER2} fait partie de ce type de systèmes.\\ 
 
 \textbf{Les systèmes mixtes}\\
 Ces systèmes utilisent généralement des lexiques initiaux. Parmi ces systèmes, Poibeau \cite{Poibeau2002} distingue deux approches. La première consiste à apprendre automatiquement des règles, puis à utiliser un expert pour les réviser. Dans la seconde, un ensemble de règles de base est constitué par le concepteur, puis étendu (semi-)automatiquement par inférence, afin d'obtenir une meilleure couverture. Par exemple, Nemesis, développé par Fourour \cite{Fourour04} au Laboratoire d'Informatique de Nantes Atlantique (LINA), fait partie de ces systèmes.\\
@@ -1192,7 +1192,7 @@ Pour finir l'hypothèse concernant la présence des noms complets (correctement tr
 
 Les travaux déjà effectués sur l'INL ont permis de prouver l'efficacité de l'approche utilisant la transcription du signal audio. Comme décrit dans la section \ref{bilaninl}, des progrès restent à réaliser pour automatiser le processus, notamment dans la détection des noms complets et des classes sémantiques. De plus, les travaux ont majoritairement étudié les techniques d'attribution locale (règles linguistiques, N-grammes, arbre de classification), mais peu de travaux sur le processus d'attribution globale ont été menés.
 
-Dans ce chapitre, nous commençons par décrire le système de détection des entités nommées utilisé, puis nous décrirons ensuite l'arbre de classification sémantique mise en \oe{}uvre pour réaliser les attributions locales. Nous finirons par expliquer le processus d'attribution globale reposant sur la théorie des fonctions de croyance avant de présenter les résultats du système. Ces travaux font suite à ceux déjà menés au LIUM (cf. section \ref{sec:sys_id_lium}). 
+Dans ce chapitre, nous commençons par décrire le système de détection des entités nommées utilisé, puis nous décrirons ensuite l'arbre de classification sémantique mis en \oe{}uvre pour réaliser les attributions locales. Nous finirons par expliquer le processus d'attribution globale reposant sur la théorie des fonctions de croyance avant de présenter les résultats du système. Ces travaux font suite à ceux déjà menés au LIUM (cf. section \ref{sec:sys_id_lium}). 
 
 %Le laboratoire d'informatique de l'université du Maine (LIUM) a présenté ses travaux sur l'identification nommée du locuteur dans \cite{MauclairOdyssey06} et \cite{Esteve07}.
 %Les travaux du LIUM \cite{MauclairOdyssey06} ont été publiés en même temps que ceux de l'Université de Cambridge. Ils font aussi suite aux premiers travaux de Canseco. Le LIUM utilise un arbre de classification sémantique (SCT - Semantic Classification Tree \cite{Kuhn1995}) pour déterminer les règles linguistiques à utiliser pour attribuer l'étiquette \og suivant \fg{}, \og précédent \fg{} ou \og courant \fg{} à un nom complet détecté dans la transcription. Ces règles linguistiques sont basées sur des expressions régulières construites autour des noms complets détectés. Ce système ayant servi de base aux travaux présentés ici, il est plus longuement présenté dans la section qui lui est consacrée \label{sec:sys_id_lium}.
@@ -1201,28 +1201,28 @@ Dans ce chapitre, nous commençons par décrire le système de détection des entité
 
 Une des étapes fondamentales de tout système d'INL reposant sur la transcription du signal audio est la détection des noms complets et des différentes classes sémantiques. Dans le but d'automatiser au maximum les systèmes d'INL, cette phase peut être réalisée à l'aide de systèmes de détection des entités nommées. Les entités nommées de type \emph{personne} vont pouvoir être exploitées pour extraire les noms complets de la transcription, les autres entités nommées vont servir de classes sémantiques pour généraliser la transcription.
 
-\subsection{La campagne d'évaluation Ester 2}
+\subsection{La campagne d'évaluation ESTER 2}
 
-En 2010, lors de la campagne d'évaluation Ester 2 \cite{Ester2}, une tâche d'évaluation des systèmes de détection des entités nommées a été proposée. Cette tâche a permis d'évaluer les différents systèmes de détection des entités nommées sur des transcriptions manuelles, mais aussi sur des transcriptions automatiques provenant de SRAP. Plusieurs laboratoires universitaires français ont participé à cette tâche comme le LINA, le LIMSI, le LIA, le LI (Tours) ou encore le LSIS. Deux entreprises privées ont aussi participé à l'évaluation~: Synapse et Xerox.
+En 2010, lors de la campagne d'évaluation ESTER 2 \cite{ESTER2}, une tâche d'évaluation des systèmes de détection des entités nommées a été proposée. Cette tâche a permis d'évaluer les différents systèmes de détection des entités nommées sur des transcriptions manuelles mais aussi sur des transcriptions automatiques provenant de SRAP. Plusieurs laboratoires universitaires français ont participé à cette tâche comme le LINA, le LIMSI, le LIA, le LI (Tours) ou encore le LSIS. Deux entreprises privées ont aussi participé à l'évaluation~: Synapse et Xerox.
 
-La mesure utilisée pour l'évaluation est le Slot Error Rate (SER) décrit dans \cite{SER}. La liste des entités nommées à étiqueter pour la campagne Ester 2 est la suivante~: les personnes, les lieux, les organisations, les productions humaines (moyens de transports, récompenses, \oe{}uvres artistiques, ...), les montants, le temps et les fonctions (politiques, administratives, ...).
+La mesure utilisée pour l'évaluation est le Slot Error Rate (SER) décrit dans \cite{SER}. La liste des entités nommées à étiqueter pour la campagne ESTER 2 est la suivante~: les personnes, les lieux, les organisations, les productions humaines (moyens de transports, récompenses, \oe{}uvres artistiques, ...), les montants, le temps et les fonctions (politiques, administratives, ...).
 
-Sur des transcriptions réalisées manuellement, Synapse et Xerox ont (de loin) les systèmes le plus performants avec un SER inférieur à 10~\%. Le troisième système est celui du LIA (LIA\_NE) qui obtient un SER de 23,9~\%. En revanche, sur des transcriptions réalisées automatiquement, c'est LIA\_NE qui arrive en première position avec un taux d'erreur de 43,4~\% sur les transcriptions du LIMSI qui affichent un taux d'erreur mot (WER) de 12,1~\% (soit le meilleur système de la campagne d'évaluation Ester 2). D'autres tests ont été réalisés avec des transcriptions contenant plus d'erreurs (17,83~\% et 26,09\% de WER)~: LIA\_NE obtient systématiquement les meilleurs performances. Les résultats sont présentés dans le tableau \ref{tab:ne_ester2}.
+Sur des transcriptions réalisées manuellement, Synapse et Xerox ont (de loin) les systèmes le plus performants avec un SER inférieur à 10~\%. Le troisième système est celui du LIA (LIA\_NE) qui obtient un SER de 23,9~\%. En revanche, sur des transcriptions réalisées automatiquement, c'est LIA\_NE qui arrive en première position avec un taux d'erreur de 43,4~\% sur les transcriptions du LIMSI qui affichent un taux d'erreur mot (WER) de 12,1~\% (soit le meilleur système de la campagne d'évaluation ESTER 2). D'autres tests ont été réalisés avec des transcriptions contenant plus d'erreurs (17,83~\% et 26,09\% de WER)~: LIA\_NE obtient systématiquement les meilleurs performances. Les résultats sont présentés dans le tableau \ref{tab:ne_ester2}.
 
 \begin{table}[h]
 \begin{center}
 \includegraphics[width=\columnwidth]{img/ne_ester2.pdf}
-\caption{Performances de chaque participant à la tâche de détection des entités nommées de la campagne Ester 2 \cite{Ester2}. Les résultats sont donnés en terme de Slot Error Rate (\%S), Rappel (\%R) et Précision (\%P)}
+\caption{Performances de chaque participant à la tâche de détection des entités nommées de la campagne ESTER 2 \cite{ESTER2}. Les résultats sont donnés en terme de Slot Error Rate (\%S), Rappel (\%R) et Précision (\%P)}
 \label{tab:ne_ester2}
 \end{center}
 \end{table}
 
 
-\subsection{LIA\_NE}
+\subsection{Le système LIA\_NE}
 
-Lors de la campagne Ester 2, le système le plus performant étant LIA\_NE \cite{bechetc-icassp10}, il a été choisi comme détecteur d'entités nommées pour les travaux de cette thèse. LIA\_NE a la particularité d'avoir été conçu spécifiquement pour être utilisé sur des sorties de transcriptions automatiques. Ces transcriptions ont des caractéristiques qui peuvent mettre en défaut les systèmes de détection d'EN prévus pour être utilisés sur des textes écrits tels que les livres ou les journaux.
+Lors de la campagne ESTER 2, le système le plus performant étant LIA\_NE \cite{bechetc-icassp10}, il a été choisi comme détecteur d'entités nommées pour les travaux de cette thèse. LIA\_NE a la particularité d'avoir été conçu spécifiquement pour être utilisé sur des sorties de transcriptions automatiques. Ces transcriptions ont des caractéristiques qui peuvent mettre en défaut les systèmes de détection d'EN prévus pour être utilisés sur des textes écrits tels que les livres ou les journaux.
 
-Les transcriptions automatiques proviennent de documents audio qui contien\-nent de la parole plus ou moins spontanée, et qui sont soumis à des phénomènes propres à la parole orale comme les disfluences ou les faux départs. Ces transcriptions ne sont pas parfaites et contiennent des erreurs commises par le système de reconnaissance automatique de la parole. La ponctuation et les majuscules sont généralement absents des transcriptions. Même si des modules de post-traitement existent pour les remettre, ils sont eux aussi sujets à erreurs. De plus, les transcriptions automatiques ne contiennent que des mots qui appartiennent au dictionnaire du SRAP alors que les EN sont essentiellement composées de noms propres pour lesquels il est très difficile d'obtenir une liste exhaustive. 
+Les transcriptions automatiques proviennent de documents audio qui contiennent de la parole plus ou moins spontanée et qui sont soumis à des phénomènes propres à la parole orale comme les disfluences ou les faux départs. Ces transcriptions ne sont pas parfaites et contiennent des erreurs commises par le système de reconnaissance automatique de la parole. La ponctuation et les majuscules sont généralement absents des transcriptions. Même si des modules de post-traitement existent pour les remettre, ils sont eux aussi sujet à erreurs. De plus, les transcriptions automatiques ne contiennent que des mots qui appartiennent au dictionnaire du SRAP alors que les EN sont essentiellement composées de noms propres pour lesquels il est très difficile d'obtenir une liste exhaustive. 
 
 LIA\_NE utilise tout d'abord un processus génératif grâce à un étiqueteur basé sur des HMM (\emph{Hidden Markov Model}) qui permet d'annoter le document avec les parties du discours et des classes sémantiques (personne, organisation, lieu, produit). Une fois le document annoté, un processus discriminatif basé sur les CRF \cite{CRFNE} (\emph{Conditional Random Field}) est utilisé. Ce processus va permettre de détecter les EN à partir des annotations réalisées par l'étiqueteur.
 
@@ -1237,17 +1237,28 @@ Afin d'apprendre les caractéristiques de ce modèle CRF, un maximum de connaissan
 \end{itemize}
 
 
-Les 7 catégories d'entités nommées utilisées pour Ester 2 ont été gardées comme classes sémantiques. Nous discuterons dans X\tocite{citer chap 5 EN} de l'apport de cette méthode pour l'identification nommée du locuteur, par rapport à une approche plus classique à base de règles manuelles prévues pour être utilisées sur des corpus écrits.
+Les 7 catégories d'entités nommées utilisées pour ESTER 2 ont été gardées comme classes sémantiques.% Nous discuterons dans X\tocite{citer chap 5 EN} de l'apport de cette méthode pour l'identification nommée du locuteur, par rapport à une approche plus classique à base de règles manuelles prévues pour être utilisées sur des corpus écrits.
 
 
 \section{Attributions locales : arbre de classification sémantique}
 
 Les noms complets étiquetés via le système de détection d'EN sont utilisés comme point de départ pour la phase d'attribution locale. Cette phase est réalisée grâce à un arbre de classification sémantique (SCT - \emph{Semantic Classification Tree}).
 
-Les arbres de classification sémantiques sont des types particuliers d'arbre de décision binaire. Ils sont beaucoup utilisés dans le traitement du langage naturel, comme pour des systèmes de compréhension \cite{Kuhn1995} ou des détecteurs de noms propres inconnus \cite{Bechet2000}. Dans le cadre de l'identification nommée, ils sont utilisés pour réaliser l'attribution locale des étiquettes \og{}précédent\fg{}, \og{}courant\fg{} et \og{}suivante\fg{} décrites dans la section \ref{ssec:attributions_locales}. Le fonctionnement et l'apprentissage des SCTs sont décrits de manière exhaustive dans \cite{KuhnPHD}. 
+Les arbres de classification sémantiques sont des types particuliers d'arbre de décision binaire. Ils sont beaucoup utilisés dans le traitement du langage naturel, comme pour des systèmes de compréhension \cite{Kuhn1995} ou des détecteurs de noms propres inconnus \cite{Bechet2000}. Dans le cadre de l'identification nommée, ils sont utilisés pour réaliser l'attribution locale des étiquettes \og{}précédent\fg{}, \og{}courant\fg{} et \og{}suivant\fg{} décrites dans la section \ref{ssec:attributions_locales}. Le fonctionnement et l'apprentissage des SCT sont décrits de manière exhaustive dans \cite{KuhnPHD}. 
 
 \subsection{Arbre de classification sémantique}
-Les SCTs sont des arbres de décision binaire s'appuyant sur des expressions régulières comme paramètres de décision pour classer les échantillons. Un arbre de décision binaire \cite{Breiman84,Cornejols02} est un classificateur à $n$ classes. Chaque n\oe{}ud de l'arbre est composé d'une question de type \emph{oui/non}, d'un sous-arbre \emph{oui} et d'un sous-arbre \emph{non}. Chaque feuille de ces sous-arbres est associée à une distribution de probabilité sur toutes les classes possibles. Un exemple de SCT est donné dans la figure \ref{fig:exemple_sct}.
+
+Les SCT sont un type d'arbre de décision \cite{Breiman84,Cornejols02}. Un arbre de décision permet de classer un objet à l'aide de questions~: chaque n\oe{}ud de l'arbre représente une question, chaque lien est une réponse à la question, et chaque feuille est une classe. La figure \ref{fig:exemple_arbre_decision} donne un exemple d'arbre de décision permettant de décider si une expérience peut avoir lieu.
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=0.8\columnwidth]{img/arbre_decision_exemple.pdf}
+\caption{Exemple d'arbre de décision~: les questions sont en rouge, les réponses en bleu.}
+\label{fig:exemple_arbre_decision}
+\end{center}
+\end{figure}
+
+Les SCT sont des arbres de classification dit binaires. Les questions d'un arbre de décision binaire sont particulières car il n'y a que deux types de réponses possibles~: \emph{oui} ou \emph{non}. Les questions des SCT sont des  motifs lexicaux auquel l'échantillon testé doit correspondre. Chaque feuille d'un arbre de classification est associée à une distribution de probabilité sur toutes les classes possibles. Dans le cas de l'identification nommée, les quatre classes possibles sont~: \emph{précédent}, \emph{courant}, \emph{suivant} et \emph{autre}. Un exemple de SCT est donné dans la figure \ref{fig:exemple_sct}.
 
 
 \begin{figure}[h]
@@ -1258,7 +1269,7 @@ Les SCTs sont des arbres de décision binaire s'appuyant sur des expressions régu
 \end{center}
 \end{figure}
 
-Les SCT apprennent les expressions régulières à partir de corpus annotés avec les classes correspondantes. L'apprentissage et la sélection de ces questions est réalisée de manière entièrement automatique~: n'importe quel mot du corpus peut apparaître dans une question. 
+Les SCT apprennent les motifs lexicaux à partir de corpus annotés avec les classes correspondantes. L'apprentissage et la sélection de ces questions est réalisée de manière entièrement automatique~: n'importe quel mot du corpus peut apparaître dans une question. 
 
 
 
@@ -1278,7 +1289,7 @@ Les SCT apprennent les expressions régulières à partir de corpus annotés avec le
 
 \label{sct_apprentissage}
 
-Pour un arbre de classification sémantique, plusieurs éléments sont nécessaires~: un corpus d'apprentissage annoté, un ensemble de questions, un critère de séparation et une condition d'arrêt. Nous décrivons ces différents éléments ci-dessous.
+Pour construire un arbre de classification sémantique, plusieurs éléments sont nécessaires \cite{Breiman84}~: un corpus d'apprentissage annoté, un ensemble de questions, un critère de séparation et une condition d'arrêt. Nous décrivons ces différents éléments ci-dessous.
 
 \subsubsection{Corpus d'apprentissage}
 
