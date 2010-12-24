@@ -1888,10 +1888,11 @@ Comme le pronom personnel \textit{il} est en rapport avec Jérôme Savary, l'arbre
 
 \subsubsection{Bilan}
 
-L'analyse des erreurs conduite ici a permis de mettre en évidence les faiblesses de l'arbre de classification sémantique~: lorsque l'on choisit de prendre une décision en se basant sur l'étiquette qui obtient la probabilité maximale, l'arbre de décision est responsable de plus de 70~\% des erreurs du système. Nemesis quant à lui, représente environ 20~\% des erreurs commises par le système. La majorité de ces erreurs est due à des entités nommées qui ne sont pas assez concises.
+L'analyse des erreurs conduite ici a permis de mettre en évidence les faiblesses de l'arbre de classification sémantique et du processus de décision associé~: lorsque l'on choisit de prendre une décision en se basant sur l'étiquette qui obtient la probabilité maximale, l'arbre de décision est responsable de plus de 70~\% des erreurs du système. 
 
-Cette étude a permis de remettre en question l'arbre de classification ainsi que le processus de décision qui en découle (cf. section \ref{sec:fct_croyances} sur le processus de décision de \emph{Milesin}). Les travaux intermédiaires menés sur ce processus de décision sont décrits dans le chapitre suivant. Nemesis a par la suite été remplacé par LIA\_NE, la différence de performances de \emph{Milesin} en utilisant Nemesis ou LIA\_NE est donnée dans le tableau \ref{tab:results_lia_ne_nemesis}.
+Nemesis quant à lui, représente environ 20~\% des erreurs commises par le système. Ces erreurs mettent en évidence l'importance de ne détecter que le couple prénom~/ nom pour les entités de type personne. Pour les systèmes d'INL, dès qu'un autre mot vient s'ajouter au couple prénom~/ nom (comme la fonction de la personne par exemple), l'identification sera considérée comme erronée.
 
+En complément, nous donnons une comparaison de LIA\_NE et de Nemesis dans le tableau \ref{tab:results_lia_ne_nemesis}. \emph{Milesin} est utilisé pour ces expériences sur le corpus de développement. Les meilleurs résultats concernant l'utilisation de LIA\_NE pour l'INL s'expliquent par une concision plus importante de ses entités nommées ainsi que par les bonnes bonnes performances obtenues lors de la campagne d'évaluation ESTER 2. Nemesis a par la suite été remplacé par LIA\_NE dans \emph{Milesin}.
 
 \begin{table}[h]
 \begin{center}
@@ -1936,9 +1937,9 @@ Lors des travaux de cette thèse, le processus de décision a beaucoup évolué. Nou
 
 \label{sec:maximum}
 
-Tout d'abord, il est bon de rappeler que lorsque l'arbre de classification sémantique donne une distribution de probabilités (sur les 4 classes possibles \emph{précédent}, \emph{courant}, \emph{suivant} et \emph{autre}) pour un nom complet donné, les précédents travaux du LIUM ne prennent en compte que la probabilité avec la valeur maximale. Les autres probabilités ne sont pas prises en compte.
+Lors de l'utilisation de l'arbre de classification sémantique sur les entités nommées de type personne, une distribution de probabilités sur les 4 classes possibles (\emph{précédent}, \emph{courant}, \emph{suivant} et \emph{autre}) est attribuée à l'entité nommée concernée. Dans les précédents travaux du LIUM, seule le nom complet avec l'étiquette ayant la probabilité maximale est propagé. Les autres probabilités ne sont pas prises en comptes.
 
-Ensuite, lors de la propagation des attributions locales de l'arbre aux tours de paroles puis aux locuteurs, une simple somme des probabilités $P(o_j,t_{r})$ (cf. \ref{sec:notations} pour la signification des notations) est effectuée. Ce score concernant un locuteur $e_i$ pour une classe donnée $c_l$ s'exprime comme ceci~:
+Lors de la propagation des attributions locales de l'arbre aux tours de paroles puis aux locuteurs, une somme des probabilités $P(o_j,t_{r})$ (cf. \ref{sec:notations} pour la signification des notations) est effectuée. Ce score concernant un locuteur $e_i$ pour un locuteur donné $c_l$ s'exprime~:
 
 \begin{equation}s_{l}(e_i)= \sum_{\left\{(o_j, t_r)  | o_j= e_i, \: t_r \in c_l \right\}} P(o_j,t_{r})
 \label{eq:sl}
@@ -1946,7 +1947,7 @@ Ensuite, lors de la propagation des attributions locales de l'arbre aux tours de
 
 Ensuite, le nom complet $e_i$ ayant le score maximum pour un locuteur donné $c_l$ lui est attribué. Dans ces travaux, la fonction d'assignation des noms complets aux locuteurs $f(c_l)=f(c_l') \Rightarrow c_l=c_l'$ n'est pas injective~: il est donc possible d'affecter deux noms complets identiques à des locuteurs différents.
 
-Soit ${\cal D}= \{c_l \in \mathcal{C} | \; \forall e_i\in \mathcal{E}, s_l(e_i)=0\}$, l'ensemble des locuteurs n'ayant pas de candidats potentiels. La règle $\mathbf{R_1}$ permettant d'affecter le nom complet $e_i$ ayant le score maximal $s_l(e_i)$ est définie comme ceci~:
+Soit ${\cal D}= \{c_l \in \mathcal{C} | \; \forall e_i\in \mathcal{E}, s_l(e_i)=0\}$, l'ensemble des locuteurs n'ayant pas de candidats potentiels. La règle $\mathbf{R_1}$ permettant d'affecter le nom complet $e_i$ ayant le score maximal $s_l(e_i)$ est définie par~:
     \begin{equation}\label{eq:maxscore}
         \begin{array}{c}
             \forall c_l \in \mathcal{C}\setminus \mathcal{D},  \displaystyle e_i^*=\arg \max_{e_i \in \mathcal{E}} \mbox s_l(e_i) \Rightarrow f(c_l)=e_i^*\\
@@ -1957,7 +1958,7 @@ Soit ${\cal D}= \{c_l \in \mathcal{C} | \; \forall e_i\in \mathcal{E}, s_l(e_i)=
 Cette méthode de combinaison a plusieurs inconvénients. Tout d'abord, le fait de réaliser la somme des probabilités issues de l'arbre ne permet plus de travailler dans l'espace probabiliste. En effet, une fois les sommes effectuées, seuls des scores difficilement comparables entre eux sont disponibles.
 
 
-Ensuite, la règle $\mathbf{R_1}$ ne prend pas en compte la contribution du score $s_l(e_i)$ au sein d'un locuteur. Prenons l'exemple décrit dans le tableau \ref{tab:examplecomb}. En utilisant la règle $\mathbf{R_1}$, \emph{Jacques Derrida} est attribué au locuteur $c_{13}$ puisque c'est pour ce locuteur qu'il obtient le score maximum. $\beta_{il}$ désigne le pourcentage du score que représente $s_l(e_i^*)$ au niveau du locuteur $c_l$. Même si \emph{Jacques Derrida} a le score le plus élevé pour $c_{13}$, il ne représente que $35 \%$ des scores totaux de cette classe. En revanche, au sein de la classe $c_{15}$, \emph{Jacques Derrida} représente $80 \%$ des scores. Avant d'utiliser les fonctions de croyance, nous avons tout d'abord proposé une méthode permettant de normaliser les scores pour prendre en compte ces différentes aspects.
+De plus, la règle $\mathbf{R_1}$ ne prend pas en compte la contribution du score $s_l(e_i)$ pour un locuteur $c_l$. Prenons l'exemple décrit dans le tableau \ref{tab:examplecomb}. En utilisant la règle $\mathbf{R_1}$, \emph{Jacques Derrida} est attribué au locuteur $c_{13}$ car ce locuteur obtient le score maximum. $\beta_{il}$ désigne le pourcentage que représente $s_l(e_i^*)$ par rapport à la somme de tous les scores $s_l$ pour le locuteur $c_l$. Même si \emph{Jacques Derrida} a le score le plus élevé pour $c_{13}$, il ne représente que $35 \%$ des scores totaux. En revanche, au sein du locuteur $c_{15}$, \emph{Jacques Derrida} représente $80 \%$ des scores. Avant d'utiliser les fonctions de croyance, nous avons tout d'abord proposé une méthode permettant de normaliser les scores pour prendre en compte ces différentes aspects.
 
 \begin{table}[htbp]
 \caption{Exemple d'une assignation initiale multiple}
@@ -1982,7 +1983,7 @@ Ensuite, la règle $\mathbf{R_1}$ ne prend pas en compte la contribution du score
 
 \label{sec:normalisation}
 
-La contribution du score de chaque nom complet au sein d'un locuteur à nommer (modélisé par $\beta_{il}$) peut être une information intéressante à prendre en compte lors du processus de décision. Mais l'utilisation de $\beta_{il}$ comme unique critère de décision ne peut être une option. En effet, dans le cas où un mauvais nom complet serait le seul candidat pour une classe donnée, $\beta_{il}$ vaudrait 100 \%. Ce nom complet serait alors systématiquement choisi pour le locuteur concerné, même si $s_l(e_i)$ est très faible pour ce locuteur. Il faut donc prendre en compte conjointement $s_l(e_i)$ et $\beta_{il}$. Pour ce faire, nous proposons l'utilisation d'une nouvelle règle $\mathbf{R_2}$~:
+La contribution du score de chaque nom complet pour un locuteur (modélisé par $\beta_{il}$) peut être une information intéressante à prendre en compte lors du processus de décision. Mais l'utilisation de $\beta_{il}$ comme unique critère de décision ne peut être une option. En effet, dans le cas où un mauvais nom complet serait le seul candidat pour une classe donnée, $\beta_{il}$ vaudrait 100 \%. Ce nom complet serait alors systématiquement choisi pour le locuteur concerné, même si $s_l(e_i)$ est très faible pour ce locuteur. Il faut donc prendre en compte conjointement $s_l(e_i)$ et $\beta_{il}$. Nous proposons l'utilisation d'une nouvelle règle $\mathbf{R_2}$~:
 
 \begin{equation} \label{eq:SC}
    \mbox {SC}_l(e_i)=s_{l}(e_i) \beta_{il}
@@ -2046,7 +2047,7 @@ Le tableau \ref{tab:results_normalisation} donne les résultats sur les corpus de
 
 Tout d'abord, on observe le même comportement des différentes méthodes sur les deux corpus. La méthode qui présente les meilleurs résultats est la méthode utilisant la normalisation~: 17,54~\% de taux d'erreur en durée sur le corpus de test (11,67~\% pour le corpus de développement) pour 21,70~\% de taux d'erreur en nombre de locuteurs sur ce même corpus (13,99~\% sur le corpus de développement). La méthode utilisant les fonctions de croyance est quant à elle légèrement moins performante~\%: 20,60~\% de taux d'erreur en durée sur le corpus de test pour 23,58~\% de taux d'erreur en nombre de locuteurs.
 
-Lors de l'analyse de ces résultats, le nombre de locuteurs concernés doit être pris en compte. Par exemple, sur le corpus de développement, la différence de locuteurs correctement nommés entre la méthode utilisant la normalisation et celle utilisant les fonctions de croyance est infime~: on passe de 209 locuteurs correctement nommés à 206 (contre 164 pour la méthode du maximum). De manière identique, sur le corpus de test, le nombre de locuteurs correctement nommés passe de 83 à 81 avec l'utilisation des fonctions de croyance (contre 76 pour la méthode du maximum).
+Lors de l'analyse de ces résultats, le nombre de locuteurs concernés doit être pris en compte. Par exemple, sur le corpus de développement, la différence de locuteurs correctement nommés entre la méthode utilisant la normalisation et celle utilisant les fonctions de croyance est faible~: on passe de 209 locuteurs correctement nommés à 206 (contre 164 pour la méthode du maximum). De manière identique, sur le corpus de test, le nombre de locuteurs correctement nommés passe de 83 à 81 avec l'utilisation des fonctions de croyance (contre 76 pour la méthode du maximum).
 
 Bien que ce ne soit pas la méthode qui obtienne les meilleurs résultats, ce sont les fonctions de croyance qui ont été utilisées pour \emph{Milesin}. Ce choix est justifié dans la section suivante.
 
@@ -2098,7 +2099,7 @@ En revanche, lorsque le système d'INL est utilisé pour nommer des enregistrement
 
 \label{sec:exp_liste}
 
-Afin de prendre ces deux cas d'utilisation en compte, nous présentons dans le tableau \ref{tab:results_listes} les résultats avec et sans listes de locuteurs. À la différence des précédents résultats présentés pour \emph{Milesin} (cf. section \ref{sec:results_milesni}), une liste de locuteurs différente par enregistrement est utilisée. Cette liste ne contient que les locuteurs du document, ils ont été extraits (ainsi que leur genre) automatiquement des transcriptions de référence. Lorsqu'aucune liste de locuteurs n'est utilisée, le genre des locuteurs est déterminé grâce à la méthode décrite dans \ref{sec:genre}.
+Afin de prendre ces deux cas d'utilisation en compte, nous présentons dans le tableau \ref{tab:results_listes} les résultats avec et sans listes de locuteurs. Les résultats avec la liste globale présentée pour \emph{Milesin} (cf. section \ref{sec:results_milesni}) servent de référence. Ensuite, une liste de locuteurs différente par enregistrement est utilisée. Cette liste ne contient que les locuteurs du document, ils ont été extraits (ainsi que leur genre) automatiquement des transcriptions de référence. Lorsqu'aucune liste de locuteurs n'est utilisée, le genre des locuteurs est déterminé grâce à la méthode décrite dans \ref{sec:genre}.
 
 
 \begin{table}[h]
@@ -2110,12 +2111,14 @@ Afin de prendre ces deux cas d'utilisation en compte, nous présentons dans le ta
 \hline
 \multicolumn{6}{|c|}{\emph{Corpus de Développement}}\\ \hline
 \hline
+\multicolumn{2}{|c|}{Liste globale} & 86,00\% & 94,07\% & 13,17\% & 13,69\% \\ \hline
 \multicolumn{2}{|c|}{Liste par enregistrement} & 86,83~\% & 95,66~\% & 12,38~\% & 12,42~\% \\ \hline
 \multicolumn{2}{|c|}{Sans liste} & 72,86~\% & 73,39~\% & 29,27~\% & 30,22~\% \\ \hline
 \hline
 \hline
 \multicolumn{6}{|c|}{\emph{Corpus de Test}}\\ \hline
 \hline
+\multicolumn{2}{|c|}{Liste globale} & 77,38\% & 93,28\% & 22,57\% & 25,81\% \\ \hline
 \multicolumn{2}{|c|}{Liste par enregistrement} & 78,03~\% & 95,69~\% & 21,92~\% & 24,19~\% \\ \hline
 \multicolumn{2}{|c|}{Sans liste} & 61,77\% & 64,38~\% & 38,16~\% & 35,48~\% \\ \hline
 \hline
