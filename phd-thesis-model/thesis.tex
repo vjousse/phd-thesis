@@ -1784,15 +1784,15 @@ Ces différentes pistes sont décrites en détail dans le chapitre suivant, ainsi q
 \minitoc
 \newpage
 
-Un nombre significatif d'avancées ont été réalisées depuis le système de base du LIUM (cf. section \ref{sec:sys_id_lium}), comme l'utilisation de LIA\_NE comme détecteur d'entités nommées ou la mise en place des fonctions de croyances pour combiner les informations issues de l'arbre de classification sémantique. Malgré ces avancées, plusieurs points restent encore à étudier comme l'utilisation de tels systèmes sur des transcriptions automatiques ou l'impact de connaissances a priori comme les listes de locuteurs. 
+Un nombre significatif d'avancées ont été réalisées depuis le système de base du LIUM (cf. section \ref{sec:sys_id_lium}), comme l'utilisation de LIA\_NE comme détecteur d'entités nommées ou la mise en place des fonctions de croyances pour combiner les informations issues de l'arbre de classification sémantique. En revanche, l'utilisation de transcriptions automatiques reste encore problématique.% Malgré ces avancées, plusieurs points restent encore à étudier comme l'utilisation de tels systèmes sur des transcriptions automatiques ou l'impact de connaissances a priori comme les listes de locuteurs. 
 
-Les principales étapes et réflexions qui ont conduit au développement de \emph{Milesin}, et notamment une analyse des erreurs, sont tout d'abord présentées. Est ensuite discutée l'utilisation de listes de locuteurs, avant de finir par des résultats préliminaires sur des transcriptions entièrement automatiques.
+Les principales étapes et réflexions qui ont conduit au développement de \emph{Milesin}, et notamment une analyse des erreurs, sont tout d'abord présentées.% Est ensuite discutée l'utilisation de listes de locuteurs, avant de finir par une analyse préliminaires sur des transcriptions entièrement automatiques.
 
 \section{Analyse préliminaire}
 
 \label{sec:analyse_preliminaire}
 
-Les travaux de cette thèse ont été réalisés à partir d'un système déjà existant, celui du LIUM. Ce système disposait d'un détecteur d'entités nommées sommaire, il a donc tout d'abord été décidé de le remplacer par Nemesis, le système de détection d'entités nommées du LINA. Une analyse des erreurs a ensuite été conduite de manière à comprendre les erreurs réalisées par le système.
+Les travaux de cette thèse ont été réalisés à partir d'un système déjà existant. Ce système disposait d'un détecteur d'entités nommées sommaire, il a donc tout d'abord été décidé de le remplacer par Nemesis, le système de détection d'entités nommées du LINA. Une analyse des erreurs a ensuite été conduite de manière à comprendre les erreurs réalisées par le système.
 
 \subsection{Nemesis, un outil prévu pour le TAL}
 
@@ -1804,7 +1804,9 @@ Nemesis a été développé par l'équipe TALN (Traitement Automatique des Langues Na
 
 \subsection{Analyse des erreurs}
 
-Le système du LIUM utilisant Nemesis comme détecteur d'entités nommées obtient un rappel de 65~\% à 91~\% de précision. Afin de comprendre le comportement du système, nous avons choisi de l'étudier avec des transcriptions et des segmentations/classifications manuelles. Le corpus utilisé correspond au corpus de développement de \emph{Milesin}. Nous chercherons donc à comprendre pourquoi ce système a un rappel faible (65~\%) bien que les conditions soient optimales (transcriptions et segmentation~/ classification manuelles).
+Le système du LIUM, présenté dans la section \ref{sec:sys_id_lium}, s'appuie sur un arbre de classification sémantique pour réaliser les attributions locales. Le nom complet dont l'étiquette (\og{} précédent \fg{}, \og{} courant \fg{}, \og{} suivant \fg{}) a la probabilité maximale est propagé au tour de parole puis au locuteur correspondant. Les probabilités sont ainsi additionnées au sein du locuteur, et le nom complet ayant le score maximum pour un locuteur lui est affecté.
+
+Ce système a été utilisé comme base de ces travaux, seul le détecteur d'entités nommées a été remplacé par Nemesis. Afin de comprendre le comportement du système, nous avons choisi de l'étudier avec des transcriptions et des segmentations~/ classifications manuelles. Le corpus utilisé correspond au corpus de développement de \emph{Milesin}. Sur ce corpus, il obtient un rappel de 65~\% à 91~\% de précision. Nous chercherons donc à comprendre pourquoi ce système a un rappel faible (65~\%) bien que les conditions soient optimales (transcriptions et segmentation~/ classification manuelles).
 
 \subsubsection{Méthode\\}
 
