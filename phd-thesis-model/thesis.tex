@@ -1808,47 +1808,50 @@ Le système du LIUM, présenté dans la section \ref{sec:sys_id_lium}, s'appuie sur
 
 Ce système a été utilisé comme base de ces travaux, seul le détecteur d'entités nommées a été remplacé par Nemesis. Afin de comprendre le comportement du système, nous avons choisi de l'étudier avec des transcriptions et des segmentations~/ classifications manuelles. Le corpus utilisé correspond au corpus de développement de \emph{Milesin}. Sur ce corpus, il obtient un rappel de 65~\% à 91~\% de précision. Nous chercherons donc à comprendre pourquoi ce système a un rappel faible (65~\%) bien que les conditions soient optimales (transcriptions et segmentation~/ classification manuelles).
 
-\subsubsection{Méthode\\}
+\subsubsection{Méthode}
 
-Toutes les mauvaises décisions ont été étiquetées manuellement et comparées avec les différents scores générés par l'arbre. Cette étude a permis de mettre en évidence 
+Chaque entité nommée de type personne détectée a été vérifiée, et les scores générés par l'arbre pour ces entités nommées ont été étudiés. Cette étude a permis de mettre en évidence 
 %plusieurs types d'erreurs. Ces erreurs peuvent être classées en 
 deux grandes catégories d'erreurs~: les erreurs de détection d'entités nommées et les erreurs de décision de l'arbre. D'autres types d'erreurs ont aussi été constatés mais elles sont moins significatives.
 % que ces deux dernières.
-\subsubsection{Erreurs de détection d'entités nommées\\}
 
-La première catégorie d'erreur est due à des problèmes rencontrés lors de la détection d'entités nommées. En effet, les entités nommées, et plus précisément les noms de locuteurs non étiquetés uniquement par leur prénom~/~nom, ont une influence directe sur les performances du système en terme de rappel~:
+\subsubsection{Erreurs de détection d'entités nommées}
+
+La première catégorie d'erreur est due à des problèmes rencontrés lors de la détection d'entités nommées. En effet, les entités nommées de type personne sont primordiales pour un système d'INL. Ces entités doivent contenir le prénom et la patronyme de la personne concernée, et uniquement ceux-ci. Un mauvais étiquetage de ces entités nommées a une influence directe sur les performances du système en terme de rappel~:
 % En effet, Nemesis est prévu pour étendre au plus possible la détection d'entités nommées alors que le système attend juste le prénom~/~nom du locuteur. Ceci nous donne des cas de figure comme celui là~:
 
-\textbf{(N1)} Un locuteur n'est pas correctement étiqueté pour le système d'identification nommée~: quand il n'est pas détecté, quand seul son prénom est étiqueté ou quand ses nom et prénom sont étiquetés avec un ou plusieurs autres mots en plus (comme la fonction de la personne). Lorsque le nom du locuteur détecté ne correspond pas exactement au nom du locuteur de la référence, il est alors comptabilisé comme une erreur de suppression et par conséquent le rappel chute. 
-Par exemple, l'entité nommée ``[Joël Collado de Météo France]'' est étiquetée comme une personne et ne correspond pas exactement au couple prénom~/~nom attendu lors de l'identification.\\
+\textbf{(N1)} Un locuteur n'est pas correctement étiqueté pour être utilisé par le système d'identification nommée quand~: il n'est pas détecté, seul son prénom est étiqueté ou quand ses nom et prénom sont étiquetés avec un ou plusieurs autres mots en plus (comme la fonction de la personne). Lorsque le nom du locuteur détecté ne correspond pas exactement au nom du locuteur de la référence, il est alors comptabilisé comme une erreur de suppression et par conséquent le rappel chute. 
+Par exemple, l'entité nommée \emph{Joël Collado de Météo France} est étiquetée comme une personne et ne correspond pas exactement au couple prénom~/~nom attendu lors de l'identification.\\
 
-\textbf{(N2)} Un ensemble de mots ne contenant pas de nom et prénom est détecté comme une personne. Cette détection fait chuter le rappel en attribuant ce \textit{faux locuteur} à un tour de parole. Par exemple, Nemesis étiquette l'entité nommée ``[président du Fetia Api]'' comme personne qui est ensuite attribuée à un tour de parole. ``[président du Fetia Api]'' est bien une personne, mais cette entité nommée n'est pas un locuteur au sens de l'identification. Il est identifié par sa fonction au lieu de son nom et prénom.
+\textbf{(N2)} Un ensemble de mots ne contenant pas de nom et prénom est détecté comme une personne. Cette détection fait chuter le rappel en attribuant cette \textit{fausse identité} à un locuteur. Par exemple, Nemesis étiquette l'entité nommée \emph{Président du Fetia Api} comme personne qui est ensuite attribuée à un locuteur. \emph{Président du Fetia Api} est bien une personne, mais cette entité nommée n'est pas un locuteur au sens de l'identification. Il est identifié par sa fonction au lieu de son prénom et nom.
 
-\subsubsection{Erreurs de décision de l'arbre\\}
+\subsubsection{Erreurs de décision de l'arbre}
+
 \label{erreurs_arbre}
+
 La seconde catégorie d'erreurs provient 
 %de l'arbre de décision. Il attribue un score au 4 étiquettes possibles pour les locuteurs détectés. Les 
 des erreurs d'étiquetage commises par l'arbre. Elles ont une incidence à la fois sur le rappel et sur la précision du système : 
 
-\textbf{(A1)} Les erreurs affectant le rappel proviennent majoritairement des locuteurs qui ont été étiquetés comme \textit{autres} alors qu'ils correspondent à une des 3 autres étiquettes. \\
-``\texttt{\textit{Valérie Crova} dit : (...) qui a toujours entretenu selon [Jean Christophe Bouisson] des rapports tendus avec le gouvernement.
+\textbf{(A1)} Les erreurs affectant le rappel proviennent majoritairement des noms complets dont l'étiquette avec la probabilité maximale était l'étiquette \textit{autre}, alors qu'ils correspondent à une des 3 autres étiquettes. \\
+``\texttt{\textit{Valérie Crova} dit : (...) qui a toujours entretenu selon \textbf{Jean Christophe Bouisson} des rapports tendus avec le gouvernement.
 \\\textit{Jean Christophe Bouisson} dit : On ne peut pas penser (...)}''
-\\Dans cet exemple ``[Jean Christophe Bouisson]'' est étiqueté comme \textit{autre} alors qu'il est le \textit{suivant}.
+\\Dans cet exemple \emph{Jean Christophe Bouisson} est étiqueté comme \textit{autre} alors qu'il est le \textit{suivant}.
 %SM c'est selon qui perturbe l'arbre ? regarde les mots actifs dans l'arbre
 %VJ je ne suis pas sur de savoir comment faire :)
 
 %En effet, ces locuteurs sont toujours présents directement après ou avant le tour de parole en question, mais l'arbre n'arrive pas à les rattacher à ces tours de parole. 
-\textbf{(A2)} Les erreurs affectant principalement la précision sont dues à des locuteurs qui sont mal étiquetés avec les étiquettes \textit{suivant} et \textit{précédent}. Dans la majorité des cas, l'étiquette \textit{suivant} a été attribuée au lieu de \textit{autre}. Par exemple, l'annonce d'interview correspond à une erreur typique~:\\ 
-``\texttt{[Jean Michel Hibon] au micro de [Jérôme Susini].}''\\
-On s'attend à ce que ``[Jean Michel Hibon]'' parle ensuite (ce qui est le cas), mais le système détecte ``[Jérôme Susini]'' comme le locuteur du prochain tour de parole car son score est plus élevé.\\
+\textbf{(A2)} Les erreurs affectant principalement la précision sont dues à des locuteurs qui sont mal étiquetés avec les étiquettes \textit{suivant} et \textit{précédent}. Dans ce cas, l'étiquette avec la probabilité maximale ne désigne pas le bon tour de parole. Généralement, c'est l'étiquette \textit{suivant} qui a été attribuée au lieu de l'étiquette \textit{autre}. Par exemple, l'annonce d'interview correspond à une erreur typique~:\\ 
+``\texttt{\textbf{Jean Michel Hibon} au micro de \textbf{Jérôme Susini}.}''\\
+On s'attend à ce que \emph{Jean Michel Hibon} parle ensuite (ce qui est le cas), mais le système détecte \emph{Jérôme Susini} comme le locuteur du prochain tour de parole car son score est plus élevé.\\
 %SM, pourquoi ? parce que le score et plus élevé ?
 
 \subsubsection{Autres erreurs\\}
 D'autres erreurs plus indépendantes du système ont été relevées~:\\
-\textbf{(E)} Certaines personnes ne sont citées que partiellement (seul leur prénom est cité dans la transcription), d'autres ont été mal orthographiées par le transcripteur ou encore certaines ne sont pas du tout citées ou annoncées dans la transcription. Sur les 11 heures du corpus, ce dernier cas ne concerne que 3 personnes. Cette constatation permet de valider l'hypothèse de départ~: les noms des locuteurs sont présents dans la transcription.
+\textbf{(E)} Certaines personnes ne sont citées que partiellement (seul leur prénom est cité dans la transcription), d'autres ont été mal orthographiées par le transcripteur ou encore certaines ne sont pas du tout citées ou annoncées dans la transcription. Sur les 11 heures du corpus, ce dernier cas ne concerne que 3 personnes. Cette constatation permet de valider l'hypothèse de départ~: les noms des locuteurs sont présents dans les transcriptions d'émissions radiophoniques.
 
 \subsubsection{Répartition des erreurs\\}
-Le tableau \ref{tab:repart_erreurs} montre la répartition et l'importance des différents types d'erreurs sur le corpus de test. Les erreurs provenant de l'arbre de classification (A1 et A2) sont clairement dominantes avec plus de 72\% des erreurs totales alors que les erreurs dues à Nemesis (N1 et N2) ne représentent qu'un peu moins de 19\% des erreurs. Pour l'arbre de classification, les erreurs A1 et A2 ont le même ordre de grandeur (environ 36\% en moyenne). En revanche, en ce qui concerne Nemesis les erreurs de type N1 sont beaucoup plus fréquentes que celles de type N2 (3 fois plus).
+Le tableau \ref{tab:repart_erreurs} montre la répartition des différents types d'erreurs sur le corpus de test. Les erreurs provenant de l'arbre de classification (A1 et A2) sont clairement dominantes avec plus de 72\% des erreurs totales alors que les erreurs dues à Nemesis (N1 et N2) représentent un peu moins de 19\% des erreurs. Pour l'arbre de classification, les erreurs A1 et A2 ont le même ordre de grandeur (environ 36\% en moyenne). En revanche, en ce qui concerne Nemesis les erreurs de type N1 sont beaucoup plus fréquentes que celles de type N2 (3 fois plus).
 {\footnotesize{
 \begin{figure}
 \begin{center}
