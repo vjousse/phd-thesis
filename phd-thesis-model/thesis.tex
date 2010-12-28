@@ -1248,7 +1248,7 @@ Les arbres de classification sémantiques sont des types particuliers d'arbre de 
 
 \subsection{Arbre de classification sémantique}
 
-Les SCT sont un type d'arbre de décision \cite{Breiman84,Cornejols02}. Un arbre de décision permet de classer un objet à l'aide de questions~: chaque n\oe{}ud de l'arbre représente une question, chaque lien est une réponse à la question, et chaque feuille est une classe. La figure \ref{fig:exemple_arbre_decision} donne un exemple d'arbre de décision permettant de décider si une expérience peut avoir lieu.
+Un SCT est un type particulier d'arbre de décision \cite{Breiman84,Cornejols02}. Un arbre de décision permet de classer un objet à l'aide de questions~: chaque n\oe{}ud de l'arbre représente une question, chaque lien est une réponse à la question, et chaque feuille est une classe. La figure \ref{fig:exemple_arbre_decision} donne un exemple d'arbre de décision permettant de décider si une expérience peut avoir lieu.
 
 \begin{figure}[h]
 \begin{center}
@@ -1289,28 +1289,41 @@ Les SCT apprennent les motifs lexicaux à partir de corpus annotés avec les class
 
 \label{sct_apprentissage}
 
-Pour construire un arbre de classification sémantique, plusieurs éléments sont nécessaires \cite{Breiman84}~: un corpus d'apprentissage annoté, un ensemble de questions, un critère de séparation et une condition d'arrêt. Nous décrivons ces différents éléments ci-dessous.
+Pour construire un arbre de classification sémantique, plusieurs éléments sont nécessaires \cite{Breiman84}~: un corpus d'apprentissage annoté, un ensemble de questions (aussi appelées test), un critère de séparation et une condition d'arrêt. Nous décrivons ces différents éléments ci-dessous.
 
 \subsubsection{Corpus d'apprentissage}
 
-Le corpus d'apprentissage utilisé est un corpus réalisé manuellement. Pour construire l'arbre, ce corpus doit être préalablement préparé, plusieurs traitement sont alors réalisés~:
+Le corpus d'apprentissage a été constitué à partir de transcriptions de journaux radiophoniques réalisées manuellement. Ces transcriptions ont été enrichies avec les tours de paroles et le nom des locuteurs lorsque ceux-ci étaient disponibles. Des traitements préliminaires sont tout d'abord effectués sur ces transcriptions~:
 
 \begin{itemize}
-    \item Le corpus est traité via le détecteur d'entités nommées LIA\_NE. Les mots composants les entités nommées retenues sont remplacés par la classe sémantique correspondante dans la transcription.
-    \item Les transcriptions de référence utilisées pour l'apprentissage contiennent plus d'informations que celles produites par un système de transcription automatique. Les transcriptions sont donc normalisées afin de se rapprocher au maximum de celles fournies par un système de transcription automatique. Par exemple, la ponctuation et les majuscules ont été retirées.
-    \item Les articles considérés comme non porteurs de sens (\textit{l', le, la, les, un, une, uns}) ont été éliminés du contexte analysé. En revanche, les mots comme \textit{de, dans, à} ont été gardés puisqu'ils peuvent potentiellement concerner une information importante comme un lieu, une radio ou une émission.
-    \item L'arbre a besoin de savoir si un nom complet détecté correspond au locuteur suivant, précédent ou courant pour pouvoir réaliser son apprentissage. Cette phase d'étiquetage de chaque nom complet est réalisée automatiquement en comparant le nom complet détecté aux noms complets des locuteurs suivant, précédent et courant. Cette phase d'étiquetage n'est pas vérifiée manuellement, il est supposé que les noms des locuteurs indiqués dans les transcription manuelles sont corrects.
+    \item Les transcriptions sont traitées via le détecteur d'entités nommées LIA\_NE. Les mots composants les entités nommées retenues sont remplacés par la classe sémantique correspondante dans la transcription.
+    \item Les transcriptions manuelles utilisées pour réaliser le corpus d'apprentissage contiennent plus d'informations que celles produites par un système de transcription automatique. Les transcriptions sont donc normalisées afin de se rapprocher au maximum de celles fournies par un système de transcription automatique. Par exemple, la ponctuation et les majuscules ont été retirées.
+    \item Les articles considérés comme non porteurs de sens (\textit{l', le, la, les, un, une, uns}) ont été éliminés du contexte analysé. En revanche, les prépositions locatives comme \textit{de, dans, à} ont été gardés puisqu'ils peuvent potentiellement concerner une information importante comme un lieu, une radio ou une émission.
 \end{itemize}
 
+Une fois ces pré-traitements effectués, le corpus d'apprentissage est constitué en conservant 5 mots (maximum) à gauche et 5 mots (maximum) à droite de chaque entité nommée de type personne détectée. L'entité nommée détectée et son contexte lexical constituent un exemple d'apprentissage. Le nombre de mots à conserver pour chaque exemple a été déterminé grâce au corpus de développement.
 
-L'arbre de classification sémantique apprend les expressions régulières grâce aux mots présents dans les contextes lexicaux gauche et droite de chaque nom complet détecté. Chaque exemple d'apprentissage est composé d'un maximum de 10 mots autour du nom complet détecté~: au plus 5 mots à gauche et 5 mots à droite. Le nombre de mots à conserver pour chaque exemple a été déterminé grâce au corpus de développement. 
+Ensuite, l'arbre a besoin de savoir si une entité nommée de type personne détectée correspond au locuteur suivant, précédent ou courant. Cette phase d'étiquetage de chaque entité nommée est réalisée automatiquement en comparant l'entité nommée détectée aux noms complets des locuteurs suivant, précédent et courant. Cette phase d'étiquetage n'est pas vérifiée manuellement, il est supposé que les noms des locuteurs indiqués dans les transcription manuelles sont corrects.
 
-En plus de ces expressions régulières, les questions de l'arbre  peuvent porter sur des informations plus globales. Comme proposé dans \cite{Esteve07}, la position du nom complet détecté au sein du tour de parole est ajoutée. La position correspond aux situations où le nom complet apparaît au début (dix premiers mots), au milieu ou à la fin (dix derniers mots) d'un tour de parole. Une autre question globale permet de savoir si le tour de parole est considéré comme très court, à savoir plus petit que le contexte lexical utilisé par l'arbre (cinq mots à gauche du nom complet, cinq mots à droite).
+%L'arbre de classification sémantique apprend les expressions régulières grâce aux mots présents dans les contextes lexicaux gauche et droite de chaque nom complet détecté. Chaque exemple d'apprentissage est composé d'un maximum de 10 mots autour du nom complet détecté~: au plus 5 mots à gauche et 5 mots à droite. 
 
+Pour finir, les questions de l'arbre peuvent porter sur des informations plus globales. Comme proposé dans \cite{Esteve07}, la position du nom complet détecté au sein du tour de parole est ajoutée à l'exemple d'apprentissage. La position correspond aux situations où le nom complet apparaît dans les dix premiers mots (\emph{START\_TURN}), au milieu (\emph{MID\_TURN}) ou dans les dix derniers mots (\emph{END\_TURN}) d'un tour de parole. Une autre question globale permet de savoir si le tour de parole est considéré comme très court (\emph{SHORT\_TURN}), à savoir plus petit que le contexte lexical utilisé par l'arbre (cinq mots à gauche du nom complet, cinq mots à droite).
+
+Des exemples d'apprentissage réalisés à partir des transcriptions manuelles sont donnés dans la figure \ref{fig:exemple_apprentissage_sct}.
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=\columnwidth]{img/exemple_apprentissage_sct.pdf}
+\caption{Exemples d'apprentissage du SCT constitués à partir de transcriptions manuelles}
+\label{fig:exemple_apprentissage_sct}
+\end{center}
+\end{figure}
 
 \subsubsection{Ensemble de questions}
 
-Pendant le processus de construction du SCT, chaque n\oe{}ud est associé à une expression régulière contenant des mots et des caractères spéciaux (\emph{<}, \emph{>} et \emph{+}). Le < (respectivement >) se rapporte au commencement (respectivement la fin) d'un exemple tandis que + se rapporte à n'importe quelle suite de mots. Ainsi, l'expression régulière \emph{< + de + >} correspond à chaque exemple contenant le mot \emph{de}, alors que \emph{< + en direct + de + >} correspond à chaque exemple contenant les mots \emph{en direct} et \emph{de} apparaissant dans cet ordre.  
+À partir du corpus d'apprentissage, le processus de construction de l'arbre doit construire un ensemble de questions permettant de classer les différents exemples d'apprentissage.
+
+Dans les SCT, chaque question est associé est une expression régulière simple contenant des mots et des caractères spéciaux (\emph{<}, \emph{>} et \emph{+}). Le < (respectivement >) se rapporte au commencement (respectivement la fin) d'un exemple tandis que + se rapporte à n'importe quelle suite de mots. Ainsi, l'expression régulière \emph{< + de + >} correspond à chaque exemple contenant le mot \emph{de}, alors que \emph{< + en direct + de + >} correspond à chaque exemple contenant les mots \emph{en direct} et \emph{de} apparaissant dans cet ordre.  
 
 La figure \ref{fig:extrait_sct} montre une partie d'un arbre appris automatiquement pour l'INL. Les questions globales et les expressions régulières utilisées sont indiquées.
 
