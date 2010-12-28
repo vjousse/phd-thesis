@@ -1321,11 +1321,11 @@ Des exemples d'apprentissage réalisés à partir des transcriptions manuelles sont
 
 \subsubsection{Ensemble de questions}
 
-À partir du corpus d'apprentissage, le processus de construction de l'arbre doit construire un ensemble de questions permettant de classer les différents exemples d'apprentissage.
+À partir du corpus d'apprentissage, le processus de génération de l'arbre doit construire un ensemble de questions permettant de classer les différents exemples d'apprentissage.
 
-Dans les SCT, chaque question est associé est une expression régulière simple contenant des mots et des caractères spéciaux (\emph{<}, \emph{>} et \emph{+}). Le < (respectivement >) se rapporte au commencement (respectivement la fin) d'un exemple tandis que + se rapporte à n'importe quelle suite de mots. Ainsi, l'expression régulière \emph{< + de + >} correspond à chaque exemple contenant le mot \emph{de}, alors que \emph{< + en direct + de + >} correspond à chaque exemple contenant les mots \emph{en direct} et \emph{de} apparaissant dans cet ordre.  
+Chaque question correspond à un motif lexical (une sorte d'expression régulière simple) auquel l'exemple est soumis. Si l'exemple correspond au motif lexical, la réponse à la question est \emph{oui}, sinon la réponse est \emph{non}. Ces motifs lexicaux peuvent contenir des mots et des caractères spéciaux (\emph{<}, \emph{>} et \emph{+}). Le < (respectivement >) est une ancre qui désigne le début (respectivement la fin) d'un exemple tandis que + se rapporte à n'importe quelle suite de mots. Ainsi, le motif lexical \emph{< + de + >} correspond à chaque exemple contenant le mot \emph{de}, alors que \emph{< + en direct + de + >} correspond à chaque exemple contenant les mots \emph{en direct} et \emph{de} apparaissant dans cet ordre.
 
-La figure \ref{fig:extrait_sct} montre une partie d'un arbre appris automatiquement pour l'INL. Les questions globales et les expressions régulières utilisées sont indiquées.
+La figure \ref{fig:extrait_sct} montre une partie d'un arbre appris automatiquement pour l'INL. Les questions globales et les motifs lexicaux utilisés sont indiqués.
 
 \begin{figure}[h]
 \begin{center}
@@ -1337,7 +1337,7 @@ La figure \ref{fig:extrait_sct} montre une partie d'un arbre appris automatiquem
 
 \subsubsection{Critère de séparation}
 
-Le processus de construction du SCT doit choisir pour chaque n\oe{}ud une expression régulière. Pour choisir la meilleure expression régulière, le critère d'\emph{impureté} de Gini $i(T)$ d'un n\oe{}ud $T$ \cite{Breiman84} est utilisé. La meilleure question (ici la meilleure expression régulière) est celle qui présente la plus grande diminution d'\emph{impureté} entre le n\oe{}ud $T$ et ses enfants. 
+Le processus de construction du SCT doit choisir pour chaque question de l'arbre un motif lexical. Pour choisir le meilleur motif, le critère d'\emph{impureté} de Gini $i(T)$ d'un n\oe{}ud $T$ \cite{Breiman84} est utilisé. La meilleure question (ici la meilleure expression régulière) est celle qui présente la plus grande diminution d'\emph{impureté} entre le n\oe{}ud $T$ et ses enfants. Cette diminution d'impureté est appelée $\Delta I$ par la suite. 
 
 Si $T$ désigne un n\oe{}ud quelconque, et $f(j|T)$ le pourcentage d'exemples de ce n\oe{}ud qui appartiennent à la classe $j$ (dans notre cas, les quatre classes possibles sont \emph{précédent}, \emph{courant}, \emph{suivant} et \emph{autre}), alors le critère d'impureté de Gini $i(T)$ est défini par~:
 
@@ -1357,7 +1357,7 @@ La question associée à un n\oe{}ud $T$ sera la question qui maximise $\Delta I$.
 
 Ce processus de choix des questions est répété pour chaque nouveau n\oe{}ud fils d'un n\oe{}ud $T$ donné. La construction de l'arbre s'arrête lorsque qu'une des conditions d'arrêt décrites ci-dessous est satisfaite.
 
-\subsubsection{Condition d'arrêt}
+\subsubsection{Conditions d'arrêt}
 
 Le processus de construction de l'arbre s'arrête lorsque l'impureté d'un n\oe{}ud est sous un certain seuil ou lorsque le nombre d'exemples restant dans un n\oe{}ud est égal à une limite fixée au préalable. 
 
