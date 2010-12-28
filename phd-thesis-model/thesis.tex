@@ -1337,7 +1337,7 @@ La figure \ref{fig:extrait_sct} montre une partie d'un arbre appris automatiquem
 
 \subsubsection{Critère de séparation}
 
-Le processus de construction du SCT doit choisir pour chaque question de l'arbre un motif lexical. Pour choisir le meilleur motif, le critère d'\emph{impureté} de Gini $i(T)$ d'un n\oe{}ud $T$ \cite{Breiman84} est utilisé. La meilleure question (ici la meilleure expression régulière) est celle qui présente la plus grande diminution d'\emph{impureté} entre le n\oe{}ud $T$ et ses enfants. Cette diminution d'impureté est appelée $\Delta I$ par la suite. 
+Le processus de construction du SCT doit choisir pour chaque question de l'arbre un motif lexical. Pour choisir le meilleur motif, le critère d'\emph{impureté} de Gini $i(T)$ d'un n\oe{}ud $T$ \cite{Breiman84} est utilisé. La meilleure question (ici la meilleure expression régulière) est celle qui présente la plus grande diminution d'\emph{impureté} $\Delta I$ entre le n\oe{}ud $T$ et ses enfants.
 
 Si $T$ désigne un n\oe{}ud quelconque, et $f(j|T)$ le pourcentage d'exemples de ce n\oe{}ud qui appartiennent à la classe $j$ (dans notre cas, les quatre classes possibles sont \emph{précédent}, \emph{courant}, \emph{suivant} et \emph{autre}), alors le critère d'impureté de Gini $i(T)$ est défini par~:
 
@@ -1355,7 +1355,7 @@ Si les deux n\oe{}uds fils d'un n\oe{}ud $T$ sont appelés $T_{oui}$ et $T_{non}$
 
 La question associée à un n\oe{}ud $T$ sera la question qui maximise $\Delta I$. 
 
-Ce processus de choix des questions est répété pour chaque nouveau n\oe{}ud fils d'un n\oe{}ud $T$ donné. La construction de l'arbre s'arrête lorsque qu'une des conditions d'arrêt décrites ci-dessous est satisfaite.
+Ce processus de choix des questions est répété pour chaque nouveau n\oe{}ud fils d'un n\oe{}ud $T$ donné. La construction de l'arbre s'arrête lorsqu'une des conditions d'arrêt décrites ci-dessous est satisfaite.
 
 \subsubsection{Conditions d'arrêt}
 
@@ -1373,13 +1373,22 @@ Dans notre cas, les expériences menées sur le corpus de développement nous ont p
 
 %Pour pourvoir être utilisé par le SCT, un document doit être préparé de la même manière que le corpus ayant servi à l'apprentissage de l'arbre. Tout corpus soumis à l'arbre de classification devra donc être pré-traité comme décrit dans la section précédente. Ensuite, pour chaque nom complet détecté, un contexte lexical n'incluant pas plus de 10 mots est conservé. C'est sur ces portions de texte contenant un nom complet que l'arbre est utilisé. Il permet, pour chaque nom complet étiqueté par le détecteur d'entités nommées, d'attribuer une probabilité pour chaque étiquette possible~: \og{}locuteur précédent\fg{}, \og{}locuteur courant\fg{} ou \og{}locuteur suivant\fg{}. La figure \ref{fig:sct} donne un exemple de probabilités obtenues pour chaque étiquette.
 
-Le SCT ne choisit pas une étiquette parmi les quatre possibles, mais attribue une probabilité à chacune des étiquettes, comme le montre la figure \ref{fig:extrait_sct}. Une des possibilités retenue dans \cite{MauclairOdyssey06,Esteve07} est de ne retenir que l'étiquette qui a la plus forte probabilité. Le problème de cette approche est qu'elle occulte complètement les informations fournies par les probabilités des autres étiquettes.
+Une fois l'arbre appris, il est utilisé pour étiqueter chaque nom complet détecté dans la transcription avec les quatre étiquettes possibles~: \emph{précédent}, \emph{courant}, \emph{suivant} ou \emph{autre}. Le SCT ne choisit pas une étiquette parmi les quatre possibles, mais attribue une probabilité à chacune des étiquettes, comme le montre la figure \ref{fig:extrait_sct}. Une des possibilités retenue dans \cite{MauclairOdyssey06,Esteve07} est de ne retenir que l'étiquette qui a la plus forte probabilité. Le problème de cette approche est qu'elle occulte complètement les informations fournies par les probabilités des autres étiquettes.
 
-Dans les travaux présentés dans cette thèse, les probabilités affectées à toutes les étiquettes sont prises en compte. En effet, nous estimons que même si une étiquette a une probabilité supérieure aux autres, l'information attribuée aux autres étiquettes par l'arbre doit être prise en compte.
+Dans les travaux présentés dans cette thèse, les probabilités affectées à toutes les étiquettes sont prises en compte. En effet, nous estimons que les quatre probabilités attribuées aux étiquettes sont porteuses d'informations et doivent donc être prises en compte.
 
-Imaginons la répartition des masses de probabilités suivante pour un nom complet : courant $0,31$, précédent $0,28$, suivant $0,30$, autre $0,11$. Décider que le nom complet désigne le locuteur courant car c'est l'étiquette qui a la plus forte probabilité ($p(courant)=0,31$) occulte complètement le fait que l'arbre est très incertain sur ces étiquettes. En effet, le conflit entre les différentes étiquettes est très élevé, et l'arbre affecte presque autant de probabilité aux étiquettes courant, précédent et suivant.
+Imaginons la répartition des masses de probabilités suivante pour un nom complet : courant $0,31$, précédent $0,28$, suivant $0,30$, autre $0,11$. Décider que le nom complet désigne le locuteur courant car c'est l'étiquette qui a la plus forte probabilité ($p(courant)=0,31$) occulte complètement le fait que l'arbre est très incertain sur ces étiquettes. En effet, le conflit entre les différentes étiquettes est très élevé et l'arbre affecte des probabilités proches aux étiquettes courant, précédent et suivant.
 
-Chacune de ces probabilités, ainsi que le nom complet concerné, est affectée au locuteur à nommer correspondant (le suivant, le courant ou le précédent). Chaque locuteur se retrouve alors avec un ensemble de noms complets (couplés avec les probabilités issues de l'arbre) qui représente les candidats potentiels.
+Chacune de ces probabilités, ainsi que le nom complet concerné, est affectée au locuteur à nommer correspondant (le suivant, le courant ou le précédent). Chaque locuteur se retrouve alors avec un ensemble de noms complets (couplés avec les probabilités issues de l'arbre) qui représente les candidats potentiels. La figure \ref{fig:attribution_locale_globale} donne un exemple d'attribution.
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=0.9\columnwidth]{img/attribution_locale_globale.pdf}
+\caption{Exemple de propagation des attributions locales aux locuteurs à nommer LOCU1 et LOCU3.}
+\label{fig:attribution_locale_globale}
+\end{center}
+\end{figure}
+
 
 Les noms complets qui étaient étiquetés \emph{autre} ne sont pas pris en compte, puisqu'il n'est pas possible de les attribuer à un tour de parole du document.
 
