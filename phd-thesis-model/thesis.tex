@@ -1833,7 +1833,7 @@ Le tableau \ref{tab:results_auto} présente les résultats de \emph{Milesin} sur d
 \hline
 \multicolumn{5}{|c|}{\emph{Corpus de Développement}}\\ \hline
 \hline
-\multicolumn{2}{|c|}{Liste par enregistrement} & 21,16~\% & 61,66~\% & 64,92~\% \\ \hline
+\multicolumn{2}{|c|}{Liste par enregistrement} & 21,16~\% & 62,30~\% & 73,55~\% \\ \hline
 \hline
 \hline
 \multicolumn{5}{|c|}{\emph{Corpus de Test}}\\ \hline
@@ -2237,6 +2237,8 @@ Dans un deuxième temps, il sera intéressant de regarder comment il est possible 
 
 \section{Transcriptions automatiques}
 
+La section \ref{} met en évidence les mauvaises performances de \emph{Milesin} lorsqu'il est utilisé sur des transcriptions entièrement automatiques.
+
 \subsection{De la pertinence des métriques utilisées}
 
 Lorsque l'évaluation est réalisée sur des transcriptions entièrement automatiques (segmentation et classification), il est difficile d'évaluer en nombre de locuteurs comme cela a pu être fait sur des transcriptions manuelles. En effet, il est compliqué de considérer un locuteur comme correct, quand les segmentations et classifications peuvent varier entre la référence et l'hypothèse.
@@ -2261,8 +2263,6 @@ Toutes ces problématiques sont en cours d'étude dans le projet ANR REPERE 2010\f
 
 \label{sec:impact_trans_auto}
 
-\todo{Est-ce qu'on garde cette partie là ? Car dans le coup il faut tout réaligner dans les différents sens pour ester1 et epac, ainsi que refaire tourner LIA\_NE sur chaque corpus réaligné \ldots}
-
 Afin d'étudier l'impact des différentes composantes d'une transcription automatique (segmentation/classification et transcription), le tableau X montre les résultats en ne faisant varier qu'un des deux paramètres à la fois. Cette étude à été menée en utilisant une liste de locuteur par enregistrement.
 
 
@@ -2276,16 +2276,16 @@ Afin d'étudier l'impact des différentes composantes d'une transcription automati
 \multicolumn{6}{|c|}{Corpus de développement} \\
 \hline
 \textbf{M} & \textbf{M} & 86,83 \% & 95,66 \% & 12,38 \% & 12,42 \% \\ \hline
-\textbf{M} & \textbf{A} & 38,0\% & 58,2\% & 58,3\% & - \\ \hline
-\textbf{A} & \textbf{M} & 31,0\% & 58,3\% & 62.8\% & 70,0\% \\ \hline
-\textbf{A} & \textbf{A} & 21,16 \% & 61,66 \% & 64,92 \% & - \\
+\textbf{A} & \textbf{M} & 42,72 \% & 85,80 \% & 54,88 \% & 61,57 \\ \hline
+\textbf{M} & \textbf{A} & 56,44 \% & 78,17 \% & 41,33 \% & - \% \\ \hline
+\textbf{A} & \textbf{A} & 21,16 \% & 62,30 \% & 73,55 \% & - \\
 \hline
 \hline
 \multicolumn{6}{|c|}{Corpus de test} \\
 \hline
-\textbf{M} & \textbf{M} & 78,03\% & 95,69 \% & 21,92 \% & 24,19 \% \\ \hline
-\textbf{M} & \textbf{A} & 27,8\% & 71,6\% & 66,0\% & - \\ \hline
-\textbf{A} & \textbf{M} & 28,1\% & 76,9\% & 63,9\% & 74,0\% \\ \hline
+\textbf{M} & \textbf{M} & 78,03 \% & 95,69 \% & 21,92 \% & 24,19 \% \\ \hline
+\textbf{A} & \textbf{M} & 22,82 \% & 64,85 \% & 77,18 \% & 80,58 \% \\ \hline
+\textbf{M} & \textbf{A} & 34,43 \% & 67,26 \% & 65,57 \% & - \\ \hline
 \textbf{A} & \textbf{A} & 18,83 \% & 60,69 \% & 81,17 \% & - \\ 
 \hline
 \end{tabular}
