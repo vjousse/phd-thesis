@@ -1823,7 +1823,7 @@ L'utilisation de systèmes d'INL prend tout son sens lorsqu'elle peut être réalis
 
 \label{sec:xp_auto}
 
-Le tableau \ref{tab:results_auto} présente les résultats de \emph{Milesin} sur des transcriptions entièrement automatiques. Les systèmes de segmentation~/ classification et de transcription automatiques utilisés sont ceux présentés dans la section \ref{sec:sys_auto_lium}. Sur le corpus de développement, le DER est de 11,5~\% et le WER de 20,5~\%. Sur le corpus de test, le DER est de 5,71~\% et le WER de 18,8~\%.
+Le tableau \ref{tab:results_auto} \todo{donner les résultats avec liste globale et pas par show} présente les résultats de \emph{Milesin} sur des transcriptions entièrement automatiques. Les systèmes de segmentation~/ classification et de transcription automatiques utilisés sont ceux présentés dans la section \ref{sec:sys_auto_lium}. Sur le corpus de développement, le DER est de 11,5~\% et le WER de 20,5~\%. Sur le corpus de test, le DER est de 5,71~\% et le WER de 18,8~\%.
 
 \begin{table}[h]
 \begin{center}
@@ -1846,9 +1846,9 @@ Le tableau \ref{tab:results_auto} présente les résultats de \emph{Milesin} sur d
 \label{tab:results_auto}
 \end{table}
 
-Le taux d'erreur (en durée) obtenu varie de 65~\% à 81~\% en fonction du corpus utilisé. Lorsque l'on utilise \emph{Milesin} avec des transcriptions entièrement automatiques, les erreurs des différents systèmes se cumulent. Aucune adaptation de \emph{Milesin} pour des transcriptions automatiques n'a été effectuée dans ces expériences.
+Le taux d'erreur (en durée) obtenu varie de 73~\% à 81~\% en fonction du corpus utilisé. Lorsque l'on utilise \emph{Milesin} avec des transcriptions entièrement automatiques, les erreurs des différents systèmes se cumulent. Aucune adaptation de \emph{Milesin} pour des transcriptions automatiques n'a été effectuée dans ces expériences.
 
-Une des premières choses à faire, serait d'essayer d'augmenter la précision comme décrit dans la section \ref{sec:perspectives_sans_liste}. Ensuite, une analyse des erreurs similaire à celle réalisée dans la section \ref{sec:analyse_preliminaire} devrait permettre de dégager de futures pistes de recherche. L'influence des différentes composantes d'une transcription automatique sur les résultats des systèmes d'INL est discutée dans la section \ref{sec:impact_trans_auto}.
+L'influence des différentes composantes d'une transcription automatique sur les résultats des systèmes d'INL est discutée plus en détails dans la section \ref{sec:impact_trans_auto}.
 
 
 \section{Bilan}
@@ -2237,7 +2237,7 @@ Dans un deuxième temps, il sera intéressant de regarder comment il est possible 
 
 \section{Transcriptions automatiques}
 
-La section \ref{} met en évidence les mauvaises performances de \emph{Milesin} lorsqu'il est utilisé sur des transcriptions entièrement automatiques.
+La section \ref{sec:xp_auto} a mis en évidence les mauvaises performances de \emph{Milesin} lorsqu'il est utilisé sur des transcriptions entièrement automatiques. Bien que l'utilisation de systèmes d'INL automatiques comme \emph{Milesin} sur des transcriptions automatiques n'ait pas encore été étudié en profondeur, les sections suivantes présentent une première analyse de ces résultats.
 
 \subsection{De la pertinence des métriques utilisées}
 
@@ -2259,33 +2259,33 @@ Toutes ces problématiques sont en cours d'étude dans le projet ANR REPERE 2010\f
 
 %Cet exemple illustre bien qu'avec des transcriptions entièrement automatiques, il est difficile de n'évaluer que le système d'INL. En effet, ce dernier est fortement dépendant de la segmentation et de la classification automatiques. Si un locuteur a été correctement identifié à un endroit de l'enregistrement, mais que la segmentation ne permet pas de lui affecter la totalité de ses tours de parole, le système d'INL présentera un fort taux d'erreur. Par exemple, sur un tour de parole durant 10 minutes, si seule la première minute a été détectée par le système de segmentation et étiquetée pas le système d'INL, le taux d'erreur sera de 90~\% pour ce locuteur.
 
-\subsection{Impact de la transcription et de la segmentation}
+\subsection{Impact de la qualité des transcriptions enrichies}
 
 \label{sec:impact_trans_auto}
 
-Afin d'étudier l'impact des différentes composantes d'une transcription automatique (segmentation/classification et transcription), le tableau X montre les résultats en ne faisant varier qu'un des deux paramètres à la fois. Cette étude à été menée en utilisant une liste de locuteur par enregistrement.
+Afin d'étudier l'impact des différentes composantes d'une transcription automatique (segmentation/classification et transcription), le tableau \ref{tab:results_auto_impact} présente les résultats de \emph{Milesin} en ne faisant varier qu'une des deux composantes à la fois. Cette étude à été menée en utilisant une liste de locuteur par enregistrement.
 
 
 \begin{table}
 \begin{center}
-\begin{tabular}{|c|c|c|c|c|c|c|}
-\cline{3-7}
+\begin{tabular}{|c|c|c|c|c|c|}
+\cline{3-6}
 \multicolumn{2}{c|}{} & \multicolumn{3}{|c|}{En durée}  & En nb de Locuteur \\ \hline
 \textbf{Trans.} & \textbf{Seg/Class.} & \textbf{R} & \textbf{P} & \textbf{ErrDur} & \textbf{ErrLoc} \\ \hline
 \hline
 \multicolumn{6}{|c|}{Corpus de développement} \\
 \hline
 \textbf{M} & \textbf{M} & 86,83 \% & 95,66 \% & 12,38 \% & 12,42 \% \\ \hline
-\textbf{A} & \textbf{M} & 42,72 \% & 85,80 \% & 54,88 \% & 61,57 \\ \hline
 \textbf{M} & \textbf{A} & 56,44 \% & 78,17 \% & 41,33 \% & - \% \\ \hline
+\textbf{A} & \textbf{M} & 42,72 \% & 85,80 \% & 54,88 \% & 61,57 \% \\ \hline
 \textbf{A} & \textbf{A} & 21,16 \% & 62,30 \% & 73,55 \% & - \\
 \hline
 \hline
 \multicolumn{6}{|c|}{Corpus de test} \\
 \hline
 \textbf{M} & \textbf{M} & 78,03 \% & 95,69 \% & 21,92 \% & 24,19 \% \\ \hline
-\textbf{A} & \textbf{M} & 22,82 \% & 64,85 \% & 77,18 \% & 80,58 \% \\ \hline
 \textbf{M} & \textbf{A} & 34,43 \% & 67,26 \% & 65,57 \% & - \\ \hline
+\textbf{A} & \textbf{M} & 22,82 \% & 64,85 \% & 77,18 \% & 80,58 \% \\ \hline
 \textbf{A} & \textbf{A} & 18,83 \% & 60,69 \% & 81,17 \% & - \\ 
 \hline
 \end{tabular}
@@ -2301,8 +2301,17 @@ durée.\newline
 \textbf{ErrLoc} : Taux d'erreur en nombre de locuteurs.\newline
 }}
 }
-\label{tab:results}
+\label{tab:results_auto_impact}
 \end{table}
+
+\emph{Milesin} se comporte de façon similaire sur le corpus de développement ou sur le corpus de test~: plus le système tend vers un système automatique et plus les performances se dégradent.
+
+\emph{Milesin} est tributaire des erreurs de la transcription enrichie. Cette dégradation des performances provient autant des erreurs de segmentation et classification en locuteur que des erreurs de transcription.
+
+Concernant la classification et la segmentation automatique en locuteur, nous avons constaté que la segmentation automatique engendrait plus d'erreurs que la classification automatique. Actuellement, ce module a été développé pour minimiser le taux de DER et n'a pas subit de modifications en vue de l'adapter aux techniques d'INL.
+
+
+Sur le corpus de développement transcrit automatiquement, les locuteurs dont il est impossible de récupérer le nom à cause d'erreurs de transcriptions représentent 47~\% du temps de parole total contre environ 5~\% lorsque les transcriptions sont réalisées manuellement. Sur le corpus de test, ils représentent 32~\% contre 10~\% sur les transcriptions entièrement manuelles.
 
 \section{Bilan}
 
