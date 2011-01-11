@@ -1714,27 +1714,27 @@ La majorité locuteurs du corpus de test ont la particularité d'être nommés. Lors
 
 Les transcriptions fournies avec les corpus ont été créées pour l'évaluation des tâches de segmentation et de classification en locuteurs, ainsi que pour la tâche de transcription.
 
-Le tableau~\ref{corp_stat}  montre la répartition \textit{a priori} des quatre étiquettes calculées pour le corpus de développement. L'étiquette \textit{\og autre \fg } est la plus fréquente et représente 79,5 \% des cas ; vient ensuite l'étiquette \textit{\og tour suivant \fg } avec 16,5 \%, tandis que les deux dernières étiquettes \textit{\og tour précédent \fg } et \textit{\og tour courant \fg } sont les moins fréquentes~: environ 2~\% chacune.
+Le tableau~\ref{corp_stat}  montre la répartition \textit{a priori} des quatre étiquettes calculées pour les différents corpus de développement. L'étiquette \textit{\og autre \fg } est la plus fréquente et représente 79,5 \% des cas ; vient ensuite l'étiquette \textit{\og tour suivant \fg } avec 16,5 \%, tandis que les deux dernières étiquettes \textit{\og tour précédent \fg } et \textit{\og tour courant \fg } sont les moins fréquentes~: environ 2~\% chacune.
 \todo{Faire le même tableau su le test}
 
 \begin{table}
 \begin{center}
-{\begin{tabular}{|l|c|}
-\cline{2-2}
-  \multicolumn{1}{c|}{} &  \textbf{\textit{développement}}\\ 
+{\begin{tabular}{|l|c|c|c|}
+\cline{2-4}
+  \multicolumn{1}{c|}{} &  \textbf{\textit{apprentissage}} &  \textbf{\textit{développement}} &  \textbf{\textit{test}}\\ 
 
  \hline
-\textit{Tour précédent} & 2,0 \% (31) \\
-\textit{Tour courant}   & 2,0 \% (30) \\
-\textit{Tour suivant}   & 16,5 \% (255)\\
-\textit{Autre}          & 79,5 \% (1~225) \\
+\textit{Tour précédent} & 18,8 \% (250) & 2,0 \% (31) & 32,6 \% (46)\\
+\textit{Tour courant}   & 4,4 \% (206) & 2,0 \% (30) & 33,3 \% (6)\\
+\textit{Tour suivant}   & 14,6 \% (1~275) & 16,5 \% (255) & 9,9 \% (131)\\
+\textit{Autre}          & 30,4 \% (1~922) & 79,5 \% (1~225) & 57,4 \% (216)\\
 \hline
  \hline
-\textit{Total}          & 100 \% (1~541) \\
+\textit{Total}          & 100 \% (3~653) & 100 \% (1~541) & 100 \% (399) \\
 \hline
 \end{tabular}}
 \end{center}
-\caption{\label{corp_stat}Répartition des étiquettes sur le corpus de développement, statistiques sur les noms complets (fréquence et effectif).}
+\caption{\label{corp_stat}Répartition des étiquettes sur les différents corpus, statistiques sur les noms complets (fréquence et effectif).}
 \end{table}
 
 
