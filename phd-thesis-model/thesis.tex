@@ -1801,10 +1801,10 @@ Le tableau \ref{tab:results_belief} présente les résultats du système sur les co
 \multicolumn{2}{c|}{} & \multicolumn{3}{|c|}{En durée}  & En nb de Locuteur \\ \hline
 \multicolumn{2}{|c|}{} & \textbf{R} & \textbf{P} & \textbf{ErrDur} & \textbf{ErrLoc} \\ \hline
 \hline
-\multicolumn{2}{|c|}{Corpus de Développement} & 86,00\% & 94,07\% & 13,17\% & 13,69\% \\ \hline
+\multicolumn{2}{|c|}{Corpus de Développement} & 87,85\% & 95,24\% & 11,44\% & 12,43 \% \\ \hline
 \hline
 \hline
-\multicolumn{2}{|c|}{Corpus de Test} & 77,38\% & 93,28\% & 22,57\% & 25,81\% \\ \hline
+\multicolumn{2}{|c|}{Corpus de Test} & 77,10\% & 92,97\% & 22,85\% & 28,23\% \\ \hline
 \hline
 \end{tabular}
 \end{center}
@@ -1832,12 +1832,12 @@ Le tableau \ref{tab:results_auto} \todo{donner les résultats avec liste globale 
 \hline
 \multicolumn{5}{|c|}{\emph{Corpus de Développement}}\\ \hline
 \hline
-\multicolumn{2}{|c|}{Liste par enregistrement} & 21,16~\% & 62,30~\% & 73,55~\% \\ \hline
+\multicolumn{2}{|c|}{Liste par enregistrement} & 25,15~\% & 65,99~\% & 69,85~\% \\ \hline
 \hline
 \hline
 \multicolumn{5}{|c|}{\emph{Corpus de Test}}\\ \hline
 \hline
-\multicolumn{2}{|c|}{Liste par enregistrement} & 18,83~\% & 60,69~\% & 81,17~\% \\ \hline
+\multicolumn{2}{|c|}{Liste par enregistrement} & 42,50~\% & 85,48~\% & 57,50~\% \\ \hline
 \hline
 \end{tabular}
 \end{center}
@@ -2199,15 +2199,15 @@ Afin de prendre ces deux cas d'utilisation en compte, nous présentons dans le ta
 \hline
 \multicolumn{6}{|c|}{\emph{Corpus de Développement}}\\ \hline
 \hline
-\multicolumn{2}{|c|}{Liste globale} & 86,00\% & 94,07\% & 13,17\% & 13,69\% \\ \hline
-\multicolumn{2}{|c|}{Liste par enregistrement} & 86,83~\% & 95,66~\% & 12,38~\% & 12,42~\% \\ \hline
+\multicolumn{2}{|c|}{Liste globale} & 87,85\% & 95,24\% & 11,44\% & 12,43 \% \\ \hline
+\multicolumn{2}{|c|}{Liste par enregistrement} & 88,35~\% & 96,46~\% & 10,95~\% & 11,46~\% \\ \hline
 \multicolumn{2}{|c|}{Sans liste} & 72,86~\% & 73,39~\% & 29,27~\% & 30,22~\% \\ \hline
 \hline
 \hline
 \multicolumn{6}{|c|}{\emph{Corpus de Test}}\\ \hline
 \hline
-\multicolumn{2}{|c|}{Liste globale} & 77,38\% & 93,28\% & 22,57\% & 25,81\% \\ \hline
-\multicolumn{2}{|c|}{Liste par enregistrement} & 78,03~\% & 95,69~\% & 21,92~\% & 24,19~\% \\ \hline
+\multicolumn{2}{|c|}{Liste globale} & 77,10\% & 92,97\% & 22,85\% & 28,23\% \\ \hline
+\multicolumn{2}{|c|}{Liste par enregistrement} & 78,00~\% & 95,68~\% & 21,95~\% & 25,81~\% \\ \hline
 \multicolumn{2}{|c|}{Sans liste} & 61,77\% & 64,38~\% & 38,16~\% & 35,48~\% \\ \hline
 \hline
 \end{tabular}
@@ -2274,18 +2274,18 @@ Afin d'étudier l'impact des différentes composantes d'une transcription automati
 \hline
 \multicolumn{6}{|c|}{Corpus de développement} \\
 \hline
-\textbf{M} & \textbf{M} & 86,83 \% & 95,66 \% & 12,38 \% & 12,42 \% \\ \hline
-\textbf{M} & \textbf{A} & 56,44 \% & 78,17 \% & 41,33 \% & - \% \\ \hline
-\textbf{A} & \textbf{M} & 42,72 \% & 85,80 \% & 54,88 \% & 61,57 \% \\ \hline
-\textbf{A} & \textbf{A} & 21,16 \% & 62,30 \% & 73,55 \% & - \\
+\textbf{M} & \textbf{M} & 88,35 \% & 96,46 \% & 10,95 \% & 11,46 \% \\ \hline
+\textbf{M} & \textbf{A} & 59,66 \% & 79,47 \% & 38,35 \% & - \% \\ \hline
+\textbf{A} & \textbf{M} & 41,74 \% & 85,44 \% & 54,79 \% & 61,35 \% \\ \hline
+\textbf{A} & \textbf{A} & 25,15 \% & 65,99 \% & 69,85 \% & - \\ 
 \hline
 \hline
 \multicolumn{6}{|c|}{Corpus de test} \\
 \hline
-\textbf{M} & \textbf{M} & 78,03 \% & 95,69 \% & 21,92 \% & 24,19 \% \\ \hline
-\textbf{M} & \textbf{A} & 34,43 \% & 67,26 \% & 65,57 \% & - \\ \hline
-\textbf{A} & \textbf{M} & 22,82 \% & 64,85 \% & 77,18 \% & 80,58 \% \\ \hline
-\textbf{A} & \textbf{A} & 18,83 \% & 60,69 \% & 81,17 \% & - \\ 
+\textbf{M} & \textbf{M} & 78,00 \% & 95,68 \% & 21,95 \% & 25,81 \% \\ \hline
+\textbf{M} & \textbf{A} & 34,41 \% & 64,62 \% & 65,59 \% & - \\ \hline
+\textbf{A} & \textbf{M} & 54,66 \% & 89,03 \% & 45,34 \% & 49,19 \% \\ \hline
+\textbf{A} & \textbf{A} & 42,50 \% & 85,48 \% & 57,50 \% & - \\
 \hline
 \end{tabular}
 \end{center}
@@ -2311,6 +2311,39 @@ Concernant la classification et la segmentation automatique en locuteur, nous av
 
 
 Sur le corpus de développement transcrit automatiquement, les locuteurs dont il est impossible de récupérer le nom à cause d'erreurs de transcriptions représentent 47~\% du temps de parole total contre environ 5~\% lorsque les transcriptions sont réalisées manuellement. Sur le corpus de test, ils représentent 32~\% contre 10~\% sur les transcriptions entièrement manuelles.
+
+\subsection{Influence de la qualité de la transcription}
+\label{sec:expTrans}
+
+Les résultats précédents montrent une dégradation des performances lorsque la transcription est automatique. Cette dernière obtient un taux d'erreur sur les mots de 20,5 \%. Le tableau \ref{tab:resultslimsi} compare les résultats d'identification nommée obtenus en utilisant les transcriptions réalisées par le système du LIUM et celles réalisées par le système du LIMSI \cite{Gauvain2005}. La transcription du LIMSI correspond à la transcription générée par leur système durant la campagne d'évaluation ESTER 1 phase II en 2005, où ce système a obtenu les meilleurs résultats avec un taux d'erreur sur les mots de 11,9 \%.  
+Les transcriptions ont été générées à partir de segmentations et de classifications automatiques. Pour supprimer les erreurs de segmentation et de classification, les mots ont été replacés dans les segments de référence avant d'appliquer le système de détection d'entités nommées.
+
+La transcription du LIMSI permet de réduire les taux d'erreur $ErrDur$ et $ErrLoc$ d'environ dix points. Elle contient notamment plus de noms complets correctement transcrits que celle du LIUM, ce qui a un impact non négligeable sur les résultats du processus d'identification nommée. En effet, alors que 1~541 noms complets sont détectés dans les transcriptions de référence, seulement 970 sont détectés dans les transcriptions du LIUM contre 1~192 dans les transcriptions du LIMSI.
+
+
+\begin{table}
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|}
+\cline{2-5}
+\multicolumn{1}{c|}{}& \multicolumn{3}{|c|}{En durée}  & En nb de locuteurs \\ \hline
+\textbf{Transcription} & \textbf{Rappel} & \textbf{Précision} & \textbf{ErrDur} & \textbf{ErrLoc} \\ \hline
+\hline
+LIUM & 41,74 \% & 85,44 \% & 54,79 \% & 61,35 \% \\
+LIMSI & 56,31 \% & 86,17 \% & 41,24 \% & 51,79 \% \\ 
+\hline
+\end{tabular}
+\end{center}
+\caption{Comparaison des résultats avec deux systèmes de transcription différents sur le corpus de développement\newline
+------------\newline
+{\textit{
+\textbf{Rappel}, \textbf{précision} et \textbf{f-mesure} calculés en en durée.\newline
+\textbf{ErrDur}: taux d'erreur en durée.\newline
+\textbf{ErrLoc} : taux d'erreur en nombre de locuteurs.\newline
+}}
+}
+
+\label{tab:resultslimsi}
+\end{table}
 
 \section{Bilan}
 
