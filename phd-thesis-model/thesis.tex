@@ -1714,7 +1714,7 @@ La majorité locuteurs du corpus de test ont la particularité d'être nommés. Lors
 
 Les transcriptions fournies avec les corpus ont été créées pour l'évaluation des tâches de segmentation et de classification en locuteurs, ainsi que pour la tâche de transcription.
 
-Le tableau~\ref{corp_stat}  montre la répartition \textit{a priori} des quatre étiquettes calculées pour les différents corpus de développement. L'étiquette \textit{\og autre \fg } est la plus fréquente et représente 79,5 \% des cas ; vient ensuite l'étiquette \textit{\og tour suivant \fg } avec 16,5 \%, tandis que les deux dernières étiquettes \textit{\og tour précédent \fg } et \textit{\og tour courant \fg } sont les moins fréquentes~: environ 2~\% chacune.
+Le tableau~\ref{corp_stat}  montre la répartition \textit{a priori} des quatre étiquettes calculées pour les différents corpus de développement. L'étiquette \textit{\og autre \fg } est la plus fréquente et représente plus de 50~\% des cas; vient ensuite l'étiquette \textit{\og tour suivant \fg } avec plus de 30~\% des, tandis que les deux dernières étiquettes \textit{\og tour précédent \fg } et \textit{\og tour courant \fg } sont les moins fréquentes~: de 2~\% à 10~\% en fonction du corpus.
 
 \begin{table}
 \begin{center}
@@ -1822,7 +1822,7 @@ L'utilisation de systèmes d'INL prend tout son sens lorsqu'elle peut être réalis
 
 \label{sec:xp_auto}
 
-Le tableau \ref{tab:results_auto} \todo{donner les résultats avec liste globale et pas par show} présente les résultats de \emph{Milesin} sur des transcriptions entièrement automatiques. Les systèmes de segmentation~/ classification et de transcription automatiques utilisés sont ceux présentés dans la section \ref{sec:sys_auto_lium}. Sur le corpus de développement, le DER est de 11,5~\% et le WER de 20,5~\%. Sur le corpus de test, le DER est de 5,71~\% et le WER de 18,8~\%.
+Le tableau \ref{tab:results_auto} \todo{donner les résultats avec liste globale et pas par show} présente les résultats de \emph{Milesin} sur des transcriptions entièrement automatiques en utilisant une liste de locuteurs. Les systèmes de segmentation~/ classification et de transcription automatiques utilisés sont ceux présentés dans la section \ref{sec:sys_auto_lium}. Sur le corpus de développement, le DER est de 11,5~\% et le WER de 20,5~\%. Sur le corpus de test, le DER est de 5,71~\% et le WER de 18,8~\%.
 
 \begin{table}[h]
 \begin{center}
@@ -1845,7 +1845,7 @@ Le tableau \ref{tab:results_auto} \todo{donner les résultats avec liste globale 
 \label{tab:results_auto}
 \end{table}
 
-Le taux d'erreur (en durée) obtenu varie de 73~\% à 81~\% en fonction du corpus utilisé. Lorsque l'on utilise \emph{Milesin} avec des transcriptions entièrement automatiques, les erreurs des différents systèmes se cumulent. Aucune adaptation de \emph{Milesin} pour des transcriptions automatiques n'a été effectuée dans ces expériences.
+Le taux d'erreur (en durée) obtenu varie de 69,85~\% à 57,50~\% en fonction du corpus utilisé. Lorsque l'on utilise \emph{Milesin} avec des transcriptions entièrement automatiques, les erreurs des différents systèmes se cumulent. Aucune adaptation de \emph{Milesin} pour des transcriptions automatiques n'a été effectuée dans ces expériences.
 
 L'influence des différentes composantes d'une transcription automatique sur les résultats des systèmes d'INL est discutée plus en détails dans la section \ref{sec:impact_trans_auto}.
 
@@ -2105,6 +2105,8 @@ Dans le précédent exemple, \emph{Jacques Derrida} était affecté au locuteur $c_{
 
 Le tableau \ref{tab:results_normalisation} donne les résultats sur les corpus de développement et de test (transcriptions enrichies manuelles) en utilisant les différents systèmes de combinaison des informations~: simple maximum, normalisation des scores ou fonctions de croyances. Une liste de locuteur et de leur genre est utilisée (cf. section \ref{sec:results_milesni}). \emph{Milesin} a été utilisé pour ces expériences, ainsi que les différentes avancées qu'il contient~: injectivité de $f(c_l)=f(c_l') \Rightarrow c_l=c_l'$, prise en compte du genre et utilisation de l'algorithme Hongrois. Seule la manière de combiner les informations de l'arbre de classification au niveau du locuteur a été changée.
 
+\todo{Revérifier ces résultats}
+
 \begin{table}[h]
 \begin{center}
 \begin{tabular}{|c|c|c|c|c|c|c|}
@@ -2116,14 +2118,14 @@ Le tableau \ref{tab:results_normalisation} donne les résultats sur les corpus de
 \hline
 \multicolumn{2}{|c|}{Maximum} & 75,37~\% & 97,31~\% & 22,51~\% & 32,51~\% & 164 \\ \hline
 \multicolumn{2}{|c|}{Normalisation} & 87,41~\% & 95,71~\% & 11,67~\% & 13,99~\% & 209 \\ \hline
-\multicolumn{2}{|c|}{F. de croyance} & 86,22~\% & 94,41~\% & 12,75~\% & 15,23~\% & 206 \\ \hline
+\multicolumn{2}{|c|}{F. de croyance} & 87,85~\% & 95,24~\% & 11,44~\% & 12,43~\% & 206 \\ \hline
 \hline
 \hline
 \multicolumn{7}{|c|}{\emph{Corpus de Test}}\\ \hline
 \hline
 \multicolumn{2}{|c|}{Maximum} & 77,83~\% & 100~\% & 21,10~\% & 28,30~\% & 76 \\ \hline
 \multicolumn{2}{|c|}{Normalisation} & 81,57~\% & 100~\% & 17,54~\% & 21,70~\% & 83 \\ \hline
-\multicolumn{2}{|c|}{F. de croyance} & 78,36\% & 97,98\% & 20,60\% & 23,58\% & 81 \\ \hline
+\multicolumn{2}{|c|}{F. de croyance} & 77,10\% & 92,97\% & 22,85\% & 28,23 \% & 81 \\ \hline
 \hline
 \end{tabular}
 \end{center}
@@ -2131,7 +2133,7 @@ Le tableau \ref{tab:results_normalisation} donne les résultats sur les corpus de
 \label{tab:results_normalisation}
 \end{table}
 
-Tout d'abord, on observe le même comportement des différentes méthodes sur les deux corpus. La méthode qui présente les meilleurs résultats est la méthode utilisant la normalisation~: 17,54~\% de taux d'erreur en durée sur le corpus de test (11,67~\% pour le corpus de développement) pour 21,70~\% de taux d'erreur en nombre de locuteurs sur ce même corpus (13,99~\% sur le corpus de développement). La méthode utilisant les fonctions de croyance est quant à elle légèrement moins performante~\%: 20,60~\% de taux d'erreur en durée sur le corpus de test pour 23,58~\% de taux d'erreur en nombre de locuteurs.
+Tout d'abord, on observe le même comportement des différentes méthodes sur les deux corpus. La méthode qui présente les meilleurs résultats est la méthode utilisant la normalisation~: 17,54~\% de taux d'erreur en durée sur le corpus de test (11,67~\% pour le corpus de développement) pour 21,70~\% de taux d'erreur en nombre de locuteurs sur ce même corpus (13,99~\% sur le corpus de développement). La méthode utilisant les fonctions de croyance est quant à elle légèrement moins performante~\%: 22,85~\% de taux d'erreur en durée sur le corpus de test pour 28,23~\% de taux d'erreur en nombre de locuteurs.
 
 Lors de l'analyse de ces résultats, le nombre de locuteurs concernés doit être pris en compte. Par exemple, sur le corpus de développement, la différence de locuteurs correctement nommés entre la méthode utilisant la normalisation et celle utilisant les fonctions de croyance est faible~: on passe de 209 locuteurs correctement nommés à 206 (contre 164 pour la méthode du maximum). De manière identique, sur le corpus de test, le nombre de locuteurs correctement nommés passe de 83 à 81 avec l'utilisation des fonctions de croyance (contre 76 pour la méthode du maximum).
 
@@ -2258,7 +2260,7 @@ Toutes ces problématiques sont en cours d'étude dans le projet ANR REPERE 2010\f
 
 %Cet exemple illustre bien qu'avec des transcriptions entièrement automatiques, il est difficile de n'évaluer que le système d'INL. En effet, ce dernier est fortement dépendant de la segmentation et de la classification automatiques. Si un locuteur a été correctement identifié à un endroit de l'enregistrement, mais que la segmentation ne permet pas de lui affecter la totalité de ses tours de parole, le système d'INL présentera un fort taux d'erreur. Par exemple, sur un tour de parole durant 10 minutes, si seule la première minute a été détectée par le système de segmentation et étiquetée pas le système d'INL, le taux d'erreur sera de 90~\% pour ce locuteur.
 
-\subsection{Impact de la qualité des transcriptions enrichies}
+\subsection{Influence de la qualité des transcriptions enrichies}
 
 \label{sec:impact_trans_auto}
 
@@ -2303,22 +2305,18 @@ durée.\newline
 \label{tab:results_auto_impact}
 \end{table}
 
-\emph{Milesin} se comporte de façon similaire sur le corpus de développement ou sur le corpus de test~: plus le système tend vers un système automatique et plus les performances se dégradent.
-
-\emph{Milesin} est tributaire des erreurs de la transcription enrichie. Cette dégradation des performances provient autant des erreurs de segmentation et classification en locuteur que des erreurs de transcription.
+\emph{Milesin} se comporte de façon similaire sur le corpus de développement ou sur le corpus de test~: plus le système tend vers un système automatique et plus les performances se dégradent. La qualité de la transcription a plus d'impact sur les performances que celle de la segmentation~/ classification. Par exemple, sur le corpus de développement, utiliser une transcription automatique augmente le taux d'erreur d'environ 43 points alors qu'utiliser une segmentation~/ classification automatique ne l'augmente que de 27 points (par rapport aux transcriptions manuelles de référence).
 
 Concernant la classification et la segmentation automatique en locuteur, nous avons constaté que la segmentation automatique engendrait plus d'erreurs que la classification automatique. Actuellement, ce module a été développé pour minimiser le taux de DER et n'a pas subit de modifications en vue de l'adapter aux techniques d'INL.
 
 
-Sur le corpus de développement transcrit automatiquement, les locuteurs dont il est impossible de récupérer le nom à cause d'erreurs de transcriptions représentent 47~\% du temps de parole total contre environ 5~\% lorsque les transcriptions sont réalisées manuellement. Sur le corpus de test, ils représentent 32~\% contre 10~\% sur les transcriptions entièrement manuelles.
+Sur le corpus de développement transcrit automatiquement, les locuteurs dont il est impossible de récupérer le nom à cause d'erreurs de transcriptions représentent 47~\% du temps de parole total contre environ 5~\% lorsque les transcriptions sont réalisées manuellement. Sur le corpus de test, ils représentent 32~\% contre 10~\% sur les transcriptions entièrement manuelles. 
 
-\subsection{Influence de la qualité de la transcription}
-\label{sec:expTrans}
 
-Les résultats précédents montrent une dégradation des performances lorsque la transcription est automatique. Cette dernière obtient un taux d'erreur sur les mots de 20,5 \%. Le tableau \ref{tab:resultslimsi} compare les résultats d'identification nommée obtenus en utilisant les transcriptions réalisées par le système du LIUM et celles réalisées par le système du LIMSI \cite{Gauvain2005}. La transcription du LIMSI correspond à la transcription générée par leur système durant la campagne d'évaluation ESTER 1 phase II en 2005, où ce système a obtenu les meilleurs résultats avec un taux d'erreur sur les mots de 11,9 \%.  
+Le tableau \ref{tab:resultslimsi} compare les résultats d'identification nommée obtenus en utilisant les transcriptions réalisées par le système du LIUM et celles réalisées par le système du LIMSI \cite{Gauvain2005}. La transcription du LIMSI correspond à la transcription générée par leur système durant la campagne d'évaluation ESTER 1 phase II en 2005, où ce système a obtenu les meilleurs résultats avec un taux d'erreur sur les mots de 11,9 \%.  
 Les transcriptions ont été générées à partir de segmentations et de classifications automatiques. Pour supprimer les erreurs de segmentation et de classification, les mots ont été replacés dans les segments de référence avant d'appliquer le système de détection d'entités nommées.
 
-La transcription du LIMSI permet de réduire les taux d'erreur $ErrDur$ et $ErrLoc$ d'environ dix points. Elle contient notamment plus de noms complets correctement transcrits que celle du LIUM, ce qui a un impact non négligeable sur les résultats du processus d'identification nommée. En effet, alors que 1~541 noms complets sont détectés dans les transcriptions de référence, seulement 970 sont détectés dans les transcriptions du LIUM contre 1~192 dans les transcriptions du LIMSI.
+La transcription du LIMSI permet de réduire les taux d'erreur en durée $ErrDur$ de 13 points et le taux d'erreur en nombre de locuteurs $ErrLoc$ d'environ dix points. Elle contient notamment plus de noms complets correctement transcrits que celle du LIUM, ce qui a un impact non négligeable sur les résultats du processus d'identification nommée. En effet, alors que 1~541 noms complets sont détectés dans les transcriptions de référence, seulement 970 sont détectés dans les transcriptions du LIUM contre 1~192 dans les transcriptions du LIMSI. \todo{Donner les résultats corrects, remercier le LIMSI}
 
 
 \begin{table}
@@ -2347,9 +2345,9 @@ LIMSI & 56,31 \% & 86,17 \% & 41,24 \% & 51,79 \% \\
 
 \section{Bilan}
 
-\emph{Milesin} est le fruit de diverses améliorations apportées au système pré-existant au LIUM. Le système d'entités nommées a tout d'abord été remplacé par LIA\_NE, le détecteur d'entités nommées le plus performant de la campagne d'évaluation ESTER 2. Ensuite, l'étape d'attribution locale ainsi que le processus d'attribution globale ont améliorés à plusieurs reprises. Le choix du système à base de fonctions de croyances a été motivé par la modélisation mathématique que permet cette théorie. Grâce à la théorie des fonctions de croyance, il est maintenant possible de modéliser le conflit, l'ignorance ou la croyance au sein d'un locuteur à nommer. Bien que ces informations soient potentiellement très utiles, elles n'ont pour l'instant été que partiellement exploitées~: le conflit et l'ignorance ne sont pour l'instant pas pris en compte. Ces informations devraient permettre d'augmenter la précision du système lorsque l'on utilise des systèmes sans listes de locuteurs par exemple.
+\emph{Milesin} est le fruit de diverses améliorations apportées au système pré-existant au LIUM. Le système d'entités nommées a tout d'abord été remplacé par LIA\_NE, le détecteur d'entités nommées le plus performant de la campagne d'évaluation ESTER 2. Ensuite, l'étape d'attribution locale ainsi que le processus d'attribution globale ont été améliorés à plusieurs reprises. Le choix du système à base de fonctions de croyances a été motivé par la modélisation mathématique que permet cette théorie. Grâce à la théorie des fonctions de croyance, il est maintenant possible de modéliser le conflit, l'ignorance ou la croyance au sein d'un locuteur à nommer. Bien que ces informations soient potentiellement très utiles, elles n'ont pour l'instant été que partiellement exploitées~: le conflit et l'ignorance ne sont pour l'instant pas pris en compte. Ces informations devraient permettre d'augmenter la précision du système lorsque l'on utilise des systèmes sans liste de locuteurs par exemple.
 
-Des premiers résultats sur des transcriptions entièrement automatiques ont été donnés. La majeure partie du travail réalisé pour \emph{Milesni} l'a été sur des transcriptions entièrement manuelles. De ce fait, le passage à l'automatique n'a pas encore été étudié et les performances sont mauvaises.
+Des premiers résultats sur des transcriptions entièrement automatiques ont été donnés. La majeure partie du travail réalisé pour \emph{Milesni} l'a été sur des transcriptions entièrement manuelles. De ce fait, le passage à l'automatique n'a pas encore été totalement approfondi et les performances sont moindres.
 
 Les travaux sur l'identification nommée du locuteur doivent maintenant porter sur la prise en compte des spécificités des transcriptions automatiques. Il conviendrait par exemple de remettre en cause l'injectivité de la fonction d'assignation d'un nom complet aux locuteurs $f(c_l)=f(c_l') \Rightarrow c_l=c_l'$. Si cette hypothèse est tout à fait pertinente pour des transcriptions manuelles, elle l'est beaucoup moins pour des transcriptions automatiques, à cause des erreurs de classification et de segmentation. De plus, les systèmes de reconnaissance automatique de la parole commettent beaucoup d'erreur lors de la transcription de noms propres. De récents travaux sur la phonétisation automatique de noms propres \cite{nionio} ce sont intéressés à ce problème. Il conviendrait de les étudier en détail afin de les exploiter pour les systèmes d'INL.
 
