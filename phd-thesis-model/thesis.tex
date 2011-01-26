@@ -18,6 +18,21 @@
 
 \postheader
 
+\chapter*{Remerciements}
+
+\chapter*{Résumé}
+
+L'indexation de documents multimédia est une problématique de plus en plus présente avec l'augmentation des différentes données numériques mises à notre disposition. Les informations contenues dans ces grandes quantités de documents sont multiples (images, vidéos, textes, son) et les indexer de manière efficace manuellement n'est plus possible. L'utilisation d'outils automatiques d'indexation de ces documents est alors inévitable.
+
+Les travaux présentés dans cette thèse s'intéressent à l'indexation automatique de locuteurs dans des documents audio. Plus précisément nous cherchons à identifier les différentes interventions d'un locuteur ainsi qu'à les nommer par leur prénom et leur nom. Ce processus est connu sous le nom d'identification nommée du locuteur (INL). La particularité de ces travaux réside dans l'utilisation conjointe du signal audio et de sa transcription en mots pour nommer les locuteurs d'un document. Le prénom et le nom de chacun des locuteurs est extrait du document lui même (de sa transcription enrichie plus exactement), avant d'être affecté à un des locuteurs du document.
+
+Nous commençons par rappeler le contexte et les précédents travaux réalisés sur l'INL avant de présenter \emph{Milesin}, le système développé lors de cette thèse. Ce système entièrement automatique utilise un détecteur d'entités nommées (LIA\_NE) pour extraire les couples prénom~/ nom de la transcription et s'appuie sur la théorie des fonctions de croyance pour réaliser l'affectation aux locuteurs du document. Il obtient un taux d'erreur compris entre 12 et 20~\% sur des transcriptions de référence (réalisées manuellement) en fonction du corpus utilisé. Nous présentons ensuite les avancées réalisées et les limites mises en avant par ces travaux. Nous proposons notamment une première étude de l'impact de l'utilisation de transcriptions entièrement automatiques sur \emph{Milesin}.
+\\
+\\
+\\
+\textbf{Mots-clés :} Identification nommée du locuteur, reconnaissance du locuteur, transcription enrichie.
+
+
 \chapter{Introduction}
 
 Depuis plus de 15 ans nous assistons à l'explosion du nombre de documents numériques accessibles au public à travers des médias multiples comme les réseaux téléphoniques, le câble, le satellite et surtout le \emph{Web}. Ces documents prennent une place croissante dans la vie quotidienne et sont devenus une ressource essentielle. 
