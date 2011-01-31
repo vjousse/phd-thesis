@@ -2447,15 +2447,26 @@ Les travaux sur l'identification nommée du locuteur doivent maintenant porter su
 \chapter{Conclusion et perspectives}
 \minitoc
 
-Cette thèse s'inscrit dans le domaine de l'identificaton automatique de locuteurs. Plus particulièrement, les travaux présentés ici s'intéressent à l'identification de locuteurs par leur prénom et leur nom dans des documents audio. Ce processus est appelé identification nommée du locuteur (INL).
+Cette thèse s'inscrit dans le domaine de l'identificaton automatique de locuteurs. Plus particulièrement, les travaux présentés ici s'intéressent à l'identification de locuteurs par leur prénom et leur nom dans des documents audio en français. Ce processus est appelé identification nommée du locuteur (INL).
 
 %Peut être faire un speech sur le fait que la RAL identifie ok, mais de manière anonyme ?
 
 L'INL contribue à l'indexation automatique de documents audio en fournissant des informations  sur les locuteurs du document. Elle permet d'identifier les différents locuteurs par leur prénom et leur nom, et par la même occasion d'obtenir la liste des interventions de ces locuteurs dans les enregistrements.
 
-de retrouver les interventions de locuteurs au sein de grandes collections de documents. Plusieurs approchent ont été étudiées dans la littérature, et notamment une approche utilisant des techniques de suivi du locuteur. Ces techniques nécessitent de connaître les locuteurs à identifier au préalable, de manière à obtenir des échantillons de leurs voix. Ces échantillons seront ensuite utilisés pour apprendre des modèles de voix afin d'identifier les locuteurs dans les enregistrements. Ce type d'approche a un inconvénient majeur~: il faut disposer de données a priori qui sont difficile à obtenir. En s'appuyant sur des techniques de reconnaissance automatique du locuteur (RAL)
+Plusieurs approchent ont été étudiées dans la littérature, et notamment une approche utilisant des techniques de suivi du locuteur. Ces techniques nécessitent de connaître les locuteurs à identifier au préalable, de manière à obtenir des échantillons de leurs voix. Ces échantillons seront ensuite utilisés pour apprendre des modèles de voix afin d'identifier les locuteurs dans les enregistrements. Ce type d'approche a un inconvénient majeur~: il faut disposer de données a priori qui sont difficile à obtenir.
 
-En s'appuyant sur des techniques de reconnaissance automatique du locuteur (RAL) et sur la transcription du signal fournie par des systèmes de reconnaissance automatique de la parole (SRAP), l'INL permet d'identifier les locuteurs ainsi que leur différentes interventions au sein d'un document audio. (dire que là c'est du francais et de la radio pour l'instant, et qu'ils doivent s'annoncer).
+Afin de ne pas devoir disposer de connaissances a priori sur les documents à traiter, un autre type de système d'INL a été étudié. En s'appuyant sur des techniques de reconnaissance automatique du locuteur (RAL) et sur la transcription du signal fournie par des systèmes de reconnaissance automatique de la parole (SRAP), ces systèmes permettent d'identifier les locuteurs par leur prénom et leur nom sans disposer de connaissances a priori sur ces locuteurs. L'hypothèse fondatrice de ces travaux est que les locuteurs du document s'annoncent entre eux. Il est alors possible d'utiliser cette information pour nommer les locuteurs du document.
+
+
+Lex travaux présentés ici ont permis plusieurs avancées. Tout d'abord \emph{Milesin} est le premier système d'INL (basé sur la transcription) pouvant fonctionner de manière entièrement automatique. L'utilisation d'un détecteur d'entités nommées comme LIA\_NE permet de s'affranchir des phases d'étiquetages manuelles réalisées dans les précédents travaux.
+
+Ensuite l'utilisation d'un arbre de classification en lieu et place du modèle n-grammes utilisé dans la littérature permet de rendre le système plus robuste aux erreurs de transcriptions issues des systèmes de reconnaissance automatique de la parole.
+
+La mise en place d'un formalisme mathématique comme la théorie des fonctions de croyance a permi de combiner les différentes informations issues de l'arbre de manière efficace. Ce formalisme, associé à un algorithme de décision optimal (l'algorithme Hongrois, aussi appelé algorithme de Kuhn-Munkres) a permis d'obtenir un taux d'erreur d'environ 11~\% sur le corpus de développement et d'environ 22~\% sur le corpus de test.
+
+
+\textbf{Pespectives}
+
 
 % \section{Commandes}
 % 
