@@ -2026,7 +2026,7 @@ L'analyse des erreurs conduite ici a permis de mettre en évidence les faiblesses
 
 Nemesis quant à lui, représente environ 20~\% des erreurs commises par le système. Ces erreurs mettent en évidence l'importance de ne détecter que le couple prénom~/ nom pour les entités de type personne. Pour les systèmes d'INL, dès qu'un autre mot vient s'ajouter au couple prénom~/ nom (comme la fonction de la personne par exemple), l'identification sera considérée comme erronée.
 
-En complément, nous donnons une comparaison de LIA\_NE et de Nemesis dans le tableau \ref{tab:results_lia_ne_nemesis}. \emph{Milesin} est utilisé pour ces expériences sur le corpus de développement. Les meilleurs résultats concernant l'utilisation de LIA\_NE pour l'INL s'expliquent par une concision plus importante de ses entités nommées ainsi que par les bonnes bonnes performances obtenues lors de la campagne d'évaluation ESTER 2. Nemesis a par la suite été remplacé par LIA\_NE dans \emph{Milesin}.
+En complément, nous donnons une comparaison de LIA\_NE et de Nemesis dans le tableau \ref{tab:results_lia_ne_nemesis}. \emph{Milesin} est utilisé pour ces expériences sur le corpus de développement. Les meilleurs résultats concernant l'utilisation de LIA\_NE pour l'INL s'expliquent par une concision plus importante de ses entités nommées ainsi que par les bonnes performances obtenues lors de la campagne d'évaluation ESTER 2. Nemesis a par la suite été remplacé par LIA\_NE dans \emph{Milesin}.
 
 \begin{table}[h]
 \begin{center}
@@ -2152,8 +2152,6 @@ Dans le précédent exemple, \emph{Jacques Derrida} était affecté au locuteur $c_{
 \label{sec:exp_normalisation}
 
 Le tableau \ref{tab:results_normalisation} donne les résultats sur les corpus de développement et de test (transcriptions enrichies manuelles) en utilisant les différents systèmes de combinaison des informations~: simple maximum, normalisation des scores ou fonctions de croyances. Une liste de locuteur et de leur genre est utilisée (cf. section \ref{sec:results_milesni}). \emph{Milesin} a été utilisé pour ces expériences, ainsi que les différentes avancées qu'il contient~: injectivité de $f(c_l)=f(c_l') \Rightarrow c_l=c_l'$, prise en compte du genre et utilisation de l'algorithme Hongrois. Seule la manière de combiner les informations de l'arbre de classification au niveau du locuteur a été changée.
-
-\todo{Revérifier ces résultats}
 
 \begin{table}[h]
 \begin{center}
@@ -2364,7 +2362,7 @@ Sur le corpus de développement transcrit automatiquement, les locuteurs dont il 
 Le tableau \ref{tab:resultslimsi} compare les résultats d'identification nommée obtenus en utilisant les transcriptions réalisées par le système du LIUM et celles réalisées par le système du LIMSI \cite{Gauvain2005}. La transcription du LIMSI correspond à la transcription générée par leur système durant la campagne d'évaluation ESTER 1 phase II en 2005, où ce système a obtenu les meilleurs résultats avec un taux d'erreur sur les mots de 11,9 \%.  
 Les transcriptions ont été générées à partir de segmentations et de classifications automatiques. Pour supprimer les erreurs de segmentation et de classification, les mots ont été replacés dans les segments de référence avant d'appliquer le système de détection d'entités nommées.
 
-La transcription du LIMSI permet de réduire les taux d'erreur en durée $ErrDur$ de 13 points et le taux d'erreur en nombre de locuteurs $ErrLoc$ d'environ dix points. Elle contient notamment plus de noms complets correctement transcrits que celle du LIUM, ce qui a un impact non négligeable sur les résultats du processus d'identification nommée. En effet, alors que 1~541 noms complets sont détectés dans les transcriptions de référence, seulement 970 sont détectés dans les transcriptions du LIUM contre 1~192 dans les transcriptions du LIMSI. \todo{Donner les résultats corrects, remercier le LIMSI}
+La transcription du LIMSI permet de réduire les taux d'erreur en durée $ErrDur$ de 13 points et le taux d'erreur en nombre de locuteurs $ErrLoc$ d'environ dix points. Elle contient notamment plus de noms complets correctement transcrits que celle du LIUM, ce qui a un impact non négligeable sur les résultats du processus d'identification nommée. En effet, alors que 1~541 noms complets sont détectés dans les transcriptions de référence, seulement 970 sont détectés dans les transcriptions du LIUM contre 1~192 dans les transcriptions du LIMSI.
 
 
 \begin{table}
@@ -2393,11 +2391,15 @@ LIMSI & 56,31 \% & 86,17 \% & 41,24 \% & 51,79 \% \\
 
 \section{Bilan}
 
-\emph{Milesin} est le fruit de diverses améliorations apportées au système pré-existant au LIUM. Le système d'entités nommées a tout d'abord été remplacé par LIA\_NE, le détecteur d'entités nommées le plus performant de la campagne d'évaluation ESTER 2. Ensuite, l'étape d'attribution locale ainsi que le processus d'attribution globale ont été améliorés à plusieurs reprises. Le choix du système à base de fonctions de croyances a été motivé par la modélisation mathématique que permet cette théorie. Grâce à la théorie des fonctions de croyance, il est maintenant possible de modéliser le conflit, l'ignorance ou la croyance au sein d'un locuteur à nommer. Bien que ces informations soient potentiellement très utiles, elles n'ont pour l'instant été que partiellement exploitées~: le conflit et l'ignorance ne sont pour l'instant pas pris en compte. Ces informations devraient permettre d'augmenter la précision du système lorsque l'on utilise des systèmes sans liste de locuteurs par exemple.
+Afin de mieux comprendre les erreurs commises par le système sur lequel s'appuyait cette thèse, une analyse sur corpus a tout d'abord été menée. Cette analyse a permis de mettre en évidence les problèmes relatifs au détecteur d'entités nommées (Nemesis) ainsi qu'au processus de décision. L'utilisation de Nemesis, un détecteur d'entités nommées issues du TAL, a été un premier pas vers l'automatisation de la détection des entités nommées. Mais cet outil, prévu pour être utilisé sur des textes écrits (correctement ponctués, accentués, \ldots), c'est avéré peu adapté à des transcriptions d'enregistrements audio. C'est pourquoi LIA\_NE, développé spécifiquement pour travailler sur des transcriptions, lui a été préféré.
 
-Des premiers résultats sur des transcriptions entièrement automatiques ont été donnés. La majeure partie du travail réalisé pour \emph{Milesni} l'a été sur des transcriptions entièrement manuelles. De ce fait, le passage à l'automatique n'a pas encore été totalement approfondi et les performances sont moindres.
+Le système de décision a été étudié et amélioré à plusieurs reprises pendant ces travaux. L'utilisation d'un simple maximum a tout d'abord été remplacée par une méthode de normalisation des scores. Bien que donnant de bons résultats, il a été décidé de remplacer cette méthode par la théorie des fonctions de croyance. En effet, certains points de la méthode à base de normalisations sont difficilement justifiables. La théorie des fonctions de croyance a permis d'apporter un cadre mathématique au processus de décision, pour des performances légèrement inférieures à la technique utilisant la normalisation.
 
-Les travaux sur l'identification nommée du locuteur doivent maintenant porter sur la prise en compte des spécificités des transcriptions automatiques. Il conviendrait par exemple de remettre en cause l'injectivité de la fonction d'assignation d'un nom complet aux locuteurs $f(c_l)=f(c_l') \Rightarrow c_l=c_l'$. Si cette hypothèse est tout à fait pertinente pour des transcriptions manuelles, elle l'est beaucoup moins pour des transcriptions automatiques, à cause des erreurs de classification et de segmentation. De plus, les systèmes de reconnaissance automatique de la parole commettent beaucoup d'erreur lors de la transcription de noms propres. De récents travaux sur la phonétisation automatique de noms propres \cite{nionio} ce sont intéressés à ce problème. Il conviendrait de les étudier en détail afin de les exploiter pour les systèmes d'INL.
+Les différents contextes applicatifs des systèmes d'INL ont ensuite été présentés, et plus particulièrement la pertinence de l'utilisation de listes de locuteurs. En fonction de l'utilisation souhaitée d'un système d'INL, il peut tout à fait être pertinent de disposer d'une liste de locuteurs à nommer connue à l'avance.
+
+Pour finir, des premiers résultats sur des transcriptions entièrement automatiques ont été donnés. La majeure partie du travail réalisé pour \emph{Milesni} l'a été sur des transcriptions entièrement manuelles. De ce fait, le passage à l'automatique n'a pas encore été totalement approfondi et les performances sont moins bonnes sur ce type de transcriptions.
+
+\todo{Finir un peu moins brut, compléter ?}
 
 % Résultats sans filtrage de liste de locuteurs sur du manuel (même pas sur le genre) & LIA_NE
 %
@@ -2472,6 +2474,11 @@ La mise en place d'un formalisme mathématique comme la théorie des fonctions de 
 
 
 \textbf{Pespectives}
+
+\emph{Milesin} est le fruit de diverses améliorations apportées au système pré-existant au LIUM. Le système d'entités nommées a tout d'abord été remplacé par LIA\_NE, le détecteur d'entités nommées le plus performant de la campagne d'évaluation ESTER 2. Ensuite, l'étape d'attribution locale ainsi que le processus d'attribution globale ont été améliorés à plusieurs reprises. Le choix du système à base de fonctions de croyances a été motivé par la modélisation mathématique que permet cette théorie. Grâce à la théorie des fonctions de croyance, il est maintenant possible de modéliser le conflit, l'ignorance ou la croyance au sein d'un locuteur à nommer. Bien que ces informations soient potentiellement très utiles, elles n'ont pour l'instant été que partiellement exploitées~: le conflit et l'ignorance ne sont pour l'instant pas pris en compte. Ces informations devraient permettre d'augmenter la précision du système lorsque l'on utilise des systèmes sans liste de locuteurs par exemple.
+
+
+Les travaux sur l'identification nommée du locuteur doivent maintenant porter sur la prise en compte des spécificités des transcriptions automatiques. Il conviendrait par exemple de remettre en cause l'injectivité de la fonction d'assignation d'un nom complet aux locuteurs $f(c_l)=f(c_l') \Rightarrow c_l=c_l'$. Si cette hypothèse est tout à fait pertinente pour des transcriptions manuelles, elle l'est beaucoup moins pour des transcriptions automatiques, à cause des erreurs de classification et de segmentation. De plus, les systèmes de reconnaissance automatique de la parole commettent beaucoup d'erreur lors de la transcription de noms propres. De récents travaux sur la phonétisation automatique de noms propres \cite{nionio} ce sont intéressés à ce problème. Il conviendrait de les étudier en détail afin de les exploiter pour les systèmes d'INL.
 
 
 % \section{Commandes}
