@@ -1591,8 +1591,6 @@ M_{l} =\displaystyle \bigcap_{t_k \in c_l} m_{t_k}
 
 et la masse de croyance normalisée $M^*_{l}$ correspondante.
 
-\todo{Donner un exemple ?}
-
 %\subsection{Règle de décision}
 %
 %Les masses de croyance $M_l$ sont transformées en une probabilité pignistique $P_{M_l}$ (cf. équation \ref{eq:pig}) et la règle $\mathbf{R}$ suivante est utilisée :
@@ -1856,7 +1854,7 @@ Le tableau \ref{tab:results_belief} présente les résultats du système sur les co
 \hline
 \end{tabular}
 \end{center}
-\caption{Système proposé avec une transcription enrichie manuelle en utilisant une liste de locuteurs}
+\caption{Résultats de \emph{Milesin} sur des transcriptions entièrement manuelles en utilisant une liste des locuteurs du corpus}
 \label{tab:results_belief}
 \end{table}
 
@@ -1870,30 +1868,28 @@ L'utilisation de systèmes d'INL prend tout son sens lorsqu'elle peut être réalis
 
 \label{sec:xp_auto}
 
-Le tableau \ref{tab:results_auto} \todo{donner les résultats avec liste globale et pas par show} présente les résultats de \emph{Milesin} sur des transcriptions entièrement automatiques en utilisant une liste de locuteurs. Les systèmes de segmentation~/ classification et de transcription automatiques utilisés sont ceux présentés dans la section \ref{sec:sys_auto_lium}. Sur le corpus de développement, le DER est de 11,5~\% et le WER de 20,5~\%. Sur le corpus de test, le DER est de 5,71~\% et le WER de 18,8~\%.
+Le tableau \ref{tab:results_auto} présente les résultats de \emph{Milesin} sur des transcriptions entièrement automatiques en utilisant une liste des locuteurs du corpus. Seuls les résultats en durée sont présentés, puisque la segmentation et la classification ne sont pas identiques entre la référence et l'hypothèse proposée. Les systèmes de segmentation~/ classification et de transcription automatiques utilisés sont ceux présentés dans la section \ref{sec:sys_auto_lium}. Sur le corpus de développement, le DER est de 11,5~\% et le WER de 20,5~\%. Sur le corpus de test, le DER est de 5,71~\% et le WER de 18,8~\%.
 
 \begin{table}[h]
 \begin{center}
 \begin{tabular}{|c|c|c|c|c|}
 \cline{3-5}
-\multicolumn{2}{c|}{} & \textbf{R} & \textbf{P} & \textbf{ErrDur}\\ \hline
+\multicolumn{2}{c|}{} & \multicolumn{3}{|c|}{En durée}  \\ \hline
+\multicolumn{2}{|c|}{} & \textbf{R} & \textbf{P} & \textbf{ErrDur} \\ \hline
 \hline
-\multicolumn{5}{|c|}{\emph{Corpus de Développement}}\\ \hline
-\hline
-\multicolumn{2}{|c|}{Liste par enregistrement} & 25,15~\% & 65,99~\% & 69,85~\% \\ \hline
+\multicolumn{2}{|c|}{Corpus de Développement} & 25,15~\% & 55,65~\% & 69,43~\% \\ \hline
 \hline
 \hline
-\multicolumn{5}{|c|}{\emph{Corpus de Test}}\\ \hline
-\hline
-\multicolumn{2}{|c|}{Liste par enregistrement} & 42,50~\% & 85,48~\% & 57,50~\% \\ \hline
+\multicolumn{2}{|c|}{Corpus de Test} & 38,77~\% & 70,87~\% & 61,23~\% \\ \hline
 \hline
 \end{tabular}
 \end{center}
-\caption{Résultats de \emph{Milesin} sur des transcriptions entièrement automatiques en utilisant une liste de locuteurs par enregistrement}
+\caption{Résultats de \emph{Milesin} sur des transcriptions entièrement automatiques en utilisant une liste des locuteurs du corpus}
 \label{tab:results_auto}
 \end{table}
 
-Le taux d'erreur (en durée) obtenu varie de 69,85~\% à 57,50~\% en fonction du corpus utilisé. Lorsque l'on utilise \emph{Milesin} avec des transcriptions entièrement automatiques, les erreurs des différents systèmes se cumulent. Aucune adaptation de \emph{Milesin} pour des transcriptions automatiques n'a été effectuée dans ces expériences.
+
+Le taux d'erreur (en durée) obtenu varie de 69,43~\% à 61,23~\% en fonction du corpus utilisé. Lorsque l'on utilise \emph{Milesin} avec des transcriptions entièrement automatiques, les erreurs des différents systèmes se cumulent. Aucune adaptation de \emph{Milesin} pour des transcriptions automatiques n'a été effectuée dans ces expériences.
 
 L'influence des différentes composantes d'une transcription automatique sur les résultats des systèmes d'INL est discutée plus en détails dans la section \ref{sec:impact_trans_auto}.
 
