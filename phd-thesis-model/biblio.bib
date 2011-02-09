@@ -36,15 +36,16 @@
 %@STRING{ eurospeech = "Proc. of Eurospeech" }
 %@STRING{ icassp = "Proc. of ICASSP" }
 
-@STRING{ icslp = "Proc. of ICSLP, International Conference on Spoken Language Processing" }
-@STRING{ eurospeech = "Proc. of Eurospeech, European Conference on Speech Communication and
+@STRING{ icslp = "ICSLP, International Conference on Spoken Language Processing" }
+@STRING{ eurospeech = "Eurospeech, European Conference on Speech Communication and
           Technology" }
-@STRING{ interspeech = "Proc. of Interspeech, European Conference on Speech Communication and
+@STRING{ interspeech = "Interspeech, European Conference on Speech Communication and
           Technology" }
-@STRING{ icassp = "Proc. of ICASSP, International Conference on Acoustics, Speech, and
+@STRING{ icassp = "IEEE ICASSP, International Conference on Acoustics, Speech, and
           Signal Processing" }
 @STRING{ odyssey = "Odyssey, The Speaker Language Recognition Workshop" }
-@STRING{ ieee = "Proc. of IEEE" }
+@STRING{ ieee = "IEEE" }
+@STRING{ asru = "ASRU, Automatic Speech Recognition and Understanding"}
 
 @inproceedings{ brunEN,
     author = {Caroline Brun and Maud Ehrmann},
@@ -57,14 +58,14 @@
 
 @inproceedings { nionio,
 	title = {Acoustics-Based Phonetic Transcription Method for Proper Nouns},
-	booktitle = {International Conference on Spoken Language Processing (ISCA, Interspeech 2010)},
+	booktitle = {International Conference on Spoken Language Processing (Interspeech 2010)},
 	aeres = {ACTI - International Conference Proceedings},
 	month = {26-30 sept.},
 	year = {2010},
 	city = {Japon},
 	country = {Makuhari},
 	address = {Japon (Makuhari)},
-	articletitle = {International Conference on Spoken Language Processing (ISCA, Interspeech 2010)},
+	articletitle = {International Conference on Spoken Language Processing (Interspeech 2010)},
 	author = {Laurent, A.  and  Meignier, S.  and  Merlin, T.  and  Deléglise, P.}
 }
 
@@ -77,14 +78,14 @@
 }
 
 @INPROCEEDINGS { lium_asr_full,
-	title = {The LIUM speech transcription system: a CMU Sphinx III-based system for french broadcast news},
-	booktitle = {Interspeech'05, ISCA},
+	title = {{The LIUM speech transcription system: a CMU Sphinx III-based system for french broadcast news}},
+	booktitle = {Interspeech'05},
 	aeres = {ACTI - International Conference Proceedings},
 	month = {September},
 	year = {2005},
 	city = {Lisbon},
 	address = {Lisbon},
-	articletitle = {Interspeech'05, ISCA},
+	articletitle = {Interspeech'05},
 	author = {Deléglise, P.  and  Estève, Y.  and  Meignier, S.  and  Merlin, T.}
 }
 @inproceedings { lium_asr,
@@ -136,7 +137,8 @@
 @inproceedings{favre2010esr,
     author={Benoit Favre and Bernd Bohnet and Dilek Hakkani-T{\"u}r},
     title={{Evaluation of Semantic Role Labeling and Dependency Parsing of Automatic Speech Recognition Output}},
-    booktitle={IEEE International Conference in Acoustics, Speech and Signal Processing (ICASSP), Dallas (USA)},
+    booktitle = icassp,
+	address = {Dallas (USA)},
     year={2010}
 }
 
@@ -203,7 +205,7 @@ doi = {10.1121/1.381666}
 @inproceedings{Wacholder97,
     author = {Wacholder, N. and Ravin, Y. and Choi, M.} ,
     title = {Disambiguisation of proper names in text} ,
-    booktitle = {Proceedings of the 5\textsuperscript{th} {C}onference on {A}pplied {N}atural {L}anguage {P}rocessing ({ANLP'97}) } ,
+    booktitle = {5\textsuperscript{th} {C}onference on {A}pplied {N}atural {L}anguage {P}rocessing ({ANLP'97}) } ,
     pages={202--208},
     year = {1997} ,
     address = {{W}ashington {DC}, {É}tats-{U}nis}
@@ -223,7 +225,7 @@ volume={41(3)},
 @inproceedings{Standford2003,
     author = {Standford, V. and Garofolo, J. and Galibert, O. and Michel, M. and Laprun C.} ,
     title = {The NIST Smart Space and Meeting Room Projects: Signal, Acquisition, Annotation and Metrics} ,
-    booktitle = {2000 {IEEE} {I}nternational {C}onference on {A}coustics, {S}peech and {S}ignal {P}rocessing {ICASSP}} ,
+    booktitle = icassp,
     year = {2003} ,
     address = {{H}ong-{K}ong, {C}hina}
 } 
@@ -234,7 +236,7 @@ volume={41(3)},
   author = {Pallett, D.S.},
   title = {A look at NIST's Benchmark ASR tests : past, present and future},
   month = nov,
-  booktitle = {Proc. of ASRU, Automatic Speech Recognition and Understanding},
+  booktitle = asru,
   year = {2003},
   address = {St. Thomas, U.S. Virgin Islands}
  
@@ -244,7 +246,7 @@ volume={41(3)},
 @inproceedings{CRFNE,
  author = {McCallum, A. and Li, W.},
  title = {Early results for named entity recognition with conditional random fields, feature induction and web-enhanced lexicons},
- booktitle = {Proceedings of the seventh conference on Natural language learning at HLT-NAACL 2003},
+ booktitle = {7\textsuperscript{th} conference on Natural language learning at HLT-NAACL 2003},
  year = {2003},
  pages = {188--191},
  location = {Edmonton, Canada},
@@ -256,7 +258,7 @@ volume={41(3)},
 @INPROCEEDINGS{SER,
     author = {John Makhoul and Francis Kubala and Richard Schwartz and Ralph Weischedel},
     title = {Performance Measures For Information Extraction},
-    booktitle = {In Proceedings of DARPA Broadcast News Workshop},
+    booktitle = {DARPA Broadcast News Workshop},
     year = {1999},
     pages = {249--252}
 }
@@ -264,7 +266,7 @@ volume={41(3)},
 @inproceedings{bechetc-icassp10,
     author = {Frederic Bechet and Eric Charton} ,
     title = {{U}nsupervised knowledge acquisition for extracting named entities from speech} ,
-    booktitle = {2010 {IEEE} {I}nternational {C}onference on {A}coustics, {S}peech and {S}ignal {P}rocessing {ICASSP}} ,
+    booktitle = icassp,
     year = {2010} ,
     address = {{D}allas, {USA}}
 } 
@@ -360,6 +362,7 @@ publisher = {Eyrolles}
   address = {New York},
   author = {P. Price and W. Fisher and J. Bernstein and D. Pallet},
   booktitle = {IEEE ICASSP-88},
+  booktitle = icassp,
   organization = {IEEE},
   pages = {651--654},
   title = {The {DARPA} 1000-Word Resource Management Database for Continuous
@@ -383,8 +386,8 @@ publisher = {Eyrolles}
 
 @article{Chen2000,
     author = {Chen, S. F. and Rosenfeld, R.},
-    booktitle = {Speech and Audio Processing, IEEE Transactions on},
-    journal = {Speech and Audio Processing, IEEE Transactions on},
+    booktitle = {IEEE Transactions on Speech and Audio Processing},
+    journal = {IEEE Transactions on Speech and Audio Processing},
     month = {August},
     number = {2},
     pages = {37--50},
@@ -397,7 +400,7 @@ publisher = {Eyrolles}
 @article{BergerEntropie96,
  author = {Berger, Adam L. and Pietra, Vincent J. Della and Pietra, Stephen A. Della},
  title = {A maximum entropy approach to natural language processing},
- journal = {Comput. Linguist.},
+ journal = {{C}omputational {L}inguistics},
  volume = {22},
  number = {1},
  year = {1996},
@@ -469,7 +472,7 @@ month= December
 @INPROCEEDINGS{Beeferman98cyberpunc,
     author = {Beeferman, Doug and Berger, Adam and Lafferty, John},
     title = {Cyberpunc: {A} lightweight punctuation annotation system for speech},
-    booktitle = {{I}n {P}roceedings of the {IEEE} {I}nternational {C}onference on {A}coustics, {S}peech and {S}ignal {P}rocessing},
+    booktitle = icassp,
     year = {1998},
     pages = {689--692}
 }
@@ -589,7 +592,7 @@ month= March
 
 @article{Valtech97,
  author = {Valtchev, V. and Odell, J. J. and Woodland, P. C. and Young, S. J.},
- title = {MMIE training of large vocabulary recognition systems},
+ title = {{MMIE} training of large vocabulary recognition systems},
  journal = {Speech Communication},
  volume = {22},
  number = {4},
@@ -603,7 +606,7 @@ month= March
 @ARTICLE{Dempster77maximumlikelihood,
     author = {A. P. Dempster and N. M. Laird and D. B. Rubin},
     title = {Maximum likelihood from incomplete data via the EM algorithm},
-    journal = {JOURNAL OF THE ROYAL STATISTICAL SOCIETY, SERIES B},
+    journal = {Journal Of The Royal Statistical Society, Series B},
     year = {1977},
     volume = {39},
     number = {1},
@@ -614,7 +617,7 @@ month= March
   author = {Bridle, J. S. and Brown, M. D.},
   year = {1974},
   title = {An experimental automatic word-recognition system},
-  journal = {Joint {S}peech {R}esearch {U}nit Report No. 1003},
+  booktitle = {{J}oint {S}peech {R}esearch {U}nit {R}eport {N}o. 1003},
   address = {Ruislip, England}
 }
 
@@ -638,12 +641,11 @@ month= March
 
 @inproceedings{Hermansky91,
     author = {Hermansky, H. and Cox, L. A.},
-    journal = {{IEEE} {ASSP} {Workshop}},
+    booktitle = {{IEEE} {ASSP} {Workshop}},
     pages = {0\_37--0\_38},
     title = {Perceptual Linear Predictive (PLP) Analysis-Resynthesis Technique},
     year = {1991}
 }
-
 
 @book{Tubach,
       author       = "Tubach, J P",
@@ -686,7 +688,7 @@ month= March
 @inproceedings{Siu1991,
   title =       {Segregation of speakers for speech recognition and speaker identification},
   author =      {Siu, M.-H. and Yu, G. and Gish, H.},
-  booktitle =   {ICASSP},
+  booktitle =   icassp,
   address = {Toronto, {C}anada},
   month =       May,
   year = {1991}
@@ -695,7 +697,7 @@ month= March
 @inproceedings{Siu1992,
   title =       {An unsupersised, sequential learning algorithm for segmentation of speech waveforms with multi speakers},
   author =      {Siu, M.-H. and Rohlicek, R. and Gish, H.},
-  booktitle =   {ICASSP},
+  booktitle =   icassp,
   address = {San Francisco, {USA}},
   month =       March,
   year = {1992}
@@ -768,7 +770,7 @@ ADDRESS={Mons, Belgique},
 
 @INPROCEEDINGS{liumspkdiarization,
     author = {Meignier, S. and Merlin, T.},
-    title = {{LIUM\_SPKDIARIZATION}: An open source toolkit for diarization},
+    title = {{LIUM\_SpkDiarization}: An open source toolkit for diarization},
     booktitle = {CMU SPUD Workshop},
     year = {2010},
     month = March,
@@ -791,7 +793,7 @@ ADDRESS={Mons, Belgique},
 @INPROCEEDINGS{Graff96the1996,
     author = {David Graff},
     title = {The 1996 Broadcast News Speech And Language-Model Corpus},
-    booktitle = {Proceedings of the 1997 DARPA Speech Recognition Workshop},
+    booktitle = {1997 DARPA Speech Recognition Workshop},
     year = {1996},
     pages = {11--14}
 }
@@ -800,7 +802,7 @@ ADDRESS={Mons, Belgique},
 @ARTICLE{Gauvain94speaker-independentcontinuous,
     author = {J. L. Gauvain and L. F. Lamel and G. Adda and M. Adda-Decker},
     title = {Speaker-Independent Continuous Speech Dictation},
-    journal = {SPEECH COMMUNICATION},
+    journal = {Speech Communication},
     year = {1994},
     volume = {15},
     pages = {21--37}
@@ -817,11 +819,11 @@ ADDRESS={Mons, Belgique},
 }
 
 @INPROCEEDINGS{Bahl95,
-  author = {Bahl, L.R. and Balakrishnan-Aiyer, S. and Bellgarda J.R. and Franz M. and Gopalakrishnan P.S. and Nahamoo, D. and Novak, M. and Padmanabhan, M. and Picheny, M.A. and Roukos S.},
+  author = {Bahl, L.R. and Balakrishnan-Aiyer, S. and Bellgarda, J.R. and Franz, M. and Gopalakrishnan, P.S. and Nahamoo, D. and Novak, M. and Padmanabhan, M. and Picheny, M.A. and Roukos S.},
   month = May,
   year = 1995,
   title = {Performance of the IBM large vocabulary continuous speech recognition system on the ARPA Wall Street Journal task},
-  booktitle = {ICASSP},
+  booktitle =   icassp,
   address = {Detroit, USA},
   pages = {41--44},
   volume = {1}
@@ -1060,7 +1062,7 @@ month = June
 @INPROCEEDINGS{CansecoRodriguez2005,
   author = {Canseco-Rodriguez, L. and Lamel, L. and Gauvain, J.L.},
   title = {A comparative study using manual and automatic transcriptions for diarization},
-  booktitle = {Proc. of ASRU, Automatic Speech Recognition and Understanding},
+  booktitle = asru,
   year = {2005},
   address = {San Juan, Porto Rico, USA},
   month = nov
@@ -1159,7 +1161,7 @@ pages = {127-132},
   author = {Ajmera, J. and Wooters, C.},
   title = {A Robust Speaker Clustering Algorithm},
   month = nov,
-  booktitle = {Proc. of ASRU, Automatic Speech Recognition and Understanding},
+  booktitle = asru,
   year = {2003},
   pages = {411-416},
   address = {St. Thomas, U.S. Virgin Islands}
@@ -1179,7 +1181,7 @@ pages = {127-132},
 @INPROCEEDINGS{Barras2004,
   author = {Barras, C. and Zhu, X. and Meignier, S. and Gauvain, J.-L.},
   title = {Improving Speaker Diarization},
-  booktitle = {Proc. of DARPA RT04},
+  booktitle = {DARPA RT04},
   year = {2004},
   address = {Palisades, USA},
   owner = {meignier}
