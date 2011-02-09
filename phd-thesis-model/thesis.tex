@@ -36,6 +36,19 @@ Ce système obtient un taux d'erreur compris entre 12 et 20~\% sur des transcript
 \\
 \textbf{Mots-clés :} Identification nommée du locuteur, reconnaissance du locuteur, transcription enrichie.
 
+\chapter*{Abstract}
+
+The automatic processing of speech is an area that encompasses a large number of works: speaker recognition, named entities detection or transcription of the audio signal into words. Automatic speech processing techniques can extract number of information from audio documents (meetings, shows, etc..) such as transcription, some annotations (the type of show, the places listed, etc..) or even information concerning speakers (speaker change, gender of speaker). All this information can be exploited by automatic indexing techniques which will allow indexing of large document collections.
+
+The work presented in this thesis are interested in the automatic indexing of speakers in french audio documents. Specifically we try to identify the various contributions of a speaker and nominate them by their first and last name. This process is known as named identification of the speaker. The particularity of this work lies in the joint use of audio and its transcript to name the speakers of a document. The first and last name of each speaker is extracted from the document itself (from its rich transcription more accurately), before being assigned to one of the speakers of the document.
+
+We begin by describing the context and previous work on the speaker named identification process before submitting \emph{Milesin}, the system developed during this thesis. The contribution of this work lies firstly in the use of an automatic detector of named entities (LIA\_NE) to extract the first name / last name of the transcript. Afterwards, they rely on the theory of belief functions to perform the assignment to the speakers of the document and thus take into account the various conflicts that may arise. Finally, an optimal assignment algorithm is proposed.
+
+This system gives an error rate of between 12 and 20~\% on reference transcripts (done manually) based on the corpus used. We then present the advances and limitations highlighted by this work. We propose an initial study of the impact of the use of fully automatic transcriptions on \emph{Milesin}.
+\\
+\\
+\\
+\textbf{Keywords:} Speaker named identification, speaker recognition, rich transcription.
 
 \chapter{Introduction}
 
