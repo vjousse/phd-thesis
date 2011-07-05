@@ -34,24 +34,27 @@ Ces remerciements ne seraient pas complets si je ne remerciais pas l'équipe du L
 Il paraît que l'on garde le meilleur pour la fin. C'est donc ici que je remercierai les acolytes ayant partagé le même bureau que moi : Antoine, Richard, Thierry et Fethi qui nous a rejoint un peu plus tard. Il y a des moments de vie qui restent gravés à jamais dans vos mémoires, ceux que l'on a partagé en font partie. Merci.
 
 
+\vspace{-2.0cm}
 \chapter*{Résumé}
-
+\vspace{-1.3cm}
 %L'indexation de documents multimédia est une problématique de plus en plus présente avec l'augmentation des différentes données numériques mises à notre disposition. Les informations contenues dans ces grandes quantités de documents sont multiples (images, vidéos, textes, son) et les indexer de manière efficace manuellement n'est plus possible~: l'utilisation de systèmes automatiques est obligatoire. Ces systèmes Dans les présents travaux, nous nous intéressons aux documents audio. L'utilisation d'outils automatiques issus de techniques de reconnaissance automatique du locuteur et de traitement automatique de la parole de.
 
 Le traitement automatique de la parole est un domaine qui englobe un grand nombre de travaux~: de la reconnaissance automatique du locuteur à la détection des entités nommées en passant par la transcription en mots du signal audio. Les techniques de traitement automatique de la parole permettent d'extraire nombre d'informations des documents audio (réunions, émissions, etc.) comme la transcription, certaines annotations (le type d'émission, les lieux cités, etc.) ou encore des informations relatives aux locuteurs (changement de locuteur, genre du locuteur). Toutes ces informations peuvent être exploitées par des techniques d'indexation automatique qui vont permettre d'indexer de grandes collections de documents.
 
+\vspace{-0.1cm}
 Les travaux présentés dans cette thèse s'intéressent à l'indexation automatique de locuteurs dans des documents audio en français. Plus précisément nous cherchons à identifier les différentes interventions d'un locuteur ainsi qu'à les nommer par leur prénom et leur nom. Ce processus est connu sous le nom d'identification nommée du locuteur (INL). La particularité de ces travaux réside dans l'utilisation conjointe du signal audio et de sa transcription en mots pour nommer les locuteurs d'un document. Le prénom et le nom de chacun des locuteurs est extrait du document lui même (de sa transcription enrichie plus exactement), avant d'être affecté à un des locuteurs du document.
 
+\vspace{-0.1cm}
 Nous commençons par rappeler le contexte et les précédents travaux réalisés sur l'INL avant de présenter \emph{Milesin}, le système développé lors de cette thèse. L'apport de ces travaux réside tout d'abord dans l'utilisation d'un détecteur automatique d'entités nommées (LIA\_NE) pour extraire les couples prénom~/ nom de la transcription. Ensuite, ils s'appuient sur la théorie des fonctions de croyance pour réaliser l'affectation aux locuteurs du document et prennent ainsi en compte les différents conflits qui peuvent apparaître. Pour finir, un algorithme optimal d'affectation est proposé.
-
 Ce système obtient un taux d'erreur compris entre 12 et 20~\% sur des transcriptions de référence (réalisées manuellement) en fonction du corpus utilisé. Nous présentons ensuite les avancées réalisées et les limites mises en avant par ces travaux. Nous proposons notamment une première étude de l'impact de l'utilisation de transcriptions entièrement automatiques sur \emph{Milesin}.
-\\
+\vspace{-0.3cm}
 \\
 \\
 \textbf{Mots-clés :} Identification nommée du locuteur, reconnaissance du locuteur, transcription enrichie.
 
 \chapter*{Abstract}
 
+\vspace{-0.5cm}
 The automatic processing of speech is an area that encompasses a large number of works: speaker recognition, named entities detection or transcription of the audio signal into words. Automatic speech processing techniques can extract number of information from audio documents (meetings, shows, etc..) such as transcription, some annotations (the type of show, the places listed, etc..) or even information concerning speakers (speaker change, gender of speaker). All this information can be exploited by automatic indexing techniques which will allow indexing of large document collections.
 
 The work presented in this thesis are interested in the automatic indexing of speakers in french audio documents. Specifically we try to identify the various contributions of a speaker and nominate them by their first and last name. This process is known as named identification of the speaker. The particularity of this work lies in the joint use of audio and its transcript to name the speakers of a document. The first and last name of each speaker is extracted from the document itself (from its rich transcription more accurately), before being assigned to one of the speakers of the document.
@@ -59,7 +62,6 @@ The work presented in this thesis are interested in the automatic indexing of sp
 We begin by describing the context and previous work on the speaker named identification process before submitting \emph{Milesin}, the system developed during this thesis. The contribution of this work lies firstly in the use of an automatic detector of named entities (LIA\_NE) to extract the first name / last name of the transcript. Afterwards, they rely on the theory of belief functions to perform the assignment to the speakers of the document and thus take into account the various conflicts that may arise. Finally, an optimal assignment algorithm is proposed.
 
 This system gives an error rate of between 12 and 20~\% on reference transcripts (done manually) based on the corpus used. We then present the advances and limitations highlighted by this work. We propose an initial study of the impact of the use of fully automatic transcriptions on \emph{Milesin}.
-\\
 \\
 \\
 \textbf{Keywords:} Speaker named identification, speaker recognition, rich transcription.
